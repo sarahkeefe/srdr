@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  study_id: 1
+  title: MyString
+  timeframe: MyString
+  description: MyText
+  is_serious: false
+  definition_used: MyString
+
+two:
+  study_id: 1
+  title: MyString
+  timeframe: MyString
+  description: MyText
+  is_serious: false
+  definition_used: MyString

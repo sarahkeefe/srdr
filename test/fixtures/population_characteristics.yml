@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  study_id: 1
+  arm_id: 1
+  category_title: MyString
+  subcategory: MyString
+  units: MyString
+
+two:
+  study_id: 1
+  arm_id: 1
+  category_title: MyString
+  subcategory: MyString
+  units: MyString

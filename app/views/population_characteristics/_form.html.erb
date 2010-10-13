@@ -1,0 +1,37 @@
+<%= form_for(@population_characteristic) do |f| %>
+  <% if @population_characteristic.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@population_characteristic.errors.count, "error") %> prohibited this population_characteristic from being saved:</h2>
+
+      <ul>
+      <% @population_characteristic.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :study_id %><br />
+    <%= f.text_field :study_id %>
+  </div>
+  <div class="field">
+    <%= f.label :arm_id %><br />
+    <%= f.text_field :arm_id %>
+  </div>
+  <div class="field">
+    <%= f.label :category_title %><br />
+    <%= f.text_field :category_title %>
+  </div>
+  <div class="field">
+    <%= f.label :subcategory %><br />
+    <%= f.text_field :subcategory %>
+  </div>
+  <div class="field">
+    <%= f.label :units %><br />
+    <%= f.text_field :units %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  study_id: 1
+  timepoint_id: 1
+  arm_id: 1
+  n_analyzed: 1
+  measure_type: MyString
+  measure_value: MyString
+  measure_dispersion_type: MyString
+  measure_dispersion_value: MyString
+  p_value: MyString
+
+two:
+  study_id: 1
+  timepoint_id: 1
+  arm_id: 1
+  n_analyzed: 1
+  measure_type: MyString
+  measure_value: MyString
+  measure_dispersion_type: MyString
+  measure_dispersion_value: MyString
+  p_value: MyString

@@ -1,0 +1,85 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Study:</b>
+  <%= @outcome_analyasis.study_id %>
+</p>
+
+<p>
+  <b>Outcome name:</b>
+  <%= @outcome_analyasis.outcome_name %>
+</p>
+
+<p>
+  <b>Arm1:</b>
+  <%= @outcome_analyasis.arm1_id %>
+</p>
+
+<p>
+  <b>Arm2:</b>
+  <%= @outcome_analyasis.arm2_id %>
+</p>
+
+<p>
+  <b>Categorical or continuous:</b>
+  <%= @outcome_analyasis.categorical_or_continuous %>
+</p>
+
+<p>
+  <b>N analyzed:</b>
+  <%= @outcome_analyasis.n_analyzed %>
+</p>
+
+<p>
+  <b>N total:</b>
+  <%= @outcome_analyasis.n_total %>
+</p>
+
+<p>
+  <b>N event:</b>
+  <%= @outcome_analyasis.n_event %>
+</p>
+
+<p>
+  <b>Estimation parameter type:</b>
+  <%= @outcome_analyasis.estimation_parameter_type %>
+</p>
+
+<p>
+  <b>Estimation parameter value:</b>
+  <%= @outcome_analyasis.estimation_parameter_value %>
+</p>
+
+<p>
+  <b>Parameter dispersion type:</b>
+  <%= @outcome_analyasis.parameter_dispersion_type %>
+</p>
+
+<p>
+  <b>Parameter dispersion value:</b>
+  <%= @outcome_analyasis.parameter_dispersion_value %>
+</p>
+
+<p>
+  <b>P value:</b>
+  <%= @outcome_analyasis.p_value %>
+</p>
+
+<p>
+  <b>Adjusted parameter dispersion type:</b>
+  <%= @outcome_analyasis.adjusted_parameter_dispersion_type %>
+</p>
+
+<p>
+  <b>Adjusted parameter dispersion value:</b>
+  <%= @outcome_analyasis.adjusted_parameter_dispersion_value %>
+</p>
+
+<p>
+  <b>Adjusted p value:</b>
+  <%= @outcome_analyasis.adjusted_p_value %>
+</p>
+
+
+<%= link_to 'Edit', edit_outcome_analyasis_path(@outcome_analyasis) %> |
+<%= link_to 'Back', outcome_analyses_path %>

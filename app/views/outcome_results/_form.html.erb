@@ -1,0 +1,53 @@
+<%= form_for(@outcome_result) do |f| %>
+  <% if @outcome_result.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@outcome_result.errors.count, "error") %> prohibited this outcome_result from being saved:</h2>
+
+      <ul>
+      <% @outcome_result.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :study_id %><br />
+    <%= f.text_field :study_id %>
+  </div>
+  <div class="field">
+    <%= f.label :timepoint_id %><br />
+    <%= f.text_field :timepoint_id %>
+  </div>
+  <div class="field">
+    <%= f.label :arm_id %><br />
+    <%= f.text_field :arm_id %>
+  </div>
+  <div class="field">
+    <%= f.label :n_analyzed %><br />
+    <%= f.text_field :n_analyzed %>
+  </div>
+  <div class="field">
+    <%= f.label :measure_type %><br />
+    <%= f.text_field :measure_type %>
+  </div>
+  <div class="field">
+    <%= f.label :measure_value %><br />
+    <%= f.text_field :measure_value %>
+  </div>
+  <div class="field">
+    <%= f.label :measure_dispersion_type %><br />
+    <%= f.text_field :measure_dispersion_type %>
+  </div>
+  <div class="field">
+    <%= f.label :measure_dispersion_value %><br />
+    <%= f.text_field :measure_dispersion_value %>
+  </div>
+  <div class="field">
+    <%= f.label :p_value %><br />
+    <%= f.text_field :p_value %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

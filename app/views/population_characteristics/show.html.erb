@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Study:</b>
+  <%= @population_characteristic.study_id %>
+</p>
+
+<p>
+  <b>Arm:</b>
+  <%= @population_characteristic.arm_id %>
+</p>
+
+<p>
+  <b>Category title:</b>
+  <%= @population_characteristic.category_title %>
+</p>
+
+<p>
+  <b>Subcategory:</b>
+  <%= @population_characteristic.subcategory %>
+</p>
+
+<p>
+  <b>Units:</b>
+  <%= @population_characteristic.units %>
+</p>
+
+
+<%= link_to 'Edit', edit_population_characteristic_path(@population_characteristic) %> |
+<%= link_to 'Back', population_characteristics_path %>

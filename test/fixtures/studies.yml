@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  title: MyString
+  type: MyString
+  num_participants: 1
+  recruitment_details: MyText
+  inclusion_criteria: MyText
+  exclusion_criteria: MyText
+
+two:
+  title: MyString
+  type: MyString
+  num_participants: 1
+  recruitment_details: MyText
+  inclusion_criteria: MyText
+  exclusion_criteria: MyText

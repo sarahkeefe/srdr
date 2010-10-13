@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  study_id: 1
+  title: MyString
+  type: MyString
+  is_primary: false
+  units: MyString
+  description: MyText
+  notes: MyText
+
+two:
+  study_id: 1
+  title: MyString
+  type: MyString
+  is_primary: false
+  units: MyString
+  description: MyText
+  notes: MyText

@@ -1,4 +1,26 @@
 Srdr::Application.routes.draw do
+  resources :adverse_events
+
+  resources :outcome_analyses
+
+  resources :outcome_results
+
+  resources :outcome_timepoints
+
+  resources :outcomes
+
+  resources :arms
+
+  resources :population_characteristics
+
+  resources :publications
+
+  resources :studies
+
+  resources :key_questions
+
+  resources :projects
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

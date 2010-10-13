@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Study:</b>
+  <%= @publication.study_id %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%= @publication.title %>
+</p>
+
+<p>
+  <b>Author:</b>
+  <%= @publication.author %>
+</p>
+
+<p>
+  <b>Country:</b>
+  <%= @publication.country %>
+</p>
+
+<p>
+  <b>Year:</b>
+  <%= @publication.year %>
+</p>
+
+<p>
+  <b>Isbn:</b>
+  <%= @publication.isbn %>
+</p>
+
+<p>
+  <b>Ui:</b>
+  <%= @publication.ui %>
+</p>
+
+<p>
+  <b>Ui type:</b>
+  <%= @publication.ui_type %>
+</p>
+
+<p>
+  <b>Is primary:</b>
+  <%= @publication.is_primary %>
+</p>
+
+
+<%= link_to 'Edit', edit_publication_path(@publication) %> |
+<%= link_to 'Back', publications_path %>

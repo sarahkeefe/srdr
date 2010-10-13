@@ -1,0 +1,29 @@
+<h1>Listing outcome_timepoints</h1>
+
+<table>
+  <tr>
+    <th>Study</th>
+    <th>Outcome</th>
+    <th>Number</th>
+    <th>Time unit</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @outcome_timepoints.each do |outcome_timepoint| %>
+  <tr>
+    <td><%= outcome_timepoint.study_id %></td>
+    <td><%= outcome_timepoint.outcome_id %></td>
+    <td><%= outcome_timepoint.number %></td>
+    <td><%= outcome_timepoint.time_unit %></td>
+    <td><%= link_to 'Show', outcome_timepoint %></td>
+    <td><%= link_to 'Edit', edit_outcome_timepoint_path(outcome_timepoint) %></td>
+    <td><%= link_to 'Destroy', outcome_timepoint, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Outcome timepoint', new_outcome_timepoint_path %>

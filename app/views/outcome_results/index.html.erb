@@ -1,0 +1,39 @@
+<h1>Listing outcome_results</h1>
+
+<table>
+  <tr>
+    <th>Study</th>
+    <th>Timepoint</th>
+    <th>Arm</th>
+    <th>N analyzed</th>
+    <th>Measure type</th>
+    <th>Measure value</th>
+    <th>Measure dispersion type</th>
+    <th>Measure dispersion value</th>
+    <th>P value</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @outcome_results.each do |outcome_result| %>
+  <tr>
+    <td><%= outcome_result.study_id %></td>
+    <td><%= outcome_result.timepoint_id %></td>
+    <td><%= outcome_result.arm_id %></td>
+    <td><%= outcome_result.n_analyzed %></td>
+    <td><%= outcome_result.measure_type %></td>
+    <td><%= outcome_result.measure_value %></td>
+    <td><%= outcome_result.measure_dispersion_type %></td>
+    <td><%= outcome_result.measure_dispersion_value %></td>
+    <td><%= outcome_result.p_value %></td>
+    <td><%= link_to 'Show', outcome_result %></td>
+    <td><%= link_to 'Edit', edit_outcome_result_path(outcome_result) %></td>
+    <td><%= link_to 'Destroy', outcome_result, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Outcome result', new_outcome_result_path %>

@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  study_id: 1
+  title: MyString
+  author: MyString
+  country: MyString
+  year: MyString
+  isbn: MyString
+  ui: MyString
+  ui_type: MyString
+  is_primary: false
+
+two:
+  study_id: 1
+  title: MyString
+  author: MyString
+  country: MyString
+  year: MyString
+  isbn: MyString
+  ui: MyString
+  ui_type: MyString
+  is_primary: false

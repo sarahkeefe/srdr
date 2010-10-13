@@ -1,0 +1,33 @@
+<h1>Listing studies</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Type</th>
+    <th>Num participants</th>
+    <th>Recruitment details</th>
+    <th>Inclusion criteria</th>
+    <th>Exclusion criteria</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @studies.each do |study| %>
+  <tr>
+    <td><%= study.title %></td>
+    <td><%= study.type %></td>
+    <td><%= study.num_participants %></td>
+    <td><%= study.recruitment_details %></td>
+    <td><%= study.inclusion_criteria %></td>
+    <td><%= study.exclusion_criteria %></td>
+    <td><%= link_to 'Show', study %></td>
+    <td><%= link_to 'Edit', edit_study_path(study) %></td>
+    <td><%= link_to 'Destroy', study, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Study', new_study_path %>

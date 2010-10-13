@@ -1,0 +1,81 @@
+<%= form_for(@outcome_analyasis) do |f| %>
+  <% if @outcome_analyasis.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@outcome_analyasis.errors.count, "error") %> prohibited this outcome_analyasis from being saved:</h2>
+
+      <ul>
+      <% @outcome_analyasis.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :study_id %><br />
+    <%= f.text_field :study_id %>
+  </div>
+  <div class="field">
+    <%= f.label :outcome_name %><br />
+    <%= f.text_field :outcome_name %>
+  </div>
+  <div class="field">
+    <%= f.label :arm1_id %><br />
+    <%= f.text_field :arm1_id %>
+  </div>
+  <div class="field">
+    <%= f.label :arm2_id %><br />
+    <%= f.text_field :arm2_id %>
+  </div>
+  <div class="field">
+    <%= f.label :categorical_or_continuous %><br />
+    <%= f.text_field :categorical_or_continuous %>
+  </div>
+  <div class="field">
+    <%= f.label :n_analyzed %><br />
+    <%= f.text_field :n_analyzed %>
+  </div>
+  <div class="field">
+    <%= f.label :n_total %><br />
+    <%= f.text_field :n_total %>
+  </div>
+  <div class="field">
+    <%= f.label :n_event %><br />
+    <%= f.text_field :n_event %>
+  </div>
+  <div class="field">
+    <%= f.label :estimation_parameter_type %><br />
+    <%= f.text_field :estimation_parameter_type %>
+  </div>
+  <div class="field">
+    <%= f.label :estimation_parameter_value %><br />
+    <%= f.text_field :estimation_parameter_value %>
+  </div>
+  <div class="field">
+    <%= f.label :parameter_dispersion_type %><br />
+    <%= f.text_field :parameter_dispersion_type %>
+  </div>
+  <div class="field">
+    <%= f.label :parameter_dispersion_value %><br />
+    <%= f.text_field :parameter_dispersion_value %>
+  </div>
+  <div class="field">
+    <%= f.label :p_value %><br />
+    <%= f.text_field :p_value %>
+  </div>
+  <div class="field">
+    <%= f.label :adjusted_parameter_dispersion_type %><br />
+    <%= f.text_field :adjusted_parameter_dispersion_type %>
+  </div>
+  <div class="field">
+    <%= f.label :adjusted_parameter_dispersion_value %><br />
+    <%= f.text_field :adjusted_parameter_dispersion_value %>
+  </div>
+  <div class="field">
+    <%= f.label :adjusted_p_value %><br />
+    <%= f.text_field :adjusted_p_value %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

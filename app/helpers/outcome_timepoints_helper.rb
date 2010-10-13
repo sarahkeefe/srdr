@@ -1,0 +1,2 @@
+module OutcomeTimepointsHelper
+end

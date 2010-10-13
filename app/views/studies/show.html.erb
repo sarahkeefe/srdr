@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @study.title %>
+</p>
+
+<p>
+  <b>Type:</b>
+  <%= @study.type %>
+</p>
+
+<p>
+  <b>Num participants:</b>
+  <%= @study.num_participants %>
+</p>
+
+<p>
+  <b>Recruitment details:</b>
+  <%= @study.recruitment_details %>
+</p>
+
+<p>
+  <b>Inclusion criteria:</b>
+  <%= @study.inclusion_criteria %>
+</p>
+
+<p>
+  <b>Exclusion criteria:</b>
+  <%= @study.exclusion_criteria %>
+</p>
+
+
+<%= link_to 'Edit', edit_study_path(@study) %> |
+<%= link_to 'Back', studies_path %>

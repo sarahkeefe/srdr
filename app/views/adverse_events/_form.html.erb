@@ -1,0 +1,41 @@
+<%= form_for(@adverse_event) do |f| %>
+  <% if @adverse_event.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@adverse_event.errors.count, "error") %> prohibited this adverse_event from being saved:</h2>
+
+      <ul>
+      <% @adverse_event.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :study_id %><br />
+    <%= f.text_field :study_id %>
+  </div>
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :timeframe %><br />
+    <%= f.text_field :timeframe %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </div>
+  <div class="field">
+    <%= f.label :is_serious %><br />
+    <%= f.check_box :is_serious %>
+  </div>
+  <div class="field">
+    <%= f.label :definition_used %><br />
+    <%= f.text_field :definition_used %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

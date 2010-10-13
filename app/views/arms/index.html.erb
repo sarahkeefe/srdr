@@ -1,0 +1,29 @@
+<h1>Listing arms</h1>
+
+<table>
+  <tr>
+    <th>Study</th>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Num participants</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @arms.each do |arm| %>
+  <tr>
+    <td><%= arm.study_id %></td>
+    <td><%= arm.title %></td>
+    <td><%= arm.description %></td>
+    <td><%= arm.num_participants %></td>
+    <td><%= link_to 'Show', arm %></td>
+    <td><%= link_to 'Edit', edit_arm_path(arm) %></td>
+    <td><%= link_to 'Destroy', arm, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Arm', new_arm_path %>

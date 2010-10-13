@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Study:</b>
+  <%= @arm.study_id %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%= @arm.title %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @arm.description %>
+</p>
+
+<p>
+  <b>Num participants:</b>
+  <%= @arm.num_participants %>
+</p>
+
+
+<%= link_to 'Edit', edit_arm_path(@arm) %> |
+<%= link_to 'Back', arms_path %>
