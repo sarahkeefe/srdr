@@ -11,23 +11,17 @@
     </div>
   <% end %>
 
+   <%= f.hidden_field :project_id, :value => @project.id %>
+	
   <div class="field">
-    <%= f.label :project_id %><br />
-    <%= f.text_field :project_id %>
+    <%= f.label :question_text %>:
+    <%= f.text_field :question, :size => 50 %>
   </div>
   <div class="field">
-    <%= f.label :question_number %><br />
-    <%= f.text_field :question_number %>
-  </div>
-  <div class="field">
-    <%= f.label :question %><br />
-    <%= f.text_field :question %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
+    <%= f.label :question_description %><br />
+    <%= f.text_area :description, :cols => 50, :rows => 4 %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit  "Add new key question" %>
   </div>
 <% end %>
