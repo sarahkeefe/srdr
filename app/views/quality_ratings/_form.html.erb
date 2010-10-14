@@ -1,0 +1,29 @@
+<%= form_for(@quality_rating) do |f| %>
+  <% if @quality_rating.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@quality_rating.errors.count, "error") %> prohibited this quality_rating from being saved:</h2>
+
+      <ul>
+      <% @quality_rating.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :study_id %><br />
+    <%= f.text_field :study_id %>
+  </div>
+  <div class="field">
+    <%= f.label :guideline_used %><br />
+    <%= f.text_field :guideline_used %>
+  </div>
+  <div class="field">
+    <%= f.label :current_overall_rating %><br />
+    <%= f.text_field :current_overall_rating %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

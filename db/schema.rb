@@ -10,7 +10,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101013161002) do
+ActiveRecord::Schema.define(:version => 20101014191912) do
+
+  create_table "adverse_event_arms", :force => true do |t|
+    t.integer  "study_id"
+    t.integer  "adverse_event_id"
+    t.integer  "arm_id"
+    t.integer  "num_affected"
+    t.integer  "num_at_risk"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "adverse_events", :force => true do |t|
     t.integer  "study_id"
@@ -28,6 +38,11 @@ ActiveRecord::Schema.define(:version => 20101013161002) do
     t.string   "title"
     t.text     "description"
     t.integer  "num_participants"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "forms", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -125,6 +140,28 @@ ActiveRecord::Schema.define(:version => 20101013161002) do
     t.string   "ui"
     t.string   "ui_type"
     t.boolean  "is_primary"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "quality_aspects", :force => true do |t|
+    t.integer  "study_id"
+    t.string   "dimension"
+    t.string   "value"
+    t.text     "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "quality_ratings", :force => true do |t|
+    t.integer  "study_id"
+    t.string   "guideline_used"
+    t.string   "current_overall_rating"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "static_pages", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end

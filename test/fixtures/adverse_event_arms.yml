@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  study_id: 1
+  adverse_event_id: 1
+  arm_id: 1
+  num_affected: 1
+  num_at_risk: 1
+
+two:
+  study_id: 1
+  adverse_event_id: 1
+  arm_id: 1
+  num_affected: 1
+  num_at_risk: 1

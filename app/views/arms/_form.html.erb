@@ -12,22 +12,18 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :study_id %><br />
-    <%= f.text_field :study_id %>
-  </div>
-  <div class="field">
-    <%= f.label :title %><br />
+    <%= f.label :arm_title %>:
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
+    <%= f.label :arm_description %>:<br />
+    <%= f.text_area :description, :cols => 50, :rows => 4 %>
   </div>
   <div class="field">
-    <%= f.label :num_participants %><br />
+    <%= f.label :number_of_participants %>: 
     <%= f.text_field :num_participants %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Add Arm to Study" %>
   </div>
 <% end %>

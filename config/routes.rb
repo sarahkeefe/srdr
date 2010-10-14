@@ -1,4 +1,12 @@
 Srdr::Application.routes.draw do
+  resources :forms
+
+  resources :quality_ratings
+
+  resources :quality_aspects
+
+  resources :adverse_event_arms
+
   resources :adverse_events
 
   resources :outcome_analyses
@@ -70,7 +78,7 @@ Srdr::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => "welcome#index"
+   root :to => "projects#new"
 
   # See how all your routes lay out with "rake routes"
 

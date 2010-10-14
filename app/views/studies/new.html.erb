@@ -1,5 +1,13 @@
-<h1>New study</h1>
+<h2>Add Study</h2>
 
-<%= render 'form' %>
+<%= render 'form' %><br/>
+<hr width="80%" size="1" align="center"><br/>
 
-<%= link_to 'Back', studies_path %>
+<h3>Study Arms</h3>
+<%= render 'arms/table' %>
+<b>Add new Arm to Study</b><br/><br/>
+<%= render 'arms/form' %>
+<br/>
+<table border="0" width="60%"><tr><td align="left">Back</td><td align="right">
+Continue
+</td></tr></table>

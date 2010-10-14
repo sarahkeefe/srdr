@@ -25,7 +25,8 @@ class StudiesController < ApplicationController
   # GET /studies/new.xml
   def new
     @study = Study.new
-
+	@arm = Arm.new
+	@arm.study_id = @study.id
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @study }

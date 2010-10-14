@@ -1,0 +1,2 @@
+module QualityRatingsHelper
+end

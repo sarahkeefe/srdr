@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  study_id: 1
+  dimension: MyString
+  value: MyString
+  notes: MyText
+
+two:
+  study_id: 1
+  dimension: MyString
+  value: MyString
+  notes: MyText

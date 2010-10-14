@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  study_id: 1
+  guideline_used: MyString
+  current_overall_rating: MyString
+
+two:
+  study_id: 1
+  guideline_used: MyString
+  current_overall_rating: MyString

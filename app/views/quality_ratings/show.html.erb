@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Study:</b>
+  <%= @quality_rating.study_id %>
+</p>
+
+<p>
+  <b>Guideline used:</b>
+  <%= @quality_rating.guideline_used %>
+</p>
+
+<p>
+  <b>Current overall rating:</b>
+  <%= @quality_rating.current_overall_rating %>
+</p>
+
+
+<%= link_to 'Edit', edit_quality_rating_path(@quality_rating) %> |
+<%= link_to 'Back', quality_ratings_path %>

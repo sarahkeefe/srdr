@@ -1,0 +1,37 @@
+<%= form_for(@adverse_event_arm) do |f| %>
+  <% if @adverse_event_arm.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@adverse_event_arm.errors.count, "error") %> prohibited this adverse_event_arm from being saved:</h2>
+
+      <ul>
+      <% @adverse_event_arm.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :study_id %><br />
+    <%= f.text_field :study_id %>
+  </div>
+  <div class="field">
+    <%= f.label :adverse_event_id %><br />
+    <%= f.text_field :adverse_event_id %>
+  </div>
+  <div class="field">
+    <%= f.label :arm_id %><br />
+    <%= f.text_field :arm_id %>
+  </div>
+  <div class="field">
+    <%= f.label :num_affected %><br />
+    <%= f.text_field :num_affected %>
+  </div>
+  <div class="field">
+    <%= f.label :num_at_risk %><br />
+    <%= f.text_field :num_at_risk %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

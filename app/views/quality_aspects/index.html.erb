@@ -1,0 +1,29 @@
+<h1>Listing quality_aspects</h1>
+
+<table>
+  <tr>
+    <th>Study</th>
+    <th>Dimension</th>
+    <th>Value</th>
+    <th>Notes</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @quality_aspects.each do |quality_aspect| %>
+  <tr>
+    <td><%= quality_aspect.study_id %></td>
+    <td><%= quality_aspect.dimension %></td>
+    <td><%= quality_aspect.value %></td>
+    <td><%= quality_aspect.notes %></td>
+    <td><%= link_to 'Show', quality_aspect %></td>
+    <td><%= link_to 'Edit', edit_quality_aspect_path(quality_aspect) %></td>
+    <td><%= link_to 'Destroy', quality_aspect, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Quality aspect', new_quality_aspect_path %>

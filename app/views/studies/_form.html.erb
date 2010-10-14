@@ -10,32 +10,32 @@
       </ul>
     </div>
   <% end %>
-
+  
   <div class="field">
-    <%= f.label :title %><br />
+    <%= f.label :study_title %>:
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :type %><br />
+    <%= f.label :number_of_participants %>:
+    <%= f.text_field :num_participants , :size=>6%>
+
+    <%= f.label :study_type %>:
     <%= f.text_field :type %>
   </div>
+  
   <div class="field">
-    <%= f.label :num_participants %><br />
-    <%= f.text_field :num_participants %>
+    <%= f.label :recruitment_details %>:<br />
+    <%= f.text_area :recruitment_details, :cols => 50, :rows => 4 %>
   </div>
   <div class="field">
-    <%= f.label :recruitment_details %><br />
-    <%= f.text_area :recruitment_details %>
+    <%= f.label :inclusion_criteria %>:<br />
+    <%= f.text_area :inclusion_criteria, :cols => 50, :rows => 4 %>
   </div>
   <div class="field">
-    <%= f.label :inclusion_criteria %><br />
-    <%= f.text_area :inclusion_criteria %>
-  </div>
-  <div class="field">
-    <%= f.label :exclusion_criteria %><br />
-    <%= f.text_area :exclusion_criteria %>
+    <%= f.label :exclusion_criteria %>:<br />
+    <%= f.text_area :exclusion_criteria, :cols => 50, :rows => 4 %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+
   </div>
 <% end %>

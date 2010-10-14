@@ -1,0 +1,33 @@
+<%= form_for(@quality_aspect) do |f| %>
+  <% if @quality_aspect.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@quality_aspect.errors.count, "error") %> prohibited this quality_aspect from being saved:</h2>
+
+      <ul>
+      <% @quality_aspect.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :study_id %><br />
+    <%= f.text_field :study_id %>
+  </div>
+  <div class="field">
+    <%= f.label :dimension %><br />
+    <%= f.text_field :dimension %>
+  </div>
+  <div class="field">
+    <%= f.label :value %><br />
+    <%= f.text_field :value %>
+  </div>
+  <div class="field">
+    <%= f.label :notes %><br />
+    <%= f.text_area :notes %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

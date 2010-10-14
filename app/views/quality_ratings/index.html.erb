@@ -1,0 +1,27 @@
+<h1>Listing quality_ratings</h1>
+
+<table>
+  <tr>
+    <th>Study</th>
+    <th>Guideline used</th>
+    <th>Current overall rating</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @quality_ratings.each do |quality_rating| %>
+  <tr>
+    <td><%= quality_rating.study_id %></td>
+    <td><%= quality_rating.guideline_used %></td>
+    <td><%= quality_rating.current_overall_rating %></td>
+    <td><%= link_to 'Show', quality_rating %></td>
+    <td><%= link_to 'Edit', edit_quality_rating_path(quality_rating) %></td>
+    <td><%= link_to 'Destroy', quality_rating, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Quality rating', new_quality_rating_path %>
