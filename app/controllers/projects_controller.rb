@@ -1,11 +1,14 @@
 class ProjectsController < ApplicationController
+
+	@page_links = [""]
+
   # GET /projects
   # GET /projects.xml
   def index
     @projects = Project.all
 
-    respond_to do |format|
       format.html # index.html.erb
+    respond_to do |format|
       format.xml  { render :xml => @projects }
     end
   end
@@ -28,6 +31,7 @@ class ProjectsController < ApplicationController
 	@publication = Publication.new
 	@key_question = KeyQuestion.new
 	@study = Study.new
+
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @project }
@@ -55,6 +59,12 @@ class ProjectsController < ApplicationController
     end
   end
 
+  
+  def next_page
+	render :update do |page|
+    page.replace_html  'form_content', :partial => 'newproj_study'
+  end
+  
   # PUT /projects/1
   # PUT /projects/1.xml
   def update
@@ -71,6 +81,9 @@ class ProjectsController < ApplicationController
     end
   end
 
+
+ end
+  
   # DELETE /projects/1
   # DELETE /projects/1.xml
   def destroy
