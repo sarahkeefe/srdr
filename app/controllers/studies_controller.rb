@@ -81,6 +81,7 @@ class StudiesController < ApplicationController
   def new
     @study = Study.new
 	@study.save
+	@study.project_id = params[:project_id]
 	@arm = Arm.new
 	@arm.study_id = @study.id
 	@publication = Publication.new
