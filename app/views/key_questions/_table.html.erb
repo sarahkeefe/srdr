@@ -1,4 +1,21 @@
-<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5"><th>
-Number</th><th>Question Text</th><th>Move Up</th><th>Edit</th><th>Remove</th>
+<div id="key_question_table"><table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+<th>Number</th>
+<th>Question Text</th>
+<th>Description</th>
+<th>Move Up</th>
+<th>Edit</th>
+<th>Remove</th>
+<% if @key_questions.length > 0 %>
+<% for keyq in @key_questions %>
+<tr>
+<td><%= keyq.question_number %></td>
+<td><%= keyq.question %></td>
+<td><%= keyq.description %></td>
+<td>Move Up</td>
+<td>Edit</td>
+<td>Remove</td>
+</tr><% end %>
+<% end %>
 </table>
+</div>
 <br/><br/>

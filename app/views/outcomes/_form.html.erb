@@ -12,34 +12,36 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :study_id %><br />
-    <%= f.text_field :study_id %>
+    <%= f.hidden_field :study_id, :value => params[:study_id] %>
   </div>
   <div class="field">
-    <%= f.label :title %><br />
+    <%= f.label :outcome_title %>:
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :type %><br />
+    <%= f.label :outcome_type %>:
     <%= f.text_field :type %>
   </div>
   <div class="field">
-    <%= f.label :is_primary %><br />
+    <%= f.label :is_this_a_primary_outcome %>?
     <%= f.check_box :is_primary %>
   </div>
   <div class="field">
-    <%= f.label :units %><br />
+    <%= f.label :units %>:
     <%= f.text_field :units %>
   </div>
+  <b>Add Outcome Time Points</b>
+  <%= render 'outcome_timepoints/form' %>
+  
   <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
+    <%= f.label :description %>:<br />
+    <%= f.text_area :description, :rows => 4, :cols => 40 %>
   </div>
   <div class="field">
-    <%= f.label :notes %><br />
-    <%= f.text_area :notes %>
+    <%= f.label :notes %>:<br />
+    <%= f.text_area :notes, :rows => 4, :cols => 40 %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Add Outcome to List" %>
   </div>
 <% end %>

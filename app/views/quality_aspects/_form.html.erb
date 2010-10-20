@@ -12,22 +12,21 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :study_id %><br />
-    <%= f.text_field :study_id %>
+    <%= f.hidden_field :study_id, :value => params[:study_id] %>
   </div>
   <div class="field">
-    <%= f.label :dimension %><br />
+    <%= f.label :quality_dimension %>:
     <%= f.text_field :dimension %>
   </div>
   <div class="field">
-    <%= f.label :value %><br />
+    <%= f.label :value %>:
     <%= f.text_field :value %>
   </div>
   <div class="field">
-    <%= f.label :notes %><br />
-    <%= f.text_area :notes %>
+    <%= f.label :notes %>:<br />
+    <%= f.text_area :notes, :rows => 4, :cols => 40 %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Add Quality Aspect" %>
   </div>
 <% end %>

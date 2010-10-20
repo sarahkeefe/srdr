@@ -1,0 +1,38 @@
+<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+<td rowspan="2">Outcome Title</td>
+<% if @study_arms.length > 0 %>
+	<% i = 1 %>
+	<% for one_arm in @study_arms %>
+		<td rowspan="2">Arm <%= 1 %>: <%= one_arm.name %></td>
+		<% i = i + 1 %>
+	<% end %>
+<% end %>
+<td rowspan="2">N Total</td>
+<td rowspan="2">N Event</td>
+
+<td colspan="3">Non-Adjusted</td><td colspan="3">Adjusted</td>
+<td rowspan="2">Remove</td>
+<tr>
+
+<td>Estimation Parameter Type</td><td> Parameter Dispersion Type </td><td> P-Value</td>
+<td>Estimation Parameter Type</td><td> Parameter Dispersion Type </td><td> P-Value</td>
+
+<tr>
+<% if @study_arms.length > 0 %>
+<% for one_arm in @study_arms %>
+<td></td>
+<% end %>
+<% end %>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Remove</td>
+</tr>
+</table>
+<br/><br/>

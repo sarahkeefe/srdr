@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101014191912) do
+ActiveRecord::Schema.define(:version => 20101018165742) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer  "study_id"
@@ -73,6 +73,14 @@ ActiveRecord::Schema.define(:version => 20101014191912) do
     t.string   "adjusted_parameter_dispersion_type"
     t.string   "adjusted_parameter_dispersion_value"
     t.float    "adjusted_p_value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "outcome_enrolled_numbers", :force => true do |t|
+    t.integer  "arm_id"
+    t.integer  "outcome_id"
+    t.integer  "num_enrolled"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -175,6 +183,7 @@ ActiveRecord::Schema.define(:version => 20101014191912) do
     t.text     "exclusion_criteria"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "project_id"
   end
 
 end

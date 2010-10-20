@@ -1,13 +1,36 @@
 <h2>Add Study</h2>
+<h3>Key Questions Answered</h3>
+Check the box next to each of the key questions that apply to this study.<br/><br/>
+<% if @study_key_questions.length > 0 %>
+<% for keyq in @study_key_questions %>
+<%= check_box :keyq_selected, :value => keyq.id %>
+<%= keyq.question_number %>. 
+<%= keyq.question %><br/>
+<% end %>
+<% else %>
+There are currently no key questions associated with the project that contains this study.<br/><br/>
+<% end %>
 
-<%= render 'form' %><br/>
+<br/>
 <hr width="80%" size="1" align="center"><br/>
 
-<h3>Study Arms</h3>
-<%= render 'arms/table' %>
+<h3>Primary Publication Information</h3>
+<%= render 'publications/form_primary' %>
+<br/><br/>
+<hr width="80%" size="1" align="center"><br/>
+
+
+<h3>Secondary Publication Information</h3>
+<%= render 'publications/table' %>
 <b>Add new Arm to Study</b><br/><br/>
-<%= render 'arms/form' %>
+<%= render 'publications/form' %>
 <br/>
+
 <table border="0" width="60%"><tr><td align="left">Back</td><td align="right">
-Continue
+<%= link_to "Continue", "../../studies/" + @study.id.to_s + "/design" %>
 </td></tr></table>
+
+
+
+
+

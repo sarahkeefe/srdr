@@ -1,18 +1,20 @@
 class ProjectsController < ApplicationController
-
-	@page_links = [""]
-
   # GET /projects
   # GET /projects.xml
   def index
     @projects = Project.all
-
-      format.html # index.html.erb
     respond_to do |format|
+	  format.html # index.html.erb
       format.xml  { render :xml => @projects }
     end
   end
 
+  def studies
+	@project = Project.find(params[:id])
+	@studies = Study.find(:all, :conditions => {:project_id => params[:id]})
+	@key_question = KeyQuestion.new
+  end
+  
   # GET /projects/1
   # GET /projects/1.xml
   def show
@@ -28,10 +30,11 @@ class ProjectsController < ApplicationController
   # GET /projects/new.xml
   def new
     @project = Project.new
-	@publication = Publication.new
+	@project.save
+	session[:project_id] = @project.id
+	@key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
 	@key_question = KeyQuestion.new
-	@study = Study.new
-
+	
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @project }
@@ -41,6 +44,9 @@ class ProjectsController < ApplicationController
   # GET /projects/1/edit
   def edit
     @project = Project.find(params[:id])
+	session[:project_id] = @project.id
+	@key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
+	@key_question = KeyQuestion.new	
   end
 
   # POST /projects
@@ -58,12 +64,6 @@ class ProjectsController < ApplicationController
       end
     end
   end
-
-  
-  def next_page
-	render :update do |page|
-    page.replace_html  'form_content', :partial => 'newproj_study'
-  end
   
   # PUT /projects/1
   # PUT /projects/1.xml
@@ -79,11 +79,7 @@ class ProjectsController < ApplicationController
         format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
       end
     end
-  end
-
-
- end
-  
+end
   # DELETE /projects/1
   # DELETE /projects/1.xml
   def destroy

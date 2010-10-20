@@ -12,22 +12,16 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :study_id %><br />
-    <%= f.text_field :study_id %>
+    <%= f.hidden_field :study_id, :value => params[:study_id] %>
   </div>
   <div class="field">
-    <%= f.label :outcome_id %><br />
-    <%= f.text_field :outcome_id %>
+    <%= f.hidden_field :outcome_id, :value => @outcome.id %>
   </div>
   <div class="field">
-    <%= f.label :number %><br />
     <%= f.text_field :number %>
-  </div>
-  <div class="field">
-    <%= f.label :time_unit %><br />
     <%= f.text_field :time_unit %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Add Time Point to Outcome" %>
   </div>
 <% end %>

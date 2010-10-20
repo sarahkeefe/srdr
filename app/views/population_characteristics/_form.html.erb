@@ -11,27 +11,21 @@
     </div>
   <% end %>
 
+    <%= f.hidden_field :study_id, :value => @study.id %>
+
   <div class="field">
-    <%= f.label :study_id %><br />
-    <%= f.text_field :study_id %>
-  </div>
-  <div class="field">
-    <%= f.label :arm_id %><br />
-    <%= f.text_field :arm_id %>
-  </div>
-  <div class="field">
-    <%= f.label :category_title %><br />
+    <%= f.label :category_title %>:
     <%= f.text_field :category_title %>
   </div>
   <div class="field">
-    <%= f.label :subcategory %><br />
+    <%= f.label :subcategory %>:
     <%= f.text_field :subcategory %>
   </div>
   <div class="field">
-    <%= f.label :units %><br />
+    <%= f.label :units %>:
     <%= f.text_field :units %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Add Population Characteristic" %>
   </div>
 <% end %>

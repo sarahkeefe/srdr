@@ -44,8 +44,12 @@ class KeyQuestionsController < ApplicationController
 
     respond_to do |format|
       if @key_question.save
-        format.html { redirect_to(@key_question, :notice => 'Key question was successfully created.') }
-        format.xml  { render :xml => @key_question, :status => :created, :location => @key_question }
+	  @key_questions = KeyQuestion.find(:all, :conditions => {:project_id => session[:project_id]})
+        format.js {
+		  render :update do |page|
+				page.replace_html 'key_question_table', :partial => 'key_questions/table'
+		  end
+		}
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @key_question.errors, :status => :unprocessable_entity }

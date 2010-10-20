@@ -12,27 +12,26 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :study_id %><br />
-    <%= f.text_field :study_id %>
+    <%= f.hidden_field :study_id, :value => params[:study_id] %>
   </div>
   <div class="field">
-    <%= f.label :title %><br />
+    <%= f.label :adverse_event_title %>:
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :timeframe %><br />
+    <%= f.label :timeframe_for_adverse_event_reporting %>:
     <%= f.text_field :timeframe %>
   </div>
   <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
+    <%= f.label :adverse_event_description %>:<br />
+    <%= f.text_area :description, :rows => 4, :cols => 40 %>
   </div>
   <div class="field">
-    <%= f.label :is_serious %><br />
+    <%= f.label :is_this_event_classified_as_serious %>?
     <%= f.check_box :is_serious %>
   </div>
   <div class="field">
-    <%= f.label :definition_used %><br />
+    <%= f.label :definition_of_adverse_event_used %>:
     <%= f.text_field :definition_used %>
   </div>
   <div class="actions">

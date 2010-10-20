@@ -1,0 +1,33 @@
+<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+<th>Outcome Title</th>
+<% if @study_arms.length > 0 %>
+	<% i = 1 %>
+	<% for one_arm in @study_arms %>
+		<th>Arm <%= 1 %>: <%= one_arm.name %></th>
+		<% i = i + 1 %>
+	<% end %>
+<% end %>
+<th>Total</th>
+<th>Delete Attribute</th>
+
+<% if @atts.length > 0 %>
+<% for one_att in @atts %>
+<tr>
+<td>
+<%= one_att.category_title %>
+</td>
+
+<% if @study_arms.length > 0 %>
+<% i = 1 %>
+<% for one_arm in @study_arms %>
+<td></td>
+<% i = i + 1 %>
+<% end %>
+<% end %>
+<td></td>
+<td>Delete</td>
+</tr>
+<% end %>
+<% end %>
+</table>
+<br/><br/>

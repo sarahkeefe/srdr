@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  arm_id: 1
+  outcome_id: 1
+  num_enrolled: 1
+
+two:
+  arm_id: 1
+  outcome_id: 1
+  num_enrolled: 1

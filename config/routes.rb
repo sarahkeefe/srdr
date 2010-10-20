@@ -1,4 +1,6 @@
 Srdr::Application.routes.draw do
+  resources :outcome_enrolled_numbers
+
   resources :forms
 
   resources :quality_ratings
@@ -26,8 +28,22 @@ Srdr::Application.routes.draw do
   resources :studies
 
   resources :key_questions
-
-  resources :projects
+  match 'projects/:id/studies' => 'projects#studies'
+  resources :projects do
+	resources :studies
+end
+	match 'projects/:project_id/studies/:study_id/design' => 'studies#design'
+	match 'projects/:project_id/studies/:study_id/attributes' => 'studies#attributes'
+	match 'projects/:project_id/studies/:study_id/outcomesetup' => 'studies#outcomesetup'
+	match 'projects/:project_id/studies/:study_id/outcomedata' => 'studies#outcomedata'
+	match 'projects/:project_id/studies/:study_id/outcomeanalysis' => 'studies#outcomeanalysis'
+	match 'projects/:project_id/studies/:study_id/adverseevents' => 'studies#adverseevents'
+	match 'projects/:project_id/studies/:study_id/quality' => 'studies#quality'	
+	resources :studies do
+	member do 
+		get 'design' 
+	end 
+end 
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -35,6 +51,9 @@ Srdr::Application.routes.draw do
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
+	#match 'projects/create' => 'projects#create'
+	#match 'projects/new' => 'projects#new'
+
 
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
@@ -78,7 +97,7 @@ Srdr::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-   root :to => "projects#new"
+   root :to => "projects#index"
 
   # See how all your routes lay out with "rake routes"
 

@@ -1,0 +1,31 @@
+<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+<th>Outcome Title</th>
+<th>Primary?</th>
+<th>Units</th>
+<% if @study_arms.length > 0 %>
+	<% i = 1 %>
+	<% for one_arm in @study_arms %>
+		<th>Arm <%= 1 %>: <%= one_arm.name %></th>
+		<% i = i + 1 %>
+	<% end %>
+<% end %>
+<th>Follow-Up Time Points</th>
+<th>Outcome Description</th>
+<th>Edit</th>
+<th>Delete</th>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<% if @study_arms.length > 0 %>
+<% for one_arm in @study_arms %>
+<td></td>
+<% end %>
+<% end %>
+<td></td>
+<td></td>
+<td>Edit</td>
+<td>Delete</td>
+</tr>
+</table>
+<br/><br/>

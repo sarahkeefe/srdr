@@ -12,15 +12,14 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :study_id %><br />
-    <%= f.text_field :study_id %>
+    <%= f.hidden_field :study_id, :value=> params[:study_id] %>
   </div>
   <div class="field">
-    <%= f.label :guideline_used %><br />
+    <%= f.label :quality_guideline_used %>: 
     <%= f.text_field :guideline_used %>
   </div>
   <div class="field">
-    <%= f.label :current_overall_rating %><br />
+    <%= f.label :current_overall_rating %>:
     <%= f.text_field :current_overall_rating %>
   </div>
   <div class="actions">
