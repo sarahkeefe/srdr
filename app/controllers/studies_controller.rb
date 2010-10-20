@@ -85,6 +85,7 @@ class StudiesController < ApplicationController
 	@arm = Arm.new
 	@arm.study_id = @study.id
 	@publication = Publication.new
+	#comment
 	@study_key_questions = KeyQuestion.find(:all, :conditions => {:project_id => params[:project_id]})
     respond_to do |format|
       format.html # new.html.erb
