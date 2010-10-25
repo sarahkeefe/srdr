@@ -88,11 +88,10 @@ class StudiesController < ApplicationController
 	@study.save
 	session[:study_id] = @study.id
 	@study.project_id = params[:project_id]
-	@arm = Arm.new
-	@arm.study_id = @study.id
 	@publication = Publication.new
 	 @secondary_publications = Publication.find(:all, :conditions => {:is_primary => "false", :study_id => @study.id})
-    @questions = @study.get_question_choices(session[:project_id])
+		makeActive(@study)
+	@questions = @study.get_question_choices(session[:project_id])
     @checked_ids = @study.get_addressed_ids
     respond_to do |format|
       format.html # new.html.erb
@@ -103,18 +102,32 @@ class StudiesController < ApplicationController
   # GET /studies/1/edit
   def edit
     @study = Study.find(params[:id])
-	@study_key_questions = StudiesKeyQuestion.where(:study_id => params[:study_id]).all
+	@study_key_questions_ids = StudiesKeyQuestion.where(:study_id => params[:study_id]).all
+	@study_key_questions = []
+	for q in @study_key_questions_ids
+		@study_key_questions << KeyQuestion.find(q.key_question_id)
+	end
 	@publication = Publication.new
 	@secondary_publications = Publication.where(:study_id => params[:study_id], :is_primary => :false).all
+	    @study = Study.find(params[:id])
+    makeActive(@study)
+    @questions = @study.get_question_choices(session[:project_id])
+    @checked_ids = @study.get_addressed_ids
   end
 
   # POST /studies
   # POST /studies.xml
   def create
     @study = Study.new(params[:study])
-
+  	@study.project_id = session[:project_id]
+    makeActive(@study)
+    
+    questions = get_questions_params(params)
+	@questions = @study.get_question_choices(session[:project_id])
+    @checked_ids = @study.get_addressed_ids
     respond_to do |format|
       if @study.save
+      	@study.assign_questions(questions)	  
         format.html { redirect_to(@study, :notice => 'Study was successfully created.') }
         format.xml  { render :xml => @study, :status => :created, :location => @study }
       else
@@ -155,14 +168,12 @@ class StudiesController < ApplicationController
    
   def clearSessionStudyInfo
   	session[:study_id] = nil
-  	session[:study_ui] = nil
   	session[:study_title] = nil
   end
   
   def makeActive myStudy
   	clearSessionStudyInfo()
   	session[:study_id] = myStudy.id
-  	session[:study_ui] = myStudy.ui
   	session[:study_title] = myStudy.title
   end
   

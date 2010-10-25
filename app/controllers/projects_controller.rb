@@ -9,6 +9,13 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def saveinfo
+    respond_to do |format|
+      format.html { redirect_to(project_studies_url) }
+      format.xml  { head :ok }
+    end
+  end
+  
   def studies
 	@project = Project.find(params[:id])
 	@studies = Study.where(:project_id => params[:project_id]).all
