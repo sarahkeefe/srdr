@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101018165742) do
+ActiveRecord::Schema.define(:version => 20101022191747) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer  "study_id"
@@ -184,6 +184,13 @@ ActiveRecord::Schema.define(:version => 20101018165742) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "project_id"
+  end
+
+  create_table "studies_key_questions", :force => true do |t|
+    t.integer  "study_id"
+    t.integer  "key_question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

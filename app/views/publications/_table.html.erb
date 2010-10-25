@@ -1,4 +1,25 @@
-<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5"><th>
-UI</th><th>Title</th><th>Author</th><th>Country</th><th>Year</th><th>Edit</th><th>Delete</th>
+<div id="secondary_publication_table"><table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+<th>UI</th>
+<th>Title</th>
+<th>Author</th>
+<th>Country</th>
+<th>Year</th>
+<th>Edit</th>
+<th>Delete</th>
+
+<% if @secondary_publications.length > 0 %>
+<% for pub in @secondary_publications %>
+<tr>
+<td><%= pub.ui %></td>
+<td><%= pub.title %></td>
+<td><%= pub.author %></td>
+<td><%= pub.country %></td>
+<td><%= pub.year %></td>
+<td>Edit</td>
+<td>Remove</td>
+</tr>
+<% end %>
+<% end%>
+
 </table>
-<br/><br/>
+<br/><br/></div>

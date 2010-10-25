@@ -26,6 +26,6 @@ There are currently no key questions associated with the project that contains t
 <%= render 'publications/form' %>
 <br/>
 
-<table border="0" width="60%"><tr><td align="left">Back</td><td align="right">
+<table border="0" width="60%"><tr><td align="left"><%= link_to "Back", "../.." %></td><td align="right">
 <%= link_to "Continue", "../studies/" + @study.id.to_s + "/design" %>
 </td></tr></table>

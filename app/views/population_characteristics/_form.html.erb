@@ -1,4 +1,4 @@
-<%= form_for(@population_characteristic) do |f| %>
+<%= form_for(@population_characteristic, :remote => true, :update => "population_characteristics_table") do |f| %>
   <% if @population_characteristic.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@population_characteristic.errors.count, "error") %> prohibited this population_characteristic from being saved:</h2>

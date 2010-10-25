@@ -25,14 +25,17 @@ class StudiesController < ApplicationController
 	@study = Study.find(params[:study_id])
 	@project = Project.find(params[:project_id])
 	@arm = Arm.new
+	@arms = Arm.find(:all, :conditions => {:study_id => @study.id})	
 	#@key_question = KeyQuestion.new
   end
   
   def attributes
 	@study = Study.find(params[:study_id])
+	session[:study_id] = @study.id
 	@project = Project.find(params[:project_id])
-	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
-	@atts = PopulationCharacteristic.find(:all, :conditions => {:study_id => params[:study_id]})
+	@study_arms = Arm.find(:all, :conditions => {:study_id => @study.id})
+	@population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => @study.id}, :order => :category_title)
+	 @population_characteristics.sort_by(&:category_title)
 	@population_characteristic = PopulationCharacteristic.new
   end
   
@@ -41,11 +44,13 @@ class StudiesController < ApplicationController
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
 	@outcome = Outcome.new
+	@outcomes = Outcome.find(:all, :conditions => {:study_id => params[:study_id]})
 	@outcome_timepoint = OutcomeTimepoint.new
   end
 
     def outcomedata
 	@study = Study.find(params[:study_id])
+	session[:study_id] = @study.id
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
 	@outcomes = Outcome.find(:all, :conditions => {:study_id => params[:study_id]})
@@ -81,12 +86,14 @@ class StudiesController < ApplicationController
   def new
     @study = Study.new
 	@study.save
+	session[:study_id] = @study.id
 	@study.project_id = params[:project_id]
 	@arm = Arm.new
 	@arm.study_id = @study.id
 	@publication = Publication.new
-	#comment
-	@study_key_questions = KeyQuestion.find(:all, :conditions => {:project_id => params[:project_id]})
+	 @secondary_publications = Publication.find(:all, :conditions => {:is_primary => "false", :study_id => @study.id})
+    @questions = @study.get_question_choices(session[:project_id])
+    @checked_ids = @study.get_addressed_ids
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @study }
@@ -96,6 +103,9 @@ class StudiesController < ApplicationController
   # GET /studies/1/edit
   def edit
     @study = Study.find(params[:id])
+	@study_key_questions = StudiesKeyQuestion.where(:study_id => params[:study_id]).all
+	@publication = Publication.new
+	@secondary_publications = Publication.where(:study_id => params[:study_id], :is_primary => :false).all
   end
 
   # POST /studies

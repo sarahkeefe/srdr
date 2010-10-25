@@ -1,15 +1,16 @@
 <h2>Add Study</h2>
-<h3>Key Questions Answered</h3>
-Check the box next to each of the key questions that apply to this study.<br/><br/>
-<% if @study_key_questions.length > 0 %>
-<% for keyq in @study_key_questions %>
-<%= check_box :keyq_selected, :value => keyq.id %>
-<%= keyq.question_number %>. 
-<%= keyq.question %><br/>
-<% end %>
-<% else %>
-There are currently no key questions associated with the project that contains this study.<br/><br/>
-<% end %>
+ <h3>Project Key Questions:</h3><br/>
+  <% unless @questions.empty? %>
+	  <% @questions.each do |q| %>
+	    <% checked_flag = "" %>
+	    <% if @checked_ids.include?(q.id) %>
+	    	<% checked_flag = "checked" %>
+	    <% end %>
+	    <input type="checkbox" name=<%= "question_" + q.id.to_s %> <%= checked_flag %> ><%= q.question_number.to_s + ". " + q.question %><br/>  
+	  <% end %>
+  <% else %>
+    There are no key questions associated with this project.
+  <% end %>
 
 <br/>
 <hr width="80%" size="1" align="center"><br/>
@@ -22,12 +23,13 @@ There are currently no key questions associated with the project that contains t
 
 <h3>Secondary Publication Information</h3>
 <%= render 'publications/table' %>
-<b>Add new Arm to Study</b><br/><br/>
+
+<b>Add new Publication to Study</b><br/><br/>
 <%= render 'publications/form' %>
 <br/>
 
-<table border="0" width="60%"><tr><td align="left">Back</td><td align="right">
-<%= link_to "Continue", "../../studies/" + @study.id.to_s + "/design" %>
+<table border="0" width="60%"><tr><td align="left"><%= link_to "Back", "../studies" %></td><td align="right">
+<%= link_to "Continue", "../studies/" + @study.id.to_s + "/design" %>
 </td></tr></table>
 
 

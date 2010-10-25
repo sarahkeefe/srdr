@@ -1,4 +1,13 @@
-<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5"><th>
+<div id="arms_table"><table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5"><th>
 Arm Title</th><th>Arm Description</th><th>Edit</th><th>Delete</th>
-</table>
+<% if @arms.length > 0 %>
+<% for onearm in @arms %>
+<tr>
+<td><%= onearm.title %></td>
+<td><%= onearm.description %></td>
+<td>Edit</td>
+<td>Remove</td>
+</tr><% end %>
+<% end %>
+</table></div>
 <br/><br/>

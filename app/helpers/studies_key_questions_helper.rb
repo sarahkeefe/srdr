@@ -1,0 +1,2 @@
+module StudiesKeyQuestionsHelper
+end

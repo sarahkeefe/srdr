@@ -1,11 +1,11 @@
-<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+<div id="outcomes_table"><table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
 <th>Outcome Title</th>
 <th>Primary?</th>
 <th>Units</th>
 <% if @study_arms.length > 0 %>
 	<% i = 1 %>
 	<% for one_arm in @study_arms %>
-		<th>Arm <%= 1 %>: <%= one_arm.name %></th>
+		<th>Arm <%= 1 %>: <%= one_arm.title %></th>
 		<% i = i + 1 %>
 	<% end %>
 <% end %>
@@ -13,19 +13,23 @@
 <th>Outcome Description</th>
 <th>Edit</th>
 <th>Delete</th>
+<% if @outcomes.length > 0 %>
+<% for oneoutcome in @outcomes %>
 <tr>
-<td></td>
-<td></td>
-<td></td>
+<td><%= oneoutcome.title %></td>
+<td><%= oneoutcome.is_primary %></td>
+<td><%= oneoutcome.units %></td>
 <% if @study_arms.length > 0 %>
 <% for one_arm in @study_arms %>
 <td></td>
 <% end %>
 <% end %>
 <td></td>
-<td></td>
+<td><%= oneoutcome.description %></td>
 <td>Edit</td>
 <td>Delete</td>
 </tr>
-</table>
+<% end %>
+<% end %>
+</table></div>
 <br/><br/>

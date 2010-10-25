@@ -43,10 +43,17 @@ class PublicationsController < ApplicationController
     @publication = Publication.new(params[:publication])
 
     respond_to do |format|
-      if @publication.save
+      if @publication.save && params[:publication][:is_primary] == "false"
+	  @secondary_publications = Publication.find(:all, :conditions => {:is_primary => false, :study_id => session[:study_id]})
+        format.js {
+		  render :update do |page|
+				page.replace_html 'secondary_publication_table', :partial => 'publications/table'
+		  end
+		}
+      elsif @publication.save
         format.html { redirect_to(@publication, :notice => 'Publication was successfully created.') }
-        format.xml  { render :xml => @publication, :status => :created, :location => @publication }
-      else
+        format.xml  { render :xml => @publication, :status => :created, :location => @publication }	  
+	  else
         format.html { render :action => "new" }
         format.xml  { render :xml => @publication.errors, :status => :unprocessable_entity }
       end

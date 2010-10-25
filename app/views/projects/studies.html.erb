@@ -22,7 +22,7 @@
     <td><%= study.inclusion_criteria %></td>
     <td><%= study.exclusion_criteria %></td>
     <td><%= link_to 'Show', study %></td>
-    <td><%= link_to 'Edit', edit_study_path(study) %></td>
+    <td><%= link_to 'Edit', edit_project_study_path(@project, study) %></td>
     <td><%= link_to 'Destroy', study, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>

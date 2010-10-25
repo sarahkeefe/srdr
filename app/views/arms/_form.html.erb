@@ -1,4 +1,4 @@
-<%= form_for(@arm) do |f| %>
+<%= form_for(@arm, :remote => true, :update => "arms_table") do |f| %>
   <% if @arm.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@arm.errors.count, "error") %> prohibited this arm from being saved:</h2>
@@ -14,6 +14,7 @@
   <div class="field">
     <%= f.label :arm_title %>:
     <%= f.text_field :title %>
+	    <%= f.hidden_field :study_id, :value => @study.id %>
   </div>
   <div class="field">
     <%= f.label :arm_description %>:<br />

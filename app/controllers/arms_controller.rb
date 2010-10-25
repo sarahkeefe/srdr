@@ -44,9 +44,13 @@ class ArmsController < ApplicationController
 
     respond_to do |format|
       if @arm.save
-        format.html { redirect_to(@arm, :notice => 'Arm was successfully created.') }
-        format.xml  { render :xml => @arm, :status => :created, :location => @arm }
-      else
+	  @arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})
+        format.js {
+		  render :update do |page|
+				page.replace_html 'arms_table', :partial => 'arms/table'
+		  end
+		}
+	else
         format.html { render :action => "new" }
         format.xml  { render :xml => @arm.errors, :status => :unprocessable_entity }
       end

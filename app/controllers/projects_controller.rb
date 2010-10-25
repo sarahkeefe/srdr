@@ -11,7 +11,7 @@ class ProjectsController < ApplicationController
 
   def studies
 	@project = Project.find(params[:id])
-	@studies = Study.find(:all, :conditions => {:project_id => params[:id]})
+	@studies = Study.where(:project_id => params[:project_id]).all
 	@key_question = KeyQuestion.new
   end
   
@@ -19,7 +19,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1.xml
   def show
     @project = Project.find(params[:id])
-
+    makeActive(@project)
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @project }
@@ -34,7 +34,7 @@ class ProjectsController < ApplicationController
 	session[:project_id] = @project.id
 	@key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
 	@key_question = KeyQuestion.new
-	
+	    makeActive(@project)
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @project }
@@ -45,6 +45,7 @@ class ProjectsController < ApplicationController
   def edit
     @project = Project.find(params[:id])
 	session[:project_id] = @project.id
+	    makeActive(@project)
 	@key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
 	@key_question = KeyQuestion.new	
   end
@@ -85,10 +86,20 @@ end
   def destroy
     @project = Project.find(params[:id])
     @project.destroy
-
+	clearSessionProjectInfo()
+	
     respond_to do |format|
       format.html { redirect_to(projects_url) }
       format.xml  { head :ok }
     end
+  end
+    def clearSessionProjectInfo
+  	session[:project_id] = nil
+  	session[:project_title] = nil
+  end
+  def makeActive currentProject
+    clearSessionProjectInfo()
+  	session[:project_id] = currentProject.id
+  	session[:project_title] = currentProject.title
   end
 end

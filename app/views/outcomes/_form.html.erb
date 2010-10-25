@@ -1,4 +1,4 @@
-<%= form_for(@outcome) do |f| %>
+<%= form_for(@outcome, :remote => true, :update => "outcomes_table") do |f| %>
   <% if @outcome.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@outcome.errors.count, "error") %> prohibited this outcome from being saved:</h2>

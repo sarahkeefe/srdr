@@ -1,4 +1,6 @@
 Srdr::Application.routes.draw do
+  resources :studies_key_questions
+
   resources :outcome_enrolled_numbers
 
   resources :forms

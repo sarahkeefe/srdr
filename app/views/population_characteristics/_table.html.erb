@@ -1,33 +1,41 @@
-<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
-<th>Outcome Title</th>
+<div id="population_characteristics_table"><table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+<tr><th colspan="2">Category</th>
 <% if @study_arms.length > 0 %>
 	<% i = 1 %>
 	<% for one_arm in @study_arms %>
-		<th>Arm <%= 1 %>: <%= one_arm.name %></th>
+		<th>Arm <%= i %>: <%= one_arm.title %></th>
 		<% i = i + 1 %>
 	<% end %>
 <% end %>
 <th>Total</th>
-<th>Delete Attribute</th>
-
-<% if @atts.length > 0 %>
-<% for one_att in @atts %>
-<tr>
-<td>
-<%= one_att.category_title %>
-</td>
-
-<% if @study_arms.length > 0 %>
-<% i = 1 %>
-<% for one_arm in @study_arms %>
-<td></td>
-<% i = i + 1 %>
-<% end %>
-<% end %>
-<td></td>
-<td>Delete</td>
+<th>Delete</th>
+<% if @population_characteristics.length > 0 %>
+<% list_of_lists = PopulationCharacteristic.create_list_of_lists(@population_characteristics) %>
 </tr>
+			<% print list_of_lists.to_s + "\n" %>
+<% for attblock in list_of_lists %>
+		<tr>
+		<td rowspan="<%=attblock.length%>">
+			<%=attblock[0].category_title %>
+		</td>
+<% for item in attblock %>
+				<td>
+					<%=item.subcategory%>
+				</td>
+				<% if @study_arms.length > 0 %>
+					<% for one_arm in @study_arms %>
+					<td></td>
+					<% end %>
+				<% end %>
+				<td></td>
+				<td>Delete</td>
+</tr>
+		<% end %>
+
+
+		
 <% end %>
+
 <% end %>
 </table>
-<br/><br/>
+<br/><br/></div>

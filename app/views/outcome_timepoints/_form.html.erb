@@ -1,27 +1,15 @@
-<%= form_for(@outcome_timepoint) do |f| %>
-  <% if @outcome_timepoint.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@outcome_timepoint.errors.count, "error") %> prohibited this outcome_timepoint from being saved:</h2>
 
-      <ul>
-      <% @outcome_timepoint.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
 
   <div class="field">
-    <%= f.hidden_field :study_id, :value => params[:study_id] %>
+    <%= hidden_field :timepoint, :timepoint_study_id, :value => params[:study_id] %>
   </div>
   <div class="field">
-    <%= f.hidden_field :outcome_id, :value => @outcome.id %>
+    <%= hidden_field :timepoint, :timepoint_outcome_id, :value => @outcome.id %>
   </div>
   <div class="field">
-    <%= f.text_field :number %>
-    <%= f.text_field :time_unit %>
+    <%= text_field :timepoint, :timepoint_number %>
+    <%= text_field :timepoint, :timepoint_time_unit %>
   </div>
   <div class="actions">
-    <%= f.submit "Add Time Point to Outcome" %>
+    <%= submit_tag "Add Time Point to Outcome" %>
   </div>
-<% end %>

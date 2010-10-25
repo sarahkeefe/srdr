@@ -42,15 +42,21 @@ class OutcomesController < ApplicationController
   def create
     @outcome = Outcome.new(params[:outcome])
 
-    respond_to do |format|
+       respond_to do |format|
       if @outcome.save
-        format.html { redirect_to(@outcome, :notice => 'Outcome was successfully created.') }
-        format.xml  { render :xml => @outcome, :status => :created, :location => @outcome }
-      else
+	  @outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})
+	@study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})	  
+        format.js {
+		  render :update do |page|
+				page.replace_html 'outcomes_table', :partial => 'outcomes/table'
+		  end
+		}
+	else
         format.html { render :action => "new" }
         format.xml  { render :xml => @outcome.errors, :status => :unprocessable_entity }
       end
     end
+
   end
 
   # PUT /outcomes/1
