@@ -73,7 +73,7 @@ class StudiesController < ApplicationController
 	@adverse_event = AdverseEvent.new
   end
   
-     def quality
+   def quality
 	@study = Study.find(params[:study_id])
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
@@ -88,6 +88,7 @@ class StudiesController < ApplicationController
 	@study.save
 	session[:study_id] = @study.id
 	@study.project_id = params[:project_id]
+	@primary_publication = Publication.new
 	@publication = Publication.new
 	 @secondary_publications = Publication.find(:all, :conditions => {:is_primary => "false", :study_id => @study.id})
 		makeActive(@study)
@@ -107,12 +108,16 @@ class StudiesController < ApplicationController
 	for q in @study_key_questions_ids
 		@study_key_questions << KeyQuestion.find(q.key_question_id)
 	end
-	@publication = Publication.new
+	@publication = Publication.where(:study_id => params[:study_id], :is_primary => :true).first
+	if @publication.nil?
+		@publication = Publication.new
+	end
 	@secondary_publications = Publication.where(:study_id => params[:study_id], :is_primary => :false).all
 	    @study = Study.find(params[:id])
     makeActive(@study)
     @questions = @study.get_question_choices(session[:project_id])
     @checked_ids = @study.get_addressed_ids
+
   end
 
   # POST /studies
@@ -144,6 +149,8 @@ class StudiesController < ApplicationController
 
     respond_to do |format|
       if @study.update_attributes(params[:study])
+	  	questions = get_questions_params(params)
+	@study.assign_questions(questions)	  
         format.html { redirect_to(@study, :notice => 'Study was successfully updated.') }
         format.xml  { head :ok }
       else

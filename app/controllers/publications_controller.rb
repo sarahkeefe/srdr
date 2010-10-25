@@ -25,7 +25,7 @@ class PublicationsController < ApplicationController
   # GET /publications/new.xml
   def new
     @publication = Publication.new
-
+	@primary_publication = Publication.new
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @publication }
@@ -35,6 +35,7 @@ class PublicationsController < ApplicationController
   # GET /publications/1/edit
   def edit
     @publication = Publication.find(params[:id])
+	@primary_publication = Publication.where(:study_id => params[:study_id], :is_primary => :true).one	
   end
 
   # POST /publications
