@@ -12,8 +12,8 @@
 <td><%= keyq.question %></td>
 <td><%= keyq.description %></td>
 <td>Move Up</td>
-<td>Edit</td>
-<td>Remove</td>
+<td><%# link_to 'Edit', edit_project_key_question_path(session[:project_id],keyq) %></td>
+<td><%= link_to 'Delete', project_key_question_path(session[:project_id], keyq), :confirm => 'Are you sure?', :method => :delete %></td>
 </tr><% end %>
 <% end %>
 </table>
