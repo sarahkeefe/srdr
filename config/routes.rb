@@ -1,5 +1,19 @@
 Srdr::Application.routes.draw do
-  resources :studies_key_questions
+  	resources :key_questions, :arms, :studies, :population_characteristics
+	
+  resources :projects do
+  	resources :studies, :key_questions
+  end
+      
+  resources :studies do
+  	resources :arms, :population_characteristics
+  end
+  
+  resources :arms do
+  	resources :population_characteristics
+  end
+ 
+ resources :studies_key_questions
 
   resources :outcome_enrolled_numbers
 
@@ -21,19 +35,18 @@ Srdr::Application.routes.draw do
 
   resources :outcomes
 
-  resources :arms
-
   resources :population_characteristics
 
   resources :publications
 
-  resources :studies
-
   resources :key_questions
+
   match 'projects/:id/studies' => 'projects#studies'
+
   resources :projects do
 	resources :studies
 end
+
 	match 'projects/:project_id/studies/:study_id/design' => 'studies#design'
 	match 'projects/:project_id/studies/:study_id/attributes' => 'studies#attributes'
 	match 'projects/:project_id/studies/:study_id/outcomesetup' => 'studies#outcomesetup'
@@ -41,7 +54,8 @@ end
 	match 'projects/:project_id/studies/:study_id/outcomeanalysis' => 'studies#outcomeanalysis'
 	match 'projects/:project_id/studies/:study_id/adverseevents' => 'studies#adverseevents'
 	match 'projects/:project_id/studies/:study_id/quality' => 'studies#quality'	
-	resources :studies do
+
+resources :studies do
 	member do 
 		get 'design' 
 	end 

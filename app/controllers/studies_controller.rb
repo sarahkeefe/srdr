@@ -151,4 +151,30 @@ class StudiesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+   
+  def clearSessionStudyInfo
+  	session[:study_id] = nil
+  	session[:study_ui] = nil
+  	session[:study_title] = nil
+  end
+  
+  def makeActive myStudy
+  	clearSessionStudyInfo()
+  	session[:study_id] = myStudy.id
+  	session[:study_ui] = myStudy.ui
+  	session[:study_title] = myStudy.title
+  end
+  
+  def get_questions_params(form_params)
+  	questions = Array.new
+  	form_params.keys.each do |key|
+  		if key =~ /^question_/
+  			questions.push(key.sub(/question_/,""))
+  		end
+  	end
+  	return questions
+  end
+
+  
 end
