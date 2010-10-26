@@ -1,5 +1,4 @@
-<div id="key_question_form">
-<%= form_for(@key_question, :remote => true, :update => "key_question_table") do |f| %>
+<%= form_for(@key_question, :remote => true) do |f| %>
   <% if @key_question.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@key_question.errors.count, "error") %> prohibited this key_question from being saved:</h2>
@@ -21,7 +20,7 @@
     <%= f.text_area :description, :cols => 50, :rows => 4 %>
   </div>
   <div class="actions">
-    <%= f.submit  "Add new key question" %>
+    <%= f.submit "Update" %>  <%= link_to 'Done Editing', new_project_key_question_path(session[:project_id]), :remote=>true %>
   </div>
+ 
 <% end %>
-</div>
