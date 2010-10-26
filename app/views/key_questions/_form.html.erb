@@ -1,3 +1,4 @@
+<div id="key_question_form">
 <%= form_for(@key_question, :remote => true, :update => "key_question_table") do |f| %>
   <% if @key_question.errors.any? %>
     <div id="error_explanation">
@@ -11,8 +12,6 @@
     </div>
   <% end %>
 
-   <%= f.hidden_field :project_id, :value => @project.id %>
-
   <div class="field">
     <%= f.label :question_text %>:
     <%= f.text_field :question, :size => 50 %>
@@ -25,3 +24,4 @@
     <%= f.submit  "Add new key question" %>
   </div>
 <% end %>
+</div>

@@ -14,7 +14,7 @@ class KeyQuestionsController < ApplicationController
   # GET /key_questions/1.xml
   def show
     @key_question = KeyQuestion.find(params[:id])
-@key_questions = KeyQuestion.where(:project_id => session[:project_id]).all
+		@key_questions = KeyQuestion.where(:project_id => session[:project_id]).all
          
     respond_to do |format|
       format.html # show.html.erb
@@ -50,12 +50,13 @@ class KeyQuestionsController < ApplicationController
     
     respond_to do |format|
       if @key_question.save
-		@key_questions = KeyQuestion.where(:project_id => session[:project_id]).all
-          format.js {
-		  render :update do |page|
-				page.replace_html 'key_question_table', :partial => 'key_questions/table'
-		  end
-		}
+				@key_questions = KeyQuestion.where(:project_id => session[:project_id]).all
+        format.js {
+		  		render :update do |page|
+						page.replace_html 'key_question_table', :partial => 'key_questions/table'
+						page["new_key_question"].reset
+				  end
+				}
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @key_question.errors, :status => :unprocessable_entity }
@@ -85,12 +86,12 @@ class KeyQuestionsController < ApplicationController
     @key_question.remove_from_junction
     
     respond_to do |format|
-          format.js {
-		@key_questions = KeyQuestion.where(:project_id => session[:project_id]).all
-		  render :update do |page|
-				page.replace_html 'key_question_table', :partial => 'key_questions/table'
-		  end
-		}
+      format.js {
+				@key_questions = KeyQuestion.where(:project_id => session[:project_id]).all
+		  	render :update do |page|
+					page.replace_html 'key_question_table', :partial => 'key_questions/table'
+		  	end
+			}
       #format.html { redirect_to( project_key_question_path(session[:project_id]) )}
       format.xml  { head :ok }
     end
