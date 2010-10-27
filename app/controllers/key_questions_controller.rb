@@ -105,10 +105,11 @@ class KeyQuestionsController < ApplicationController
     
     respond_to do |format|
       format.js {
-				@key_questions = KeyQuestion.where(:project_id => session[:project_id]).all
+				@key_questions = KeyQuestion.where(:project_id=>session[:project_id]).all
 		  	render :update do |page|
 					page.replace_html 'key_question_table', :partial => 'key_questions/table'	
-					KeyQuestionsController.new
+					#page.replace_html 'key_question_form', :partial => 'key_questions/new_kq_form'
+					
 		  	end
 			}
       #format.html { redirect_to( project_key_question_path(session[:project_id]) )}
