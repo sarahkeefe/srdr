@@ -17,7 +17,7 @@
 	<%# link_to 'Edit', edit_project_key_question_path(session[:project_id],keyq) %>
   <%= link_to 'Edit', edit_project_key_question_path(session[:project_id],keyq), :remote=>true %>
 </td>
-<td><%= link_to 'Delete', key_question_path(keyq), :remote=>true, :confirm => 'Are you sure?', :method=>:delete, :class=>"kq_delete_link", :onclick=>"disable_delete_links()" %></td>
+<td><%= link_to 'Delete', key_question_path(keyq), :remote=>true, :confirm => 'Are you sure?', :method=>:delete, :class=>"kq_delete_link" %></td>
 </tr><% end %>
 <% end %>
 </table>
