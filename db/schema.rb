@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101025141247) do
+ActiveRecord::Schema.define(:version => 20101027205553) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer  "study_id"
@@ -111,13 +111,13 @@ ActiveRecord::Schema.define(:version => 20101025141247) do
   create_table "outcomes", :force => true do |t|
     t.integer  "study_id"
     t.string   "title"
-    t.string   "type"
     t.boolean  "is_primary"
     t.string   "units"
     t.text     "description"
     t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "outcome_type"
   end
 
   create_table "population_characteristics", :force => true do |t|
@@ -165,6 +165,11 @@ ActiveRecord::Schema.define(:version => 20101025141247) do
     t.integer  "study_id"
     t.string   "guideline_used"
     t.string   "current_overall_rating"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "static_pages", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end

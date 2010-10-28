@@ -1,10 +1,10 @@
-<%= form_for(@publication, :remote => true) do |f| %>
-  <% if @publication.errors.any? %>
+<%= form_for(@primary_publication, :remote => true) do |f| %>
+  <% if @primary_publication.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@publication.errors.count, "error") %> prohibited this publication from being saved:</h2>
+      <h2><%= pluralize(@primary_publication.errors.count, "error") %> prohibited this publication from being saved:</h2>
 
       <ul>
-      <% @publication.errors.full_messages.each do |msg| %>
+      <% @primary_publication.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>
@@ -36,7 +36,7 @@
     <%= f.label :ui_type %>:
     <%= f.text_field :ui_type %>
   </div>
-
+    <%= f.hidden_field :study_id, :value => @study.id %>
     <%= f.hidden_field :is_primary, :value => true %>
 	<%= f.submit "Save" %>
 <% end %>

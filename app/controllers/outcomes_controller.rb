@@ -25,7 +25,7 @@ class OutcomesController < ApplicationController
   # GET /outcomes/new.xml
   def new
     @outcome = Outcome.new
-
+	@outcome_timepoint = OutcomeTimepoint.new
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @outcome }
@@ -41,10 +41,22 @@ class OutcomesController < ApplicationController
   # POST /outcomes.xml
   def create
     @outcome = Outcome.new(params[:outcome])
+	@outcome.save
+	@study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})	
+	for a in @study_arms
+		if !params["num_enrolled"][a.id.to_s].nil?
+				@outcome_num_enrolled = OutcomeEnrolledNumber.new
+				@outcome_num_enrolled.arm_id = a.id.to_s
+				@outcome_num_enrolled.num_enrolled = params["num_enrolled"][a.id.to_s].to_i
+				@outcome_num_enrolled.outcome_id = @outcome.id
+				@outcome_num_enrolled.save
+		end
 
+	end
        respond_to do |format|
       if @outcome.save
 	  @outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})
+	  @outcome_timepoints = OutcomeTimepoint.where(:outcome_id => @outcome.id).all
 	@study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})	  
         format.js {
 		  render :update do |page|
@@ -79,11 +91,20 @@ class OutcomesController < ApplicationController
   # DELETE /outcomes/1.xml
   def destroy
     @outcome = Outcome.find(params[:id])
+	@outcome_tps = OutcomeTimepoint.where(:outcome_id => @outcome.id).all
     @outcome.destroy
+	for i in @outcome_tps
+		i.destroy
+	end
 
     respond_to do |format|
-      format.html { redirect_to(outcomes_url) }
-      format.xml  { head :ok }
+	  @outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})
+		@study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})	  
+        format.js {
+		  render :update do |page|
+				page.replace_html 'outcomes_table', :partial => 'outcomes/table'
+		  end
+		}
     end
   end
 end

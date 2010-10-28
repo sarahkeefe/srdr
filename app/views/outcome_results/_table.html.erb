@@ -1,31 +1,41 @@
+<% if @outcomes.length > 0 %>
+	<% j = 1 %>
+	<% for one_outcome in @outcomes %>
+<b>Outcome <%= j %>: <%= one_outcome.title %></b><br/>
 <table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
-<th>Outcome Title</th>
-<th>Primary?</th>
-<th>Units</th>
+<th>Arm</th>
+<% @outcome_timepoints = Outcome.get_timepoints_array(one_outcome.id) %>
+<% if @outcome_timepoints.length > 0 %>
+	<% for tp in @outcome_timepoints %>
+<th><%= tp.number.to_s %> <%= tp.time_unit %></th>
+<% end %>
+<% end %>
+<th>N Analyzed</th>
+<th>Measure Type</th>
+<th>Measure of Dispersion/Precision</th>
+<th>P-Value</th>
+
 <% if @study_arms.length > 0 %>
 	<% i = 1 %>
 	<% for one_arm in @study_arms %>
-		<th>Arm <%= 1 %>: <%= one_arm.title %></th>
+	<tr>
+		<td>Arm <%= i %>: <%= one_arm.title %></td>
+
+<% @outcome_timepoints = Outcome.get_timepoints_array(one_outcome.id) %>
+<% if @outcome_timepoints.length > 0 %>
+	<% for tp in @outcome_timepoints %>
+<td><%= text_field "arm" + i.to_s + "timepoint", tp.id, :size => 5 %></td>
+<% end %>
+<% end %>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 		<% i = i + 1 %>
 	<% end %>
 <% end %>
-<th>Follow-Up Time Points</th>
-<th>Outcome Description</th>
-<th>Edit</th>
-<th>Delete</th>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<% if @study_arms.length > 0 %>
-<% for one_arm in @study_arms %>
-<td></td>
-<% end %>
-<% end %>
-<td></td>
-<td></td>
-<td>Edit</td>
-<td>Delete</td>
 </tr>
 </table>
+<% end %>
+<% end %>
 <br/><br/>
