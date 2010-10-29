@@ -3,7 +3,7 @@ class StudiesController < ApplicationController
   # GET /studies.xml
   def index
     @studies = Study.all
-
+	@project = Project.find(params[:project_id])
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @studies }
@@ -41,11 +41,14 @@ class StudiesController < ApplicationController
   
     def outcomesetup
 	@study = Study.find(params[:study_id])
+	session[:study_id] = @study.id
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
 	@outcome = Outcome.new
 	@outcomes = Outcome.find(:all, :conditions => {:study_id => params[:study_id]})
+	@outcome_timepoints = OutcomeTimepoint.where(:outcome_id => @outcome.id).all	
 	@outcome_timepoint = OutcomeTimepoint.new
+	render :layout => 'outcomesetup'	
   end
 
     def outcomedata
@@ -60,23 +63,22 @@ class StudiesController < ApplicationController
    def outcomeanalysis
 	@study = Study.find(params[:study_id])
 	@project = Project.find(params[:project_id])
-	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
-	#@outcomes = Outcome.find(:all, :conditions => {:study_id => params[:study_id]})
+		@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
+	@outcome_analyses = OutcomeAnalysis.where(:study_id => params[:study_id]).all
 	@outcome_analysis = OutcomeAnalysis.new
   end
 
    def adverseevents
 	@study = Study.find(params[:study_id])
 	@project = Project.find(params[:project_id])
-	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
-	#@outcomes = Outcome.find(:all, :conditions => {:study_id => params[:study_id]})
+	@adverse_events = AdverseEvent.where(:study_id => params[:study_id]).all
 	@adverse_event = AdverseEvent.new
   end
   
    def quality
 	@study = Study.find(params[:study_id])
 	@project = Project.find(params[:project_id])
-	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
+	@quality_aspects = QualityAspect.where(:study_id => params[:study_id]).all	
 	@quality_aspect = QualityAspect.new
 	@quality_rating = QualityRating.new
   end
@@ -104,17 +106,20 @@ class StudiesController < ApplicationController
   # GET /studies/1/edit
   def edit
     @study = Study.find(params[:id])
-	@study_key_questions_ids = StudiesKeyQuestion.where(:study_id => params[:study_id]).all
+	@study_key_questions_ids = StudiesKeyQuestion.where(:study_id => @study.id).all
 	@study_key_questions = []
+	@primary_publication = Publication.where(:study_id => @study.id, :is_primary => true).first
+	if @primary_publication.nil?
+		@primary_publication = Publication.new
+	end
 	for q in @study_key_questions_ids
 		@study_key_questions << KeyQuestion.find(q.key_question_id)
 	end
-	@publication = Publication.where(:study_id => params[:study_id], :is_primary => :true).first
-	if @publication.nil?
+	#@publication = Publication.where(:study_id => @study.id, :is_primary => true).first
+	#if @publication.nil?
 		@publication = Publication.new
-	end
-	@secondary_publications = Publication.where(:study_id => params[:study_id], :is_primary => :false).all
-	    @study = Study.find(params[:id])
+	#end
+	@secondary_publications = Publication.where(:study_id => @study.id, :is_primary => false).all
     makeActive(@study)
     @questions = @study.get_question_choices(session[:project_id])
     @checked_ids = @study.get_addressed_ids

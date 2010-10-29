@@ -12,6 +12,7 @@
 <%= render 'quality_ratings/form' %>
 
 <br/>
-<table border="0" width="60%"><tr><td align="left"></td><td align="right">
-<%= link_to "Continue", "../" + params[:study_id].to_s %>
+<table border="0" width="60%"><tr><td align="left"><%= link_to "Back", "adverseevents" %></td><td align="right">
+<%= link_to "Preview Study", "../" + params[:study_id].to_s %><br/>
+<%= link_to "Studies List", ".." %>
 </td></tr></table>

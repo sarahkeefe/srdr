@@ -1,4 +1,4 @@
-<%= form_for(@outcome, :remote => true, :update => "outcomes_table") do |f| %>
+<%= nested_form_for(@outcome, :remote => true, :update => "outcomes_table") do |f| %>
   <% if @outcome.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@outcome.errors.count, "error") %> prohibited this outcome from being saved:</h2>
@@ -20,7 +20,7 @@
   </div>
   <div class="field">
     <%= f.label :outcome_type %>:
-    <%= f.text_field :type %>
+<%= f.select :outcome_type, options_for_select([ "Categorical", "Continuous" ]) %>
   </div>
   <div class="field">
     <%= f.label :is_this_a_primary_outcome %>?
@@ -30,9 +30,42 @@
     <%= f.label :units %>:
     <%= f.text_field :units %>
   </div>
-  <b>Add Outcome Time Points</b>
-  <%= render 'outcome_timepoints/form' %>
+ 
+
+  <h4>Numbers Enrolled by Arm</h4>
+
+  <% if @study_arms.length > 0 %>
+
+ <table border="1" bordercolor="black"><tr>
+	<% i = 1 %>
+	
+	<% for one_arm in @study_arms %>
+		<th>Arm <%= i %>: <%= one_arm.title %></th>
+		<% i = i + 1 %>
+	<% end %>
+	<tr>
+	<% for one_arm in @study_arms %>
+		<td>
+		<% fieldname = "num_enrolled_" + one_arm.id.to_s %>
+		  <%= text_field :num_enrolled, one_arm.id.to_s %>
+		  </td>
+		<% i = i + 1 %>
+	<% end %>
+	</tr>
+		
+	</table>
+	<% end %>
   
+
+  <h4>Add Outcome Time Points</h4>
+  
+	<%= f.fields_for :outcome_timepoints do |t| %>
+  <%= t.text_field :number %>
+  <%= t.select :time_unit, options_for_select([ "minutes", "hours", "days", "weeks", "months", "years" ]) %>
+  <%= t.link_to_remove "Remove" %><br/>
+  <% end %><br/>
+<%= f.link_to_add "Add a timepoint", :outcome_timepoints %>
+  <br/><br/>
   <div class="field">
     <%= f.label :description %>:<br />
     <%= f.text_area :description, :rows => 4, :cols => 40 %>

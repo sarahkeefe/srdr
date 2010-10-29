@@ -1,11 +1,12 @@
 <div id="outcomes_table"><table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
 <th>Outcome Title</th>
+<th>Type</th>
 <th>Primary?</th>
 <th>Units</th>
 <% if @study_arms.length > 0 %>
 	<% i = 1 %>
 	<% for one_arm in @study_arms %>
-		<th>Arm <%= 1 %>: <%= one_arm.title %></th>
+		<th>Arm <%= i %>: <%= one_arm.title %> <br/> Number Enrolled</th>
 		<% i = i + 1 %>
 	<% end %>
 <% end %>
@@ -17,17 +18,21 @@
 <% for oneoutcome in @outcomes %>
 <tr>
 <td><%= oneoutcome.title %></td>
+<td><%= oneoutcome.outcome_type %></td>
 <td><%= oneoutcome.is_primary %></td>
 <td><%= oneoutcome.units %></td>
 <% if @study_arms.length > 0 %>
 <% for one_arm in @study_arms %>
-<td></td>
+<td><%= Outcome.getNumEnrolledByArm(oneoutcome.id, one_arm.id) %></td>
 <% end %>
 <% end %>
-<td></td>
+<td>
+<% outcome_timepoints = Outcome.get_timepoints(oneoutcome.id) %>
+<%= outcome_timepoints %>
+</td>
 <td><%= oneoutcome.description %></td>
 <td>Edit</td>
-<td>Delete</td>
+<td><%= link_to "Delete", oneoutcome, :remote => true, :update => "outcomes_table", :confirm => 'Are you sure?', :method => :delete %></td>
 </tr>
 <% end %>
 <% end %>

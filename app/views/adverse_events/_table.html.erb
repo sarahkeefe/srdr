@@ -1,31 +1,23 @@
 <table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
-<th>Outcome Title</th>
-<th>Primary?</th>
-<th>Units</th>
-<% if @study_arms.length > 0 %>
-	<% i = 1 %>
-	<% for one_arm in @study_arms %>
-		<th>Arm <%= 1 %>: <%= one_arm.name %></th>
-		<% i = i + 1 %>
-	<% end %>
-<% end %>
-<th>Follow-Up Time Points</th>
-<th>Outcome Description</th>
+<th>Event Title</th>
+<th>Timeframe</th>
+<th>Description</th>
+<th>Serious?</th>
+<th>Definition Used</th>
 <th>Edit</th>
 <th>Delete</th>
+<% if @adverse_events.length > 0 %>
+<% for ae in @adverse_events %>
 <tr>
-<td></td>
-<td></td>
-<td></td>
-<% if @study_arms.length > 0 %>
-<% for one_arm in @study_arms %>
-<td></td>
-<% end %>
-<% end %>
-<td></td>
-<td></td>
+<td><%= ae.title %></td>
+<td><%= ae.timeframe %></td>
+<td><%= ae.description %></td>
+<td><%= ae.is_serious %></td>
+<td><%= ae.definition_used %></td>
 <td>Edit</td>
 <td>Delete</td>
 </tr>
+<% end %>
+<% end %>
 </table>
 <br/><br/>

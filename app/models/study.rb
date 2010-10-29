@@ -3,7 +3,7 @@ class Study < ActiveRecord::Base
 	has_many :arms
 	#has_many :outcome_analyses, through => :outcomes
 	#has_many :outcome_results, through => :outcomes
-	#has_many :outcome_timepoints, through => :outcomes
+	has_many :outcome_timepoints
 	#has_many :outcome_enrolled_numbers, through => :outcomes
 	has_many :outcomes
 	has_many :key_questions
