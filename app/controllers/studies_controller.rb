@@ -23,6 +23,7 @@ class StudiesController < ApplicationController
 
     def design
 	@study = Study.find(params[:study_id])
+	session[:study_id] = @study.id
 	@project = Project.find(params[:project_id])
 	@arm = Arm.new
 	@arms = Arm.find(:all, :conditions => {:study_id => @study.id})	

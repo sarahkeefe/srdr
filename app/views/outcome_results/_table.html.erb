@@ -11,8 +11,8 @@
 <% end %>
 <% end %>
 <th>N Analyzed</th>
-<th>Measure Type</th>
-<th>Measure of Dispersion/Precision</th>
+<th><%= select :measure_type, :measure_type, options_for_select([ "Select Measure Type", "Number", "Mean", "Median", "Least Squares Mean", "Geometric Mean", "Log Mean" ]) %></th>
+<th><%= select :measure_type, :measure_type, options_for_select([ "Select Measure Of Dispersion/Precision", "Not Applicable", "Standard Deviation", "Inter-Quartile Range", "Full Range" ]) %></th>
 <th>P-Value</th>
 
 <% if @study_arms.length > 0 %>
@@ -27,10 +27,11 @@
 <td><%= text_field "arm" + i.to_s + "timepoint", tp.id, :size => 5 %></td>
 <% end %>
 <% end %>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td><%= text_field "arm" + i.to_s + "nanalyzed", i, :size => 5 %></td>
+<td><%= text_field "arm" + i.to_s + "nanalyzed", i, :size => 5 %></td>
+<td><%= text_field "arm" + i.to_s + "measurereg", i, :size => 5 %></td>
+<td><%= text_field "arm" + i.to_s + "measuredisp", i, :size => 5 %></td>
+<td><%= text_field "arm" + i.to_s + "pvalue", i, :size => 5 %></td>
 		<% i = i + 1 %>
 	<% end %>
 <% end %>

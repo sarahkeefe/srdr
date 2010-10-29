@@ -78,9 +78,14 @@ class ArmsController < ApplicationController
   def destroy
     @arm = Arm.find(params[:id])
     @arm.destroy
-
+ 	 @arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})
     respond_to do |format|
-      format.html { redirect_to(arms_url) }
+        format.js {
+		  render :update do |page|
+				page.replace_html 'arms_table', :partial => 'arms/table'
+		  end
+		}
+	  format.html { redirect_to(arms_url) }
       format.xml  { head :ok }
     end
   end

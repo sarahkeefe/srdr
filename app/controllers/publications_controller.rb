@@ -1,3 +1,4 @@
+
 class PublicationsController < ApplicationController
   # GET /publications
   # GET /publications.xml
@@ -25,7 +26,6 @@ class PublicationsController < ApplicationController
   # GET /publications/new.xml
   def new
     @publication = Publication.new
-	@primary_publication = Publication.new
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @publication }
@@ -42,7 +42,13 @@ class PublicationsController < ApplicationController
   # POST /publications.xml
   def create
     @publication = Publication.new(params[:publication])
-
+	if params[:publication][:is_primary] == true
+		@existing_pub = Publication.where(:study_id => session[:study_id], :is_primary => true)
+		if !@existing_pub.nil?
+			@existing_pub.destroy
+		end
+	end
+	
     respond_to do |format|
       if @publication.save && params[:publication][:is_primary] == "false"
 	  @secondary_publications = Publication.find(:all, :conditions => {:is_primary => false, :study_id => session[:study_id]})

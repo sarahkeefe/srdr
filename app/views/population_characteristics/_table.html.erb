@@ -1,9 +1,11 @@
-<div id="population_characteristics_table"><table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+<div id="population_characteristics_table">
+<%= form_for @population_characteristic, :remote => true do |f| %>
+<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
 <tr><th colspan="2">Category</th>
 <% if @study_arms.length > 0 %>
 	<% i = 1 %>
 	<% for one_arm in @study_arms %>
-		<th>Arm <%= i %>: <%= one_arm.title %></th>
+		<th>Arm <%= i %>: <br/><%= one_arm.title %></th>
 		<% i = i + 1 %>
 	<% end %>
 <% end %>
@@ -20,15 +22,15 @@
 		</td>
 <% for item in attblock %>
 				<td>
-					<%=item.subcategory%>
+					<%=item.subcategory%> (<%= attblock[0].units %>)
 				</td>
 				<% if @study_arms.length > 0 %>
 					<% for one_arm in @study_arms %>
-					<td></td>
+					<td><%= text_field "arm" + one_arm.id.to_s + "attribute", item.id, :size => 5 %></td>
 					<% end %>
 				<% end %>
-				<td></td>
-				<td>Delete</td>
+				<td><%= text_field "arm" + one_arm.id.to_s + "attribute_total", item.id, :size => 5 %></td>
+				<td><%= link_to "Delete", item, :remote => true, :confirm => 'Are you sure?', :method => :delete %></td>
 </tr>
 		<% end %>
 
@@ -38,4 +40,6 @@
 
 <% end %>
 </table>
+<%= submit_tag "Save" %>
+<% end %>
 <br/><br/></div>

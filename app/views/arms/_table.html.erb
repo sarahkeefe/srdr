@@ -6,7 +6,7 @@ Arm Title</th><th>Arm Description</th><th>Edit</th><th>Delete</th>
 <td><%= onearm.title %></td>
 <td><%= onearm.description %></td>
 <td>Edit</td>
-<td>Remove</td>
+<td><%= link_to "Delete", onearm, :remote => true, :confirm => 'Are you sure?', :method => :delete %></td>
 </tr><% end %>
 <% end %>
 </table></div>
