@@ -1,13 +1,18 @@
-<div id="arms_table"><table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5"><th>
-Arm Title</th><th>Arm Description</th><th>Edit</th><th>Delete</th>
-<% if @arms.length > 0 %>
-<% for onearm in @arms %>
-<tr>
-<td><%= onearm.title %></td>
-<td><%= onearm.description %></td>
-<td>Edit</td>
-<td><%= link_to "Delete", onearm, :remote => true, :confirm => 'Are you sure?', :method => :delete %></td>
-</tr><% end %>
+<% unless @arms.length < 1 %>
+  <table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+  	<th>Arm Title</th>
+  	<th>Arm Description</th>
+  	<th>Edit</th>
+  	<th>Delete</th>
+    <% for onearm in @arms %>
+      <tr>
+				<td><%= onearm.title %></td>
+				<td><%= onearm.description %></td>
+				<td><%= link_to 'Edit', edit_study_arm_path(session[:study_id],onearm), :remote=>true %></td>
+				<td><%= link_to "Delete", onearm, :remote => true, :confirm => 'Are you sure?', :method => :delete %></td>
+			</tr>
+		<% end %>
+	</table>
+<% else %>
+<em>There are no arms associated with this study. Please use the form below to add a new arm.</em>
 <% end %>
-</table></div>
-<br/><br/>

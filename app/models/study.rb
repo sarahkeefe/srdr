@@ -13,6 +13,7 @@ class Study < ActiveRecord::Base
 	has_many :quality_aspects
 	has_one :quality_rating
 	has_many :publications
+	attr_accessible :study_type
 	
 	
 	#has_and_belongs_to_many :key_questions
@@ -74,4 +75,21 @@ class Study < ActiveRecord::Base
 		secondary = Publication.find(:all, :conditions => ["study_id = ? AND is_primary = ?",self.id, false])
 		return secondary
 	end
+	
+	# return an array of study titles, which are taken from the title
+	# of the primary publication associated with that study
+	def self.get_ui_title_author_year(studies)
+		sql = ActiveRecord::Base.connection()
+		titles = []
+		i = 0
+		studies.each do |study|
+		  tmp = sql.execute("SELECT ui, title, author, year FROM publications WHERE publications.study_id = #{study['id']} AND publications.is_primary = 't'")
+		  
+		  tmp = [tmp[0]["ui"],tmp[0]["title"], tmp[0]["author"], tmp[0]["year"]]
+		  titles[i] = tmp
+		  i += 1
+		end
+		return(titles)
+	end
+	
 end

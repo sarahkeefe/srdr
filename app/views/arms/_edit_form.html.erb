@@ -1,4 +1,4 @@
-<%= form_for(@arm, :remote => true, :html=>{:id=>"new_arm_form"}) do |f| %>
+<%= form_for(@arm, :remote => true, :html=>{:id=>"edit_arm_form"}) do |f| %>
   <% if @arm.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@arm.errors.count, "error") %> prohibited this arm from being saved:</h2>
@@ -24,6 +24,7 @@
     <%= f.text_field :num_participants %>
   </div>
   <div class="actions">
-    <%= f.submit "Add Arm to Study" %>
+    <%= f.submit "Update" %>  
+    <%= link_to 'Done Editing', new_study_arm_path(session[:study_id]), :remote=>true %>
   </div>
 <% end %>

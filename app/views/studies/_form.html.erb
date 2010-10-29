@@ -12,15 +12,12 @@
   <% end %>
   
   <div class="field">
-    <%= f.label :study_title %>:
-    <%= f.text_field :title %>
-  </div>
-  <div class="field">
     <%= f.label :number_of_participants %>:
     <%= f.text_field :num_participants , :size=>6%>
 
     <%= f.label :study_type %>:
-    <%= f.text_field :type %>
+    <%= f.select(:study_type, options_for_select([['RCT', 'RCT'], ['Blind', 'Blind']])) %>
+    
   </div>
   
   <div class="field">

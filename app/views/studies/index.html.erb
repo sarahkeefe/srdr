@@ -2,29 +2,28 @@
 
 <table>
   <tr>
+  	<th>UI</th>
     <th>Title</th>
+    <th>Author</th>
+    <th>Year</th>
     <th>Type</th>
-    <th>Num participants</th>
-    <th>Recruitment details</th>
-    <th>Inclusion criteria</th>
-    <th>Exclusion criteria</th>
     <th></th>
     <th></th>
     <th></th>
   </tr>
-
+<% i=0 %>
 <% @studies.each do |study| %>
   <tr>
-    <td><%= study.title %></td>
-    <td><%= study.type %></td>
-    <td><%= study.num_participants %></td>
-    <td><%= study.recruitment_details %></td>
-    <td><%= study.inclusion_criteria %></td>
-    <td><%= study.exclusion_criteria %></td>
+  	<td><%= @study_titles[i][0] %></td>
+    <td><%= @study_titles[i][1] %></td>
+    <td><%= @study_titles[i][2] %></td>
+    <td><%= @study_titles[i][3] %></td>
+    <td><%= study.study_type %></td>
     <td><%= link_to 'Show', study %></td>
     <td><%= link_to 'Edit', edit_project_study_path(@project, study) %></td>
     <td><%= link_to 'Destroy', study, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
+  <% i += 1 %>
 <% end %>
 </table>
 

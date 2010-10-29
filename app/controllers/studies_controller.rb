@@ -3,7 +3,8 @@ class StudiesController < ApplicationController
   # GET /studies.xml
   def index
     @studies = Study.all
-	@project = Project.find(params[:project_id])
+	  @project = Project.find(params[:project_id])
+	  @study_titles = Study.get_ui_title_author_year(@studies)
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @studies }
@@ -14,21 +15,18 @@ class StudiesController < ApplicationController
   # GET /studies/1.xml
   def show
     @study = Study.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @study }
     end
   end
 
-    def design
-	@study = Study.find(params[:study_id])
-	session[:study_id] = @study.id
-	@project = Project.find(params[:project_id])
-	@arm = Arm.new
-	@arms = Arm.find(:all, :conditions => {:study_id => @study.id})	
-	#@key_question = KeyQuestion.new
-  end
+  def design
+	  @study = Study.find(params[:study_id])
+	  makeActive(@study)
+		@arm = Arm.new
+	  @arms = Arm.find(:all, :conditions => {:study_id => @study.id})	
+	end
   
   def attributes
 	@study = Study.find(params[:study_id])
@@ -132,15 +130,18 @@ class StudiesController < ApplicationController
   def create
     @study = Study.new(params[:study])
   	@study.project_id = session[:project_id]
-    makeActive(@study)
     
+  	if params[:study][:type].exists?
+    	@study[:type] = params[:study][:type]
+    end
+    
+  	makeActive(@study)
     questions = get_questions_params(params)
-	  @questions = @study.get_question_choices(session[:project_id])
-    @checked_ids = @study.get_addressed_ids
+	  
     respond_to do |format|
       if @study.save
-      	@study.assign_questions(questions)	  
-        format.html { redirect_to(@study, :notice => 'Study was successfully created.') }
+      	@study.assign_questions(questions)
+      	format.html { redirect_to(@study, :notice => 'Study was successfully created.') }
         format.xml  { render :xml => @study, :status => :created, :location => @study }
       else
         format.html { render :action => "new" }
@@ -153,12 +154,16 @@ class StudiesController < ApplicationController
   # PUT /studies/1.xml
   def update
     @study = Study.find(params[:id])
-
+		if params[:study][:type]
+    	@study[:type] = params[:study][:type]
+    end
     respond_to do |format|
       if @study.update_attributes(params[:study])
-	  	questions = get_questions_params(params)
-	    @study.assign_questions(questions)	  
-        format.html { redirect_to(@study, :notice => 'Study was successfully updated.') }
+	  	  questions = get_questions_params(params)
+	      unless questions.empty?
+	  	  	@study.assign_questions(questions)	  
+	  	  end
+	  	  format.html { redirect_to(@study, :notice => 'Study was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -179,7 +184,6 @@ class StudiesController < ApplicationController
     end
   end
   
-   
   def clearSessionStudyInfo
   	session[:study_id] = nil
   	session[:study_title] = nil
