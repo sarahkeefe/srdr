@@ -1,5 +1,5 @@
 <div id="population_characteristics_table">
-<%= form_for @population_characteristic, :remote => true do |f| %>
+<%= form_for @population_characteristic_data_point, :remote => true do |f| %>
 <table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
 <tr><th colspan="2">Category</th>
 <% if @study_arms.length > 0 %>
@@ -26,10 +26,12 @@
 				</td>
 				<% if @study_arms.length > 0 %>
 					<% for one_arm in @study_arms %>
-					<td><%= text_field "arm" + one_arm.id.to_s + "attribute", item.id, :size => 5 %></td>
+					<% val = PopulationCharacteristicDataPoint.get_data_point(one_arm.id, item.id, false) %>
+					<td><%= text_field "arm" + one_arm.id.to_s + "attribute", item.id, :size => 5, :value => val %></td>
 					<% end %>
 				<% end %>
-				<td><%= text_field "arm" + one_arm.id.to_s + "attribute_total", item.id, :size => 5 %></td>
+				<% val = PopulationCharacteristicDataPoint.get_data_point(-1, item.id, true) %>
+				<td><%= text_field "attribute_total", item.id, :size => 5, :value => val %></td>
 				<td><%= link_to "Delete", item, :remote => true, :confirm => 'Are you sure?', :method => :delete %></td>
 </tr>
 		<% end %>

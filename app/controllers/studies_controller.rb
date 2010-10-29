@@ -36,8 +36,10 @@ class StudiesController < ApplicationController
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.find(:all, :conditions => {:study_id => @study.id})
 	@population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => @study.id}, :order => :category_title)
-	 @population_characteristics.sort_by(&:category_title)
+	@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
+	@population_characteristics.sort_by(&:category_title)
 	@population_characteristic = PopulationCharacteristic.new
+	@population_characteristic_data = PopulationCharacteristicDataPoint.where(:study_id => @study.id)
   end
   
     def outcomesetup

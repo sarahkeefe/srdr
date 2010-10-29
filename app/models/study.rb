@@ -17,6 +17,14 @@ class Study < ActiveRecord::Base
 	
 	#has_and_belongs_to_many :key_questions
 
+	def self.get_arms(study_id)
+		return Arm.where(:study_id => study_id)
+	end
+	
+	def self.get_attributes(study_id)
+		return PopulationCharacteristic.where(:study_id => study_id)
+	end
+	
 	def get_question_choices(project_id)
 		questions = KeyQuestion.find(:all, :order => "question_number ASC", :conditions => ["project_id = ?", project_id])
 		return(questions)
