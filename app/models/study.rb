@@ -65,4 +65,13 @@ class Study < ActiveRecord::Base
 		sql.commit_db_transaction
 	end
 	
+	def get_primary_publication
+	  primary = Publication.find(:first, :conditions => ["study_id = ? AND is_primary = ?", self.id, true])
+	  return primary
+	end  
+	
+	def get_secondary_publications
+		secondary = Publication.find(:all, :conditions => ["study_id = ? AND is_primary = ?",self.id, false])
+		return secondary
+	end
 end

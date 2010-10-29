@@ -106,24 +106,24 @@ class StudiesController < ApplicationController
   # GET /studies/1/edit
   def edit
     @study = Study.find(params[:id])
-	@study_key_questions_ids = StudiesKeyQuestion.where(:study_id => @study.id).all
-	@study_key_questions = []
-	@primary_publication = Publication.where(:study_id => @study.id, :is_primary => true).first
-	if @primary_publication.nil?
-		@primary_publication = Publication.new
-	end
-	for q in @study_key_questions_ids
-		@study_key_questions << KeyQuestion.find(q.key_question_id)
-	end
-	#@publication = Publication.where(:study_id => @study.id, :is_primary => true).first
-	#if @publication.nil?
-		@publication = Publication.new
-	#end
-	@secondary_publications = Publication.where(:study_id => @study.id, :is_primary => false).all
-    makeActive(@study)
+		makeActive(@study)
+		  
+    # get info on questions addressed
     @questions = @study.get_question_choices(session[:project_id])
     @checked_ids = @study.get_addressed_ids
-
+		
+    # get info on primary publication
+	  @primary_publication = @study.get_primary_publication
+    if @primary_publication.nil?
+		  @primary_publication = Publication.create()
+	  end
+	  
+	  # get info on secondary publications
+	  @secondary_publications = @study.get_secondary_publications
+	  
+	  # create a new publication represented in the secondary publications form
+	  @publication = Publication.new
+	  
   end
 
   # POST /studies
@@ -134,7 +134,7 @@ class StudiesController < ApplicationController
     makeActive(@study)
     
     questions = get_questions_params(params)
-	@questions = @study.get_question_choices(session[:project_id])
+	  @questions = @study.get_question_choices(session[:project_id])
     @checked_ids = @study.get_addressed_ids
     respond_to do |format|
       if @study.save
@@ -156,7 +156,7 @@ class StudiesController < ApplicationController
     respond_to do |format|
       if @study.update_attributes(params[:study])
 	  	questions = get_questions_params(params)
-	@study.assign_questions(questions)	  
+	    @study.assign_questions(questions)	  
         format.html { redirect_to(@study, :notice => 'Study was successfully updated.') }
         format.xml  { head :ok }
       else

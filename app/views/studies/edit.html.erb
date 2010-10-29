@@ -1,23 +1,24 @@
 <h2>Editing Study</h2>
-<h3>Key Questions Answered</h3>
+<h3>Key Questions Addressed</h3>
 <% unless @questions.empty? %>
-<%= form_for(@study, :remote => true) do |f| %>
-  <% @questions.each do |q| %>
+ <%= form_for(@study, :remote => true) do |f| %>
+   <% @questions.each do |q| %>
 	    <% checked_flag = "" %>
+	    <%# see if the "checked_ids" array contains the id of the current question %>
 	    <% if @checked_ids.include?(q.id) %>
 	    	<% checked_flag = "checked" %>
 	    <% end %>
 	    <input type="checkbox" name="<%= "question_" + q.id.to_s %>" <%= checked_flag %> >
-		<%= q.question_number.to_s + ". " + q.question %><br/>  
-	  <% end %>
-	  <%= f.submit "Save Questions" %>
+		  <%= q.question_number.to_s + ". " + q.question %><br/>  
+	 <% end %>
+	 <%= f.submit "Save Questions" %>
+ <% end %>
+<% else %>
+  There are no key questions associated with the project. <%= link_to "Add Key Questions", edit_project_path(session[:project_id])%>
 <% end %>
-  <% else %>
-    There are no key questions associated with the project.
-  <% end %>
 
-<br/>
-<hr width="80%" size="1" align="center"><br/>
+
+<hr width="80%" size="1" align="center">
 
 <h3>Primary Publication Information</h3>
 <%= render 'publications/form_primary' %>
@@ -26,11 +27,15 @@
 
 
 <h3>Secondary Publication Information</h3>
+<div id="secondary_publication_table">
 <%= render 'publications/table' %>
-<b>Add new Arm to Study</b><br/><br/>
-<%= render 'publications/form' %>
-<br/>
+</div>
 
+<b>Add new Publication to Study</b><br/><br/>
+<div id="secondary_publication_entry">
+<%= render 'publications/form' %>
+</div>
+<br/>
 <table border="0" width="60%"><tr><td align="left"><%= link_to "Back", "../.." %></td><td align="right">
 <%= link_to "Continue", "design" %>
 </td></tr></table>
