@@ -6,7 +6,7 @@ Srdr::Application.routes.draw do
   end
       
   resources :studies do
-  	resources :arms, :population_characteristics
+  	resources :arms, :population_characteristics, :publications
   end
   
   resources :arms do

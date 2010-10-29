@@ -1,4 +1,4 @@
-<%= form_for(@publication, :remote => true, :update => "secondary_publication_table") do |f| %>
+<%= form_for @publication, :remote => true, :url=>{:controller=>:publications,:action=>:create}, :html=>{:id=>'secondary_pub_form'} do |f| %>
   <% if @publication.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@publication.errors.count, "error") %> prohibited this publication from being saved:</h2>
@@ -36,8 +36,7 @@
     <%= f.label :ui_type %>:
     <%= f.text_field :ui_type %>
   </div>
-    <%= f.hidden_field :study_id, :value => @study.id %>
-    <%= f.hidden_field :is_primary, :value => "false" %>
+  <%= hidden_field_tag :is_primary, "false" %>
 
   <div class="actions">
     <%= f.submit "Add Secondary Publication" %>

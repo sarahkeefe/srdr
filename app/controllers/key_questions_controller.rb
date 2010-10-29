@@ -2,9 +2,22 @@ class KeyQuestionsController < ApplicationController
   # GET /key_questions
   # GET /key_questions.xml
   def index
-    #@key_questions = KeyQuestion.all
-	  @key_questions = KeyQuestion.where(["project_id = ?", session[:project_id]])
+    @key_questions = KeyQuestion.where(["project_id = ?", session[:project_id]])
+    
     respond_to do |format|
+    	
+    	# if we're coming in as an AJAX call it's most likely from the destroy method
+    	# in that case, update the list of key questions and create a new one to reset
+    	# the entry form. This handles the event where the user is editing a record
+    	# when they click on delete.
+    	format.js {
+				@key_questions = KeyQuestion.where(:project_id=>session[:project_id]).all
+		  	render :update do |page|
+					page.replace_html 'key_question_table', :partial => 'key_questions/table'	
+					@key_question = KeyQuestion.new
+					page.replace_html 'key_question_entry', :partial => 'key_questions/new_kq_form'					
+		  	end
+			}
       format.html # index.html.erb
       format.xml  { render :xml => @key_questions }
     end
@@ -29,7 +42,7 @@ class KeyQuestionsController < ApplicationController
     respond_to do |format|
     	format.js{
     	  render :update do |page|
-    	  	page.replace_html 'key_question_form', :partial => 'key_questions/new_kq_form'
+    	  	page.replace_html 'key_question_entry', :partial => 'key_questions/new_kq_form'
     	  end
   	  }
       format.html # new.html.erb
@@ -43,7 +56,7 @@ class KeyQuestionsController < ApplicationController
     respond_to do |format|
       format.js {
 		  	render :update do |page|
-					page.replace_html 'key_question_form', :partial => 'key_questions/edit_kq_form'
+					page.replace_html 'key_question_entry', :partial => 'key_questions/edit_kq_form'
 				end
 			}
 	  end
@@ -65,7 +78,7 @@ class KeyQuestionsController < ApplicationController
         format.js {
 		  		render :update do |page|
 						page.replace_html 'key_question_table', :partial => 'key_questions/table'
-						page["new_key_question"].reset
+						page['new_key_question'].reset
 				  end
 				}
       else
@@ -86,7 +99,7 @@ class KeyQuestionsController < ApplicationController
       	format.js {
 		  		render :update do |page|
 						page.replace_html 'key_question_table', :partial => 'key_questions/table'
-						page.replace_html 'key_question_form', :partial => 'key_questions/edit_kq_form'
+						page.replace_html 'key_question_entry', :partial => 'key_questions/edit_kq_form'
 					end
 				}
       	format.html { redirect_to(project_key_question_path(session[:project_id],@key_question), :notice => 'Key question was successfully updated.') }
@@ -104,15 +117,7 @@ class KeyQuestionsController < ApplicationController
     @key_question.remove_from_junction
     
     respond_to do |format|
-      format.js {
-				@key_questions = KeyQuestion.where(:project_id=>session[:project_id]).all
-		  	render :update do |page|
-					page.replace_html 'key_question_table', :partial => 'key_questions/table'	
-					#page.replace_html 'key_question_form', :partial => 'key_questions/new_kq_form'
-					
-		  	end
-			}
-      #format.html { redirect_to( project_key_question_path(session[:project_id]) )}
+      format.html { redirect_to( project_key_questions_path(session[:project_id]) )}
       format.xml  { head :ok }
     end
   end

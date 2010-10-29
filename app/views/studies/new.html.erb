@@ -3,11 +3,8 @@
   <% unless @questions.empty? %>
 <%= form_for(@study, :remote => true) do |f| %>
   <% @questions.each do |q| %>
-	    <% checked_flag = "" %>
-	    <% if @checked_ids.include?(q.id) %>
-	    	<% checked_flag = "checked" %>
-	    <% end %>
-	    <input type="checkbox" name="<%= "question_" + q.id.to_s %>" <%= checked_flag %> >
+	        
+	    <input type="checkbox" name=<%= "question_" + q.id.to_s %> >
 		<%= q.question_number.to_s + ". " + q.question %><br/>  
 	  <% end %>
 	  <%= f.submit "Save Questions" %>
@@ -26,10 +23,14 @@
 
 
 <h3>Secondary Publication Information</h3>
+<div id="secondary_publication_table">
 <%= render 'publications/table' %>
+</div>
 
 <b>Add new Publication to Study</b><br/><br/>
+<div id="secondary_publication_entry">
 <%= render 'publications/form' %>
+</div>
 <br/>
 
 <table border="0" width="60%"><tr><td align="left"><%= link_to "Back", "../studies" %></td><td align="right">
