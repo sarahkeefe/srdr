@@ -1,3 +1,4 @@
+
 class PublicationsController < ApplicationController
   # GET /publications
   # GET /publications.xml
@@ -39,14 +40,16 @@ class PublicationsController < ApplicationController
   # GET /publications/new.xml
   def new
     @publication = Publication.new
-	  respond_to do |format|
-      format.js{
-    	  render :update do |page|
-    	  	page.replace_html 'secondary_publication_entry', :partial => 'publications/form'
-    	  end
-  	  }
-    	format.html # new.html.erb
-      format.xml  { render :xml => @publication }
+    respond_to do |format|
+      format.html # new.html.erb
+	  #respond_to do |format|
+      #format.js{
+      #	  render :update do |page|
+      #	  	page.replace_html 'secondary_publication_entry', :partial => 'publications/form'
+      #	  end
+  	  #}
+		format.html # new.html.erb
+		format.xml  { render :xml => @publication }
     end
   end
 
@@ -66,14 +69,18 @@ class PublicationsController < ApplicationController
   # POST /publications.xml
   def create
     @publication = Publication.new(params[:publication])
-		@publication.study_id = session[:study_id]
-		
-		if params[:is_primary] == 'true'
+	@publication.study_id = session[:study_id]
+	if params[:publication][:is_primary] == true
+		@existing_pub = Publication.where(:study_id => session[:study_id], :is_primary => true)
+		if !@existing_pub.nil?
+			@existing_pub.destroy
+		end
+	end
+	if params[:is_primary] == 'true'
 			@publication.is_primary = TRUE
 		else
 			@publication.is_primary = FALSE
 		end
-		
     respond_to do |format|
       if @publication.save && params[:is_primary] == 'false'
 	  	  @secondary_publications = Publication.find(:all, :conditions => {:is_primary => false, :study_id => session[:study_id]})
