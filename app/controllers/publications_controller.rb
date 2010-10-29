@@ -41,13 +41,11 @@ class PublicationsController < ApplicationController
   def new
     @publication = Publication.new
     respond_to do |format|
-      format.html # new.html.erb
-	  #respond_to do |format|
-      #format.js{
-      #	  render :update do |page|
-      #	  	page.replace_html 'secondary_publication_entry', :partial => 'publications/form'
-      #	  end
-  	  #}
+      format.js{
+      	  render :update do |page|
+      	  	page.replace_html 'secondary_publication_entry', :partial => 'publications/form'
+      	  end
+  	  }
 		format.html # new.html.erb
 		format.xml  { render :xml => @publication }
     end
