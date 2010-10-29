@@ -85,15 +85,16 @@ class StudiesController < ApplicationController
   # GET /studies/new.xml
   def new
     @study = Study.new
-	@study.save
-	session[:study_id] = @study.id
-	@study.project_id = params[:project_id]
-	@primary_publication = Publication.new
-	@publication = Publication.new
-	 @secondary_publications = Publication.find(:all, :conditions => {:is_primary => "false", :study_id => @study.id})
-		makeActive(@study)
-	@questions = @study.get_question_choices(session[:project_id])
-    @checked_ids = @study.get_addressed_ids
+    @study.project_id = session[:project_id]
+	  @study.save
+	  makeActive(@study)
+	  
+	  @primary_publication = Publication.create()
+	  @publication=Publication.new
+	  @secondary_publications = []
+		
+	  @questions = @study.get_question_choices(session[:project_id])
+    
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @study }
