@@ -3,20 +3,8 @@ class ArmsController < ApplicationController
   # GET /arms.xml
   def index
     @arms = Arm.all
-    
+  
 		respond_to do |format|
-			# if we're coming in as an AJAX call it's most likely from the destroy method
-    	# in that case, update the list of key questions and create a new one to reset
-    	# the entry form. This handles the event where the user is editing a record
-    	# when they click on delete.
-    	format.js {
-				@arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})
-		  	render :update do |page|
-					page.replace_html 'arms_table', :partial => 'arms/table'	
-					@arm = Arm.new
-					page.replace_html 'new_arm_entry', :partial => 'arms/form'					
-		  	end
-			}
     	format.html # index.html.erb
       format.xml  { render :xml => @arms }
     end
@@ -113,10 +101,20 @@ class ArmsController < ApplicationController
     @arm = Arm.find(params[:id])
     @arm.destroy
     respond_to do |format|
-      format.html { redirect_to( study_arms_path(session[:study_id]) ) }
-		
-	  	format.html { redirect_to(arms_url) }
-    	format.xml  { head :ok }
+      # Update the list of key questions and create a new one to reset
+    	# the entry form. This handles the event where the user is editing a record
+    	# when they click on delete.
+    	format.js {
+				@arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})
+		  	render :update do |page|
+					page.replace_html 'arms_table', :partial => 'arms/table'	
+					@arm = Arm.new
+					page.replace_html 'new_arm_entry', :partial => 'arms/form'					
+		  	end
+			}
+    	
+    	format.html { redirect_to( study_arms_path(session[:study_id]) ) }
+			format.xml  { head :ok }
     end
   end
 end
