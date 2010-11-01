@@ -15,8 +15,6 @@ class Study < ActiveRecord::Base
 	has_many :publications
 	attr_accessible :study_type
 	
-	
-	#has_and_belongs_to_many :key_questions
 
 	def self.get_arms(study_id)
 		return Arm.where(:study_id => study_id)
@@ -89,15 +87,26 @@ class Study < ActiveRecord::Base
 	def self.get_ui_title_author_year(studies)
 		sql = ActiveRecord::Base.connection()
 		titles = []
-		i = 0
+		if !studies.nil?
 		studies.each do |study|
-		  tmp = sql.execute("SELECT ui, title, author, year FROM publications WHERE publications.study_id = #{study['id']} AND publications.is_primary = 't'")
-		  
-		  tmp = [tmp[0]["ui"],tmp[0]["title"], tmp[0]["author"], tmp[0]["year"]]
-		  titles[i] = tmp
-		  i += 1
+			tmp = Publication.where(:study_id => study.id, :is_primary => true).first
+		  #tmp = sql.execute("SELECT ui, title, author, year FROM publications WHERE publications.study_id = #{study['id']} AND publications.is_primary = 't'")
+		  #for k in tmp
+			tmp0 = []
+			tmp0 << tmp.ui
+			tmp0 << tmp.title
+			tmp0 << tmp.author
+			tmp0 << tmp.year
+			titles << tmp0
+		 # end
 		end
+	end
 		return(titles)
 	end
+	
+	def self.get_primary_pub_info(study_id)
+			tmp = Publication.where(:study_id => study_id, :is_primary => true).first
+			return tmp
+	end	
 	
 end

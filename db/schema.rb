@@ -10,7 +10,6 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-
 ActiveRecord::Schema.define(:version => 20101029191835) do
 
   create_table "adverse_event_arms", :force => true do |t|
@@ -176,6 +175,11 @@ ActiveRecord::Schema.define(:version => 20101029191835) do
     t.integer  "study_id"
     t.string   "guideline_used"
     t.string   "current_overall_rating"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "static_pages", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end

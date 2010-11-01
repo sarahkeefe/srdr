@@ -2,9 +2,9 @@ class StudiesController < ApplicationController
   # GET /studies
   # GET /studies.xml
   def index
-    @studies = Study.all
+    @studies = Study.where(:project_id => params[:project_id])
 	  @project = Project.find(params[:project_id])
-	  @study_titles = Study.get_ui_title_author_year(@studies)
+	  #@study_titles = Study.get_ui_title_author_year(@studies)
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @studies }
