@@ -88,19 +88,16 @@ class Study < ActiveRecord::Base
 		sql = ActiveRecord::Base.connection()
 		titles = []
 		if !studies.nil?
-		studies.each do |study|
-			tmp = Publication.where(:study_id => study.id, :is_primary => true).first
-		  #tmp = sql.execute("SELECT ui, title, author, year FROM publications WHERE publications.study_id = #{study['id']} AND publications.is_primary = 't'")
-		  #for k in tmp
-			tmp0 = []
-			tmp0 << tmp.ui
-			tmp0 << tmp.title
-			tmp0 << tmp.author
-			tmp0 << tmp.year
-			titles << tmp0
-		 # end
+			studies.each do |study|
+				tmp = Publication.where(:study_id => study.id, :is_primary => true).first
+			 	tmp0 = []
+				tmp0 << tmp.ui
+				tmp0 << tmp.title
+				tmp0 << tmp.author
+				tmp0 << tmp.year
+				titles << tmp0
+			end
 		end
-	end
 		return(titles)
 	end
 	

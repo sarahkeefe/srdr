@@ -22,7 +22,7 @@
     <td><%= study_pub_info.year %></td>
     <td><%= study.study_type %></td>
     <td><%= link_to 'Show', study %></td>
-    <td><%= link_to 'Edit', edit_project_study_path(@project, study) %></td>
+    <td><%= link_to 'Edit', edit_project_study_path(session[:project_id], study) %></td>
     <td><%= link_to 'Destroy', study, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
   <% end %>

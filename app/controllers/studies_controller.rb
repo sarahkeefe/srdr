@@ -3,7 +3,6 @@ class StudiesController < ApplicationController
   # GET /studies.xml
   def index
     @studies = Study.where(:project_id => params[:project_id])
-	  @project = Project.find(params[:project_id])
 	  #@study_titles = Study.get_ui_title_author_year(@studies)
     respond_to do |format|
       format.html # index.html.erb
@@ -133,8 +132,8 @@ class StudiesController < ApplicationController
     @study = Study.new(params[:study])
   	@study.project_id = session[:project_id]
     
-  	if params[:study][:type].exists?
-    	@study[:type] = params[:study][:type]
+  	if params.keys.include?("study")
+    	@study.study_type = params[:study][:study_type]
     end
     
   	makeActive(@study)
@@ -156,8 +155,8 @@ class StudiesController < ApplicationController
   # PUT /studies/1.xml
   def update
     @study = Study.find(params[:id])
-		if params[:study][:type]
-    	@study[:type] = params[:study][:type]
+		if params.keys.include?("study")
+    	@study.study_type = params[:study][:study_type]
     end
     respond_to do |format|
       if @study.update_attributes(params[:study])
@@ -181,7 +180,7 @@ class StudiesController < ApplicationController
     @study.destroy
 
     respond_to do |format|
-      format.html { redirect_to(studies_url) }
+      format.html { redirect_to(project_studies_path(session[:project_id])) }
       format.xml  { head :ok }
     end
   end
