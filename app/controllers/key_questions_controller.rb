@@ -5,19 +5,7 @@ class KeyQuestionsController < ApplicationController
     @key_questions = KeyQuestion.where(["project_id = ?", session[:project_id]])
     
     respond_to do |format|
-    	
-    	# if we're coming in as an AJAX call it's most likely from the destroy method
-    	# in that case, update the list of key questions and create a new one to reset
-    	# the entry form. This handles the event where the user is editing a record
-    	# when they click on delete.
-    	format.js {
-				@key_questions = KeyQuestion.where(:project_id=>session[:project_id]).all
-		  	render :update do |page|
-					page.replace_html 'key_question_table', :partial => 'key_questions/table'	
-					@key_question = KeyQuestion.new
-					page.replace_html 'key_question_entry', :partial => 'key_questions/new_kq_form'					
-		  	end
-			}
+    	  	
       format.html # index.html.erb
       format.xml  { render :xml => @key_questions }
     end
@@ -117,7 +105,18 @@ class KeyQuestionsController < ApplicationController
     @key_question.remove_from_junction
     
     respond_to do |format|
-      format.html { redirect_to( project_key_questions_path(session[:project_id]) )}
+      # update the list of key questions and create a new one to reset
+    	# the entry form. This handles the event where the user is editing a record
+    	# when they click on delete.
+    	format.js {
+				@key_questions = KeyQuestion.where(:project_id=>session[:project_id]).all
+		  	render :update do |page|
+					page.replace_html 'key_question_table', :partial => 'key_questions/table'	
+					@key_question = KeyQuestion.new
+					page.replace_html 'key_question_entry', :partial => 'key_questions/new_kq_form'					
+		  	end
+			}
+    	format.html { redirect_to( project_key_questions_path(session[:project_id]) )}
       format.xml  { head :ok }
     end
   end

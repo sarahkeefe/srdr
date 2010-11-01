@@ -4,22 +4,7 @@ class PublicationsController < ApplicationController
   # GET /publications.xml
   def index
     @publications = Publication.all
-
-		# The AJAX call in this case is used to refresh the table of secondary publications
-		# The format.js block below is taking care of this.
     respond_to do |format|
-    	format.js { 
-      	  @secondary_publications = Publication.find(:all, :conditions => {:is_primary => false, :study_id => session[:study_id]})
-          render :update do |page|
-            page.replace_html 'secondary_publication_table', :partial=>'publications/table'
-            
-            # if we're in the js index function it means we're probably coming from a deletion
-            # in that case we want to be sure that if they were editing a record at the time of deletion,
-            # that we remove it, create a new publication and get rid of the editing form.        
-            @publication = Publication.new
-            page.replace_html 'secondary_publication_entry',:partial=>'publications/form'
-          end
-      }
       format.html # index.html.erb
       format.xml  { render :xml => @publications }
     end
@@ -66,7 +51,7 @@ class PublicationsController < ApplicationController
   # POST /publications
   # POST /publications.xml
   def create
-    @publication = Publication.new(params[:publication])
+  @publication = Publication.new(params[:publication])
 	@publication.study_id = session[:study_id]
 	if params[:publication][:is_primary] == true
 		@existing_pub = Publication.where(:study_id => session[:study_id], :is_primary => true)
@@ -134,7 +119,21 @@ class PublicationsController < ApplicationController
     @publication.destroy
 
     respond_to do |format|
-      format.html { redirect_to(publications_url) }
+      # The AJAX call in this case is used to refresh the table of secondary publications
+		  # The format.js block below is taking care of this.
+    	format.js { 
+      	  @secondary_publications = Publication.find(:all, :conditions => {:is_primary => false, :study_id => session[:study_id]})
+          render :update do |page|
+            page.replace_html 'secondary_publication_table', :partial=>'publications/table'
+            
+            # if we're in the js index function it means we're probably coming from a deletion
+            # in that case we want to be sure that if they were editing a record at the time of deletion,
+            # that we remove it, create a new publication and get rid of the editing form.        
+            @publication = Publication.new
+            page.replace_html 'secondary_publication_entry',:partial=>'publications/form'
+          end
+      }
+    	format.html { redirect_to(publications_url) }
       format.xml  { head :ok }
     end
   end
