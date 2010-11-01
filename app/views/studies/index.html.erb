@@ -16,7 +16,9 @@
 <% study_pub_info = Study.get_primary_pub_info(study.id) %>
 <% if !study_pub_info.nil? %> 
  <tr>
-  	<td><%= study_pub_info.ui %></td>
+  	<td>
+	<%= study_pub_info.ui %>
+	</td>
     <td><%= study_pub_info.title %></td>
     <td><%= study_pub_info.author %></td>
     <td><%= study_pub_info.year %></td>

@@ -27,10 +27,16 @@
 				<% if @study_arms.length > 0 %>
 					<% for one_arm in @study_arms %>
 					<% val = PopulationCharacteristicDataPoint.get_data_point(one_arm.id, item.id, false) %>
+					<% if val.nil? %>
+					<% val = "" %>
+					<% end %>
 					<td><%= text_field "arm" + one_arm.id.to_s + "attribute", item.id, :size => 5, :value => val %></td>
 					<% end %>
 				<% end %>
 				<% val = PopulationCharacteristicDataPoint.get_data_point(-1, item.id, true) %>
+									<% if val.nil? %>
+					<% val = "" %>
+					<% end %>
 				<td><%= text_field "attribute_total", item.id, :size => 5, :value => val %></td>
 				<td><%= link_to "Delete", item, :remote => true, :confirm => 'Are you sure?', :method => :delete %></td>
 </tr>

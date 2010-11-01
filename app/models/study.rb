@@ -106,7 +106,16 @@ class Study < ActiveRecord::Base
 	
 	def self.get_primary_pub_info(study_id)
 			tmp = Publication.where(:study_id => study_id, :is_primary => true).first
-			return tmp
+			if tmp.nil?
+				tmppub = Publication.new
+				tmppub.ui = "Not Entered Yet"
+				tmppub.title = "Not Entered Yet"
+				tmppub.author = "-"
+				tmppub.year = "-"
+				return tmppub
+			else
+				return tmp
+			end
 	end	
 	
 end
