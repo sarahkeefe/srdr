@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Outcome:</b>
+  <%= @outcome_timepoint_result.outcome_id %>
+</p>
+
+<p>
+  <b>Study:</b>
+  <%= @outcome_timepoint_result.study_id %>
+</p>
+
+<p>
+  <b>Arm:</b>
+  <%= @outcome_timepoint_result.arm_id %>
+</p>
+
+<p>
+  <b>Timepoint:</b>
+  <%= @outcome_timepoint_result.timepoint_id %>
+</p>
+
+<p>
+  <b>Value:</b>
+  <%= @outcome_timepoint_result.value %>
+</p>
+
+
+<%= link_to 'Edit', edit_outcome_timepoint_result_path(@outcome_timepoint_result) %> |
+<%= link_to 'Back', outcome_timepoint_results_path %>

@@ -1,4 +1,6 @@
 Srdr::Application.routes.draw do
+  resources :outcome_timepoint_results
+
   resources :population_characteristic_data_points
 
   	resources :key_questions, :arms, :studies, :population_characteristics
