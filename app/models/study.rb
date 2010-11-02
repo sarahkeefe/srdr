@@ -13,8 +13,8 @@ class Study < ActiveRecord::Base
 	has_many :quality_aspects
 	has_one :quality_rating
 	has_many :publications
-	attr_accessible :study_type
-	
+	attr_accessible :study_type, :recruitment_details, :inclusion_criteria,\
+									:exclusion_criteria, :num_participants
 
 	def self.get_arms(study_id)
 		return Arm.where(:study_id => study_id).all

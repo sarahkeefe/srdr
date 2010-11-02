@@ -28,20 +28,20 @@ class StudiesController < ApplicationController
 	end
   
   def attributes
-	@study = Study.find(params[:study_id])
-	session[:study_id] = @study.id
-	@project = Project.find(params[:project_id])
-	@study_arms = Arm.find(:all, :conditions => {:study_id => @study.id})
-	@population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => @study.id}, :order => :category_title)
-	@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
-	@population_characteristics.sort_by(&:category_title)
-	@population_characteristic = PopulationCharacteristic.new
-	@population_characteristic_data = PopulationCharacteristicDataPoint.where(:study_id => @study.id)
+		@study = Study.find(params[:study_id])
+		makeActive(@study)
+		@project = Project.find(params[:project_id])
+		@study_arms = Arm.find(:all, :conditions => {:study_id => @study.id})
+		@population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => @study.id}, :order => :category_title)
+		@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
+		@population_characteristics.sort_by(&:category_title)
+		@population_characteristic = PopulationCharacteristic.new
+		@population_characteristic_data = PopulationCharacteristicDataPoint.where(:study_id => @study.id)
   end
   
-    def outcomesetup
+  def outcomesetup
 	@study = Study.find(params[:study_id])
-	session[:study_id] = @study.id
+	makeActive(@study)
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
 	@outcome = Outcome.new
@@ -51,9 +51,9 @@ class StudiesController < ApplicationController
 	render :layout => 'outcomesetup'	
   end
 
-    def outcomedata
+  def outcomedata
 	@study = Study.find(params[:study_id])
-	session[:study_id] = @study.id
+	makeActive(@study)
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
 	@outcomes = Outcome.find(:all, :conditions => {:study_id => params[:study_id]})
@@ -138,11 +138,11 @@ class StudiesController < ApplicationController
     end
     
   	makeActive(@study)
-    questions = get_questions_params(params)
+    #questions = get_questions_params(params)
 	  
     respond_to do |format|
       if @study.save
-      	@study.assign_questions(questions)
+      	#@study.assign_questions(questions)
       	format.html { redirect_to(@study, :notice => 'Study was successfully created.') }
         format.xml  { render :xml => @study, :status => :created, :location => @study }
       else
@@ -161,10 +161,19 @@ class StudiesController < ApplicationController
     end
     respond_to do |format|
       if @study.update_attributes(params[:study])
-	  	  questions = get_questions_params(params)
+	  	  questions_flag = false
+      	questions = get_questions_params(params)
 	      unless questions.empty?
+	      	
 	  	  	@study.assign_questions(questions)	  
-	  	  end
+	  	  	format.js{
+	  	  	  render :update do |page|
+	  	  	  	page['status_box'].visual_effect(:highlight,{:startcolor => "#00ee00",:endcolor => "#ffffff", 
+																						 :restorecolor=>"#ffffff", :duration=>2})
+	  	  	  end
+  	  	  }
+  	  	end
+	  	  
 	  	  format.html { redirect_to(@study, :notice => 'Study was successfully updated.') }
         format.xml  { head :ok }
       else

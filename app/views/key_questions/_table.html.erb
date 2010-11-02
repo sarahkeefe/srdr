@@ -8,7 +8,7 @@
 <th>Remove</th>
 <% if @key_questions.length > 0 %>
 <% for keyq in @key_questions %>
-<tr>
+<tr id=<%= "kq_row_"+keyq.question_number.to_s %>>
 <td><%= keyq.question_number %></td>
 <td><%= keyq.question %></td>
 <td><%= keyq.description %></td>
@@ -20,5 +20,3 @@
 </tr><% end %>
 <% end %>
 </table>
-
-<%#  project_key_question_path(session[:project_id], keyq) %>

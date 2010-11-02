@@ -11,7 +11,9 @@
 	    <input type="checkbox" name="<%= "question_" + q.id.to_s %>" <%= checked_flag %> >
 		  <%= q.question_number.to_s + ". " + q.question %><br/>  
 	 <% end %>
-	 <%= f.submit "Save Questions" %>
+	 <table>
+	 	<tr><td><%= f.submit "Save Questions" %></td><td id="status_box" align="right" style="width: 250px; color: white;">...saved</td></tr>
+	</table>
  <% end %>
 <% else %>
   There are no key questions associated with the project. <%= link_to "Add Key Questions", edit_project_path(session[:project_id])%>
