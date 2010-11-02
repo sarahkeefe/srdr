@@ -1,5 +1,4 @@
-<div id="population_characteristics_table">
-<%= form_for @population_characteristic_data_point, :remote => true do |f| %>
+<%= form_for @population_characteristic_data_point, :remote => true, :html=>{:id=>"popchar_data_point_form"} do |f| %>
 <table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
 <tr><th colspan="2">Category</th>
 <% if @study_arms.length > 0 %>
@@ -50,4 +49,4 @@
 </table>
 <%= submit_tag "Save" %>
 <% end %>
-<br/><br/></div>
+<br/><br/>

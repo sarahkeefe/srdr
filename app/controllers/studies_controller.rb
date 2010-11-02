@@ -28,20 +28,20 @@ class StudiesController < ApplicationController
 	end
   
   def attributes
-	@study = Study.find(params[:study_id])
-	session[:study_id] = @study.id
-	@project = Project.find(params[:project_id])
-	@study_arms = Arm.find(:all, :conditions => {:study_id => @study.id})
-	@population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => @study.id}, :order => :category_title)
-	@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
-	@population_characteristics.sort_by(&:category_title)
-	@population_characteristic = PopulationCharacteristic.new
-	@population_characteristic_data = PopulationCharacteristicDataPoint.where(:study_id => @study.id)
+		@study = Study.find(params[:study_id])
+		makeActive(@study)
+		@project = Project.find(params[:project_id])
+		@study_arms = Arm.find(:all, :conditions => {:study_id => @study.id})
+		@population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => @study.id}, :order => :category_title)
+		@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
+		@population_characteristics.sort_by(&:category_title)
+		@population_characteristic = PopulationCharacteristic.new
+		@population_characteristic_data = PopulationCharacteristicDataPoint.where(:study_id => @study.id)
   end
   
-    def outcomesetup
+  def outcomesetup
 	@study = Study.find(params[:study_id])
-	session[:study_id] = @study.id
+	makeActive(@study)
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
 	@outcome = Outcome.new
@@ -51,9 +51,9 @@ class StudiesController < ApplicationController
 	render :layout => 'outcomesetup'	
   end
 
-    def outcomedata
+  def outcomedata
 	@study = Study.find(params[:study_id])
-	session[:study_id] = @study.id
+	makeActive(@study)
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
 	@outcomes = Outcome.find(:all, :conditions => {:study_id => params[:study_id]})
