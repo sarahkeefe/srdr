@@ -137,11 +137,11 @@ class StudiesController < ApplicationController
     end
     
   	makeActive(@study)
-    questions = get_questions_params(params)
+    #questions = get_questions_params(params)
 	  
     respond_to do |format|
       if @study.save
-      	@study.assign_questions(questions)
+      	#@study.assign_questions(questions)
       	format.html { redirect_to(@study, :notice => 'Study was successfully created.') }
         format.xml  { render :xml => @study, :status => :created, :location => @study }
       else
@@ -160,10 +160,19 @@ class StudiesController < ApplicationController
     end
     respond_to do |format|
       if @study.update_attributes(params[:study])
-	  	  questions = get_questions_params(params)
+	  	  questions_flag = false
+      	questions = get_questions_params(params)
 	      unless questions.empty?
+	      	
 	  	  	@study.assign_questions(questions)	  
-	  	  end
+	  	  	format.js{
+	  	  	  render :update do |page|
+	  	  	  	page['status_box'].visual_effect(:highlight,{:startcolor => "#00ee00",:endcolor => "#ffffff", 
+																						 :restorecolor=>"#ffffff", :duration=>2})
+	  	  	  end
+  	  	  }
+  	  	end
+	  	  
 	  	  format.html { redirect_to(@study, :notice => 'Study was successfully updated.') }
         format.xml  { head :ok }
       else

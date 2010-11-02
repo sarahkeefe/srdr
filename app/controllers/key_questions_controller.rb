@@ -66,7 +66,11 @@ class KeyQuestionsController < ApplicationController
         format.js {
 		  		render :update do |page|
 						page.replace_html 'key_question_table', :partial => 'key_questions/table'
+						new_row_name = "kq_row_" + question_number.to_s
 						page['new_key_question'].reset
+						page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", 
+																						 :restorecolor=>"#ffffff", :duration=>2})
+						
 				  end
 				}
       else
