@@ -25,6 +25,7 @@ class PopulationCharacteristicsController < ApplicationController
   # GET /population_characteristics/new.xml
   def new
     @population_characteristic = PopulationCharacteristic.new
+	@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
 	@study = Study.find(params[:study_id])
     respond_to do |format|
       format.html # new.html.erb
@@ -46,7 +47,7 @@ class PopulationCharacteristicsController < ApplicationController
 	if !PopulationCharacteristic.has_duplicates(@population_characteristic.category_title, @population_characteristic.subcategory, @population_characteristic.study_id) && @population_characteristic.save
 	  @population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => session[:study_id]}, :order => :category_title)
 	  @population_characteristics.sort_by(&:category_title)
-
+	@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
 	  @study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})
         format.js {
 		  render :update do |page|

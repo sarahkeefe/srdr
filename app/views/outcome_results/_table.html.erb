@@ -2,6 +2,8 @@
 	<% j = 1 %>
 	<% for one_outcome in @outcomes %>
 <b>Outcome <%= j %>: <%= one_outcome.title %></b><br/>
+<%= form_for @outcome_result, :remote => true do |f| %>
+<%= hidden_field_tag "outcome_id", one_outcome.id.to_s %>
 <table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
 <th>Arm</th>
 <% @outcome_timepoints = Outcome.get_timepoints_array(one_outcome.id) %>
@@ -12,7 +14,7 @@
 <% end %>
 <th>N Analyzed</th>
 <th><%= select :measure_type, :measure_type, options_for_select([ "Select Measure Type", "Number", "Mean", "Median", "Least Squares Mean", "Geometric Mean", "Log Mean" ]) %></th>
-<th><%= select :measure_type, :measure_type, options_for_select([ "Select Measure Of Dispersion/Precision", "Not Applicable", "Standard Deviation", "Inter-Quartile Range", "Full Range" ]) %></th>
+<th><%= select :measure_disp_type, :measure_type, options_for_select([ "Select Measure Of Dispersion/Precision", "Not Applicable", "Standard Deviation", "Inter-Quartile Range", "Full Range" ]) %></th>
 <th>P-Value</th>
 
 <% if @study_arms.length > 0 %>
@@ -28,7 +30,6 @@
 <% end %>
 <% end %>
 <td><%= text_field "arm" + i.to_s + "nanalyzed", i, :size => 5 %></td>
-<td><%= text_field "arm" + i.to_s + "nanalyzed", i, :size => 5 %></td>
 <td><%= text_field "arm" + i.to_s + "measurereg", i, :size => 5 %></td>
 <td><%= text_field "arm" + i.to_s + "measuredisp", i, :size => 5 %></td>
 <td><%= text_field "arm" + i.to_s + "pvalue", i, :size => 5 %></td>
@@ -36,7 +37,11 @@
 	<% end %>
 <% end %>
 </tr>
+
 </table>
+<%= submit_tag "Save" %>
+<% end %>
+
 <% end %>
 <% end %>
 <br/><br/>

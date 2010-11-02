@@ -17,7 +17,7 @@ class Study < ActiveRecord::Base
 	
 
 	def self.get_arms(study_id)
-		return Arm.where(:study_id => study_id)
+		return Arm.where(:study_id => study_id).all
 	end
 	
 	def self.get_attributes(study_id)
