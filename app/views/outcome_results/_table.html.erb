@@ -1,47 +1,50 @@
 <% if @outcomes.length > 0 %>
 	<% j = 1 %>
 	<% for one_outcome in @outcomes %>
-<b>Outcome <%= j %>: <%= one_outcome.title %></b><br/>
-<%= form_for @outcome_result, :remote => true do |f| %>
-<%= hidden_field_tag "outcome_id", one_outcome.id.to_s %>
-<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
-<th>Arm</th>
-<% @outcome_timepoints = Outcome.get_timepoints_array(one_outcome.id) %>
-<% if @outcome_timepoints.length > 0 %>
-	<% for tp in @outcome_timepoints %>
-<th><%= tp.number.to_s %> <%= tp.time_unit %></th>
-<% end %>
-<% end %>
-<th>N Analyzed</th>
-<th><%= select :measure_type, :measure_type, options_for_select([ "Select Measure Type", "Number", "Mean", "Median", "Least Squares Mean", "Geometric Mean", "Log Mean" ]) %></th>
-<th><%= select :measure_disp_type, :measure_type, options_for_select([ "Select Measure Of Dispersion/Precision", "Not Applicable", "Standard Deviation", "Inter-Quartile Range", "Full Range" ]) %></th>
-<th>P-Value</th>
+		<b>Outcome <%= j %>: <%= one_outcome.title %></b><br/>
+		<%= form_for @outcome_result, :remote => true do |f| %>
+			<%= hidden_field_tag "outcome_id", one_outcome.id.to_s %>
+			
+			<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+				<th>Arm</th>
+				<% @outcome_timepoints = Outcome.get_timepoints_array(one_outcome.id) %>
+				<% if @outcome_timepoints.length > 0 %>
+						<% for tp in @outcome_timepoints %>
+							<th><%= tp.number.to_s %> <%= tp.time_unit %></th>
+						<% end %>
+					<% end %>
 
-<% if @study_arms.length > 0 %>
-	<% i = 1 %>
-	<% for one_arm in @study_arms %>
-	<tr>
-		<td>Arm <%= i %>: <%= one_arm.title %></td>
+					<% val = OutcomeResult.get_measure_types(one_outcome.id) %>
 
-<% @outcome_timepoints = Outcome.get_timepoints_array(one_outcome.id) %>
-<% if @outcome_timepoints.length > 0 %>
-	<% for tp in @outcome_timepoints %>
-<td><%= text_field "arm" + i.to_s + "timepoint", tp.id, :size => 5 %></td>
-<% end %>
-<% end %>
-<td><%= text_field "arm" + i.to_s + "nanalyzed", i, :size => 5 %></td>
-<td><%= text_field "arm" + i.to_s + "measurereg", i, :size => 5 %></td>
-<td><%= text_field "arm" + i.to_s + "measuredisp", i, :size => 5 %></td>
-<td><%= text_field "arm" + i.to_s + "pvalue", i, :size => 5 %></td>
-		<% i = i + 1 %>
+				<th>N Analyzed</th>
+				<th><%= select :measure_type, :measure_type, options_for_select([ "Select Measure Type", "Number", "Mean", "Median", "Least Squares Mean", "Geometric Mean", "Log Mean" ]) %></th>
+				<th><%= select :measure_disp_type, :measure_type, options_for_select([ "Select Measure Of Dispersion/Precision", "Not Applicable", "Standard Deviation", "Inter-Quartile Range", "Full Range" ]) %></th>
+				<th>P-Value</th>
+
+				<% if @study_arms.length > 0 %>
+					<% i = 1 %>
+					<% for one_arm in @study_arms %>
+						<tr>
+							<td>Arm <%= i %>: <%= one_arm.title %></td>
+							<% @outcome_timepoints = Outcome.get_timepoints_array(one_outcome.id) %>
+							<% if @outcome_timepoints.length > 0 %>
+								<% for tp in @outcome_timepoints %>
+									<% val = OutcomeResult.get_timepoint_data_point(one_arm.id, one_outcome.id, tp.id) %>
+									<td><%= text_field "arm" + one_arm.id.to_s + "timepoint", tp.id.to_s, :size => 5, :value => val%></td>
+								<% end %>
+							<% end %>
+							<% val = OutcomeResult.get_data_point(one_arm.id, one_outcome.id) %>
+							<td><%= text_field "arm_nanalyzed", one_arm.id.to_s, :size => 5, :value => val["nanalyzed"] %></td>
+							<td><%= text_field "arm_measurereg", one_arm.id.to_s, :size => 5, :value => val["measurereg"] %></td>
+							<td><%= text_field "arm_measuredisp", one_arm.id.to_s, :size => 5, :value => val["measuredisp"] %></td>
+							<td><%= text_field "arm_pvalue", one_arm.id.to_s, :size => 5, :value => val["pvalue"] %></td>
+							<% i = i + 1 %>
+					<% end %>
+				<% end %>
+					</tr>
+			</table>
+		<%= submit_tag "Save" %>
 	<% end %>
-<% end %>
-</tr>
-
-</table>
-<%= submit_tag "Save" %>
-<% end %>
-
 <% end %>
 <% end %>
 <br/><br/>

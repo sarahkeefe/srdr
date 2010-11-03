@@ -58,6 +58,7 @@ class StudiesController < ApplicationController
 	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
 	@outcomes = Outcome.find(:all, :conditions => {:study_id => params[:study_id]})
 	@outcome_result = OutcomeResult.new
+	#OutcomeResult.set_table_params(@study.id, @study_arms, @outcomes)
   end
   
    def outcomeanalysis
