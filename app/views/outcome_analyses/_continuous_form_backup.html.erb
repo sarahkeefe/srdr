@@ -55,16 +55,22 @@
     <%= f.text_field :n_analyzed %>
   </div>
   <div class="field">
-    <%= f.label :n_total %><br />
-    <%= f.text_field :n_total %>
-  </div>
-  <div class="field">
-    <%= f.label :n_event %><br />
-    <%= f.text_field :n_event %>
-  </div>
-  <div class="field">
     <%= f.label :estimation_parameter_type %><br />
-    <%= f.text_field :estimation_parameter_type %>
+    <% ept_options = [['Select Estimation Parameter Type','Select Estimation Parameter Type'], \
+    									["Cox Proportional Hazard","Cox Proportional Hazard"], \
+    									["Hazard Ratio (HR)","Hazard Ratio (HR)"], \
+    									["Hazard Ratio, log","Hazard Ratio, log"], \
+    									['Mean Difference (Final Values)','Mean Difference (Final Values)'], \
+    									['Mean Difference (Net)','Mean Difference (Net)'], \
+    									['Median Difference (Net)','Median Difference (Net)'], \
+    									['Odds Ratio (OR)','Odds Ratio (OR)'], \
+    									['Odds Ratio, log','Odds Ratio, log'], \
+    									['Risk Difference (RD)','Risk Difference (RD)'], \
+    									['Risk Ratio (RR)','Risk Ratio (RR)'], \
+    									['Risk Ratio, log','Risk Ratio, log'], \
+    									['Slope','Slope'], \
+    									['Other','Other']]%>
+    <%= f.select :estimation_parameter_type, options_for_select(ept_options) %>
   </div>
   <div class="field">
     <%= f.label :estimation_parameter_value %><br />

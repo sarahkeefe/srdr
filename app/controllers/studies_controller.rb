@@ -63,26 +63,46 @@ class StudiesController < ApplicationController
 	 end
   
    def outcomeanalysis
-	   @study = Study.find(params[:study_id])
-	   @project = Project.find(params[:project_id])
-		 @study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
-	   @outcome_analyses = OutcomeAnalysis.where(:study_id => params[:study_id]).all
-	   @outcome_analysis = OutcomeAnalysis.new
+	   @new_categorical_analysis = nil
+	   @new_continuous_analysis = nil
+	   @categorical_analyses = []
+	   @continuous_analyses = []
+	   
+		 @study_arms = Arm.find(:all, :conditions=>["study_id=?",session[:study_id]], :select=>["id","title"])
+	   
+		 @continuous_outcomes = Outcome.find(:all, :conditions=>["study_id=? AND outcome_type=?",\
+	   																		 session[:study_id],"Continuous"],:select=>["id","title","description"])
+		 
+	   @categorical_outcomes = Outcome.find(:all, :conditions=>["study_id=? AND outcome_type=?",\
+	   																		 session[:study_id],"Categorical"],:select=>["id","title","description"])	   																		 														 
+    
+     unless @categorical_outcomes.empty?
+		 	@new_categorical_analysis = OutComeAnalysis.new
+		  @categorical_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND categorical_or_continuous=?",
+     													session[:study_id], "Categorical"])	   				
+	 	 end
+	 	 
+	 	 unless @continuous_outcomes.empty?
+	   	@new_continuous_analysis = OutcomeAnalysis.new
+	   	@continuous_analysis_datapoint = OutcomeAnalysisDataPoint.new
+      @continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND categorical_or_continuous=?",
+     													session[:study_id], "Continuous"])
+   	end
   end
 
-   def adverseevents
-	@study = Study.find(params[:study_id])
-	@project = Project.find(params[:project_id])
-	@adverse_events = AdverseEvent.where(:study_id => params[:study_id]).all
-	@adverse_event = AdverseEvent.new
+  def adverseevents
+		@study = Study.find(params[:study_id])
+		@project = Project.find(params[:project_id])
+		@adverse_events = AdverseEvent.where(:study_id => params[:study_id]).all
+		@adverse_event = AdverseEvent.new
   end
   
-   def quality
-	@study = Study.find(params[:study_id])
-	@project = Project.find(params[:project_id])
-	@quality_aspects = QualityAspect.where(:study_id => params[:study_id]).all	
-	@quality_aspect = QualityAspect.new
-	@quality_rating = QualityRating.new
+  def quality
+		@study = Study.find(params[:study_id])
+		@project = Project.find(params[:project_id])
+		@quality_aspects = QualityAspect.where(:study_id => params[:study_id]).all	
+		@quality_aspect = QualityAspect.new
+		@quality_rating = QualityRating.new
   end
   
   # GET /studies/new

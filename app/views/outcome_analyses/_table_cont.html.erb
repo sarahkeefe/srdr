@@ -1,12 +1,7 @@
 <table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
 <th>Outcome Title</th>
-<% if @study_arms.length > 0 %>
-	<% i = 1 %>
-	<% for one_arm in @study_arms %>
-		<th>Arm <%= 1 %>: <%= one_arm.title %></th>
-		<% i = i + 1 %>
-	<% end %>
-<% end %>
+<th>Arm A</th>
+<th>Arm B</th>
 <th>N Analyzed</th>
 <th>Estimation Parameter Type [Select]</th>
 <th>Parameter Dispersion Type [Select]</th>
@@ -15,11 +10,11 @@
 <th>Remove</th>
 <tr>
 <td></td>
-<% if @study_arms.length > 0 %>
-<% for one_arm in @study_arms %>
+
+
 <td></td>
-<% end %>
-<% end %>
+
+
 <td></td>
 <td></td>
 <td></td>

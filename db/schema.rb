@@ -189,11 +189,6 @@ ActiveRecord::Schema.define(:version => 20101102201423) do
     t.datetime "updated_at"
   end
 
-  create_table "static_pages", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "studies", :force => true do |t|
     t.string   "title"
     t.integer  "num_participants"
