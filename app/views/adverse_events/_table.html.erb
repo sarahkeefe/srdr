@@ -8,14 +8,14 @@
 <th>Delete</th>
 <% if @adverse_events.length > 0 %>
 <% for ae in @adverse_events %>
-<tr>
+<tr id=<%= 'adverse_event_' + ae.id.to_s %>>
 <td><%= ae.title %></td>
 <td><%= ae.timeframe %></td>
 <td><%= ae.description %></td>
 <td><%= ae.is_serious %></td>
 <td><%= ae.definition_used %></td>
-<td>Edit</td>
-<td>Delete</td>
+<td><%= link_to "Edit", edit_adverse_event_path(ae), :remote=>true %></td>
+<td><%= link_to "Delete", adverse_event_path(ae), :remote=>true, :confirm => 'Are you sure?', :method=>:delete %> </td>
 </tr>
 <% end %>
 <% end %>

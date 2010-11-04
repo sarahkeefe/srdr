@@ -1,4 +1,4 @@
-<%= form_for(@adverse_event, :remote => true, :html=>{:id=>"new_adverse_event_form"}) do |f| %>
+<%= form_for(@adverse_event, :remote => true, :html=>{:id=>"edit_adverse_event_form"}) do |f| %>
   <% if @adverse_event.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@adverse_event.errors.count, "error") %> prohibited this adverse_event from being saved:</h2>
@@ -6,6 +6,7 @@
       <ul>
       <% @adverse_event.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
+        
       <% end %>
       </ul>
     </div>
@@ -28,13 +29,18 @@
   </div>
   <div class="field">
     <%= f.label :is_this_event_classified_as_serious %>?
-    <%= f.check_box :is_serious %>
+    <% checked = "" %>
+    <% if @adverse_event.is_serious == true %>
+      <% checked = "checked" %>
+    <% end %>
+    
+     <%= f.check_box :is_serious, :html=>{:checked => checked}  %>
   </div>
   <div class="field">
     <%= f.label :definition_of_adverse_event_used %>:
     <%= f.text_field :definition_used %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Update" %>  <%= link_to 'Done Editing', new_adverse_event_path, :remote=>true %>
   </div>
 <% end %>
