@@ -1,10 +1,20 @@
 <h2>Study Outcome Results Tables</h2>
-<%= select :outcome, :outcome, options_for_select([]) %>
+<% outcomes_list = OutcomeResult.get_outcomes_for_dropdown %>
+
+<% if !@outcomes.nil? && @outcomes.length > 0 %>
+
+<b>Choose Outcome to View: <%= select :outcome, @outcome, options_for_select(@outcomes.map {|o| [o.title,o.id]}), {}, {:onchange => remote_function(:update => "outcome_results_table", :url => { :action => :show_outcome }, :with => "'outcome_id=' + this.value"), :id => "outcome_results_dropdown"} %></b>
+
+<% else %>
+<b>There are currently no outcomes listed for this study. </b>
+<% end %>
+<br/><br/>
 
 <%= render 'outcome_results/table' %>
 
 
 
-<table border="0" width="60%"><tr><td align="left"><%= link_to "Back", "outcomesetup" %></td><td align="right">
+<table border="0" width="60%"><tr><td align="left">
+<%= link_to "Back", "outcomesetup" %></td><td align="right">
 <%= link_to "Continue", "outcomeanalysis" %>
 </td></tr></table>

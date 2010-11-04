@@ -9,7 +9,7 @@ class OutcomeResult < ActiveRecord::Base
 						i.n_analyzed = params["arm_nanalyzed"][a.id.to_s]
 						i.measure_type = params["measure_type"]["measure_type"]					
 						i. measure_value = params["arm_measurereg"][a.id.to_s].to_s
-						i.measure_dispersion_type = params["measure_disp_type"]["measure_type"]						
+						i.measure_dispersion_type = params["measure_disp_type"]["measure_disp_type"]						
 						i.measure_dispersion_value = params["arm_measuredisp"][a.id.to_s].to_s	
 						i.p_value = params["arm_pvalue"][a.id.to_s].to_s			
 						i.save
@@ -22,7 +22,7 @@ class OutcomeResult < ActiveRecord::Base
 					@outcome_result_new.n_analyzed = params["arm_nanalyzed"][a.id.to_s]
 					@outcome_result_new.measure_type = params["measure_type"]["measure_type"]			
 					@outcome_result_new.measure_value = params["arm_measurereg"][a.id.to_s]
-					@outcome_result_new.measure_dispersion_type = params["measure_disp_type"]["measure_type"]
+					@outcome_result_new.measure_dispersion_type = params["measure_disp_type"]["measure_disp_type"]
 					@outcome_result_new.measure_dispersion_type = ""						
 					@outcome_result_new.measure_dispersion_value = params["arm_measuredisp"][a.id.to_s]
 					@outcome_result_new.p_value =  params["arm_pvalue"][a.id.to_s]
@@ -52,24 +52,55 @@ class OutcomeResult < ActiveRecord::Base
 		def self.get_data_point(arm_id, outcome_id)
 			o_res = OutcomeResult.where(:outcome_id => outcome_id, :arm_id => arm_id).first
 			arr = Hash.new
-			arr["nanalyzed"] = o_res.n_analyzed
-			arr["measurereg"] = o_res.measure_value
-			arr["measuredisp"] = o_res.measure_dispersion_value
-			arr["pvalue"] = o_res.p_value
+			if !o_res.nil?
+				arr["nanalyzed"] = o_res.n_analyzed
+				arr["measurereg"] = o_res.measure_value
+				arr["measuredisp"] = o_res.measure_dispersion_value
+				arr["pvalue"] = o_res.p_value
+			else
+				arr["nanalyzed"] = ""
+				arr["measurereg"] = ""
+				arr["measuredisp"] = ""
+				arr["pvalue"] = ""				
+			end
 			return arr
 		end
 		
 		def self.get_timepoint_data_point(arm_id, outcome_id, tp_id)
-			o_res = OutcomeTimepointResult.where(:outcome_id => outcome_id, :arm_id => arm_id, :timepoint_id => tp_id).first
-			return o_res.value		
+			if !arm_id.nil? && !outcome_id.nil? && !tp_id.nil?
+				o_res = OutcomeTimepointResult.where(:outcome_id => outcome_id, :arm_id => arm_id, :timepoint_id => tp_id).first
+				if !o_res.nil?
+					return o_res.value		
+				else return ""
+				end
+			end
 		end
 		
 		def self.get_measure_types(outcome_id)
 			o_res = OutcomeResult.where(:outcome_id => outcome_id).first
-			arr = Hash.new
-			arr["measure_type"] = o_res.measure_type
-			arr["measure_dispersion_type"] = o_res.measure_dispersion_type
+			if !o_res.nil?
+				arr = Hash.new
+				arr["measure_type"] = o_res.measure_type
+				arr["measure_dispersion_type"] = o_res.measure_dispersion_type
+				return arr
+			else
+				arr = Hash.new
+				arr["measure_type"] = ""
+				arr["measure_dispersion_type"] = ""
+				return arr
+			end
+		end
+		
+		def self.get_outcomes_for_dropdown
+			#@outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})		
+				arr = []
+			if !@outcomes.nil?
+				for i in @outcomes
+
+				end
+			end
 			return arr
 		end
+
 		
 end
