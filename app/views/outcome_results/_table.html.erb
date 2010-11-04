@@ -1,7 +1,6 @@
-<% if @outcomes.length > 0 %>
-	<% j = 1 %>
-	<% for one_outcome in @outcomes %>
-		<b>Outcome <%= j %>: <%= one_outcome.title %></b><br/>
+<div id="outcome_results_table">
+<% one_outcome = @selected_outcome %>
+		<b>Outcome Title: <%= one_outcome.title %></b><br/>
 		<%= form_for @outcome_result, :remote => true do |f| %>
 			<%= hidden_field_tag "outcome_id", one_outcome.id.to_s %>
 			
@@ -15,10 +14,11 @@
 					<% end %>
 
 					<% val = OutcomeResult.get_measure_types(one_outcome.id) %>
-
 				<th>N Analyzed</th>
-				<th><%= select :measure_type, :measure_type, options_for_select([ "Select Measure Type", "Number", "Mean", "Median", "Least Squares Mean", "Geometric Mean", "Log Mean" ]) %></th>
-				<th><%= select :measure_disp_type, :measure_type, options_for_select([ "Select Measure Of Dispersion/Precision", "Not Applicable", "Standard Deviation", "Inter-Quartile Range", "Full Range" ]) %></th>
+				<% @measure_types_array = [["Select Measure Type", "Select Measure Type"], ["Number", "Number"], ["Mean", "Mean"], ["Median", "Median"], ["Least Squares Mean", "Least Squares Mean"], ["Geometric Mean", "Geometric Mean"], ["Log Mean", "Log Mean"]]%>
+				<% @measure_disp_types_array =  [["Select Measure Of Dispersion/Precision", "Select Measure Of Dispersion/Precision"], ["Not Applicable", "Not Applicable"], ["Standard Deviation", "Standard Deviation"], ["Inter-Quartile Range", "Inter-Quartile Range"], ["Full Range", "Full Range"]]%>
+				<th><%= select :measure_type, :measure_type, options_for_select(@measure_types_array, val["measure_type"].to_s) %></th>
+				<th><%= select :measure_disp_type, :measure_disp_type, options_for_select(@measure_disp_types_array, val["measure_dispersion_type"].to_s) %></th>
 				<th>P-Value</th>
 
 				<% if @study_arms.length > 0 %>
@@ -45,6 +45,5 @@
 			</table>
 		<%= submit_tag "Save" %>
 	<% end %>
-<% end %>
-<% end %>
+</div>
 <br/><br/>
