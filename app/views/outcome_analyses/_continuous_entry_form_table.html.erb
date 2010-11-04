@@ -1,5 +1,5 @@
-<%= form_for(@continuous_analysis_data_point, :remote => true, :html=>{:id=>"continuous_analysis_data_point_form") do |f| %>
-<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+<%= form_for(@new_continuous_analysis, :remote => true, :html=>{:id=>"continuous_analysis_form"}) do |f| %>
+<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5" id="outcome_analysis_table">
 <th>Outcome Title</th>
 <th>Arm A</th>
 <th>Arm B</th>
@@ -29,6 +29,8 @@
 <th>P-Value</th>
 <th>Edit</th>
 <th>Remove</th>
+
+
 <tr>
 <%# OUTCOME TITLE %>
 <% options = [] %>
@@ -70,3 +72,5 @@
 </table>
 <%= f.submit "Save" %>
 <% end %>
+<br/>
+<%= link_to "Add Analysis Row", "#",  :onclick=>"add_outcome_analysis_row();"%>

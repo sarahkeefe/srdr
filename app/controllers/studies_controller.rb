@@ -98,7 +98,6 @@ class StudiesController < ApplicationController
 	 	 
 	 	 unless @continuous_outcomes.empty?
 	   	@new_continuous_analysis = OutcomeAnalysis.new
-	   	@continuous_analysis_datapoint = OutcomeAnalysisDataPoint.new
       @continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND categorical_or_continuous=?",
      													session[:study_id], "Continuous"])
    	end

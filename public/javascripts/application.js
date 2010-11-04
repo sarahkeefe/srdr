@@ -37,4 +37,33 @@ function disable_delete_links(){
 		links[i].disabled = true
 	}	
 }
+
+function add_outcome_analysis_row(){
+	
+	var tr = Builder.node('tr', {id: "row2"}),
+		td1 = Builder.node('td'),
+		td2 = Builder.node('td'),
+		td3 = Builder.node('td'),
+		td4 = Builder.node('td'),
+		td5 = Builder.node('td'),
+		td6 = Builder.node('td'),
+		td7 = Builder.node('td'),
+		td8 = Builder.node('td'),
+		td9 = Builder.node('td'),
+		#deleteLink = Builder.node('a','Delete',{onclick:"remove_row('row2')"})
+	td9.appendChild(deleteLink)
+	tr.appendChild(td1);
+	tr.appendChild(td2);
+	tr.appendChild(td3);
+	tr.appendChild(td4);
+	tr.appendChild(td5);
+	tr.appendChild(td6);
+	tr.appendChild(td7);
+	tr.appendChild(td8);
+	tr.appendChild(td9);
+	
+	
+	$('outcome_analysis_table').appendChild(tr)
+		
+}
  
