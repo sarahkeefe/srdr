@@ -1,4 +1,4 @@
-<%= nested_form_for(@outcome, :remote => true, :method=>"put",:update => "outcomes_table", :url=>{:controller=>:outcomes, :action=>:update},:html=>{:id=>"edit_outcome_form", :method=>:put}) do |f| %>
+<%= nested_form_for(@outcome, :remote => true, :method=>"put",:html=>{:id=>"edit_outcome_form"}) do |f| %>
   <% if @outcome.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@outcome.errors.count, "error") %> prohibited this outcome from being saved:</h2>
@@ -11,14 +11,14 @@
     </div>
   <% end %>
 	<%############################################%>
-	<%# NOT SURE IF THE NEXT LINES ARE NECESSARY? %>
+	<%# NOT SURE IF THE NEXT 3 LINES ARE NECESSARY? %>
 	<%############################################%>
   <div class="field">
     <%= f.hidden_field :study_id, :value => params[:study_id] %>
   </div>
   
   <%############################################%>
-  <%# TITLE, OUTCOME TYPE, IS_PRIMARY, UNITS%>
+  <%# TITLE, OUTCOME_TYPE, IS_PRIMARY, UNITS%>
   <%############################################%>
   <div class="field">
     <%= f.label :outcome_title %>:
@@ -68,16 +68,16 @@
   <%##########################%>
   <h4>Add Outcome Time Points</h4>
   <% unless @existing_time_points.nil? %>
-   <%= f.fields_for :outcome_timepoints do |et|  %>  
-  	 <% @existing_time_points.each do |tp| %>
-      	<%# tp[0] contains the number and tp[1] contains the unit %>
+   <%= for tp in @existing_time_points %>
+  	<%= f.fields_for :outcome_timpoints do |et|  %>  
+  	   	<%# tp[0] contains the number and tp[1] contains the unit %>
   			<%= et.text_field :number, :html=>{:value=>tp[0].to_s} %>
   			<%= et.select :time_unit, options_for_select([["minutes","minutes"],["hours","hours"],["days","days"],
   																										["weeks","weeks"],["months","months"],["years","years"]], tp[1].to_s) %>
   			<%= et.link_to_remove "Remove" %>
   			<br/>
   		<% end %>
-  	<% end %>
+  	<%# end %>
   <% end %>
 	<%= f.fields_for :outcome_timepoints do |t| %>
   	<%= t.text_field :number %>
