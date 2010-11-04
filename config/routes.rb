@@ -65,7 +65,6 @@ resources :studies do
 		get 'design' 
 	end 
 end 
-
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

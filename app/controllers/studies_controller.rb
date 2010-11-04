@@ -63,11 +63,11 @@ class StudiesController < ApplicationController
 	 end
   
    def outcomeanalysis
-	@study = Study.find(params[:study_id])
-	@project = Project.find(params[:project_id])
-		@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
-	@outcome_analyses = OutcomeAnalysis.where(:study_id => params[:study_id]).all
-	@outcome_analysis = OutcomeAnalysis.new
+	   @study = Study.find(params[:study_id])
+	   @project = Project.find(params[:project_id])
+		 @study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
+	   @outcome_analyses = OutcomeAnalysis.where(:study_id => params[:study_id]).all
+	   @outcome_analysis = OutcomeAnalysis.new
   end
 
    def adverseevents

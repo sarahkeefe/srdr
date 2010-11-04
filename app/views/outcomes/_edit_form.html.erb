@@ -1,0 +1,105 @@
+<%= nested_form_for(@outcome, :remote => true, :method=>"put",:update => "outcomes_table", :url=>{:controller=>:outcomes, :action=>:update},:html=>{:id=>"edit_outcome_form", :method=>:put}) do |f| %>
+  <% if @outcome.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@outcome.errors.count, "error") %> prohibited this outcome from being saved:</h2>
+
+      <ul>
+      <% @outcome.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+	<%############################################%>
+	<%# NOT SURE IF THE NEXT LINES ARE NECESSARY? %>
+	<%############################################%>
+  <div class="field">
+    <%= f.hidden_field :study_id, :value => params[:study_id] %>
+  </div>
+  
+  <%############################################%>
+  <%# TITLE, OUTCOME TYPE, IS_PRIMARY, UNITS%>
+  <%############################################%>
+  <div class="field">
+    <%= f.label :outcome_title %>:
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :outcome_type %>:
+    <%= f.select :outcome_type, options_for_select([ "Categorical", "Continuous" ]) %>
+  </div>
+  <div class="field">
+    <%= f.label :is_this_a_primary_outcome %>?
+    <%= f.check_box :is_primary %>
+  </div>
+  <div class="field">
+    <%= f.label :units %>:
+    <%= f.text_field :units %>
+  </div>
+  <%##########################%>
+  <%# NUMBERS ENROLLED BY ARM%>
+  <%##########################%>
+  <h4>Numbers Enrolled by Arm</h4>
+
+  <% if @study_arms.length > 0 %>
+
+ <table border="1" bordercolor="black"><tr>
+	<% i = 1 %>
+	
+	<% for one_arm in @study_arms %>
+		<th>Arm <%= i %>: <%= one_arm.title %></th>
+		<% i = i + 1 %>
+	<% end %>
+	<tr>
+	<% for one_arm in @numbers_enrolled %>
+		<td>
+		<% fieldname = "num_enrolled_" + one_arm[0].to_s %>
+		  <%= text_field :num_enrolled, one_arm[0].to_s, :value=>one_arm[1].to_s %>
+		  </td>
+		<% i = i + 1 %>
+	<% end %>
+	</tr>
+		
+	</table>
+	<% end %>
+  
+	<%##########################%>
+  <%# ADD OUTCOME TIME POINTS %>
+  <%##########################%>
+  <h4>Add Outcome Time Points</h4>
+  <% unless @existing_time_points.nil? %>
+   <%= f.fields_for :outcome_timepoints do |et|  %>  
+  	 <% @existing_time_points.each do |tp| %>
+      	<%# tp[0] contains the number and tp[1] contains the unit %>
+  			<%= et.text_field :number, :html=>{:value=>tp[0].to_s} %>
+  			<%= et.select :time_unit, options_for_select([["minutes","minutes"],["hours","hours"],["days","days"],
+  																										["weeks","weeks"],["months","months"],["years","years"]], tp[1].to_s) %>
+  			<%= et.link_to_remove "Remove" %>
+  			<br/>
+  		<% end %>
+  	<% end %>
+  <% end %>
+	<%= f.fields_for :outcome_timepoints do |t| %>
+  	<%= t.text_field :number %>
+  	<%= t.select :time_unit, options_for_select(["minutes", "hours", "days", "weeks", "months", "years"]) %>
+  	<%= t.link_to_remove "Remove" %><br/>
+  <% end %><br/>
+	
+  <%= f.link_to_add "Add a timepoint", :outcome_timepoints %> 
+  
+  <%#############################%>
+  <%# DESCRIPTION, NOTES, SUBMIT %>
+  <%#############################%>
+  <br/><br/>
+  <div class="field">
+    <%= f.label :description %>:<br />
+    <%= f.text_area :description, :rows => 4, :cols => 40 %>
+  </div>
+  <div class="field">
+    <%= f.label :notes %>:<br />
+    <%= f.text_area :notes, :rows => 4, :cols => 40 %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Update" %>  <%= link_to 'Done Editing', new_outcome_path, :remote=>true %>
+  </div>
+<% end %>

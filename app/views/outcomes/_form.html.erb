@@ -1,4 +1,4 @@
-<%= nested_form_for(@outcome, :remote => true, :update => "outcomes_table") do |f| %>
+<%= nested_form_for(@outcome, :remote => true, :update => "outcomes_table", :html=>{:id=>"new_outcome_form"}) do |f| %>
   <% if @outcome.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@outcome.errors.count, "error") %> prohibited this outcome from being saved:</h2>
