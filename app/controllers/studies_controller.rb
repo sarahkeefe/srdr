@@ -20,6 +20,9 @@ class StudiesController < ApplicationController
     end
   end
 
+  # design
+  # displays "study design" page
+  # contains inclusion/exclusion criteria, notes, and arm information
   def design
 	  @study = Study.find(params[:study_id])
 	  makeActive(@study)
@@ -27,6 +30,8 @@ class StudiesController < ApplicationController
 	  @arms = Arm.find(:all, :conditions => {:study_id => @study.id})	
 	end
   
+  # attributes
+  # displays population attributes/characteristics data table
   def attributes
 		@study = Study.find(params[:study_id])
 		makeActive(@study)
@@ -39,6 +44,9 @@ class StudiesController < ApplicationController
 		@population_characteristic_data = PopulationCharacteristicDataPoint.where(:study_id => @study.id)
   end
   
+  # outcomesetup
+  # displays form to add new outcomes, subform to add timepoints to outcomes,
+  # and table to display, edit, delete existing outcomes
   def outcomesetup
 	@study = Study.find(params[:study_id])
 	makeActive(@study)
@@ -51,6 +59,9 @@ class StudiesController < ApplicationController
 	render :layout => 'outcomesetup'	
   end
 
+  # outcomedata
+  # displays table for each outcome (navigated by a dropdown menu)
+  # that enables data entry for each outcome timepoint and arm
   def outcomedata
 	@study = Study.find(params[:study_id])
 	makeActive(@study)
@@ -62,6 +73,9 @@ class StudiesController < ApplicationController
 	 @selected_outcome = Outcome.where(:study_id => params[:study_id]).first
 	 end
   
+	# outcomeanalysis
+	# displays a table for (both?) categorical and continuous outcomes
+	# enables data entry into that table (and saving)
    def outcomeanalysis
 	   @study = Study.find(params[:study_id])
 	   @project = Project.find(params[:project_id])
