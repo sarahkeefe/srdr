@@ -1,0 +1,32 @@
+<%= form_for(@population_characteristic, :remote => true, :update => "population_characteristics_table", :html=>{:id=>"edit_population_characteristic_form"},) do |f| %>
+  <% if @population_characteristic.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@population_characteristic.errors.count, "error") %> prohibited this population_characteristic from being saved:</h2>
+
+      <ul>
+      <% @population_characteristic.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <%= f.hidden_field :study_id, :value => @study.id %>
+
+  <div class="field">
+    <%= f.label :category_title %>:
+    <%= f.text_field :category_title %>
+  </div>
+  <div class="field">
+    <%= f.label :subcategory %>:
+    <%= f.text_field :subcategory %>
+  </div>
+  <div class="field">
+    <%= f.label :units %>:
+    <%= f.text_field :units %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Update" %>
+    <%= link_to 'Done Editing', new_study_population_characteristic_path(session[:study_id]), :remote=>true %>	
+  </div>
+<% end %>

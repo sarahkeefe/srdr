@@ -25,9 +25,14 @@ class PopulationCharacteristicsController < ApplicationController
   # GET /population_characteristics/new.xml
   def new
     @population_characteristic = PopulationCharacteristic.new
-	  @population_characteristic_data_point = PopulationCharacteristicDataPoint.new
-	  #@study = Study.find(params[:study_id])
+	@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
+	@study = Study.find(session[:study_id])
     respond_to do |format|
+			format.js{
+    	  render :update do |page|
+    	  	page.replace_html 'population_characteristic_entry', :partial => 'population_characteristics/form'
+    	  end
+  	  }	
       format.html # new.html.erb
       format.xml  { render :xml => @population_characteristic }
     end
@@ -36,6 +41,14 @@ class PopulationCharacteristicsController < ApplicationController
   # GET /population_characteristics/1/edit
   def edit
     @population_characteristic = PopulationCharacteristic.find(params[:id])
+	@study = Study.find(session[:study_id])
+    respond_to do |format|
+    	format.js{
+    		render :update do |page|
+    			page.replace_html 'population_characteristic_entry', :partial=>'population_characteristics/edit_form'
+    		end
+  		}
+  	end	
   end
 
   # POST /population_characteristics
@@ -48,6 +61,7 @@ class PopulationCharacteristicsController < ApplicationController
 			  @population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => session[:study_id]}, :order => :category_title)
 			  @population_characteristics.sort_by(&:category_title)
 			  @population_characteristic_data_point = PopulationCharacteristicDataPoint.new
+			  @population_characteristic.save
 			  @study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})
 	      format.js {
 			  	render :update do |page|
@@ -66,11 +80,21 @@ class PopulationCharacteristicsController < ApplicationController
   # PUT /population_characteristics/1.xml
   def update
     @population_characteristic = PopulationCharacteristic.find(params[:id])
-
+	@study = Study.find(session[:study_id])
     respond_to do |format|
-      if @population_characteristic.update_attributes(params[:population_characteristic])
-        format.html { redirect_to(@population_characteristic, :notice => 'Population characteristic was successfully updated.') }
-        format.xml  { head :ok }
+	if @population_characteristic.update_attributes(params[:population_characteristic])
+		@population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => session[:study_id]}, :order => :category_title)
+		@population_characteristics.sort_by(&:category_title)		
+		@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
+		@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
+		@study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})	  
+		format.js{
+			render :update do |page|
+			    page.replace_html 'population_characteristics_table', :partial => 'population_characteristics/table'
+			end
+		}	  
+		format.html { redirect_to(@population_characteristic, :notice => 'Population characteristic was successfully updated.') }
+		format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @population_characteristic.errors, :status => :unprocessable_entity }

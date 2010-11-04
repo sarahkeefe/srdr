@@ -1,5 +1,7 @@
 class PopulationCharacteristic < ActiveRecord::Base
-
+	belongs_to :study
+	# Check if there is a duplicate population characteristic category and subcategory in the list
+	# (used in determining whether to create a new PopulationCharacteristic item )
 	def self.has_duplicates(category_title, subcategory, study_id)
 			if subcategory.nil? || subcategory == ""
 				@pop_char_check = PopulationCharacteristic.where("population_characteristics.study_id = ? AND population_characteristics.category_title = ?", study_id, category_title).all
@@ -18,6 +20,8 @@ class PopulationCharacteristic < ActiveRecord::Base
 			end
 		end
 		
+	# Get the number of categories that are the same
+	# used in grouping attributes by category and subcategory
 	def self.get_num_same_cats(list, pos)
 		num_matching_category_titles = 0
 		if list.length > 0
@@ -30,6 +34,8 @@ class PopulationCharacteristic < ActiveRecord::Base
 		return num_matching_category_titles
 	end
 	
+	# Group attributes by category and subcategory
+	# used for table display in table.html.erb
 	def self.create_list_of_lists(list)
 		final_list = []
 		pos  = 0
