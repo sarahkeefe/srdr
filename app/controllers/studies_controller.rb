@@ -77,18 +77,37 @@ class StudiesController < ApplicationController
 	# displays a table for (both?) categorical and continuous outcomes
 	# enables data entry into that table (and saving)
    def outcomeanalysis
-	   @study = Study.find(params[:study_id])
-	   @project = Project.find(params[:project_id])
-		 @study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
-	   @outcome_analyses = OutcomeAnalysis.where(:study_id => params[:study_id]).all
-	   @outcome_analysis = OutcomeAnalysis.new
+	   @new_categorical_analysis = nil
+	   @new_continuous_analysis = nil
+	   @categorical_analyses = []
+	   @continuous_analyses = []
+	   
+		 @study_arms = Arm.find(:all, :conditions=>["study_id=?",session[:study_id]], :select=>["id","title"])
+	   
+		 @continuous_outcomes = Outcome.find(:all, :conditions=>["study_id=? AND outcome_type=?",\
+	   																		 session[:study_id],"Continuous"],:select=>["id","title","description"])
+		 
+	   @categorical_outcomes = Outcome.find(:all, :conditions=>["study_id=? AND outcome_type=?",\
+	   																		 session[:study_id],"Categorical"],:select=>["id","title","description"])	   																		 														 
+    
+     unless @categorical_outcomes.empty?
+		 	@new_categorical_analysis = OutcomeAnalysis.new
+		  @categorical_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND categorical_or_continuous=?",
+     													session[:study_id], "Categorical"])	   				
+	 	 end
+	 	 
+	 	 unless @continuous_outcomes.empty?
+	   	@new_continuous_analysis = OutcomeAnalysis.new
+      @continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND categorical_or_continuous=?",
+     													session[:study_id], "Continuous"])
+   	end
   end
 
-   def adverseevents
-	@study = Study.find(params[:study_id])
-	@project = Project.find(params[:project_id])
-	@adverse_events = AdverseEvent.where(:study_id => params[:study_id]).all
-	@adverse_event = AdverseEvent.new
+  def adverseevents
+		@study = Study.find(params[:study_id])
+		@project = Project.find(params[:project_id])
+		@adverse_events = AdverseEvent.where(:study_id => params[:study_id]).all
+		@adverse_event = AdverseEvent.new
   end
   
    def quality
@@ -103,7 +122,6 @@ class StudiesController < ApplicationController
 	else
 		@quality_rating = QualityRating.new
 	end
-  end
   
   # GET /studies/new
   # GET /studies/new.xml
@@ -238,20 +256,9 @@ class StudiesController < ApplicationController
   end
 
    def show_outcome
-	#print "AAAAAAAAAAAAAAAAAAAAAAAAA" + params[:outcome][:outcome].to_s	
-    # if !params["outcome"].nil?
-	#	@selected_outcome = Outcome.find(params[:outcome][:outcome])
-	#else
-	#	@selected_outcome = Outcome.where(:study_id => params[:study_id]).first
-	#end
 	@outcome_result = OutcomeResult.new
 	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
 	@selected_outcome = Outcome.where(:id => params[:outcome_id]).first
-   #render :update do |page|
-		#print "EEEEEEEEEEEEEEEEEEEEEEE" + page.to_s
-	#	page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
-		#page['new_arm_form'].reset
-	#end
 	
 	render :partial => 'outcome_results/table'
   end

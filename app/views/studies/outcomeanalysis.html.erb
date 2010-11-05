@@ -1,10 +1,15 @@
 <h2>Study Outcome Analysis</h2>
-
-<%= render 'outcome_analyses/table_cont' %>
-
-<%= render 'outcome_analyses/table_cat' %>
-
-
+<% if @study_arms.length > 1 %>
+	<% unless @continuous_outcomes.empty? %>
+		<%= render 'outcome_analyses/continuous_entry_form_table' %>
+	<% end %>
+	
+	<% unless @categorical_outcomes.empty? %>
+		<%= render 'outcome_analyses/categorical_entry_form_table' %>
+	<% end %>
+<% else %>
+  This study does not have enough arms for a comparison.
+<% end %>
 <br/>
 <table border="0" width="60%"><tr><td align="left"><%= link_to "Back", "outcomedata" %></td><td align="right">
 <%= link_to "Continue", "adverseevents" %>

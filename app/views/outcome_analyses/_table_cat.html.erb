@@ -1,15 +1,9 @@
 <table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
-<td rowspan="2">Outcome Title</td>
-<% if @study_arms.length > 0 %>
-	<% i = 1 %>
-	<% for one_arm in @study_arms %>
-		<td rowspan="2">Arm <%= 1 %>: <%= one_arm.title %></td>
-		<% i = i + 1 %>
-	<% end %>
-<% end %>
+<td>Outcome Title</td>
+<td>Arm A</td>
+<td>Arm B</td>
 <td rowspan="2">N Total</td>
 <td rowspan="2">N Event</td>
-
 <td colspan="3">Non-Adjusted</td><td colspan="3">Adjusted</td>
 <td rowspan="2">Edit</td>
 <td rowspan="2">Remove</td>

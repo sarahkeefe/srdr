@@ -40,15 +40,24 @@ class OutcomeAnalysesController < ApplicationController
   # POST /outcome_analyses
   # POST /outcome_analyses.xml
   def create
-    @outcome_analyasis = OutcomeAnalysis.new(params[:outcome_analyasis])
+    analyses = get_analysis_params(params) 
+    analyses.each do |oa|
+    	@outcome_analysis = OutcomeAnalysis.new(params[oa])
+    	@outcome_analysis.estimation_parameter_type = params[:outcome_analysis][:estimation_parameter_type]
+    	@outcome_analysis.parameter_dispersion_type = params[:outcome_analysis][:parameter_dispersion_type]
+    	@outcome_analysis.study_id = session[:study_id]
+    	@outcome_analysis.categorical_or_continuous = params[:outcome_analysis][:categorical_or_continuous]
+    	@outcome_analysis.save
+    end
+  	
 
     respond_to do |format|
-      if @outcome_analyasis.save
-        format.html { redirect_to(@outcome_analyasis, :notice => 'Outcome analysis was successfully created.') }
-        format.xml  { render :xml => @outcome_analyasis, :status => :created, :location => @outcome_analyasis }
+      if @outcome_analysis.save      	
+      	format.html { redirect_to(@outcome_analysis, :notice => 'Outcome analysis was successfully created.') }
+        format.xml  { render :xml => @outcome_analysis, :status => :created, :location => @outcome_analyasis }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @outcome_analyasis.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @outcome_analysis.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -79,5 +88,15 @@ class OutcomeAnalysesController < ApplicationController
       format.html { redirect_to(outcome_analyses_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  def get_analysis_params(form_params)
+  	analyses = Array.new
+  	form_params.keys.each do |key|
+  		if key =~ /^outcome_analysis/
+  			analyses.push(key)
+  		end
+  	end
+  	return analyses
   end
 end
