@@ -6,7 +6,7 @@ class Outcome < ActiveRecord::Base
 	belongs_to :study
 	accepts_nested_attributes_for :outcome_timepoints, :allow_destroy => true
 	accepts_nested_attributes_for :outcome_enrolled_numbers, :allow_destroy => true
-	attr_accessible :outcome_type, :study_id, :title, :is_primary, :units, :outcome_timepoints_attributes, :description, :notes, :arm_id, :outcome_id, :num_enrolled
+	attr_accessible :outcome_type, :study_id, :title, :is_primary, :units, :description, :notes, :arm_id, :outcome_id, :num_enrolled, :outcome_timepoints_attributes
 	
 	
 	def self.get_timepoints(outcome_id)
@@ -32,4 +32,21 @@ class Outcome < ActiveRecord::Base
 			return nil
 		end
 	end
+	
+		def self.arm_enrolled_num_exists(outcome_id, arm_id, value)
+			@oen = OutcomeEnrolledNumber.where(:outcome_id => outcome_id, :arm_id => arm_id, :num_enrolled => value).first
+			if !@oen.nil?
+				return true
+			else
+				return false
+			end
+		end
+		
+		def self.update_arm_enrolled_number(outcome_id, arm_id, value)
+			@oen = OutcomeEnrolledNumber.where(:outcome_id => outcome_id, :arm_id => arm_id).first
+			if !@oen.nil?
+				@oen.num_enrolled = value
+				@oen.save
+			end
+		end
 end

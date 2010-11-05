@@ -1,0 +1,10 @@
+<table border="1" bordercolor="black" cellspacing="0" cellpadding="5">
+<th>Rating</th><th>Quality Guideline Used</th>
+<tr>
+<% if !@quality_rating.nil? %>
+<td><%= @quality_rating.current_overall_rating %></td>
+<td><%= @quality_rating.guideline_used %></td>
+<% else %>
+<td></td><td></td>
+<% end %>
+</tr></table>

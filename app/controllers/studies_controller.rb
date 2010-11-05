@@ -93,10 +93,16 @@ class StudiesController < ApplicationController
   
    def quality
 	@study = Study.find(params[:study_id])
+	session[:study_id] = @study.id
 	@project = Project.find(params[:project_id])
 	@quality_aspects = QualityAspect.where(:study_id => params[:study_id]).all	
 	@quality_aspect = QualityAspect.new
-	@quality_rating = QualityRating.new
+	@exists = QualityRating.where(:study_id => session[:study_id]).first
+	if !@exists.nil?
+		@quality_rating = @exists
+	else
+		@quality_rating = QualityRating.new
+	end
   end
   
   # GET /studies/new

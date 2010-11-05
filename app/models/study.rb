@@ -1,20 +1,19 @@
 class Study < ActiveRecord::Base
 	belongs_to :project
 	has_many :arms
-	#has_many :outcome_analyses, through => :outcomes
-	#has_many :outcome_results, through => :outcomes
-	has_many :outcome_timepoints
-	#has_many :outcome_enrolled_numbers, through => :outcomes
+	has_many :outcome_analyses, :through => :outcomes
+	has_many :outcome_results, :through => :outcomes
+	has_many :outcome_timepoints, :through => :outcomes
+	has_many :outcome_enrolled_numbers, :through => :outcomes
 	has_many :outcomes
 	has_many :key_questions
 	has_many :population_characteristics
-	#has_many :adverse_event_arms, through => :adverse_event
+	has_many :adverse_event_arms, :through => :adverse_event
 	has_many :adverse_events
 	has_many :quality_aspects
 	has_one :quality_rating
 	has_many :publications
-	attr_accessible :study_type, :recruitment_details, :inclusion_criteria,\
-									:exclusion_criteria, :num_participants
+	attr_accessible :study_type, :recruitment_details, :inclusion_criteria, :exclusion_criteria, :num_participants, :outcome_attributes
 
 	def self.get_arms(study_id)
 		return Arm.where(:study_id => study_id).all

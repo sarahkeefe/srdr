@@ -3,14 +3,14 @@ Srdr::Application.routes.draw do
 
   resources :population_characteristic_data_points
 
-  	resources :key_questions, :arms, :studies, :population_characteristics
+  	resources :key_questions, :arms, :outcomes, :studies, :population_characteristics
 	
   resources :projects do
   	resources :studies, :key_questions
   end
       
   resources :studies do
-  	resources :arms, :population_characteristics, :publications
+  	resources :arms, :population_characteristics, :publications, :outcomes
   end
   
   resources :arms do

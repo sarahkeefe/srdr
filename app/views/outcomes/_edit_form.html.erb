@@ -1,4 +1,4 @@
-<%= nested_form_for(@outcome, :remote => true, :method=>"put",:html=>{:id=>"edit_outcome_form"}) do |f| %>
+<%= nested_form_for(@outcome, :remote => true, :update => "outcomes_table", :html=>{:id=>"edit_outcome_form"}) do |f| %>
   <% if @outcome.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@outcome.errors.count, "error") %> prohibited this outcome from being saved:</h2>
@@ -14,7 +14,7 @@
 	<%# NOT SURE IF THE NEXT 3 LINES ARE NECESSARY? %>
 	<%############################################%>
   <div class="field">
-    <%= f.hidden_field :study_id, :value => params[:study_id] %>
+    <%= f.hidden_field :study_id, :value => session[:study_id] %>
   </div>
   
   <%############################################%>
@@ -67,24 +67,13 @@
   <%# ADD OUTCOME TIME POINTS %>
   <%##########################%>
   <h4>Add Outcome Time Points</h4>
-  <% unless @existing_time_points.nil? %>
-   <%= for tp in @existing_time_points %>
-  	<%= f.fields_for :outcome_timpoints do |et|  %>  
-  	   	<%# tp[0] contains the number and tp[1] contains the unit %>
-  			<%= et.text_field :number, :html=>{:value=>tp[0].to_s} %>
-  			<%= et.select :time_unit, options_for_select([["minutes","minutes"],["hours","hours"],["days","days"],
-  																										["weeks","weeks"],["months","months"],["years","years"]], tp[1].to_s) %>
-  			<%= et.link_to_remove "Remove" %>
-  			<br/>
-  		<% end %>
-  	<%# end %>
-  <% end %>
-	<%= f.fields_for :outcome_timepoints do |t| %>
-  	<%= t.text_field :number %>
-  	<%= t.select :time_unit, options_for_select(["minutes", "hours", "days", "weeks", "months", "years"]) %>
-  	<%= t.link_to_remove "Remove" %><br/>
-  <% end %><br/>
-	
+   <% i = 0 %>
+  	<%= f.fields_for :outcome_timepoints do |et|  %> 
+  		<%= et.text_field :number %>
+  		<%= et.select :time_unit, options_for_select(["minutes", "hours", "days", "weeks", "months", "years"], :selected => @existing_time_points[i].to_s) %>
+  		<%= et.link_to_remove "Remove" %>
+		<% i = i + 1 %>			
+  	<% end %>
   <%= f.link_to_add "Add a timepoint", :outcome_timepoints %> 
   
   <%#############################%>
