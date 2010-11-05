@@ -1,9 +1,11 @@
+<h3>Continuous Outcomes</h3>
 <%= form_for(@new_continuous_analysis, :remote => true, :html=>{:id=>"continuous_analysis_form"}) do |f| %>
 <table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5" id="outcome_analysis_table">
-<th>Outcome Title</th>
-<th>Arm A</th>
-<th>Arm B</th>
-<th>N Analyzed</th>
+<tr>
+<td>Outcome Title</td>
+<td>Arm A</td>
+<td>Arm B</td>
+<td>N Analyzed</td>
 
 <% ept_options = [['Select Estimation Parameter Type','Select Estimation Parameter Type'], \
 											["Cox Proportional Hazard","Cox Proportional Hazard"], \
@@ -20,18 +22,17 @@
     									['Slope','Slope'], \
     									['Other','Other']]%>
     
-<th><%= f.select :estimation_parameter_type, options_for_select(ept_options) %></th>
+<td><%= f.select :estimation_parameter_type, options_for_select(ept_options) %></td>
 
 <% pdt_options = [['Select Parameter Dispersion','Select Parameter Dispersion Type'], \
 											["Standard Deviation","Standard Deviation"], \
     									["Standard Error of the Mean","Standard Error of the Mean"]]%>
-<th><%= f.select :parameter_dispersion_type, options_for_select(pdt_options) %></th>
-<th>P-Value</th>
-<th>Edit</th>
-<th>Remove</th>
-
-
-<tr>
+<td><%= f.select :parameter_dispersion_type, options_for_select(pdt_options) %></td>
+<td>P-Value</td>
+<td></td>
+</tr>
+<%= f.hidden_field :categorical_or_continuous, :value=>"Continuous" %>
+<tr id="row_1">
 <%# OUTCOME TITLE %>
 <% options = [] %>
 <% @continuous_outcomes.each do |cont| %>
@@ -39,7 +40,7 @@
   <%# we will use these as option and value     %>
   <% options << [cont.title.to_s, cont.id.to_s] %>
 <% end %>
-<td><%= f.select :outcome_name, options_for_select(options) %></td>
+<td><%= f.select :outcome_id, options_for_select(options) %></td>
 
 <% options = [] %>
 <% @study_arms.each do |arm| %>
@@ -55,22 +56,32 @@
 <td><%= f.select :arm2_id, options_for_select(options, options[1][1].to_s ) %></td>
 
 <%# N Analyzed%>
-<td><%= f.text_field :n_analyzed, :size=>10%> </td>
-
+<%# f.text_field :n_analyzed, :size=>10%> 
+<td><input type="text" name="outcome_analysis[n_analyzed]" id="outcome_analysis_n_analyzed" size="10" /></td>
+	
 <%# ESTIMATION PARAMETER ENTRY %>
-<td><%= f.text_field :estimation_parameter_value %></td>
+<td>
+	<input type="text" name="outcome_analysis[estimation_parameter_value]" id="outcome_analysis_estimation_parameter_value" size="30" />
+	<%# f.text_field :estimation_parameter_value %>
+</td>
 
 <%# PARAMETER DISPERSION TYPE %>
-<td><%= f.text_field :parameter_dispersion_value %></td>
+<td>
+	<input type="text" name="outcome_analysis[parameter_dispersion_value]" id="outcome_analysis_parameter_dispersion_value" size="30"/>
+	<%# f.text_field :parameter_dispersion_value %>
+</td>
+
 
 <%# P-Value %>
-<td><%= f.text_field :p_value, :size=>8 %></td>
+<td>
+	<input type="text" name="outcome_analysis[p_value]" id="outcome_analysis_n_analyzed" size="10" />
+	<%# f.text_field :p_value, :size=>8 %>
+</td>
 
-<td>Edit</td>
-<td>Remove</td>
+<td></td>
 </tr>
 </table>
 <%= f.submit "Save" %>
 <% end %>
 <br/>
-<%= link_to "Add Analysis Row", "#",  :onclick=>"add_outcome_analysis_row();"%>
+<%= link_to "Add Analysis Row", "#",  :onclick=>"add_continuous_outcome_analysis_row();"%>

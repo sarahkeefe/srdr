@@ -5,7 +5,7 @@
 	<% end %>
 	
 	<% unless @categorical_outcomes.empty? %>
-		<%= render 'outcome_analyses/table_cat' %>
+		<%= render 'outcome_analyses/categorical_entry_form_table' %>
 	<% end %>
 <% else %>
   This study does not have enough arms for a comparison.

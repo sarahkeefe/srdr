@@ -91,7 +91,7 @@ class StudiesController < ApplicationController
 	   																		 session[:study_id],"Categorical"],:select=>["id","title","description"])	   																		 														 
     
      unless @categorical_outcomes.empty?
-		 	@new_categorical_analysis = OutComeAnalysis.new
+		 	@new_categorical_analysis = OutcomeAnalysis.new
 		  @categorical_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND categorical_or_continuous=?",
      													session[:study_id], "Categorical"])	   				
 	 	 end
