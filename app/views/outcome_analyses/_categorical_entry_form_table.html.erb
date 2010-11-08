@@ -34,7 +34,7 @@
 	<td><%= f.select :parameter_dispersion_type, options_for_select(pdt_options) %></td>
 	<td>P-Value</td>
 	
-	<td><%= f.select :adjusted_estimation_parameter_type, options_for_select(ept_options) %></td>
+	<td><%# f.select :adjusted_estimation_parameter_type, options_for_select(ept_options) %></td>
 	<% pdt_options = [['Select Parameter Dispersion','Select Parameter Dispersion Type'], \
 											["Standard Deviation","Standard Deviation"], \
     									["Standard Error of the Mean","Standard Error of the Mean"]]%>

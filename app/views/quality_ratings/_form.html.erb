@@ -20,7 +20,7 @@
   </div>
   <div class="field">
     <%= f.label :current_overall_rating %>:
-    <%= f.text_field :current_overall_rating, :value => @quality_rating.current_overall_rating %>
+    <%= f.select :current_overall_rating, options_for_select(["A", "B", "C", "D", "E", "F", "10", "9", "8", "7", "6", "5", "4", "3", "2", "1"]), :value => @quality_rating.current_overall_rating %>
   </div>
   <div class="actions">
     <%= f.submit %>

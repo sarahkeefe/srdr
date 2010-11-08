@@ -1,35 +1,81 @@
 <p id="notice"><%= notice %></p>
+<h1>Study Summary</h1>
+  <div class="summary_heading">Study Title and Description</div>
+  <h2><%= @study.title %></h2>
+<table border="0"><tr><td>
+<h4>Study Type:</h4> </td><td> <%= @study.study_type %><br/></td></tr><tr><td>
+  <h4>Participants:</h4> </td><td> <%= @study.num_participants %></td></tr><tr><td colspan="2">
+  <h4>Recruitment Details:</h4></td></tr><tr><td colspan="2"> <%= @study.recruitment_details %>  </td></tr></table>
 
-<p>
-  <b>Title:</b>
-  <%= @study.title %>
-</p>
+	<br/>
 
-<p>
-  <b>Type:</b>
-  <%= @study.study_type %>
-</p>
+	<div class="summary_heading">Key Questions Addressed</div>
+	<br/>
+	<% unless @study_questions.empty? %>
+	<% @study_questions.each do |q| %>
+		<%= q.question_number.to_s + ". " + q.question %><br/>
+	<% end %>
+	<% else %>
+		There are no key questions associated with this study.
+	<% end %>
+	<br/><br/>
+	
+	<div class="summary_heading">Publication Information</div>
+	<br/>
+	<h4>Primary Publication</h4>
+		<table border="0" cellpadding="2"><tr><td>
+		<b>Title:</b></td><td colspan="3"> <%= @primary_publication.title %> </td></tr><tr><td>
+		<b>Author: </b></td><td width="250"> <%=@primary_publication.author %></td><td> <b>Country: </b></td><td> <%=@primary_publication.country %> </td></tr><tr><td>
+		<b>Year:</b></td><td> <%=@primary_publication.year %></td><td> <b>ISBN: </b></td><td> <%=@primary_publication.isbn %> </td></tr><tr><td>
+		<b>UI: </b></td><td> <%=@primary_publication.ui %> </td><td><b>UI Type: </b></td><td> <%=@primary_publication.ui_type %> </td></tr></table>
+		
+	<br/>
+	<h4>Secondary Publications</h4><br/>
+		<%= render 'publications/completed_table' %>	
+	<br/>
+	
+	<div class="summary_heading">Inclusion Criteria</div>
+	<br/>
+	<%= @study.inclusion_criteria %>
+	<br/><br/>
 
-<p>
-  <b>Num participants:</b>
-  <%= @study.num_participants %>
-</p>
+	<div class="summary_heading">Exclusion Criteria</div>
+	<br/>
+	<%= @study.exclusion_criteria %>
+	<br/><br/>
+	
+	<div class="summary_heading">Study Arms</div>
+	<br/>
+	<%= render 'arms/completed_table' %>	
+	<br/>
 
-<p>
-  <b>Recruitment details:</b>
-  <%= @study.recruitment_details %>
-</p>
+	<div class="summary_heading">Population Characteristics</div>
+	<br/>
+	<%= render 'population_characteristics/completed_table' %>
+	<br/><br/>
+	
+	<div class="summary_heading">Outcome Results Tables</div>
+	<br/>
+	<%= render 'outcome_results/completed_table' %>	
+	
+	<div class="summary_heading">Outcome Analysis</div>
+	<br/>
 
-<p>
-  <b>Inclusion criteria:</b>
-  <%= @study.inclusion_criteria %>
-</p>
+	<br/><br/>	
 
-<p>
-  <b>Exclusion criteria:</b>
-  <%= @study.exclusion_criteria %>
-</p>
-
-
-<%= link_to 'Edit', edit_study_path(@study) %> |
-<%= link_to 'Back', studies_path %>
+	<div class="summary_heading">Adverse Events</div>
+	<br/>
+	<%= render 'adverse_events/completed_table' %>	
+	<br/><br/>
+	
+	<div class="summary_heading">Quality Assessment</div>
+	<br/>
+	<%= render 'quality_aspects/completed_table' %><br/><br/>
+	<%= render 'quality_ratings/table' %>		
+	<br/><br/>
+	<br/><br/>
+<table id="bottom_nav"><tr><td align="left"></td><td align="right">
+<%= link_to 'Edit this Study', edit_project_study_path(@project, @study) %>
+<br/>
+<%= link_to "Back to Project Study List", project_studies_path(@project) %>
+</td></tr></table>

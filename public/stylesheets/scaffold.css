@@ -54,3 +54,77 @@ div.field, div.actions {
   font-size: 12px;
   list-style: square;
 }
+
+h1{
+font-size: 22px;
+font-weight: bold;
+padding-bottom: 10px;
+color: #3479BF;
+}
+
+h2{
+margin: 10px;
+font-size: 20px;
+font-weight: bold;
+}
+
+h3{
+	font-size: 16px;
+	font-weight: bold;
+	padding: 3px;
+	margin: 0px;
+}
+
+h4{
+	font-size: 14px;
+	font-weight: bold;
+	padding: 0px;
+	margin: 3px;
+	display: inline;
+}
+
+table
+{
+	border-collapse: collapse;
+}
+
+.indent_block{
+	margin-left: 15px;
+	width: 80%;
+}
+
+.summary_heading{
+	width: 80%;
+	#height: 25px;
+	background-color: #eee;
+	border: 1px solid #000;
+	font-size: 16px;
+	font-weight: bold;
+	color: #333;
+	padding: 3px;
+}
+
+.listing_item{
+	width: 80%;
+	background-color: #eee;
+	border: 1px solid #000;
+	color: #333;
+	padding: 3px;
+}
+
+.listing_item h3{
+padding: 8px;
+}
+
+.listing_item .admin_functions{
+	width: 100%;
+	text-align: right;
+}
+
+.listing_item .indent_block{
+	width: 80%;
+}
+
+table#bottom_nav{
+width: 80%;
+}

@@ -65,7 +65,7 @@ class QualityRatingsController < ApplicationController
   # PUT /quality_ratings/1
   # PUT /quality_ratings/1.xml
   def update
-    @quality_rating = QualityRating.find(params[:id])
+    @quality_rating = QualityRating.find(params[:quality_rating][:id])
 	@exists = QualityRating.where(:study_id => session[:study_id]).all
 	if !@exists.nil?
 		for qr in @exists

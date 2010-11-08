@@ -1,0 +1,11 @@
+<% if @quality_aspects.length > 0 %>
+<% i = 1 %>
+<% for qa in @quality_aspects %>
+<h4>Dimension <%= i %>: <%= qa.dimension %></h4> - <%= qa.value %><br/>
+<%= qa.notes %>
+<br/><br/>
+<% i = i + 1 %>
+<% end %>
+<% else %>
+There are currently no quality assessment dimensions listed for this study.
+<% end %>

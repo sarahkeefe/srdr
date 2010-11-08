@@ -1,10 +1,7 @@
-<table border="1" bordercolor="black" cellspacing="0" cellpadding="5">
-<th>Rating</th><th>Quality Guideline Used</th>
-<tr>
 <% if !@quality_rating.nil? %>
-<td><%= @quality_rating.current_overall_rating %></td>
-<td><%= @quality_rating.guideline_used %></td>
+<h4>Overall Rating of Study:</h4><%= @quality_rating.current_overall_rating %>
+<br/>
+<h4>Quality Guideline Used in Assessment:</h4> <%= @quality_rating.guideline_used %>
 <% else %>
-<td></td><td></td>
+No quality rating assigned has been assigned to this study yet.
 <% end %>
-</tr></table>

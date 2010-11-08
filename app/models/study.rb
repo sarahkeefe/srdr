@@ -112,6 +112,22 @@ class Study < ActiveRecord::Base
 			else
 				return tmp
 			end
-	end	
+	end
+	
+	def self.get_key_question_output(study_id)
+		@s_keyqs = StudiesKeyQuestion.where(:study_id => study_id).all
+		@keyqs = []
+
+		for k in @s_keyqs
+			@keyqs << KeyQuestion.find(k.key_question_id)
+		end
+
+		arr = []
+		for q in @keyqs
+			arr << q.question_number.to_s
+		end
+		print arr.inspect		
+		return arr
+	end
 	
 end

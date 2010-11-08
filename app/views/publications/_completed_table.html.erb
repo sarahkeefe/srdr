@@ -5,8 +5,6 @@
 	<th>Author</th>
 	<th>Country</th>
 	<th>Year</th>
-	<th>Edit</th>
-	<th>Delete</th>
 	<% for pub in @secondary_publications %>
 		<tr>
 		<td><%= pub.ui %></td>
@@ -14,8 +12,6 @@
 		<td><%= pub.author %></td>
 		<td><%= pub.country %></td>
 		<td><%= pub.year %></td>
-		<td><%= link_to :Edit, edit_publication_path(pub), :remote=>true %></td>
-		<td><%= link_to :Delete, publication_path(pub), :remote=>true, :confirm => 'Are you sure?', :method=>:delete %></td>
 		</tr>
 	<% end %>
 <% else %>

@@ -1,27 +1,28 @@
-<h1>Listing projects</h1>
-
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Description</th>
-    <th>Notes</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<h1>Listing All Systematic Reviews</h1>
 
 <% @projects.each do |project| %>
-  <tr>
-    <td><%= project.title %></td>
-    <td><%= project.description %></td>
-    <td><%= project.notes %></td>
-    <td><%= link_to 'Show', project %></td>
-    <td><%= link_to 'Edit', edit_project_path(project) %></td>
-    <td><%= link_to 'Destroy', project, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+ 
+ <div class="listing_item">
+	<h3><%= link_to project.title, project_path(project) %></h3>
+	<div class="indent_block">
+	<%= truncate(project.description, :length => 150) %>
+	<br/><br/>
+	<% num_studies = Project.get_num_studies(project) %>
+	<b>Studies:</b> <%= num_studies.to_s %><br/>
+	<% num_key_qs = Project.get_num_key_qs(project) %>
+	<b>Key Questions:</b> <%= num_key_qs.to_s %><br/>
+	<b>Collaborators:</b>
+	</div>
+	<div class="admin_functions">
+	<%= link_to "Edit", edit_project_path(project) %>  |   
+	<%= link_to "Delete", project, :confirm => 'Are you sure?', :method => :delete %>
+	</div>
+ </div>
+  <br/>
+  
+  
 <% end %>
-</table>
 
 <br />
 
-<%= link_to 'New Project', new_project_path %>
+<%= link_to 'New Systematic Review Project', new_project_path %>
