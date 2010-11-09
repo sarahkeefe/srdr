@@ -1,0 +1,10 @@
+<% if @key_questions.length > 0 %>
+<% for keyq in @key_questions %>
+<h4><%= keyq.question_number %>. <%= keyq.question %></h4>
+<br/>
+<div class="indent_block">
+<%= keyq.description %>
+</div>
+<br/>
+<% end %>
+<% end %>

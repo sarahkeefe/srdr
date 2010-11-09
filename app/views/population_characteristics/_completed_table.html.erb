@@ -1,0 +1,62 @@
+<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+		
+		<%# CREATE TABLE HEADERS %>
+		<tr>
+		<th colspan="2">Category</th>
+
+		<%# CYCLE THROUGH ALL ARMS, CREATE TABLE HEADER FOR EACH ARM %>
+		<% if @arms.length > 0 %>
+			<% i = 1 %>
+			<% for one_arm in @arms %>
+				<th>Arm <%= i %>: <br/><%= one_arm.title %></th>
+				<% i = i + 1 %>
+			<% end %>
+		<% end %>
+
+		<th>Total</th>
+		</tr>
+		
+		<% if @population_characteristics.length > 0 %>
+			<%# CREATE LIST OF ATTRIBUTE INFO LISTS %>
+			<% list_of_lists = PopulationCharacteristic.create_list_of_lists(@population_characteristics) %>
+			<% print list_of_lists.to_s + "\n" %>
+			
+			<%# CYCLE THROUGH EACH BLOCK OF ATTRIBUTES [BY CATEGORY] IN THE LIST %>
+			<% for attblock in list_of_lists %>
+				<tr>
+				<td rowspan="<%=attblock.length%>"><%=attblock[0].category_title %></td>
+				
+				<%# GET ATTRIBUTES WITH SUBCATEGORIES WITHIN EACH CATEGORY BLOCK %>				
+				<% for item in attblock %>
+					<td><%=item.subcategory%> (<%= attblock[0].units %>)</td>
+					
+					<%# GET AND DISPLAY INPUT BOXES / DATA VALUES FOR EACH ATTRIBUTE BY ARM %>
+					<%# CYCLE THROUGH ARMS %>
+					<% if @arms.length > 0 %>
+						<% for one_arm in @arms %>
+							<% val = PopulationCharacteristicDataPoint.get_data_point(one_arm.id, item.id, false) %>
+							<% if val.nil? %>
+								<% val = "" %>
+							<% end %>
+							<td><%= val %></td>
+						<% end %>
+					<% end %>
+					
+					<%# GET AND DISPLAY INPUT BOXES / DATA VALUES FOR EACH ATTRIBUTE TOTAL %>
+					<% val = PopulationCharacteristicDataPoint.get_data_point(-1, item.id, true) %>
+					<% if val.nil? %>
+						<% val = "" %>
+					<% end %>
+					<td><%= val %></td>
+					</tr>
+					
+				<%# END FOR - item %>					
+				<% end %>
+
+			<%# END FOR - attblock %>
+			<% end %>
+		
+		<%# END IF - population_characteristics.length %>
+		<% end %>
+
+	</table>

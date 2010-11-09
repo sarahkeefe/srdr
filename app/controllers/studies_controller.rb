@@ -3,6 +3,7 @@ class StudiesController < ApplicationController
   # GET /studies.xml
   def index
     @studies = Study.where(:project_id => params[:project_id])
+	@project = Project.find(params[:project_id])	
 	  #@study_titles = Study.get_ui_title_author_year(@studies)
     respond_to do |format|
       format.html # index.html.erb
@@ -14,6 +15,20 @@ class StudiesController < ApplicationController
   # GET /studies/1.xml
   def show
     @study = Study.find(params[:id])
+	@project = Project.find(session[:project_id])
+	@study_qs = StudiesKeyQuestion.where(:study_id => @study.id)
+	@study_questions = []
+	for i in @study_qs
+		@study_questions << KeyQuestion.find(i.key_question_id)
+	end
+	  @primary_publication = @study.get_primary_publication
+	  @secondary_publications = @study.get_secondary_publications
+	  @arms = Arm.find(:all, :conditions => {:study_id => @study.id})
+	  @population_characteristics = PopulationCharacteristic.where(:study_id => @study.id)
+	  @outcomes = Outcome.where(:study_id => @study.id)
+	  @adverse_events = AdverseEvent.where(:study_id => @study.id)
+	  @quality_aspects = QualityAspect.where(:study_id => @study.id)
+	  @quality_rating = QualityRating.find(:all, :conditions => {:study_id => @study.id}).first
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @study }
@@ -107,13 +122,19 @@ class StudiesController < ApplicationController
 		@adverse_event = AdverseEvent.new
   end
   
-  def quality
-		@study = Study.find(params[:study_id])
-		@project = Project.find(params[:project_id])
-		@quality_aspects = QualityAspect.where(:study_id => params[:study_id]).all	
-		@quality_aspect = QualityAspect.new
+   def quality
+	@study = Study.find(params[:study_id])
+	session[:study_id] = @study.id
+	@project = Project.find(params[:project_id])
+	@quality_aspects = QualityAspect.where(:study_id => params[:study_id]).all	
+	@quality_aspect = QualityAspect.new
+	@exists = QualityRating.where(:study_id => session[:study_id]).first
+	if !@exists.nil?
+		@quality_rating = @exists
+	else
 		@quality_rating = QualityRating.new
-  end
+	end
+	end
   
   # GET /studies/new
   # GET /studies/new.xml
@@ -138,6 +159,7 @@ class StudiesController < ApplicationController
   # GET /studies/1/edit
   def edit
     @study = Study.find(params[:id])
+	@project = Project.find(params[:project_id])	
 		makeActive(@study)
 		  
     # get info on questions addressed
@@ -163,6 +185,7 @@ class StudiesController < ApplicationController
   def create
     @study = Study.new(params[:study])
   	@study.project_id = session[:project_id]
+	@project = Project.find(session[:project_id])	
     
   	if params.keys.include?("study")
     	@study.study_type = params[:study][:study_type]
@@ -187,6 +210,7 @@ class StudiesController < ApplicationController
   # PUT /studies/1.xml
   def update
     @study = Study.find(params[:id])
+	@project = Project.find(session[:project_id])	
 		if params.keys.include?("study")
     	@study.study_type = params[:study][:study_type]
     end
@@ -248,20 +272,9 @@ class StudiesController < ApplicationController
   end
 
    def show_outcome
-	#print "AAAAAAAAAAAAAAAAAAAAAAAAA" + params[:outcome][:outcome].to_s	
-    # if !params["outcome"].nil?
-	#	@selected_outcome = Outcome.find(params[:outcome][:outcome])
-	#else
-	#	@selected_outcome = Outcome.where(:study_id => params[:study_id]).first
-	#end
 	@outcome_result = OutcomeResult.new
 	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
 	@selected_outcome = Outcome.where(:id => params[:outcome_id]).first
-   #render :update do |page|
-		#print "EEEEEEEEEEEEEEEEEEEEEEE" + page.to_s
-	#	page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
-		#page['new_arm_form'].reset
-	#end
 	
 	render :partial => 'outcome_results/table'
   end

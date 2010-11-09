@@ -61,6 +61,9 @@ class PublicationsController < ApplicationController
 	end
 	if params[:is_primary] == 'true'
 			@publication.is_primary = TRUE
+			@study = Study.find(session[:study_id])
+			@study.title = @publication.title
+			@study.save
 		else
 			@publication.is_primary = FALSE
 		end
@@ -91,6 +94,9 @@ class PublicationsController < ApplicationController
     
     if(params[:is_primary] == "true")
     	@publication.is_primary = TRUE
+			@study = Study.find(session[:study_id])
+			@study.title = @publication.title
+			@study.save		
     else
     	@publication.is_primary = FALSE
     end

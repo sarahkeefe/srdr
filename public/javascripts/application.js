@@ -115,6 +115,8 @@ function add_categorical_outcome_analysis_row(){
 	var row_num = 1
 	var num_analyses = $('categorical_analysis_table').getElementsByTagName('tr').length
 	
+	var tbody = $('categorical_analysis_table').getElementsByTagName("tbody")[0];
+	
 	if(num_analyses > 2){
 		//alert("length > 1");
 		var previous_row = $('categorical_analysis_table').getElementsByTagName('tr')[num_analyses-1].id.toString();
@@ -191,12 +193,13 @@ function add_categorical_outcome_analysis_row(){
 		tr.appendChild(td12);
 	
 	
-		$('categorical_analysis_table').appendChild(tr)		
+		tbody.appendChild(tr)		
 
 } // end add_categorical_outcome_analysis_row
 function remove_outcome_analysis_row(row, analysis_table){
 	var row_to_remove = document.getElementById(row)
-	$(analysis_table).removeChild(row_to_remove)
+	var tbody = $(analysis_table).getElementsByTagName("tbody")[0];
+	tbody.removeChild(row_to_remove)
 }
 function say_the_word(word){
 	alert(word.toString)

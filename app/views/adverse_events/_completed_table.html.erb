@@ -1,0 +1,18 @@
+<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+<th>Event Title</th>
+<th>Timeframe</th>
+<th>Description</th>
+<th>Serious?</th>
+<th>Definition Used</th>
+<% if @adverse_events.length > 0 %>
+<% for ae in @adverse_events %>
+<tr id=<%= 'adverse_event_' + ae.id.to_s %>>
+<td><%= ae.title %></td>
+<td><%= ae.timeframe %></td>
+<td><%= ae.description %></td>
+<td><%= ae.is_serious %></td>
+<td><%= ae.definition_used %></td>
+</tr>
+<% end %>
+<% end %>
+</table>

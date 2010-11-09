@@ -1,0 +1,25 @@
+<table border="1" bordercolor="black" cellspacing="0" cellpadding="6">
+  <tr>
+  	<th>UI</th>
+    <th>Study Type</th>
+    <th>Title</th>
+    <th>Author</th>
+    <th>Year</th>
+	<th>Key Questions Addressed </th>
+
+  </tr>
+<% i=0 %>
+<% @studies.each do |study| %>
+<% study_pub_info = Study.get_primary_pub_info(study.id) %>
+<% if !study_pub_info.nil? %> 
+ <tr>
+  	<td><%= study_pub_info.ui %></td>
+    <td><%= study.study_type %></td> 	
+    <td><%= study_pub_info.title %></td>
+    <td><%= study_pub_info.author %></td>
+    <td><%= study_pub_info.year %></td>
+	<td></td>
+  </tr>
+  <% end %>
+<% end %>
+</table>

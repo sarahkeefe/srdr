@@ -1,0 +1,40 @@
+<%# ARM OPTIONS %>
+<select id="available_arms" name="available_arms" class="hidden_select">
+	<% @study_arms.each do |arm| %>
+		<option value=<%= arm.id.to_s %>><%= arm.title.to_s %></option>
+	<% end %>
+</select>
+<%# CATEGORICAL OUTCOME TITLES %>
+<select id="categorical_outcomes" name="categorical_outcomes" class="hidden_select">
+    <% @categorical_outcomes.each do |cat| %>
+  	    <option value=<%= cat.id.to_s %>><%= cat.title.to_s %></option>
+		<% end %>
+</select>	
+
+<%# CONTINUOUS OUTCOME TITLES %>
+<select id="continuous_outcomes" name="continuous_outcomes" class="hidden_select">
+    <% @continuous_outcomes.each do |cont| %>
+  	    <option value=<%= cont.id.to_s %>><%= cont.title.to_s %></option>
+		<% end %>
+</select>	
+
+<%# OPTIONS FOR ESTIMATION PARAMETER TYPE %>  
+<% ept_options = [['Select Estimation Parameter Type','Select Estimation Parameter Type'], \
+											["Cox Proportional Hazard","Cox Proportional Hazard"], \
+    									["Hazard Ratio (HR)","Hazard Ratio (HR)"], \
+    									["Hazard Ratio, log","Hazard Ratio, log"], \
+    									['Mean Difference (Final Values)','Mean Difference (Final Values)'], \
+    									['Mean Difference (Net)','Mean Difference (Net)'], \
+    									['Median Difference (Net)','Median Difference (Net)'], \
+    									['Odds Ratio (OR)','Odds Ratio (OR)'], \
+    									['Odds Ratio, log','Odds Ratio, log'], \
+    									['Risk Difference (RD)','Risk Difference (RD)'], \
+    									['Risk Ratio (RR)','Risk Ratio (RR)'], \
+    									['Risk Ratio, log','Risk Ratio, log'], \
+    									['Slope','Slope'], \
+    									['Other','Other']]%>
+    									
+<%# OPTIONS FOR PARAMETER DISPERSION TYPE%>
+<% pdt_options = [['Select Parameter Dispersion','Select Parameter Dispersion Type'], \
+								["Standard Deviation","Standard Deviation"], \
+								["Standard Error of the Mean","Standard Error of the Mean"]]%>

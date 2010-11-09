@@ -41,12 +41,19 @@ class OutcomeAnalysesController < ApplicationController
   # POST /outcome_analyses.xml
   def create
     analyses = get_analysis_params(params) 
+    cat_or_cont = params[:outcome_analysis][:categorical_or_continuous]
+    OutcomeAnalysis.remove_analyses(session[:study_id], cat_or_cont)
+    @outcome_analysis = ""
     analyses.each do |oa|
     	@outcome_analysis = OutcomeAnalysis.new(params[oa])
+    	@outcome_analysis.categorical_or_continuous = cat_or_cont
     	@outcome_analysis.estimation_parameter_type = params[:outcome_analysis][:estimation_parameter_type]
     	@outcome_analysis.parameter_dispersion_type = params[:outcome_analysis][:parameter_dispersion_type]
+    	if(cat_or_cont == "Categorical")
+    		@outcome_analysis.adjusted_estimation_parameter_type = params[:outcome_analysis][:adjusted_estimation_parameter_type]
+    		@outcome_analysis.adjusted_parameter_dispersion_type = params[:outcome_analysis][:adjusted_parameter_dispersion_type]
+    	end
     	@outcome_analysis.study_id = session[:study_id]
-    	@outcome_analysis.categorical_or_continuous = params[:outcome_analysis][:categorical_or_continuous]
     	@outcome_analysis.save
     end
   	
@@ -68,7 +75,7 @@ class OutcomeAnalysesController < ApplicationController
     @outcome_analyasis = OutcomeAnalysis.find(params[:id])
 
     respond_to do |format|
-      if @outcome_analyasis.update_attributes(params[:outcome_analyasis])
+      if @outcome_analyasis.update_attributes(params[:outcome_analysis])
         format.html { redirect_to(@outcome_analyasis, :notice => 'Outcome analysis was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -93,7 +100,7 @@ class OutcomeAnalysesController < ApplicationController
   def get_analysis_params(form_params)
   	analyses = Array.new
   	form_params.keys.each do |key|
-  		if key =~ /^outcome_analysis/
+  		if key =~ /^outcome_analysis_/
   			analyses.push(key)
   		end
   	end

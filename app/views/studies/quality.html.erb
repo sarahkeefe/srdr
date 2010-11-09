@@ -1,18 +1,22 @@
 <h2>Study Quality</h2>
-
+<div id="quality_aspects_table">
 <%= render 'quality_aspects/table' %>
-
+</div>
 
 <h3>Add New Quality Aspect</h3>
-
+<div id="quality_aspect_entry">
 <%= render 'quality_aspects/form' %>
-
+</div>
 <h3>Adjust Quality Rating</h3>
+
+<div id="quality_ratings_table">
+<%= render 'quality_ratings/table' %>
+</div>
 
 <%= render 'quality_ratings/form' %>
 
 <br/>
-<table border="0" width="60%"><tr><td align="left"><%= link_to "Back", "adverseevents" %></td><td align="right">
+<table id="bottom_nav"><tr><td align="left"><%= link_to "Back", "adverseevents" %></td><td align="right">
 <%= link_to "Preview Study", "../" + params[:study_id].to_s %><br/>
 <%= link_to "Studies List", ".." %>
 </td></tr></table>

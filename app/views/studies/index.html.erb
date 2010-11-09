@@ -1,15 +1,15 @@
 <h1>Listing studies</h1>
 
-<table>
+<table border="1" bordercolor="black" cellpadding="6">
   <tr>
   	<th>UI</th>
+    <th>Type</th>
     <th>Title</th>
     <th>Author</th>
     <th>Year</th>
-    <th>Type</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Key Questions Answered</th>
+    <th>Edit</th>
+	<th>Delete</th>
   </tr>
 <% i=0 %>
 <% @studies.each do |study| %>
@@ -19,13 +19,16 @@
   	<td>
 	<%= study_pub_info.ui %>
 	</td>
-    <td><%= study_pub_info.title %></td>
+    <td><%= study.study_type %></td>	
+    <td><%= link_to study_pub_info.title, project_study_path(@project, study) %></td>
     <td><%= study_pub_info.author %></td>
     <td><%= study_pub_info.year %></td>
-    <td><%= study.study_type %></td>
-    <td><%= link_to 'Show', study %></td>
-    <td><%= link_to 'Edit', edit_project_study_path(session[:project_id], study) %></td>
-    <td><%= link_to 'Destroy', study, :confirm => 'Are you sure?', :method => :delete %></td>
+	<td>
+		<% arr = Study.get_key_question_output(study.id) %>
+		<%= arr.to_sentence %>
+	</td>
+    <td><%= link_to 'Edit', edit_project_study_path(@project, study) %></td>
+    <td><%= link_to 'Delete', project_study_path(@project, study), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
   <% end %>
 <% end %>
@@ -33,7 +36,8 @@
 
 <br />
 
-<table border="0" width="60%"><tr><td align="left"><%= link_to "Back", "edit" %></td><td align="right">
-<%= link_to "New Study", new_project_study_path %>
+<table id="bottom_nav"><tr><td align="left"><%= link_to "Back", "edit" %></td><td align="right">
+<%= link_to "New Study", new_project_study_path %><br/>
+<%= link_to "Project Summary Page", project_path(@project) %>
 </td></tr></table>
 <br/><br/>

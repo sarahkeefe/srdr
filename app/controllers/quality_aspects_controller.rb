@@ -27,6 +27,11 @@ class QualityAspectsController < ApplicationController
     @quality_aspect = QualityAspect.new
 
     respond_to do |format|
+    	format.js{
+    		render :update do |page|
+    			page.replace_html 'quality_aspect_entry', :partial => 'quality_aspects/form'
+    		end	
+  		}	
       format.html # new.html.erb
       format.xml  { render :xml => @quality_aspect }
     end
@@ -35,6 +40,13 @@ class QualityAspectsController < ApplicationController
   # GET /quality_aspects/1/edit
   def edit
     @quality_aspect = QualityAspect.find(params[:id])
+    respond_to do |format|	
+    	format.js{
+    	  render :update do |page| 
+    			page.replace_html 'quality_aspect_entry', :partial => 'quality_aspects/edit_form'    	
+    		end
+  		}
+	end
   end
 
   # POST /quality_aspects
@@ -44,6 +56,15 @@ class QualityAspectsController < ApplicationController
 
     respond_to do |format|
       if @quality_aspect.save
+	@quality_aspects = QualityAspect.where(:study_id => session[:study_id]).all		  
+       format.js{
+          render :update do |page|
+          	page.replace_html 'quality_aspects_table', :partial => 'quality_aspects/table'
+          	new_row_name = 'quality_aspect_' + @quality_aspect.id.to_s
+          	page['new_quality_aspect_form'].reset
+          	page[new_row_name].visual_effect :highlight
+          end	
+        }
         format.html { redirect_to(@quality_aspect, :notice => 'Quality aspect was successfully created.') }
         format.xml  { render :xml => @quality_aspect, :status => :created, :location => @quality_aspect }
       else
@@ -57,9 +78,17 @@ class QualityAspectsController < ApplicationController
   # PUT /quality_aspects/1.xml
   def update
     @quality_aspect = QualityAspect.find(params[:id])
-
+	
     respond_to do |format|
       if @quality_aspect.update_attributes(params[:quality_aspect])
+		@quality_aspects = QualityAspect.find(:all, :conditions=>['study_id=?',session[:study_id]])
+      	format.js { 
+        	render :update do |page|
+        		page.replace_html 'quality_aspects_table', :partial => 'quality_aspects/table'
+          	new_row_name = 'quality_aspect_' + @quality_aspect.id.to_s
+          	page[new_row_name].visual_effect :highlight
+        	end
+        }	  
         format.html { redirect_to(@quality_aspect, :notice => 'Quality aspect was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -76,6 +105,14 @@ class QualityAspectsController < ApplicationController
     @quality_aspect.destroy
 
     respond_to do |format|
+    	format.js {
+				@quality_aspects = QualityAspect.find(:all, :conditions=>['study_id=?',session[:study_id]])		
+		  	render :update do |page|
+					page.replace_html 'quality_aspects_table', :partial => 'quality_aspects/table'	
+					@quality_aspect = QualityAspect.new
+					#page.replace_html 'quality_aspect_entry', :partial => 'quality_aspects/form'					
+		  	end
+			}	
       format.html { redirect_to(quality_aspects_url) }
       format.xml  { head :ok }
     end

@@ -6,12 +6,12 @@
 <th>Delete</th>
 <% if @quality_aspects.length > 0 %>
 <% for qa in @quality_aspects %>
-<tr>
+<tr id='<%= 'quality_aspect_' + qa.id.to_s %>'>
 <td><%= qa.dimension %></td>
 <td><%= qa.value %></td>
 <td><%= qa.notes %></td>
-<td>Edit</td>
-<td>Delete</td>
+<td><%= link_to "Edit", edit_quality_aspect_path(qa), :remote=>true %></td>
+<td><%= link_to "Delete", quality_aspect_path(qa), :remote=>true, :confirm => 'Are you sure?', :method=>:delete %></td>
 </tr>
 <% end %>
 <% end %>

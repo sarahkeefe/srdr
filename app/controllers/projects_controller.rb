@@ -26,6 +26,8 @@ class ProjectsController < ApplicationController
   # GET /projects/1.xml
   def show
     @project = Project.find(params[:id])
+	@key_questions = KeyQuestion.where(:project_id => @project.id)
+	@studies = Study.where(:project_id => @project.id)
     makeActive(@project)
     respond_to do |format|
       format.html # show.html.erb

@@ -31,32 +31,46 @@
 <% pdt_options = [['Select Parameter Dispersion','Select Parameter Dispersion Type'], \
 								["Standard Deviation","Standard Deviation"], \
 								["Standard Error of the Mean","Standard Error of the Mean"]]%>
-	<td>	
-		<%= f.select :estimation_parameter_type, options_for_select(ept_options) %>
+	<td>
+		<% selected_adjusted_estimation_parameter = "" %>
+		<% selected_adjusted_parameter_dispersion = "" %>
+		<% selected_estimation_parameter = "" %>
+		<% selected_parameter_dispersion = "" %>
+		
+		<% unless @categorical_analyses.empty? %>	
+		  <% my_cat = @categorical_analyses[0] %>
+		  <% selected_adjusted_estimation_parameter = my_cat.adjusted_estimation_parameter_type %>
+		  <% selected_adjusted_parameter_dispersion = my_cat.adjusted_parameter_dispersion_type %>
+		  <% selected_estimation_parameter = my_cat.estimation_parameter_type %>
+		  <% selected_parameter_dispersion = my_cat.parameter_dispersion_type %>
+		<% end %>
+		<%= f.select :estimation_parameter_type, options_for_select(ept_options, selected_estimation_parameter.to_s) %>
 	</td>
 	<td>
-		<%= f.select :parameter_dispersion_type, options_for_select(pdt_options) %>
+		<%= f.select :parameter_dispersion_type, options_for_select(pdt_options, selected_parameter_dispersion.to_s) %>
 	</td>
 	<td>P-Value</td>
 	<td>
-		<%= f.select :adjusted_estimation_parameter_type, options_for_select(ept_options) %>
+		<%= f.select :adjusted_estimation_parameter_type, options_for_select(ept_options, selected_adjusted_estimation_parameter.to_s ) %>
 	</td>
 	<td>
-		<%= f.select :adjusted_parameter_dispersion_type, options_for_select(pdt_options) %>
+		<%= f.select :adjusted_parameter_dispersion_type, options_for_select(pdt_options, selected_adjusted_parameter_dispersion.to_s ) %>
 	</td>
 	<td>P-Value</td>
 </tr>
-<% i=0 %>
 <% unless @categorical_analyses.empty? %>
 <% row_num = 1%>
 	<% @categorical_analyses.each do |cat| %>
-	  <%# MAYBE GET THE BELOW METHOD WORKING LATER%>	
-	  <%# <script type='text/javascript'><%= "say_the_word('" + "hello" + "');" </script>%>
-  	<tr id=<%= "categorical_row_" + row_num.to_s %> > 
+  	
+	  <tr id=<%= "categorical_row_" + row_num.to_s %> > 
   		<td>
   			<select id= <%= 'outcome_analysis_'+row_num.to_s+'_outcome_id' %> name=<%= 'outcome_analysis_'+row_num.to_s+'[outcome_id]'%> >
   				<% @categorical_outcomes.each do |out| %>
-  				  	<option value= <%= out.id.to_s %> ><%= out.title.to_s %></option>
+  					<% selected = "" %>
+						<% if out.id.to_i == cat.outcome_id.to_i %>
+							<% selected = "selected='selected'" %>
+						<% end %>  	
+  				  <option value= <%= out.id.to_s %> <%= selected %> ><%= out.title.to_s %></option>
 					<% end %>	
 				</select>
 			</td>
@@ -65,46 +79,55 @@
 			<td>
 				<select id=<%= "outcome_analysis_"+row_num.to_s+"_arm1_id" %> name= <%= "outcome_analysis_"+row_num.to_s+"[arm1_id]" %>>			
 					<% @study_arms.each do |arm| %>
-							<option value=<%= arm.id.to_s %> ><%= arm.title.to_s %></option>
+						<% selected = "" %>
+						<% if arm.id.to_i == cat.arm1_id.to_i %>
+							<% selected = "selected='selected'" %>	
+						<% end %>
+						<option value=<%= arm.id.to_s %> <%= selected %> > <%= arm.title.to_s %> </option>
 					<% end %>
 				</select>
 			</td>
 			<td>
 				<select id=<%= "outcome_analysis_"+row_num.to_s+"_arm2_id" %> name= <%= "outcome_analysis_"+row_num.to_s+"[arm2_id]" %>>			
 					<% @study_arms.each do |arm| %>
+						<% selected = "" %>
+						<% if arm.id.to_i == cat.arm2_id.to_i %>
+							<% selected = "selected='selected'" %>	
+						<% end %>
 						<option value=<%= arm.id.to_s %> ><%= arm.title.to_s %></option>
 					<% end %>
 				</select>
 			</td>
 			<td>
-				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[n_total]" %> id=<%="outcome_analysis_"+row_num.to_s+"_n_total" %> size='10' value= <%= cat[row_num-1].n_total.to_s %> />
+				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[n_total]" %> id=<%="outcome_analysis_"+row_num.to_s+"_n_total" %> size='10' value= <%= cat.n_total.to_s %> />
 			</td>	
 			<td>
-				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[n_event]" %> id= <%= "outcome_analysis_"+row_num.to_s+"_n_event" %> size='10' value=<%= cat[row_num-1].n_event.to_s %> />
+				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[n_event]" %> id= <%= "outcome_analysis_"+row_num.to_s+"_n_event" %> size='10' value=<%= cat.n_event.to_s %> />
 			</td>
 			<td>
-				<input type='text' name= <%= "outcome_analysis_"+row_num.to_s+"[estimation_parameter_value]" %> id= <%= "outcome_analysis_"+row_num.to_s+"_estimation_parameter_value" %> size='30' value=<%= cat[row_num-1].estimation_parameter_value.to_s %>/>
+				<input type='text' name= <%= "outcome_analysis_"+row_num.to_s+"[estimation_parameter_value]" %> id= <%= "outcome_analysis_"+row_num.to_s+"_estimation_parameter_value" %> size='30' value=<%= cat.estimation_parameter_value.to_s %> />
 			</td>
 			<td>
-				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[parameter_dispersion_value]" %> id=<%= "outcome_analysis_"+row_num.to_s+"_parameter_dispersion_value" %> size='30' value=<%= cat[row_num-1].parameter_dispersion_value.to_s %>/>
+				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[parameter_dispersion_value]" %> id=<%= "outcome_analysis_"+row_num.to_s+"_parameter_dispersion_value" %> size='30' value=<%= cat.parameter_dispersion_value.to_s %> />
 			</td>
 			<td>
-				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[p_value]"%> id= <%="outcome_analysis_"+row_num.to_s+"_p_value" %> size='10' value=<%= cat[row_num-1].p_value.to_s %> />
+				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[p_value]"%> id= <%="outcome_analysis_"+row_num.to_s+"_p_value" %> size='10' value=<%= cat.p_value.to_s %> />
 			</td>		
 			<td>
-				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[adjusted_estimation_parameter_value]" %> id=<%="outcome_analysis_"+row_num.to_s+"_adjusted_estimation_parameter_value" %> size='30' value=<%= cat[row_num-1].adjusted_estimation_parameter_value.to_s %> />
+				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[adjusted_estimation_parameter_value]" %> id=<%="outcome_analysis_"+row_num.to_s+"_adjusted_estimation_parameter_value" %> size='30' value=<%= cat.adjusted_estimation_parameter_value.to_s %> />
 			</td>	
 			<td>
-				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[adjusted_parameter_dispersion_value]" %> id=<%= "outcome_analysis_"+row_num.to_s+"_adjusted_parameter_dispersion_value" %> size='30' value=<%= cat[row_num-1].adjusted_parameter_dispersion_value.to_s %> />
+				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[adjusted_parameter_dispersion_value]" %> id=<%= "outcome_analysis_"+row_num.to_s+"_adjusted_parameter_dispersion_value" %> size='30' value=<%= cat.adjusted_parameter_dispersion_value.to_s %> />
 			</td>
 			<td>
-				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_p_value]"%> id= <%="outcome_analysis_"+row_num.to_s+"_adjusted_p_value" %> size='10' value=<%= cat[row_num-1].adjusted_p_value.to_s %> />
+				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_p_value]"%> id= <%="outcome_analysis_"+row_num.to_s+"_adjusted_p_value" %> size='10' value=<%= cat.adjusted_p_value.to_s %> />
 			</td>	
 			<td>	
-				<a href='#' onClick=<%="remove_outcome_analysis_row('categorical_row_" + row_num.to_s + "', 'categorical_analysis_table');"%> >Remove</a>		
+				<% row_id = "categorical_row_" + row_num.to_s %>
+				
+				<a href='#' onClick=<%= "remove_outcome_analysis_row('" + row_id + "'" + ",'categorical_analysis_table');" %> >Remove</a>		
 			</td>
-			  
-			<% i = i+1 %>
+			
 			<% row_num = row_num + 1 %>
 	  
 	<% end %>

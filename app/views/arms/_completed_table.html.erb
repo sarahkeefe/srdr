@@ -1,0 +1,9 @@
+<% unless @arms.length < 1 %>
+	<% i = 1 %>
+    <% for onearm in @arms %>
+	<h4>Arm <%= i %>: <%= onearm.title %>:</h4><%= onearm.description %><br/><br/>
+	<% i = i + 1 %>
+		<% end %>
+<% else %>
+<em>There are no arms associated with this study. Please use the form below to add a new arm.</em>
+<% end %>

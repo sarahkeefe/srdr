@@ -1,20 +1,31 @@
 <p id="notice"><%= notice %></p>
+<h1>Systematic Review Summary</h1>
 
-<p>
-  <b>Title:</b>
-  <%= @project.title %>
-</p>
-
-<p>
-  <b>Description:</b>
-  <%= @project.description %>
-</p>
-
-<p>
-  <b>Notes:</b>
+<div class="summary_heading">Project Title and Description</div>
+<h2><%= @project.title %></h2>
+  <div class="indent_block"><%= @project.description %></div>
+<br/><br/>
   <%= @project.notes %>
-</p>
+<br/>
 
+<div class="summary_heading">Key Questions</div>
+<br/>
+<%= render 'key_questions/completed_table' %>	
+</br>
 
-<%= link_to 'Edit', edit_project_path(@project) %> |
-<%= link_to 'Back', projects_path %>
+<div class="summary_heading">Project Collaborators</div>
+<br/>
+This feature is not implemented yet!
+<br/><br/>
+
+<div class="summary_heading">Associated Studies</div>
+<br/>
+<%= render 'studies/completed_table' %>	
+<br/><br/>
+<div class="summary_heading">Systematic Review Summary</div>
+<br/><br/>
+<table id="bottom_nav"><tr><td align="left"></td><td align="right">
+<%= link_to 'Edit this Project', edit_project_path(@project) %><br/>
+<%= link_to 'Back to Project List', '../projects' %>
+</td></tr></table>
+
