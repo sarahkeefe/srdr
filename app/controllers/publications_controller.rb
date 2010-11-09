@@ -68,20 +68,39 @@ class PublicationsController < ApplicationController
 			@publication.is_primary = FALSE
 		end
     respond_to do |format|
-      if @publication.save && params[:is_primary] == 'false'
-	  	  @secondary_publications = Publication.find(:all, :conditions => {:is_primary => false, :study_id => session[:study_id]})
-        format.js {
-		  		render :update do |page|
+      if @publication.save
+			if params[:is_primary] == 'false'
+				@secondary_publications = Publication.find(:all, :conditions => {:is_primary => false, :study_id => session[:study_id]})		  
+				format.js {
+					render :update do |page|
 					  page.replace_html 'secondary_publication_table', :partial => 'publications/table'
 					  page['secondary_pub_form'].reset
-		 	    end
-			  }
-      elsif @publication.save
-        format.html { redirect_to(@publication, :notice => 'Publication was successfully created.') }
-        format.xml  { render :xml => @publication, :status => :created, :location => @publication }	  
-	    else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @publication.errors, :status => :unprocessable_entity }
+					end
+					}
+			elsif params[:is_primary] == 'true'
+				saved_html = "<div class='success_message'>Saved!</div>"
+				format.html {render :update do |page| 
+					page.replace_html 'primary_pub_validation_message', saved_html
+					end
+					}       
+				format.xml  { render :xml => @publication, :status => :created, :location => @publication }	  
+			end
+		else
+			problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
+			for i in @publication.errors
+				problem_html += "<li>" + i.to_s + " " + @publication.errors[i][0] + "</li>"
+			end
+			problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
+			format.html {
+				render :update do |page| 
+					if  params[:is_primary] == 'true'
+						page.replace_html 'primary_pub_validation_message', problem_html
+					else
+						page.replace_html 'secondary_pub_validation_message', problem_html				
+					end
+				end
+			}       
+			format.xml  { render :xml => @publication.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -102,17 +121,35 @@ class PublicationsController < ApplicationController
     end
     respond_to do |format|
       if @publication.update_attributes(params[:publication])
-        format.js { 
-      	  @secondary_publications = Publication.find(:all, :conditions => {:is_primary => false, :study_id => session[:study_id]})
-          render :update do |page|
-            page.replace_html 'secondary_publication_table', :partial=>'publications/table'
-            #page.replace_html 'secondary_publication_entry', :partial=>'publications/form'
-          end
-        }
+			format.js { 
+			  @secondary_publications = Publication.find(:all, :conditions => {:is_primary => false, :study_id => session[:study_id]})
+			  render :update do |page|
+				if params[:is_primary] == 'true'
+					saved_html = "<div class='success_message'>Saved!</div>"			
+					page.replace_html 'primary_pub_validation_message', saved_html
+				else
+					page.replace_html 'secondary_publication_table', :partial=>'publications/table'			
+				end
+				#page.replace_html 'secondary_publication_entry', :partial=>'publications/form'
+			  end
+			}
         format.html { redirect_to(project_study_publication_path(session[:project_id],session[:study_id],@publication), :notice => 'Publication was successfully updated.') }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
+			for i in @publication.errors
+				problem_html += "<li>" + i.to_s + " " + @publication.errors[i][0] + "</li>"
+			end
+			problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
+			format.html {
+				render :update do |page| 
+					if  params[:is_primary] == 'true'
+						page.replace_html 'primary_pub_validation_message', problem_html
+					else
+						page.replace_html 'secondary_pub_validation_message', problem_html				
+					end
+				end
+			}       
         format.xml  { render :xml => @publication.errors, :status => :unprocessable_entity }
       end
     end

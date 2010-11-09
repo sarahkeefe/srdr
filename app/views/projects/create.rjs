@@ -1,0 +1,20 @@
+if @error.nil?
+	page.insert_html :bottom, 'validation_error', "Success"
+	page.visual_effect :highlight, "validation_error", :duration=>2
+	if flash[:create_form_error]
+		# Cleanup
+		page.remove 'form_error'
+	end
+else
+	# Was there already an error?
+	if flash[:create_form_error]
+		# Update old error message
+		page.replace 'validation_error', :partial=>'form_error', :object=>@myobject
+	else
+		# Create error dialog
+		page.insert_html :top, 'ajax_create', {:partial=>'form_error', :object=>@myobject}
+	end
+
+	flash[:create_form_error] = true
+	page.visual_effect :highlight, 'validation_error', :duration=>2
+end

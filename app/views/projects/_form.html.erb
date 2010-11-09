@@ -1,5 +1,5 @@
-<%= form_for(@project, :remote =>true) do |f| %>
-  <% if @project.errors.any? %>
+<div id="validation_message"><%= flash[:notice] %></div>
+<% if @project.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
 
@@ -10,7 +10,9 @@
       </ul>
     </div>
   <% end %>
-
+  <div id="form_content">
+<%= form_for(@project, :remote =>true) do |f| %>
+  
   <div class="field">
     <%= f.label :choose_a_project_title %>: <%= f.text_field :title, :size => 40 %>
   </div>
@@ -26,3 +28,4 @@
     <%= f.submit "Save" %>
   </div>
 <% end %>
+</div>
