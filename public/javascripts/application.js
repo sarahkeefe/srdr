@@ -50,6 +50,7 @@ function add_continuous_outcome_analysis_row(){
 	  //alert("row id = " + row_id);
 	  //alert("row_num = " + row_num);
 	}
+	var tbody = $('outcome_analysis_table').getElementsByTagName("tbody")[0];
 	
 	var tr = Builder.node('tr', {id: row_id}),
 		td1 = Builder.node('td'),
@@ -106,7 +107,7 @@ function add_continuous_outcome_analysis_row(){
 		tr.appendChild(td8);
 	
 	
-		$('outcome_analysis_table').appendChild(tr)		
+		tbody.appendChild(tr)		
 
 } // end add_outcome_analysis_row
 

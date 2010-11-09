@@ -28,14 +28,81 @@
 								["Standard Deviation","Standard Deviation"], \
 								["Standard Error of the Mean","Standard Error of the Mean"]]%>
     
-<td><%= f.select :estimation_parameter_type, options_for_select(ept_options) %></td>
+		<% selected_estimation_parameter = "" %>
+		<% selected_parameter_dispersion = "" %>
+		
+		<% unless @continuous_analyses.empty? %>	
+		  <% my_cont = @continuous_analyses[0] %>
+		  <% selected_estimation_parameter = my_cont.estimation_parameter_type %>
+		  <% selected_parameter_dispersion = my_cont.parameter_dispersion_type %>
+		<% end %>
+<td><%= f.select :estimation_parameter_type, options_for_select(ept_options, selected_estimation_parameter.to_s ) %></td>
 
-<td><%= f.select :parameter_dispersion_type, options_for_select(pdt_options) %></td>
+<td><%= f.select :parameter_dispersion_type, options_for_select(pdt_options, selected_parameter_dispersion.to_s ) %></td>
 <td>P-Value</td>
 <td></td>
 </tr>
 <%= f.hidden_field :categorical_or_continuous, :value=>"Continuous" %>
 
+<% unless @continuous_analyses.empty? %>
+	<% row_num = 1%>
+	<% @continuous_analyses.each do |cont| %>
+	  <tr id=<%= "row_" + row_num.to_s %> >
+	  	<td>	
+	  	<select id= <%= 'outcome_analysis_'+row_num.to_s+'_outcome_id' %> name=<%= 'outcome_analysis_'+row_num.to_s+'[outcome_id]'%> >
+  				<% @continuous_outcomes.each do |out| %>
+  					<% selected = "" %>
+						<% if out.id.to_i == cont.outcome_id.to_i %>
+							<% selected = "selected='selected'" %>
+						<% end %>  	
+  				  <option value= <%= out.id.to_s %> <%= selected %> ><%= out.title.to_s %></option>
+					<% end %>	
+				</select>
+			</td>
+			
+			
+			<td>
+				<select id=<%= "outcome_analysis_"+row_num.to_s+"_arm1_id" %> name= <%= "outcome_analysis_"+row_num.to_s+"[arm1_id]" %>>			
+					<% @study_arms.each do |arm| %>
+						<% selected = "" %>
+						<% if arm.id.to_i == cont.arm1_id.to_i %>
+							<% selected = "selected='selected'" %>	
+						<% end %>
+						<option value=<%= arm.id.to_s %> <%= selected %> > <%= arm.title.to_s %> </option>
+					<% end %>
+				</select>
+			</td>
+			<td>
+				<select id=<%= "outcome_analysis_"+row_num.to_s+"_arm2_id" %> name= <%= "outcome_analysis_"+row_num.to_s+"[arm2_id]" %>>			
+					<% @study_arms.each do |arm| %>
+						<% selected = "" %>
+						<% if arm.id.to_i == cont.arm2_id.to_i %>
+							<% selected = "selected='selected'" %>	
+						<% end %>
+						<option value=<%= arm.id.to_s %> ><%= arm.title.to_s %></option>
+					<% end %>
+				</select>
+			</td>
+			<td>
+				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[n_total]" %> id=<%="outcome_analysis_"+row_num.to_s+"_n_analyzed" %> size='10' value= <%= cont.n_analyzed.to_s %> />
+			</td>	
+			<td>
+				<input type='text' name= <%= "outcome_analysis_"+row_num.to_s+"[estimation_parameter_value]" %> id= <%= "outcome_analysis_"+row_num.to_s+"_estimation_parameter_value" %> size='30' value=<%= cont.estimation_parameter_value.to_s %> />
+			</td>
+			<td>
+				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[parameter_dispersion_value]" %> id=<%= "outcome_analysis_"+row_num.to_s+"_parameter_dispersion_value" %> size='30' value=<%= cont.parameter_dispersion_value.to_s %> />
+			</td>
+			<td>
+				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[p_value]"%> id= <%="outcome_analysis_"+row_num.to_s+"_p_value" %> size='10' value=<%= cont.p_value.to_s %> />
+			</td>	
+			<td>	
+				<% row_id = "row_" + row_num.to_s %>
+				<a href='#' onClick=<%= "remove_outcome_analysis_row('" + row_id + "'" + ",'outcome_analysis_table');" %> >Remove</a>		
+			</td>
+		</tr>  	
+	<%end%>
+<%end%>
+	  	
 </table>
 <%= f.submit "Save" %>
 <% end %>
