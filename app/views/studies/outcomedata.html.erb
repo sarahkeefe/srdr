@@ -8,8 +8,12 @@
 <% else %>
 <b>There are currently no outcomes listed for this study. </b>
 <% end %>
+<br/><br/><div class="icon_explanation">
+<%= image_tag "/images/paper-icon.gif" %> <b>Directly transcribed</b> data item (directly from scientific literature)<br/>
+<%= image_tag "/images/calculator-icon.gif" %> <b>Calculated</b> data item<br/><br/>
+Click the icon in a table cell to toggle between markers. Please mark all numbers that result from your own calculations as <b>calculated data</b>.
+</div>
 <br/><br/>
-
 <%= render 'outcome_results/table' %>
 
 

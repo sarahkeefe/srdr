@@ -33,19 +33,45 @@
 							<% if @outcome_timepoints.length > 0 %>
 								<% for tp in @outcome_timepoints %>
 									<% val = OutcomeResult.get_timepoint_data_point(one_arm.id, one_outcome.id, tp.id) %>
-									<td><%= val%></td>
+									<% if OutcomeResult.get_timepoint_data_point_calc(one_arm.id, one_outcome.id, tp.id) %>
+										<td class="calculated"><%= val%></td>									
+									<% else %>
+										<td><%= val%></td>
+									<% end %>
 								<% end %>
 							<% end %>
 							<% val = OutcomeResult.get_data_point(one_arm.id, one_outcome.id) %>
-							<td><%= val["nanalyzed"] %></td>
-							<td><%= val["measurereg"] %></td>
-							<td><%= val["measuredisp"] %></td>
-							<td><%= val["pvalue"] %></td>
+							<% calc = OutcomeResult.get_data_point_calc(one_arm.id, one_outcome.id) %>							
+							
+								<% if calc["nanalyzed"] %>
+									<td class="calculated"><%= val["nanalyzed"] %></td>
+								<% else %>
+									<td><%= val["nanalyzed"] %></td>
+								<% end %>
+								
+								<% if calc["measurereg"] %>
+									<td class="calculated"><%= val["measurereg"] %></td>
+								<% else %>
+									<td><%= val["measurereg"] %></td>
+								<% end %>
+								
+								<% if calc["measuredisp"] %>							
+									<td class="calculated"><%= val["measuredisp"] %></td>
+								<% else %>
+									<td><%= val["measuredisp"] %></td>
+								<% end %>
+								
+								<% if calc["pvalue"] %>
+									<td class="calculated"><%= val["pvalue"] %></td>
+								<% else %>
+									<td><%= val["pvalue"] %></td>
+								<% end %>
 							<% i = i + 1 %>
 					<% end %>
 				<% end %>
 					</tr>
 			</table>
+
 </div>
 <br/>
 <% end %>
