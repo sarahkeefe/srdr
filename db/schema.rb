@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101105125847) do
+ActiveRecord::Schema.define(:version => 20101108211040) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer  "study_id"
@@ -76,7 +76,6 @@ ActiveRecord::Schema.define(:version => 20101105125847) do
     t.datetime "updated_at"
     t.integer  "outcome_id"
     t.string   "adjusted_estimation_parameter_type"
-    t.integer  "adjusted_estimation_parameter_value"
   end
 
   create_table "outcome_enrolled_numbers", :force => true do |t|
@@ -100,6 +99,10 @@ ActiveRecord::Schema.define(:version => 20101105125847) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "outcome_id"
+    t.boolean  "nanalyzed_is_calculated"
+    t.boolean  "measurereg_is_calculated"
+    t.boolean  "measuredisp_is_calculated"
+    t.boolean  "pvalue_is_calculated"
   end
 
   create_table "outcome_timepoint_results", :force => true do |t|
@@ -110,6 +113,7 @@ ActiveRecord::Schema.define(:version => 20101105125847) do
     t.string   "value"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_calculated"
   end
 
   create_table "outcome_timepoints", :force => true do |t|
@@ -187,6 +191,11 @@ ActiveRecord::Schema.define(:version => 20101105125847) do
     t.integer  "study_id"
     t.string   "guideline_used"
     t.string   "current_overall_rating"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "static_pages", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end

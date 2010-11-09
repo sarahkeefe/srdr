@@ -128,3 +128,26 @@ padding: 8px;
 table#bottom_nav{
 width: 80%;
 }
+
+td.calculated{
+	background-color: #ffff99
+}
+
+.calculated_checkbox{
+	display: inline;
+}
+
+.checkbox {
+width: 19px;
+height: 25px;
+padding: 0 5px 0 0;
+background: url(../images/checkbox.gif) no-repeat;
+display: inline;
+clear: left;
+float: left;
+}
+
+.icon_explanation{
+border: 1px solid #ccc;
+padding: 8px;
+}
