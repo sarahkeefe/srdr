@@ -13,11 +13,11 @@ class OutcomeAnalysesController < ApplicationController
   # GET /outcome_analyses/1
   # GET /outcome_analyses/1.xml
   def show
-    @outcome_analyasis = OutcomeAnalysis.find(params[:id])
+    @outcome_analysis = OutcomeAnalysis.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @outcome_analyasis }
+      format.xml  { render :xml => @outcome_analysis }
     end
   end
 
@@ -28,13 +28,13 @@ class OutcomeAnalysesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @outcome_analyasis }
+      format.xml  { render :xml => @outcome_analysis }
     end
   end
 
   # GET /outcome_analyses/1/edit
   def edit
-    @outcome_analyasis = OutcomeAnalysis.find(params[:id])
+    @outcome_analysis = OutcomeAnalysis.find(params[:id])
   end
 
   # POST /outcome_analyses

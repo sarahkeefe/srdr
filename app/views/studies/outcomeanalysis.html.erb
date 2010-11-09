@@ -1,6 +1,8 @@
 <h2>Study Outcome Analysis</h2>
 <% if @study_arms.length > 1 %>
-	<% unless @continuous_outcomes.empty? %>
+	<%= render 'outcome_analyses/outcome_analysis_options' %>
+	
+  <% unless @continuous_outcomes.empty? %>
 		<%= render 'outcome_analyses/continuous_entry_form_table' %>
 	<% end %>
 	

@@ -62,19 +62,19 @@ function add_continuous_outcome_analysis_row(){
 		td8 = Builder.node('td');
 		
 		// GET THE NUMBER OF OUTCOMES THAT WE NEED TO ITERATE THROUGH
-		var num_outcomes = $('outcome_analysis_outcome_id').options.length
+		var num_outcomes = $('continuous_outcomes').options.length
 		var i = 0;
 		var outcome_select_options = ""
 		
 		// CREATE A STRING OF OUTCOME OPTIONS 
 		for(i=0; i<num_outcomes; i++){
 			outcome_select_options = outcome_select_options + "<option value='" + 
-															 $('outcome_analysis_outcome_id').options[i].value.toString() + 
-															 "'>"+ $('outcome_analysis_outcome_id').options[i].innerHTML.toString() + "</option>";
+															 $('continuous_outcomes').options[i].value.toString() + 
+															 "'>"+ $('continuous_outcomes').options[i].innerHTML.toString() + "</option>";
 		}
 		
 		// GET THE NUMBER OF ARMS THAT WE NEED TO ITERATE THROUGH
-		var num_arms = $('outcome_analysis_arm1_id').options.length
+		var num_arms = $('available_arms').options.length
 		arm_select_options = ""
 		var selected = ""
 		for(i=0; i<num_arms; i++){
@@ -84,8 +84,8 @@ function add_continuous_outcome_analysis_row(){
 				selected = ""
 			}
 			arm_select_options = arm_select_options + "<option value='" + 
-													$('outcome_analysis_arm1_id').options[i].value.toString() + 
-													"'>" + $('outcome_analysis_arm1_id').options[i].innerHTML.toString() + "</option>"
+													$('available_arms').options[i].value.toString() + 
+													"'>" + $('available_arms').options[i].innerHTML.toString() + "</option>"
 		}
 		
 		td1.innerHTML = "<select id='outcome_analysis_"+row_num+"_outcome_id' name='outcome_analysis_"+row_num+"[outcome_id]'>"+outcome_select_options+"</select>";
@@ -114,10 +114,11 @@ function add_categorical_outcome_analysis_row(){
 	var row_id = "categorical_row_1"
 	var row_num = 1
 	var num_analyses = $('categorical_analysis_table').getElementsByTagName('tr').length
-	if(num_analyses > 1){
+	
+	if(num_analyses > 2){
 		//alert("length > 1");
 		var previous_row = $('categorical_analysis_table').getElementsByTagName('tr')[num_analyses-1].id.toString();
-	  row_num = parseInt(previous_row.replace("row_","")) + 1;
+	  row_num = parseInt(previous_row.replace("categorical_row_","")) + 1;
 	  row_id = "categorical_row_" + row_num.toString();
 	  //alert("row id = " + row_id);
 	  //alert("row_num = " + row_num);
@@ -138,19 +139,19 @@ function add_categorical_outcome_analysis_row(){
 		td12 = Builder.node('td');
 		
 		// GET THE NUMBER OF OUTCOMES THAT WE NEED TO ITERATE THROUGH
-		var num_outcomes = $('categorical_analysis_outcome_id').options.length
+		var num_outcomes = $('categorical_outcomes').options.length
 		var i = 0;
 		var outcome_select_options = ""
 		
 		// CREATE A STRING OF OUTCOME OPTIONS 
 		for(i=0; i<num_outcomes; i++){
 			outcome_select_options = outcome_select_options + "<option value='" + 
-															 $('categorical_analysis_outcome_id').options[i].value.toString() + 
-															 "'>"+ $('categorical_analysis_outcome_id').options[i].innerHTML.toString() + "</option>";
+															 $('categorical_outcomes').options[i].value.toString() + 
+															 "'>"+ $('categorical_outcomes').options[i].innerHTML.toString() + "</option>";
 		}
 		
 		// GET THE NUMBER OF ARMS THAT WE NEED TO ITERATE THROUGH
-		var num_arms = $('outcome_analysis_arm1_id').options.length
+		var num_arms = $('available_arms').options.length
 		arm_select_options = ""
 		var selected = ""
 		for(i=0; i<num_arms; i++){
@@ -160,8 +161,8 @@ function add_categorical_outcome_analysis_row(){
 				selected = ""
 			}
 			arm_select_options = arm_select_options + "<option value='" + 
-													$('outcome_analysis_arm1_id').options[i].value.toString() + 
-													"'>" + $('outcome_analysis_arm1_id').options[i].innerHTML.toString() + "</option>"
+													$('available_arms').options[i].value.toString() + 
+													"'>" + $('available_arms').options[i].innerHTML.toString() + "</option>"
 		}
 		
 		td1.innerHTML = "<select id='outcome_analysis_"+row_num+"_outcome_id' name='outcome_analysis_"+row_num+"[outcome_id]'>"+outcome_select_options+"</select>";
@@ -196,4 +197,7 @@ function add_categorical_outcome_analysis_row(){
 function remove_outcome_analysis_row(row, analysis_table){
 	var row_to_remove = document.getElementById(row)
 	$(analysis_table).removeChild(row_to_remove)
+}
+function say_the_word(word){
+	alert(word.toString)
 }

@@ -84,16 +84,13 @@ class StudiesController < ApplicationController
 	   
 		 @study_arms = Arm.find(:all, :conditions=>["study_id=?",session[:study_id]], :select=>["id","title"])
 	   
-		 @continuous_outcomes = Outcome.find(:all, :conditions=>["study_id=? AND outcome_type=?",\
-	   																		 session[:study_id],"Continuous"],:select=>["id","title","description"])
+		 @continuous_outcomes = Outcome.find(:all, :conditions=>["study_id=? AND outcome_type=?",session[:study_id],"Continuous"],:select=>["id","title","description"])
 		 
-	   @categorical_outcomes = Outcome.find(:all, :conditions=>["study_id=? AND outcome_type=?",\
-	   																		 session[:study_id],"Categorical"],:select=>["id","title","description"])	   																		 														 
+	   @categorical_outcomes = Outcome.find(:all, :conditions=>["study_id=? AND outcome_type=?",session[:study_id],"Categorical"],:select=>["id","title","description"])	   																		 														 
     
      unless @categorical_outcomes.empty?
 		 	@new_categorical_analysis = OutcomeAnalysis.new
-		  @categorical_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND categorical_or_continuous=?",
-     													session[:study_id], "Categorical"])	   				
+		  @categorical_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND categorical_or_continuous=?",1, "Categorical"])	   				
 	 	 end
 	 	 
 	 	 unless @continuous_outcomes.empty?

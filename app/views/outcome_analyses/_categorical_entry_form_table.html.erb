@@ -7,7 +7,11 @@
 <td rowspan=2>Arm B</td>
 <td rowspan=2>N<br/> Total</td>
 <td rowspan=2>N<br/>Event</td>
-
+<td colspan=3 align='center'>Non-Adjusted</td>
+<td colspan=3 align='center'>Adjusted</td>
+</tr>
+<tr>
+		<%# OPTIONS FOR ESTIMATION PARAMETER TYPE %>  
 <% ept_options = [['Select Estimation Parameter Type','Select Estimation Parameter Type'], \
 											["Cox Proportional Hazard","Cox Proportional Hazard"], \
     									["Hazard Ratio (HR)","Hazard Ratio (HR)"], \
@@ -22,89 +26,93 @@
     									['Risk Ratio, log','Risk Ratio, log'], \
     									['Slope','Slope'], \
     									['Other','Other']]%>
-    
-<td colspan=3 align='center'>Non-Adjusted</td>
-<td colspan=3 align='center'>Adjusted</td>
-</tr>
-<tr>
-	<td><%= f.select :estimation_parameter_type, options_for_select(ept_options) %></td>
-	<% pdt_options = [['Select Parameter Dispersion','Select Parameter Dispersion Type'], \
-											["Standard Deviation","Standard Deviation"], \
-    									["Standard Error of the Mean","Standard Error of the Mean"]]%>
-	<td><%= f.select :parameter_dispersion_type, options_for_select(pdt_options) %></td>
+    									
+<%# OPTIONS FOR PARAMETER DISPERSION TYPE%>
+<% pdt_options = [['Select Parameter Dispersion','Select Parameter Dispersion Type'], \
+								["Standard Deviation","Standard Deviation"], \
+								["Standard Error of the Mean","Standard Error of the Mean"]]%>
+	<td>	
+		<%= f.select :estimation_parameter_type, options_for_select(ept_options) %>
+	</td>
+	<td>
+		<%= f.select :parameter_dispersion_type, options_for_select(pdt_options) %>
+	</td>
 	<td>P-Value</td>
-	
-	<td><%= f.select :adjusted_estimation_parameter_type, options_for_select(ept_options) %></td>
-	<% pdt_options = [['Select Parameter Dispersion','Select Parameter Dispersion Type'], \
-											["Standard Deviation","Standard Deviation"], \
-    									["Standard Error of the Mean","Standard Error of the Mean"]]%>
-	<td><%= f.select :adjusted_parameter_dispersion_type, options_for_select(pdt_options) %></td>
+	<td>
+		<%= f.select :adjusted_estimation_parameter_type, options_for_select(ept_options) %>
+	</td>
+	<td>
+		<%= f.select :adjusted_parameter_dispersion_type, options_for_select(pdt_options) %>
+	</td>
 	<td>P-Value</td>
-
 </tr>
-<%= f.hidden_field :categorical_or_continuous, :value=>"Categorical" %>
-<tr id="categorical_row_1">
-
-<%# OUTCOME TITLE %>
-<td>
-	<select id="categorical_analysis_outcome_id" name="outcome_analysis[outcome_id]">
-    <% @categorical_outcomes.each do |cat| %>
-  	    <option value=<%= cat.id.to_s %>><%= cat.title.to_s %></option>
-		<% end %>
-  </select>	
-
-<%# f.select :outcome_id, options_for_select(options),:html=>{:id=>"categorical_analysis_outcome_id"} %></td>
-
-<% options = [] %>
-<% @study_arms.each do |arm| %>
-	<%# store the title and id to the options array %>
-	<%# we will use these as option and value     %>
-	<% options << [arm.title.to_s, arm.id.to_s] %>
+<% i=0 %>
+<% unless @categorical_analyses.empty? %>
+<% row_num = 1%>
+	<% @categorical_analyses.each do |cat| %>
+	  <%# MAYBE GET THE BELOW METHOD WORKING LATER%>	
+	  <%# <script type='text/javascript'><%= "say_the_word('" + "hello" + "');" </script>%>
+  	<tr id=<%= "categorical_row_" + row_num.to_s %> > 
+  		<td>
+  			<select id= <%= 'outcome_analysis_'+row_num.to_s+'_outcome_id' %> name=<%= 'outcome_analysis_'+row_num.to_s+'[outcome_id]'%> >
+  				<% @categorical_outcomes.each do |out| %>
+  				  	<option value= <%= out.id.to_s %> ><%= out.title.to_s %></option>
+					<% end %>	
+				</select>
+			</td>
+			
+			
+			<td>
+				<select id=<%= "outcome_analysis_"+row_num.to_s+"_arm1_id" %> name= <%= "outcome_analysis_"+row_num.to_s+"[arm1_id]" %>>			
+					<% @study_arms.each do |arm| %>
+							<option value=<%= arm.id.to_s %> ><%= arm.title.to_s %></option>
+					<% end %>
+				</select>
+			</td>
+			<td>
+				<select id=<%= "outcome_analysis_"+row_num.to_s+"_arm2_id" %> name= <%= "outcome_analysis_"+row_num.to_s+"[arm2_id]" %>>			
+					<% @study_arms.each do |arm| %>
+						<option value=<%= arm.id.to_s %> ><%= arm.title.to_s %></option>
+					<% end %>
+				</select>
+			</td>
+			<td>
+				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[n_total]" %> id=<%="outcome_analysis_"+row_num.to_s+"_n_total" %> size='10' value= <%= cat[row_num-1].n_total.to_s %> />
+			</td>	
+			<td>
+				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[n_event]" %> id= <%= "outcome_analysis_"+row_num.to_s+"_n_event" %> size='10' value=<%= cat[row_num-1].n_event.to_s %> />
+			</td>
+			<td>
+				<input type='text' name= <%= "outcome_analysis_"+row_num.to_s+"[estimation_parameter_value]" %> id= <%= "outcome_analysis_"+row_num.to_s+"_estimation_parameter_value" %> size='30' value=<%= cat[row_num-1].estimation_parameter_value.to_s %>/>
+			</td>
+			<td>
+				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[parameter_dispersion_value]" %> id=<%= "outcome_analysis_"+row_num.to_s+"_parameter_dispersion_value" %> size='30' value=<%= cat[row_num-1].parameter_dispersion_value.to_s %>/>
+			</td>
+			<td>
+				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[p_value]"%> id= <%="outcome_analysis_"+row_num.to_s+"_p_value" %> size='10' value=<%= cat[row_num-1].p_value.to_s %> />
+			</td>		
+			<td>
+				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[adjusted_estimation_parameter_value]" %> id=<%="outcome_analysis_"+row_num.to_s+"_adjusted_estimation_parameter_value" %> size='30' value=<%= cat[row_num-1].adjusted_estimation_parameter_value.to_s %> />
+			</td>	
+			<td>
+				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[adjusted_parameter_dispersion_value]" %> id=<%= "outcome_analysis_"+row_num.to_s+"_adjusted_parameter_dispersion_value" %> size='30' value=<%= cat[row_num-1].adjusted_parameter_dispersion_value.to_s %> />
+			</td>
+			<td>
+				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_p_value]"%> id= <%="outcome_analysis_"+row_num.to_s+"_adjusted_p_value" %> size='10' value=<%= cat[row_num-1].adjusted_p_value.to_s %> />
+			</td>	
+			<td>	
+				<a href='#' onClick=<%="remove_outcome_analysis_row('categorical_row_" + row_num.to_s + "', 'categorical_analysis_table');"%> >Remove</a>		
+			</td>
+			  
+			<% i = i+1 %>
+			<% row_num = row_num + 1 %>
+	  
+	<% end %>
 <% end %>
-    
-<%# ARM A %>
-<td><%= f.select :arm1_id, options_for_select(options) %></td>
 
-<%# ARM B %>
-<td><%= f.select :arm2_id, options_for_select(options, options[1][1].to_s ) %></td>
 
-<%# N Total%>
-<td><input type="text" name="outcome_analysis[n_total]" id="outcome_analysis_n_total" size="10" /></td>
 	
-<%# N Event%>
-<td><input type="text" name="outcome_analysis[n_event]" id="outcome_analysis_n_event" size="10" /></td>
-	
-<%# ESTIMATION PARAMETER ENTRY %>
-<td>
-	<input type="text" name="outcome_analysis[estimation_parameter_value]" id="outcome_analysis_estimation_parameter_value" size="30" />
-</td>
-
-<%# PARAMETER DISPERSION ENTRY %>
-<td>
-	<input type="text" name="outcome_analysis[parameter_dispersion_value]" id="outcome_analysis_parameter_dispersion_value" size="30"/>
-</td>
-<%# P-Value %>
-<td>
-	<input type="text" name="outcome_analysis[p_value]" id="outcome_analysis_p_value" size="10" />
-</td>
-
-<%# ESTIMATION PARAMETER ENTRY %>
-<td>
-	<input type="text" name="outcome_analysis[adjusted_estimation_parameter_value]" id="outcome_analysis_adjusted_estimation_parameter_value" size="30" />
-</td>
-
-<%# ADJUSTED PARAMETER DISPERSION ENTRY %>
-<td>
-	<input type="text" name="outcome_analysis[adjusted_parameter_dispersion_value]" id="outcome_analysis_adjusted_parameter_dispersion_value" size="30"/>
-</td>
-
-<%# P-Value %>
-<td>
-	<input type="text" name="outcome_analysis[adjusted_p_value]" id="outcome_analysis_adjusted_p_value" size="10" />
-</td>
-
-<td></td>
-</tr>
+<%= f.hidden_field :categorical_or_continuous, :value=>"Categorical" %>
 </table>
 <%= f.submit "Save" %>
 <% end %>
