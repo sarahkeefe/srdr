@@ -1,6 +1,12 @@
 module ApplicationHelper
 	
 	def get_bread_crumbs(url)
+		
+		elements = url.split(/)
+		
+		home_uri = "/projects/"
+		project_name = Project.find(session[:project_id], :select="title")
+		project_uri = "/projects/" + session[:project_id]
 		return  url
 	end
 	

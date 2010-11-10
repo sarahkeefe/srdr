@@ -63,13 +63,27 @@ class ProjectsController < ApplicationController
   # POST /projects.xml
   def create
     @project = Project.new(params[:project])
-
+	@key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
+	@key_question = KeyQuestion.new	
     respond_to do |format|
       if @project.save
-        format.html { redirect_to(@project, :notice => 'Project was successfully created.') }
+        #format.html { redirect_to(@project, :notice => 'Project was successfully created.') }
+        format.html {render :update do |page| 
+						page.replace_html 'validation_message', "<div class='success_message'>Saved successfully!</div><br/>"
+					page.visual_effect(:appear, 'validation_message')	
+					end
+					}		
         format.xml  { render :xml => @project, :status => :created, :location => @project }
       else
-        format.html { render :action => "new" }
+		problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
+		for i in @project.errors
+			problem_html += "<li>" + i.to_s + " " + @project.errors[i][0] + "</li>"
+		end
+		problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
+        format.html {render :update do |page| 
+			page.replace_html 'validation_message', problem_html
+			end
+			}       
         format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
       end
     end
@@ -79,14 +93,30 @@ class ProjectsController < ApplicationController
   # PUT /projects/1.xml
   def update
     @project = Project.find(params[:id])
-
+	@key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
+	@key_question = KeyQuestion.new	
     respond_to do |format|
       if @project.update_attributes(params[:project])
-        format.html { redirect_to(@project, :notice => 'Project was successfully updated.') }
-        format.xml  { head :ok }
+        #format.html { redirect_to(@project, :notice => 'Project was successfully updated.') }
+        format.html {render :update do |page| 
+						page.replace_html 'validation_message', "<div class='success_message'>Saved successfully!</div><br/>"
+					page.visual_effect(:appear, 'validation_message')	
+					end
+					}
+		format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
+        #format.html { render :action => "edit" }
+		problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
+		for i in @project.errors
+			problem_html += "<li>" + i.to_s + " " + @project.errors[i][0] + "</li>"
+		end
+		problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
+        format.html {render :update do |page| 
+			page.replace_html 'validation_message', problem_html
+			end
+			}        
+		format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
+
       end
     end
 end

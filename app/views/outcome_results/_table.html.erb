@@ -1,4 +1,5 @@
 <div id="outcome_results_table">
+<% if !@selected_outcome.nil? %>
 <% one_outcome = @selected_outcome %>
 		<b>Outcome Title: <%= one_outcome.title %></b><br/>
 		<%= form_for @outcome_result, :remote => true do |f| %>
@@ -62,5 +63,7 @@
 			</table>
 		<%= submit_tag "Save" %>
 	<% end %>
+	<% end %>
+	
 </div>
 <br/><br/>

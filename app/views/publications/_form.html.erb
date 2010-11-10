@@ -1,3 +1,4 @@
+<div id="secondary_pub_validation_message"></div>
 <%= form_for @publication, :remote => true, :html=>{:id=>'secondary_pub_form'} do |f| %>
   <% if @publication.errors.any? %>
     <div id="error_explanation">

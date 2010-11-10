@@ -65,6 +65,7 @@ class KeyQuestionsController < ApplicationController
 				@key_questions = KeyQuestion.where(:project_id => session[:project_id]).all
         format.js {
 		  		render :update do |page|
+						page.replace_html 'key_question_validation_message', ""				
 						page.replace_html 'key_question_table', :partial => 'key_questions/table'
 						new_row_name = "kq_row_" + question_number.to_s
 						page['new_key_question'].reset
@@ -74,12 +75,24 @@ class KeyQuestionsController < ApplicationController
 				  end
 				}
       else
-        format.html { render :action => "new" }
+		problem_html = "<div class='error_message'>The following errors prevented the question from being saved:<br/><ul>"
+		for i in @key_question.errors
+			problem_html += "<li>" + i.to_s + " " + @key_question.errors[i][0] + "</li>"
+		end
+		problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
+        format.html {render :update do |page| 
+			page.replace_html 'key_question_validation_message', problem_html
+			end
+			}       
         format.xml  { render :xml => @key_question.errors, :status => :unprocessable_entity }
       end
     end
   end
 
+  
+  		
+  
+  
   # PUT /key_questions/1
   # PUT /key_questions/1.xml
   def update
@@ -90,6 +103,7 @@ class KeyQuestionsController < ApplicationController
         @key_questions = KeyQuestion.where(:project_id => session[:project_id]).all 
       	format.js {
 		  		render :update do |page|
+						page.replace_html 'key_question_validation_message', ""				
 						page.replace_html 'key_question_table', :partial => 'key_questions/table'
 						page.replace_html 'key_question_entry', :partial => 'key_questions/edit_kq_form'
 					end
@@ -97,7 +111,15 @@ class KeyQuestionsController < ApplicationController
       	format.html { redirect_to(project_key_question_path(session[:project_id],@key_question), :notice => 'Key question was successfully updated.') }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+problem_html = "<div class='error_message'>The following errors prevented the question from being saved:<br/><ul>"
+		for i in @key_question.errors
+			problem_html += "<li>" + i.to_s + " " + @key_question.errors[i][0] + "</li>"
+		end
+		problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
+        format.html {render :update do |page| 
+			page.replace_html 'key_question_validation_message', problem_html
+			end
+			}       
         format.xml  { render :xml => @key_question.errors, :status => :unprocessable_entity }
       end
     end

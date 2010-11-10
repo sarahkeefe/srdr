@@ -6,7 +6,7 @@
 <th>Move Up</th>
 <th>Edit</th>
 <th>Remove</th>
-<% if @key_questions.length > 0 %>
+<% if !@key_questions.nil? && @key_questions.length > 0 %>
 <% for keyq in @key_questions %>
 <tr id=<%= "kq_row_"+keyq.question_number.to_s %>>
 <td><%= keyq.question_number %></td>

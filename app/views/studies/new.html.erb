@@ -7,7 +7,9 @@
 	    <input type="checkbox" name=<%= "question_" + q.id.to_s %> >
 		<%= q.question_number.to_s + ". " + q.question %><br/>  
 	  <% end %>
-	  <%= f.submit "Save Questions" %>
+<table>
+	 	<tr><td><%= f.submit "Save Questions" %></td><td id="status_box" align="right" style="width: 250px; color: white;">...saved</td></tr>
+	</table>
 <% end %>
   <% else %>
     There are no key questions associated with this project.
@@ -15,7 +17,7 @@
 
 <br/>
 <hr width="80%" size="1" align="center"><br/>
-
+<div id="primary_pub_validation_message"></div>
 <h3>Primary Publication Information</h3>
 <%= render 'publications/form_primary' %>
 <br/><br/>
@@ -28,6 +30,7 @@
 </div>
 
 <b>Add new Publication to Study</b><br/><br/>
+
 <div id="secondary_publication_entry">
 <%= render 'publications/form' %>
 </div>
