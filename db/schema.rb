@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(:version => 20101108211040) do
     t.datetime "updated_at"
     t.integer  "outcome_id"
     t.string   "adjusted_estimation_parameter_type"
+    t.integer  "adjusted_estimation_parameter_value"
   end
 
   create_table "outcome_enrolled_numbers", :force => true do |t|
@@ -191,11 +192,6 @@ ActiveRecord::Schema.define(:version => 20101108211040) do
     t.integer  "study_id"
     t.string   "guideline_used"
     t.string   "current_overall_rating"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "static_pages", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
