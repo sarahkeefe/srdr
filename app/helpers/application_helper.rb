@@ -81,9 +81,8 @@ module ApplicationHelper
 		return link
 	end
 	
-	def shrink_text(text)
-		words = 5
-		text = text.split[0..(words-1)].join(" ") + (text.split.size > words ? "..." : "")
+	def shrink_text(text, num_words=5)
+		text = text.split[0..(num_words-1)].join(" ") + (text.split.size > num_words ? "..." : "")
 		return text
 	end
 end
