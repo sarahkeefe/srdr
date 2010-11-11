@@ -1,4 +1,4 @@
-<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+<table class="list_table">
 <th>Dimension</th>
 <th>Value</th>
 <th>Notes</th>
@@ -6,7 +6,7 @@
 <th>Delete</th>
 <% if @quality_aspects.length > 0 %>
 <% for qa in @quality_aspects %>
-<tr id='<%= 'quality_aspect_' + qa.id.to_s %>'>
+<tr class="<%= cycle("even", "odd") %>" id='<%= 'quality_aspect_' + qa.id.to_s %>'>
 <td><%= qa.dimension %></td>
 <td><%= qa.value %></td>
 <td><%= qa.notes %></td>

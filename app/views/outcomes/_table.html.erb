@@ -1,5 +1,5 @@
 
-<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+<table class="list_table">
 <th>Outcome Title</th>
 <th>Type</th>
 <th>Primary?</th>
@@ -17,7 +17,7 @@
 <th>Delete</th>
 <% if @outcomes.length > 0 %>
 <% for oneoutcome in @outcomes %>
-	<tr id=<%= "outcome_"+oneoutcome.id.to_s %>>
+	<tr class="<%= cycle("even", "odd") %>" id=<%= "outcome_"+oneoutcome.id.to_s %>>
 	<td><%= oneoutcome.title %></td>
 	<td><%= oneoutcome.outcome_type %></td>
 	<td><%= oneoutcome.is_primary %></td>

@@ -1,26 +1,70 @@
-<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+<h3>Continuous Outcomes</h3>
+<table class="list_table complex_header" id="outcome_analysis_table">
+<tr>
 <th>Outcome Title</th>
 <th>Arm A</th>
 <th>Arm B</th>
 <th>N Analyzed</th>
-<th>Estimation Parameter Type [Select]</th>
-<th>Parameter Dispersion Type [Select]</th>
+
+		<% selected_estimation_parameter = "" %>
+		<% selected_parameter_dispersion = "" %>
+		
+		<% unless @continuous_analyses.empty? %>	
+		  <% my_cont = @continuous_analyses[0] %>
+		  <% selected_estimation_parameter = my_cont.estimation_parameter_type %>
+		  <% selected_parameter_dispersion = my_cont.parameter_dispersion_type %>
+		<% end %>
+<th><%=selected_estimation_parameter.to_s %></th>
+
+<th><%= selected_parameter_dispersion.to_s  %></th>
 <th>P-Value</th>
-<th>Edit</th>
-<th>Remove</th>
-<tr>
-<td></td>
-
-
-<td></td>
-
-
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>Edit</td>
-<td>Remove</td>
+<th></th>
 </tr>
+
+<% unless @continuous_analyses.empty? %>
+	<% row_num = 1%>
+	
+	<% @continuous_analyses.each do |cont| %>
+	  <tr class="<%= cycle("even", "odd") %>">
+	  	<td>	
+  				<% @continuous_outcomes.each do |out| %>
+						<% if out.id.to_i == cont.outcome_id.to_i %>
+							<%= out.title.to_s %>
+						<% end %>  	
+					<% end %>	
+			</td>
+			
+			<td>	
+					<% @study_arms.each do |arm| %>
+						<% if arm.id.to_i == cont.arm1_id.to_i %>
+							<%= arm.title.to_s %>
+						<% end %>
+					<% end %>
+			</td>
+			
+			<td>		
+					<% @study_arms.each do |arm| %>
+						<% if arm.id.to_i == cont.arm2_id.to_i %>
+							<%= arm.title.to_s %>						
+						<% end %>
+					<% end %>
+			</td>
+			
+			<td>
+				<%= cont.n_analyzed.to_s %>
+			</td>	
+			<td>
+				<%= cont.estimation_parameter_value.to_s %>
+			</td>
+			<td>
+				<%= cont.parameter_dispersion_value.to_s %>
+			</td>
+			<td>
+				<%= cont.p_value.to_s %>
+			</td>
+		</tr>  	
+	<%end%>
+<%end%>
+	  	
 </table>
-<br/><br/>
+<br/>

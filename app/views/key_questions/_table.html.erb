@@ -1,5 +1,5 @@
 
-<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+<table class="list_table">
 <th>Number</th>
 <th>Question Text</th>
 <th>Description</th>
@@ -8,7 +8,7 @@
 <th>Remove</th>
 <% if !@key_questions.nil? && @key_questions.length > 0 %>
 <% for keyq in @key_questions %>
-<tr id=<%= "kq_row_"+keyq.question_number.to_s %>>
+<tr class="<%= cycle("even", "odd") %>" id=<%= "kq_row_"+keyq.question_number.to_s %>>
 <td><%= keyq.question_number %></td>
 <td><%= keyq.question %></td>
 <td><%= keyq.description %></td>

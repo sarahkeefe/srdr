@@ -3,7 +3,7 @@
 
 		<h4>Outcome Title: <%= one_outcome.title %></h4><br/>
 			
-			<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+			<table class="list_table">
 				<th>Arm</th>
 				<% @outcome_timepoints = Outcome.get_timepoints_array(one_outcome.id) %>
 				<% if @outcome_timepoints.length > 0 %>
@@ -27,7 +27,7 @@
 				<% if @arms.length > 0 %>
 					<% i = 1 %>
 					<% for one_arm in @arms %>
-						<tr>
+						<tr class="<%= cycle("even", "odd") %>">
 							<td>Arm <%= i %>: <%= one_arm.title %></td>
 							<% @outcome_timepoints = Outcome.get_timepoints_array(one_outcome.id) %>
 							<% if @outcome_timepoints.length > 0 %>

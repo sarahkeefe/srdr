@@ -1,6 +1,6 @@
 <h1>Listing studies</h1>
 
-<table border="1" bordercolor="black" cellpadding="6">
+<table class="list_table">
   <tr>
   	<th>UI</th>
     <th>Type</th>
@@ -15,7 +15,7 @@
 <% @studies.each do |study| %>
 <% study_pub_info = Study.get_primary_pub_info(study.id) %>
 <% if !study_pub_info.nil? %> 
- <tr>
+ <tr class="<%= cycle("even", "odd") %>">
   	<td>
 	<%= study_pub_info.ui %>
 	</td>
