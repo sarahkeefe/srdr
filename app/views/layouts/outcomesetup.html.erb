@@ -15,7 +15,7 @@
 </script>
   </head>
 <body>
-
+<%= render :inline=> get_bread_crumbs(request.url,">") %>
 <%= yield %>
 
 </body>
