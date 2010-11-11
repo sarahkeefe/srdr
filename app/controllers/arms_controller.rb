@@ -63,12 +63,26 @@ class ArmsController < ApplicationController
 		      render :update do |page|
 				    page.replace_html 'arms_table', :partial => 'arms/table'
 				    page['new_arm_form'].reset
+					new_row_name = "arm_row_" + @arm.id.to_s					  
+					page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", 
+																						 :restorecolor=>"#ffffff", :duration=>2})
+					page.replace_html 'arm_validation_message', ""
 		      end
 		    }
 		    format.html {}
 	    else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @arm.errors, :status => :unprocessable_entity }
+			problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
+			for i in @arm.errors
+				problem_html += "<li>" + i.to_s + " " + @arm.errors[i][0] + "</li>"
+			end
+			problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
+			format.html {
+				render :update do |page| 
+					page.replace_html 'arm_validation_message', problem_html
+				end
+			}
+			#format.html { render :action => "new" }
+			format.xml  { render :xml => @arm.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -84,13 +98,27 @@ class ArmsController < ApplicationController
       	format.js{
           render :update do |page|
 				    page.replace_html 'arms_table', :partial => 'arms/table'
+					new_row_name = "arm_row_" + @arm.id.to_s					  
+					page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", 
+																						 :restorecolor=>"#ffffff", :duration=>2})
+					page.replace_html 'arm_validation_message', ""					
 		      end
         }
       	format.html { redirect_to(@arm, :notice => 'Arm was successfully updated.') }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @arm.errors, :status => :unprocessable_entity }
+			problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
+			for i in @arm.errors
+				problem_html += "<li>" + i.to_s + " " + @arm.errors[i][0] + "</li>"
+			end
+			problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
+			format.html {
+				render :update do |page| 
+					page.replace_html 'arm_validation_message', problem_html
+				end
+			}	  
+			format.html { render :action => "edit" }
+			format.xml  { render :xml => @arm.errors, :status => :unprocessable_entity }
       end
     end
   end

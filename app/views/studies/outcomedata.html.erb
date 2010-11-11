@@ -1,9 +1,13 @@
 <h2>Study Outcome Results Tables</h2>
-<% outcomes_list = OutcomeResult.get_outcomes_for_dropdown %>
 
 <% if !@outcomes.nil? && @outcomes.length > 0 %>
 
-<b>Choose Outcome to View: <%= select :outcome, @outcome, options_for_select(@outcomes.map {|o| [o.title,o.id]}), {}, {:onchange => remote_function(:update => "outcome_results_table", :url => { :action => :show_outcome }, :with => "'outcome_id=' + this.value"), :id => "outcome_results_dropdown"} %></b>
+<b>Choose Outcome to View: </b>
+<%= select "outcome", "outcome", Outcome.where(:study_id => session[:study_id]).all.collect {|o| [o.title,o.id]}, {}, {:onchange =>remote_function(:url => {:action => "show_outcome"}, :with => "'selected_outcome_id=' + this.value")} %></b>
+<%# remote_function :url => {:action => 'show_outcome'} %>
+<%# collection_select(:outcome, :outcome_id, Outcome.where(:study_id => session[:study_id]).all, :id, :title, {:prompt => "Select an outcome"}, {:id => 'outcome_results_dropdown'}) %>
+<%# observe_field :outcome, :url => {:action => 'show_outcome'}, :on =>  :onchange, :update => :projects, :with => 'outcome' %>
+
 
 <% else %>
 <b>There are currently no outcomes listed for this study. </b>
@@ -14,8 +18,9 @@
 Click the icon in a table cell to toggle between markers. Please mark all numbers that result from your own calculations as <b>calculated data</b>.
 </div>
 <br/><br/>
-<%= render 'outcome_results/table' %>
-
+<div id="outcome_results_table">
+<%= render 'outcome_results/table', :one_outcome => @selected_outcome %>
+</div>
 
 
 <table id="bottom_nav"><tr><td align="left">

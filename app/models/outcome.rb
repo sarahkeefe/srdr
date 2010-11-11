@@ -7,6 +7,7 @@ class Outcome < ActiveRecord::Base
 	accepts_nested_attributes_for :outcome_timepoints, :allow_destroy => true
 	accepts_nested_attributes_for :outcome_enrolled_numbers, :allow_destroy => true
 	attr_accessible :outcome_type, :study_id, :title, :is_primary, :units, :description, :notes, :arm_id, :outcome_id, :num_enrolled, :outcome_timepoints_attributes
+	validates :title, :presence => true
 	
 	
 	def self.get_timepoints(outcome_id)

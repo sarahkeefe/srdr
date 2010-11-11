@@ -1,3 +1,4 @@
+<div id="arm_validation_message"></div>
 <% unless @arms.length < 1 %>
   <table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
   	<th>Arm Title</th>
@@ -5,7 +6,7 @@
   	<th>Edit</th>
   	<th>Delete</th>
     <% for onearm in @arms %>
-      <tr>
+      <tr id="arm_row_<%=onearm.id.to_s %>">
 				<td><%= onearm.title %></td>
 				<td><%= onearm.description %></td>
 				<td><%= link_to 'Edit', edit_study_arm_path(session[:study_id],onearm), :remote=>true %></td>
