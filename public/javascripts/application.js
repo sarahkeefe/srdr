@@ -205,3 +205,4 @@ function remove_outcome_analysis_row(row, analysis_table){
 function say_the_word(word){
 	alert(word.toString)
 }
+

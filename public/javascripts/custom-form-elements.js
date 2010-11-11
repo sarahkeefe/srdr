@@ -59,6 +59,7 @@ var Custom = {
 					span[a].className = span[a].className += " disabled";
 				}
 			}
+			
 		}
 		inputs = document.getElementsByTagName("select");
 		for(a = 0; a < inputs.length; a++) {

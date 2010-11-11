@@ -71,7 +71,6 @@ module ApplicationHelper
 	end
 	
 	def create_crumb_link(uri,text,end_of_trail)
-		print "------------CREATING THE LINK--------------"
 		link = ""
 		if end_of_trail
 			link = "<span style='font-weight: bold;'>#{text.to_s}</span>"
