@@ -1,14 +1,14 @@
 <h3>Categorical Outcomes</h3>
 <%= form_for(@new_categorical_analysis, :remote => true, :html=>{:id=>"categorical_analysis_form"}) do |f| %>
-<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5" id="categorical_analysis_table">
+<table class="list_table complex_header" id="categorical_analysis_table">
 <tr>
-<td rowspan=2>Outcome Title</td>
-<td rowspan=2>Arm A</td>
-<td rowspan=2>Arm B</td>
-<td rowspan=2>N<br/> Total</td>
-<td rowspan=2>N<br/>Event</td>
-<td colspan=3 align='center'>Non-Adjusted</td>
-<td colspan=3 align='center'>Adjusted</td>
+<th rowspan=2>Outcome Title</th>
+<th rowspan=2>Arm A</th>
+<th rowspan=2>Arm B</th>
+<th rowspan=2>N<br/> Total</th>
+<th rowspan=2>N<br/>Event</th>
+<th colspan=3 align='center'>Non-Adjusted</th>
+<th colspan=3 align='center'>Adjusted</th>
 </tr>
 <tr>
 		<%# OPTIONS FOR ESTIMATION PARAMETER TYPE %>  
@@ -31,7 +31,7 @@
 <% pdt_options = [['Select Parameter Dispersion','Select Parameter Dispersion Type'], \
 								["Standard Deviation","Standard Deviation"], \
 								["Standard Error of the Mean","Standard Error of the Mean"]]%>
-	<td>
+	<th>
 		<% selected_adjusted_estimation_parameter = "" %>
 		<% selected_adjusted_parameter_dispersion = "" %>
 		<% selected_estimation_parameter = "" %>
@@ -45,24 +45,24 @@
 		  <% selected_parameter_dispersion = my_cat.parameter_dispersion_type %>
 		<% end %>
 		<%= f.select :estimation_parameter_type, options_for_select(ept_options, selected_estimation_parameter.to_s) %>
-	</td>
-	<td>
+	</th>
+	<th>
 		<%= f.select :parameter_dispersion_type, options_for_select(pdt_options, selected_parameter_dispersion.to_s) %>
-	</td>
-	<td>P-Value</td>
-	<td>
+	</th>
+	<th>P-Value</th>
+	<th>
 		<%= f.select :adjusted_estimation_parameter_type, options_for_select(ept_options, selected_adjusted_estimation_parameter.to_s ) %>
-	</td>
-	<td>
+	</th>
+	<th>
 		<%= f.select :adjusted_parameter_dispersion_type, options_for_select(pdt_options, selected_adjusted_parameter_dispersion.to_s ) %>
-	</td>
-	<td>P-Value</td>
+	</th>
+	<th>P-Value</th>
 </tr>
 <% unless @categorical_analyses.empty? %>
 <% row_num = 1%>
 	<% @categorical_analyses.each do |cat| %>
   	
-	  <tr id=<%= "categorical_row_" + row_num.to_s %> > 
+	  <tr class="<%= cycle("even", "odd") %>" id=<%= "categorical_row_" + row_num.to_s %> > 
   		<td>
   			<select id= <%= 'outcome_analysis_'+row_num.to_s+'_outcome_id' %> name=<%= 'outcome_analysis_'+row_num.to_s+'[outcome_id]'%> >
   				<% @categorical_outcomes.each do |out| %>

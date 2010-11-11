@@ -43,14 +43,14 @@
 
   <% if @study_arms.length > 0 %>
 
- <table border="1" bordercolor="black"><tr>
+ <table class="list_table"><tr>
 	<% i = 1 %>
 	
 	<% for one_arm in @study_arms %>
 		<th>Arm <%= i %>: <%= one_arm.title %></th>
 		<% i = i + 1 %>
 	<% end %>
-	<tr>
+	<tr class="<%= cycle("even", "odd") %>">
 	<% for one_arm in @numbers_enrolled %>
 		<td>
 		<% fieldname = "num_enrolled_" + one_arm[0].to_s %>

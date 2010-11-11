@@ -1,9 +1,8 @@
-<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+<table class="list_table">
 		
 		<%# CREATE TABLE HEADERS %>
 		<tr>
 		<th colspan="2">Category</th>
-
 		<%# CYCLE THROUGH ALL ARMS, CREATE TABLE HEADER FOR EACH ARM %>
 		<% if @arms.length > 0 %>
 			<% i = 1 %>
@@ -23,7 +22,7 @@
 			
 			<%# CYCLE THROUGH EACH BLOCK OF ATTRIBUTES [BY CATEGORY] IN THE LIST %>
 			<% for attblock in list_of_lists %>
-				<tr>
+				<tr class="<%= cycle("even", "odd") %>">
 				<td rowspan="<%=attblock.length%>"><%=attblock[0].category_title %></td>
 				
 				<%# GET ATTRIBUTES WITH SUBCATEGORIES WITHIN EACH CATEGORY BLOCK %>				

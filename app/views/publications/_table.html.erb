@@ -1,5 +1,5 @@
 <% if @secondary_publications.length > 0 %>
-	<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
+	<table class="list_table">
 	<th>UI</th>
 	<th>Title</th>
 	<th>Author</th>
@@ -8,7 +8,7 @@
 	<th>Edit</th>
 	<th>Delete</th>
 	<% for pub in @secondary_publications %>
-		<tr id="pub_row_<%=pub.id.to_s %>">
+		<tr class="<%= cycle("even", "odd") %>" id="pub_row_<%=pub.id.to_s %>">
 		<td><%= pub.ui %></td>
 		<td><%= pub.title %></td>
 		<td><%= pub.author %></td>

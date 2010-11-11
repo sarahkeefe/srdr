@@ -60,7 +60,16 @@
 	
 	<div class="summary_heading">Outcome Analysis</div>
 	<br/>
+	<% if @categorical_analyses.length > 0 %>	
 <%= render 'outcome_analyses/table_cat' %>	
+<% else %>
+<b>There are currently no categorical outcome analyses to be displayed.</b>
+<% end %>
+	<% if @continuous_analyses.length > 0 %>	
+<%= render 'outcome_analyses/table_cont' %>	
+<% else %>
+<b>There are currently no continuous outcome analyses to be displayed.</b>
+<% end %>
 	<br/><br/>	
 
 	<div class="summary_heading">Adverse Events</div>

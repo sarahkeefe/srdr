@@ -1,11 +1,11 @@
 <h3>Continuous Outcomes</h3>
 <%= form_for(@new_continuous_analysis, :remote => true, :html=>{:id=>"continuous_analysis_form"}) do |f| %>
-<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5" id="outcome_analysis_table">
+<table class="list_table complex_header" id="outcome_analysis_table">
 <tr>
-<td>Outcome Title</td>
-<td>Arm A</td>
-<td>Arm B</td>
-<td>N Analyzed</td>
+<th>Outcome Title</th>
+<th>Arm A</th>
+<th>Arm B</th>
+<th>N Analyzed</th>
 
 <%# OPTIONS FOR ESTIMATION PARAMETER TYPE %>  
 <% ept_options = [['Select Estimation Parameter Type','Select Estimation Parameter Type'], \
@@ -36,19 +36,19 @@
 		  <% selected_estimation_parameter = my_cont.estimation_parameter_type %>
 		  <% selected_parameter_dispersion = my_cont.parameter_dispersion_type %>
 		<% end %>
-<td><%= f.select :estimation_parameter_type, options_for_select(ept_options, selected_estimation_parameter.to_s ) %></td>
+<th><%= f.select :estimation_parameter_type, options_for_select(ept_options, selected_estimation_parameter.to_s ) %></th>
 
-<td><%= f.select :parameter_dispersion_type, options_for_select(pdt_options, selected_parameter_dispersion.to_s ) %></td>
-<td>P-Value</td>
-<td></td>
+<th><%= f.select :parameter_dispersion_type, options_for_select(pdt_options, selected_parameter_dispersion.to_s ) %></th>
+<th>P-Value</th>
+<th></th>
 </tr>
 <%= f.hidden_field :categorical_or_continuous, :value=>"Continuous" %>
 
 <% unless @continuous_analyses.empty? %>
 	<% row_num = 1%>
 	<% @continuous_analyses.each do |cont| %>
-	  <tr id=<%= "row_" + row_num.to_s %> >
-	  	<td>	
+	  <tr class="<%= cycle("even", "odd") %>" id=<%= "row_" + row_num.to_s %> >
+	  	<th>	
 	  	<select id= <%= 'outcome_analysis_'+row_num.to_s+'_outcome_id' %> name=<%= 'outcome_analysis_'+row_num.to_s+'[outcome_id]'%> >
   				<% @continuous_outcomes.each do |out| %>
   					<% selected = "" %>
@@ -58,7 +58,7 @@
   				  <option value= <%= out.id.to_s %> <%= selected %> ><%= out.title.to_s %></option>
 					<% end %>	
 				</select>
-			</td>
+			</th>
 			
 			
 			<td>

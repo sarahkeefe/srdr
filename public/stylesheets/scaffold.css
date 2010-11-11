@@ -88,6 +88,7 @@ h4{
 table
 {
 	border-collapse: collapse;
+	#border: 0px;
 }
 
 .indent_block{
@@ -168,4 +169,38 @@ padding: 8px;
 	border: 1px solid #ED4548;
 	color: #8F2224;
 	padding: 5px;
+}
+
+.odd, .odd.td{
+	background: #eee;
+}
+
+.even, .even.td{
+    background:#dedede;
+}
+
+.odd td.calculated{
+	background: #ffffcc;
+}
+
+.even td.calculated{
+	background: #ffff99;
+}
+
+table.list_table{
+border: 0px;
+width: 100%;
+}
+
+table.list_table td{
+padding: 6px;
+}
+
+table.list_table th{
+background: #aaa;
+}
+
+table.complex_header th{
+border: 1px solid #666;
+padding: 4px;
 }
