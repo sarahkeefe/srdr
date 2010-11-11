@@ -29,6 +29,10 @@ class StudiesController < ApplicationController
 	  @adverse_events = AdverseEvent.where(:study_id => @study.id)
 	  @quality_aspects = QualityAspect.where(:study_id => @study.id)
 	  @quality_rating = QualityRating.find(:all, :conditions => {:study_id => @study.id}).first
+	  @categorical_analyses = OutcomeAnalysis.where(:categorical_or_continuous => "Categorical", :study_id => @study.id).all
+	  @categorical_outcomes = Outcome.where(:study_id => @study.id, :outcome_type => "Categorical").all
+	  @continuous_analyses = OutcomeAnalysis.where(:categorical_or_continuous => "Continuous", :study_id => @study.id).all
+	  @continuous_outcomes = Outcome.where(:study_id => @study.id, :outcome_type => "Continuous").all	  
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @study }
@@ -84,8 +88,7 @@ class StudiesController < ApplicationController
 	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
 	@outcomes = Outcome.find(:all, :conditions => {:study_id => params[:study_id]})
 	@outcome_result = OutcomeResult.new
-	#OutcomeResult.set_table_params(@study.id, @study_arms, @outcomes)
-	 @selected_outcome = Outcome.where(:study_id => params[:study_id]).first
+	@selected_outcome = Outcome.where(:study_id => params[:study_id]).first
 	 end
   
 	# outcomeanalysis
@@ -146,6 +149,8 @@ class StudiesController < ApplicationController
 	  
 	  @primary_publication = Publication.create()
 	  @publication=Publication.new
+    #@publication.errors = nil	  
+	  #@primary_publication.errors = nil
 	  @secondary_publications = []
 		
 	  @questions = @study.get_question_choices(session[:project_id])
@@ -273,10 +278,14 @@ class StudiesController < ApplicationController
 
    def show_outcome
 	@outcome_result = OutcomeResult.new
-	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
-	@selected_outcome = Outcome.where(:id => params[:outcome_id]).first
-	
-	render :partial => 'outcome_results/table'
+	@study_arms = Arm.where(:study_id => session[:study_id]).all
+	@selected_outcome = Outcome.find(params[:selected_outcome_id])	
+	  	  	    respond_to do |format|
+			format.js{	
+	render :update do |page|
+		page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
+	end
+	}
+	end
   end
-  
 end

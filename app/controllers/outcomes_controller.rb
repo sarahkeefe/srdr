@@ -98,9 +98,20 @@ class OutcomesController < ApplicationController
 						page['new_outcome_form'].reset
 						new_outcome_row = "outcome_" + @outcome.id.to_s
 						page[new_outcome_row].visual_effect :highlight
+					page.replace_html 'outcome_validation_message', ""						
 		  		end
 				}
-			else
+	else
+			problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
+			for i in @outcome.errors
+				problem_html += "<li>" + i.to_s + " " + @outcome.errors[i][0] + "</li>"
+			end
+			problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
+			format.html {
+				render :update do |page| 
+					page.replace_html 'outcome_validation_message', problem_html
+				end
+			}	
         format.html { render :action => "new" }
         format.xml  { render :xml => @outcome.errors, :status => :unprocessable_entity }
       end
@@ -138,11 +149,22 @@ class OutcomesController < ApplicationController
 						page.replace_html 'outcomes_table', :partial => 'outcomes/table'
 						updated_row = "outcome_" + @outcome.id.to_s
 						page[updated_row].visual_effect :highlight
+					page.replace_html 'outcome_validation_message', ""						
 		  		end  
         }
       	format.html { redirect_to(@outcome, :notice => 'Outcome was successfully updated.') }
         format.xml  { head :ok }
       else
+			problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
+			for i in @outcome.errors
+				problem_html += "<li>" + i.to_s + " " + @outcome.errors[i][0] + "</li>"
+			end
+			problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
+			format.html {
+				render :update do |page| 
+					page.replace_html 'outcome_validation_message', problem_html
+				end
+			}		  
         format.html { render :action => "edit" }
         format.xml  { render :xml => @outcome.errors, :status => :unprocessable_entity }
       end

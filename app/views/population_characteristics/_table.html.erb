@@ -27,7 +27,7 @@
 			
 			<%# CYCLE THROUGH EACH BLOCK OF ATTRIBUTES [BY CATEGORY] IN THE LIST %>
 			<% for attblock in list_of_lists %>
-				<tr>
+				<tr id="pop_char_row_<%=attblock[0].id.to_s %>">
 				<td rowspan="<%=attblock.length%>"><%=attblock[0].category_title %></td>
 				
 				<%# GET ATTRIBUTES WITH SUBCATEGORIES WITHIN EACH CATEGORY BLOCK %>				

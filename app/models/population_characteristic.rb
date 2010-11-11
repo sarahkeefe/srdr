@@ -2,6 +2,9 @@ class PopulationCharacteristic < ActiveRecord::Base
 	belongs_to :study
 	# Check if there is a duplicate population characteristic category and subcategory in the list
 	# (used in determining whether to create a new PopulationCharacteristic item )
+	validates :category_title, :presence => true
+	validates :units, :presence => true
+	
 	def self.has_duplicates(category_title, subcategory, study_id)
 			if subcategory.nil? || subcategory == ""
 				@pop_char_check = PopulationCharacteristic.where("population_characteristics.study_id = ? AND population_characteristics.category_title = ?", study_id, category_title).all

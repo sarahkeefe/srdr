@@ -38,5 +38,9 @@ module Srdr
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+	
+	#turn off inline error messages
+	config.action_view.field_error_proc = Proc.new{ |html_tag, instance| html_tag }
+	
   end
 end

@@ -122,9 +122,9 @@ var Custom = {
 		inputs = document.getElementsByTagName("input");
 		for(var b = 0; b < inputs.length; b++) {
 			if(inputs[b].type == "checkbox" && inputs[b].checked == true && inputs[b].className == "styled") {
-				inputs[b].previousSibling.style.backgroundPosition = "0 -" + checkboxHeight*2 + "px";
+					inputs[b].previousSibling.style.backgroundPosition = "0 -" + checkboxHeight*2 + "px";
 			} else if(inputs[b].type == "checkbox" && inputs[b].className == "styled") {
-				inputs[b].previousSibling.style.backgroundPosition = "0 0";
+					inputs[b].previousSibling.style.backgroundPosition = "0 0";
 			} else if(inputs[b].type == "radio" && inputs[b].checked == true && inputs[b].className == "styled") {
 				inputs[b].previousSibling.style.backgroundPosition = "0 -" + radioHeight*2 + "px";
 			} else if(inputs[b].type == "radio" && inputs[b].className == "styled") {

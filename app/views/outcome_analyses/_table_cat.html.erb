@@ -1,34 +1,98 @@
-<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5">
-<td>Outcome Title</td>
-<td>Arm A</td>
-<td>Arm B</td>
-<td rowspan="2">N Total</td>
-<td rowspan="2">N Event</td>
-<td colspan="3">Non-Adjusted</td><td colspan="3">Adjusted</td>
-<td rowspan="2">Edit</td>
-<td rowspan="2">Remove</td>
+<h3>Categorical Outcomes</h3>
+<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="5" id="categorical_analysis_table">
 <tr>
-
-<td>Estimation Parameter Type</td><td> Parameter Dispersion Type </td><td> P-Value</td>
-<td>Estimation Parameter Type</td><td> Parameter Dispersion Type </td><td> P-Value</td>
-
-<tr>
-<% if @study_arms.length > 0 %>
-<% for one_arm in @study_arms %>
-<td></td>
-<% end %>
-<% end %>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>Edit</td>
-<td>Remove</td>
+<td rowspan=2>Outcome Title</td>
+<td rowspan=2>Arm A</td>
+<td rowspan=2>Arm B</td>
+<td rowspan=2>N<br/> Total</td>
+<td rowspan=2>N<br/>Event</td>
+<td colspan=3 align='center'>Non-Adjusted</td>
+<td colspan=3 align='center'>Adjusted</td>
 </tr>
+<tr>
+	<td>
+		<% selected_adjusted_estimation_parameter = "" %>
+		<% selected_adjusted_parameter_dispersion = "" %>
+		<% selected_estimation_parameter = "" %>
+		<% selected_parameter_dispersion = "" %>
+		
+		<% unless @categorical_analyses.empty? %>	
+		  <% my_cat = @categorical_analyses[0] %>
+		  <% selected_adjusted_estimation_parameter = my_cat.adjusted_estimation_parameter_type %>
+		  <% selected_adjusted_parameter_dispersion = my_cat.adjusted_parameter_dispersion_type %>
+		  <% selected_estimation_parameter = my_cat.estimation_parameter_type %>
+		  <% selected_parameter_dispersion = my_cat.parameter_dispersion_type %>
+		<% end %>
+		<%= selected_estimation_parameter.to_s %>
+	</td>
+	<td>
+		<%= selected_parameter_dispersion.to_s %>
+	</td>
+	<td>P-Value</td>
+	<td>
+		<%= selected_adjusted_estimation_parameter.to_s %>
+	</td>
+	<td>
+		<%= selected_adjusted_parameter_dispersion.to_s %>
+	</td>
+	<td>P-Value</td>
+</tr>
+<% unless @categorical_analyses.empty? %>
+<% row_num = 1%>
+	<% @categorical_analyses.each do |cat| %>
+  	
+	  <tr id=<%= "categorical_row_" + row_num.to_s %> > 
+  		<td>
+  				<% @categorical_outcomes.each do |out| %>
+						<% if out.id.to_i == cat.outcome_id.to_i %>
+							<%= out.title.to_s %>						
+						<% end %>
+					<% end %>	
+			</td>
+			
+			<td>	
+					<% @arms.each do |arm| %>
+						<% if arm.id.to_i == cat.arm1_id.to_i %>	
+						<%= arm.title.to_s %>
+							<% end %>
+					<% end %>
+			</td>
+			
+			<td>		
+					<% @arms.each do |arm| %>
+						<% if arm.id.to_i == cat.arm2_id.to_i %>
+							<%= arm.title.to_s %>
+						<% end %>
+					<% end %>
+			</td>
+			
+			<td>
+				<%= cat.n_total.to_s %>
+			</td>	
+			<td>
+				<%= cat.n_event.to_s %>
+			</td>
+			<td>
+				<%= cat.estimation_parameter_value.to_s %>
+			</td>
+			<td>
+				<%= cat.parameter_dispersion_value.to_s %>
+			</td>
+			<td>
+				<%= cat.p_value.to_s %>
+			</td>		
+			<td>
+				<%= cat.adjusted_estimation_parameter_value.to_s %>
+			</td>	
+			<td>
+				<%= cat.adjusted_parameter_dispersion_value.to_s %>
+			</td>
+			<td>
+				<%= cat.adjusted_p_value.to_s %>
+			</td>	
+	  
+	<% end %>
+<% end %>
+
 </table>
-<br/><br/>
+<br/>

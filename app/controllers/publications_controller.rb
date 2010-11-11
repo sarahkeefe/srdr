@@ -25,7 +25,7 @@ class PublicationsController < ApplicationController
   # GET /publications/new.xml
   def new
     @publication = Publication.new
-    respond_to do |format|
+	respond_to do |format|
       format.js{
       	  render :update do |page|
       	  	page.replace_html 'secondary_publication_entry', :partial => 'publications/form'
@@ -74,7 +74,11 @@ class PublicationsController < ApplicationController
 				format.js {
 					render :update do |page|
 					  page.replace_html 'secondary_publication_table', :partial => 'publications/table'
+						page.replace_html 'secondary_pub_validation_message', ""					  
 					  page['secondary_pub_form'].reset
+					new_row_name = "pub_row_" + @publication.id.to_s					  
+						page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", 
+																						 :restorecolor=>"#ffffff", :duration=>2})					  
 					end
 					}
 			elsif params[:is_primary] == 'true'

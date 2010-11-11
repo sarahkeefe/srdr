@@ -143,7 +143,7 @@ width: 19px;
 height: 25px;
 padding: 0 5px 0 0;
 background: url(../images/checkbox.gif) no-repeat;
-display: inline;
+display: block;
 clear: left;
 float: left;
 }

@@ -62,12 +62,24 @@ class AdverseEventsController < ApplicationController
           	page.replace_html 'adverse_events_table', :partial => 'adverse_events/table'
           	new_row_name = 'adverse_event_' + @adverse_event.id.to_s
           	page['new_adverse_event_form'].reset
-          	page[new_row_name].visual_effect :highlight
+			page.replace_html 'adverse_event_validation_message', ""			
+          	page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", 
+																						 :restorecolor=>"#ffffff", :duration=>2})					
           end	
         }
       	format.html { redirect_to(@adverse_event, :notice => 'Adverse event was successfully created.') }
         format.xml  { render :xml => @adverse_event, :status => :created, :location => @adverse_event }
       else
+			problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
+			for i in @adverse_event.errors
+				problem_html += "<li>" + i.to_s + " " + @adverse_event.errors[i][0] + "</li>"
+			end
+			problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
+			format.html {
+				render :update do |page| 
+						page.replace_html 'adverse_event_validation_message', problem_html
+				end
+			}     	  
         format.html { render :action => "new" }
         format.xml  { render :xml => @adverse_event.errors, :status => :unprocessable_entity }
       end
@@ -86,12 +98,24 @@ class AdverseEventsController < ApplicationController
         	render :update do |page|
         		page.replace_html 'adverse_events_table', :partial => 'adverse_events/table'
           	new_row_name = 'adverse_event_' + @adverse_event.id.to_s
-          	page[new_row_name].visual_effect :highlight
+						page.replace_html 'adverse_event_validation_message', ""			
+          	page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", 
+																						 :restorecolor=>"#ffffff", :duration=>2})
         	end
         }
       	format.html { redirect_to(@adverse_event, :notice => 'Adverse event was successfully updated.') }
         format.xml  { head :ok }
       else
+			problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
+			for i in @adverse_event.errors
+				problem_html += "<li>" + i.to_s + " " + @adverse_event.errors[i][0] + "</li>"
+			end
+			problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
+			format.html {
+				render :update do |page| 
+						page.replace_html 'adverse_event_validation_message', problem_html
+				end
+			}     	  
         format.html { render :action => "edit" }
         format.xml  { render :xml => @adverse_event.errors, :status => :unprocessable_entity }
       end

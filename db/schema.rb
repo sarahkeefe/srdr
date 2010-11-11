@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101108211040) do
+ActiveRecord::Schema.define(:version => 20101111181310) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer  "study_id"
@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(:version => 20101108211040) do
     t.datetime "updated_at"
     t.integer  "outcome_id"
     t.string   "adjusted_estimation_parameter_type"
-    t.integer  "adjusted_estimation_parameter_value"
+    t.string   "adjusted_estimation_parameter_value"
   end
 
   create_table "outcome_enrolled_numbers", :force => true do |t|

@@ -1,5 +1,7 @@
-<div id="outcome_results_table">
-<% if !@selected_outcome.nil? %>
+<%# if ! defined? selected_outcome_id %>
+<%# @selected_outcome = Outcome.where(:study_id => params[:study_id]).first %>
+<%# #selected_outcome_id = @selected_outcome.id %>
+<%# end %>
 <% one_outcome = @selected_outcome %>
 		<b>Outcome Title: <%= one_outcome.title %></b><br/>
 		<%= form_for @outcome_result, :remote => true do |f| %>
@@ -31,10 +33,10 @@
 							<% if @outcome_timepoints.length > 0 %>
 								<% for tp in @outcome_timepoints %>
 									<% val = OutcomeResult.get_timepoint_data_point(one_arm.id, one_outcome.id, tp.id) %>
-									<% calc = OutcomeResult.get_timepoint_data_point_calc(one_arm.id, one_outcome.id, tp.id) %><label for="baz_field"></label>						
+									<% calc = OutcomeResult.get_timepoint_data_point_calc(one_arm.id, one_outcome.id, tp.id) %>					
 									<td>
 									<%= text_field "arm" + one_arm.id.to_s + "timepoint", tp.id.to_s, :size => 5, :value => val, :class => "calculated_checkbox" %>
-									<%= check_box_tag "arm" + one_arm.id.to_s + "timepoint" + tp.id.to_s  + "_calculated", "t", calc, :class => "styled" %>
+									<%= check_box_tag "arm" + one_arm.id.to_s + "timepoint" + tp.id.to_s  + "_calculated", "t", calc, :class => "styled" %>	
 									</td>
 								<% end %>
 							<% end %>
@@ -46,7 +48,7 @@
 							</td>
 							<td>
 								<%= text_field "arm_measurereg", one_arm.id.to_s, :size => 5, :value => val["measurereg"], :class => "calculated_checkbox" %>
-								<%= check_box_tag "arm" + one_arm.id.to_s + "_measurereg_calculated", "t", calc["measurereg"], :class => "styled" %>									
+								<%= check_box_tag "arm" + one_arm.id.to_s + "_measurereg_calculated", "t", calc["measurereg"], :class => "styled" %>											
 							</td>
 							<td>
 								<%= text_field "arm_measuredisp", one_arm.id.to_s, :size => 5, :value => val["measuredisp"], :class => "calculated_checkbox" %>
@@ -54,7 +56,7 @@
 							</td>
 							<td>
 								<%= text_field "arm_pvalue", one_arm.id.to_s, :size => 5, :value => val["pvalue"], :class => "calculated_checkbox" %>
-								<%= check_box_tag "arm" + one_arm.id.to_s + "_pvalue_calculated", "t", calc["pvalue"], :class => "styled" %>	
+								<%= check_box_tag "arm" + one_arm.id.to_s + "_pvalue_calculated", "t", calc["pvalue"], :class => "styled" %>		
 							</td>
 							<% i = i + 1 %>
 					<% end %>
@@ -63,7 +65,4 @@
 			</table>
 		<%= submit_tag "Save" %>
 	<% end %>
-	<% end %>
-	
-</div>
 <br/><br/>

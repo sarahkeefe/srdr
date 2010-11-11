@@ -62,12 +62,23 @@ class QualityAspectsController < ApplicationController
           	page.replace_html 'quality_aspects_table', :partial => 'quality_aspects/table'
           	new_row_name = 'quality_aspect_' + @quality_aspect.id.to_s
           	page['new_quality_aspect_form'].reset
-          	page[new_row_name].visual_effect :highlight
+          	page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", 
+																						 :restorecolor=>"#ffffff", :duration=>2})
           end	
         }
         format.html { redirect_to(@quality_aspect, :notice => 'Quality aspect was successfully created.') }
         format.xml  { render :xml => @quality_aspect, :status => :created, :location => @quality_aspect }
       else
+problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
+			for i in @quality_aspect.errors
+				problem_html += "<li>" + i.to_s + " " + @quality_aspect.errors[i][0] + "</li>"
+			end
+			problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
+			format.html {
+				render :update do |page| 
+						page.replace_html 'quality_aspect_validation_message', problem_html
+				end
+			}     	  	  
         format.html { render :action => "new" }
         format.xml  { render :xml => @quality_aspect.errors, :status => :unprocessable_entity }
       end
@@ -86,12 +97,23 @@ class QualityAspectsController < ApplicationController
         	render :update do |page|
         		page.replace_html 'quality_aspects_table', :partial => 'quality_aspects/table'
           	new_row_name = 'quality_aspect_' + @quality_aspect.id.to_s
-          	page[new_row_name].visual_effect :highlight
+          	page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", 
+																						 :restorecolor=>"#ffffff", :duration=>2})
         	end
         }	  
         format.html { redirect_to(@quality_aspect, :notice => 'Quality aspect was successfully updated.') }
         format.xml  { head :ok }
       else
+			problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
+			for i in @quality_aspect.errors
+				problem_html += "<li>" + i.to_s + " " + @quality_aspect.errors[i][0] + "</li>"
+			end
+			problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
+			format.html {
+				render :update do |page| 
+						page.replace_html 'quality_aspect_validation_message', problem_html
+				end
+			}     	  	  
         format.html { render :action => "edit" }
         format.xml  { render :xml => @quality_aspect.errors, :status => :unprocessable_entity }
       end
