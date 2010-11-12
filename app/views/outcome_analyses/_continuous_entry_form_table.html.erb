@@ -48,7 +48,7 @@
 	<% row_num = 1%>
 	<% @continuous_analyses.each do |cont| %>
 	  <tr class="<%= cycle("even", "odd") %>" id=<%= "row_" + row_num.to_s %> >
-	  	<th>	
+	  	<td>	
 	  	<select id= <%= 'outcome_analysis_'+row_num.to_s+'_outcome_id' %> name=<%= 'outcome_analysis_'+row_num.to_s+'[outcome_id]'%> >
   				<% @continuous_outcomes.each do |out| %>
   					<% selected = "" %>
@@ -58,8 +58,7 @@
   				  <option value= <%= out.id.to_s %> <%= selected %> ><%= out.title.to_s %></option>
 					<% end %>	
 				</select>
-			</th>
-			
+			</td>
 			
 			<td>
 				<select id=<%= "outcome_analysis_"+row_num.to_s+"_arm1_id" %> name= <%= "outcome_analysis_"+row_num.to_s+"[arm1_id]" %>>			
