@@ -235,6 +235,26 @@ function toggle_row(row){
   }
   return(retVal);
 }
+
+// utility function to toggle show/hide for a given element id
+function toggle_display(element, link){
+	var e = document.getElementById(element);
+	var plus_minus_sign = document.getElementById(link);
+	if(e.style.display == "none" || e.style.display == ""){
+		//e.slideDown(100, plus_minus_sign.innerHTML = "-");
+		e.style.display = "inline";
+		plus_minus_sign.innerHTML = "-";
+		plus_minus_sign.className = "toggle_hide_link"
+	}else if(e.style.display == "inline" || e.style.display == "block"){
+		//e.slideUp(100, plus_minus_sign.innerHTML="+")
+		e.style.display = "none";
+		plus_minus_sign.innerHTML = "+";
+		plus_minus_sign.className = "toggle_display_link"
+	}else{
+		e.style.display = "inline"
+		plus_minus_sign.innerHTML = "-";
+	}	
+}
 function say_the_word(word){
 	alert(word.toString)
 }

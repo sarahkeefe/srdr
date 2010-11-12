@@ -33,6 +33,11 @@ class StudiesController < ApplicationController
 	  @categorical_outcomes = Outcome.where(:study_id => @study.id, :outcome_type => "Categorical").all
 	  @continuous_analyses = OutcomeAnalysis.where(:categorical_or_continuous => "Continuous", :study_id => @study.id).all
 	  @continuous_outcomes = Outcome.where(:study_id => @study.id, :outcome_type => "Continuous").all	  
+	  
+	  # get the study title, which is the same as the primary publication for the study
+	  @study_title = Publication.find(:first, :conditions=>["study_id=? AND is_primary=?",@study.id,"t"],:select=>"title")
+	  @study_title = @study_title.title.to_s
+	  
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @study }

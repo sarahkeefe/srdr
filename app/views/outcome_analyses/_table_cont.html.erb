@@ -35,7 +35,7 @@
 			</td>
 			
 			<td>	
-					<% @study_arms.each do |arm| %>
+					<% @arms.each do |arm| %>
 						<% if arm.id.to_i == cont.arm1_id.to_i %>
 							<%= arm.title.to_s %>
 						<% end %>
@@ -43,7 +43,7 @@
 			</td>
 			
 			<td>		
-					<% @study_arms.each do |arm| %>
+					<% @arms.each do |arm| %>
 						<% if arm.id.to_i == cont.arm2_id.to_i %>
 							<%= arm.title.to_s %>						
 						<% end %>
