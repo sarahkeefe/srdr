@@ -78,7 +78,7 @@
 						<% if arm.id.to_i == cont.arm2_id.to_i %>
 							<% selected = "selected='selected'" %>	
 						<% end %>
-						<option value=<%= arm.id.to_s %> ><%= arm.title.to_s %></option>
+						<option value=<%= arm.id.to_s %> <%= selected %> ><%= arm.title.to_s %></option>
 					<% end %>
 				</select>
 			</td>
@@ -98,7 +98,8 @@
 				<% row_id = "row_" + row_num.to_s %>
 				<a href='#' onClick=<%= "remove_outcome_analysis_row('" + row_id + "'" + ",'outcome_analysis_table');" %> >Remove</a>		
 			</td>
-		</tr>  	
+		</tr>
+		<% row_num = row_num + 1 %>
 	<%end%>
 <%end%>
 	  	
