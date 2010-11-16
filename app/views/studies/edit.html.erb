@@ -1,19 +1,27 @@
 <h2>Editing Study</h2>
 <h3>Key Questions Addressed</h3>
+
 <% unless @questions.empty? %>
- <%= form_for(@study, :remote => true) do |f| %>
-   <% @questions.each do |q| %>
-	    <% checked_flag = "" %>
-	    <%# see if the "checked_ids" array contains the id of the current question %>
-	    <% if @checked_ids.include?(q.id) %>
-	    	<% checked_flag = "checked" %>
-	    <% end %>
-	    <input type="checkbox" name="<%= "question_" + q.id.to_s %>" <%= checked_flag %> >
-		  <%= q.question_number.to_s + ". " + q.question %><br/>  
-	 <% end %>
-	 <table>
-	 	<tr><td><%= f.submit "Save Questions" %></td><td id="status_box" align="right" style="width: 250px; color: white;">...saved</td></tr>
-	</table>
+	<%= form_for(@study, :remote => true) do |f| %>
+		<table class="form_table">
+		<% @questions.each do |q| %>
+			<tr><td>
+			<% checked_flag = "" %>
+			<%# see if the "checked_ids" array contains the id of the current question %>
+			<% if @checked_ids.include?(q.id) %>
+				<% checked_flag = "checked" %>
+			<% end %>
+			<input type="checkbox" name="<%= "question_" + q.id.to_s %>" <%= checked_flag %> >
+			</td><td>
+			<%= q.question_number.to_s + ". " + q.question %><br/></td></tr>
+		<% end %>
+		<tr><td colspan="2">
+			<div class="actions">
+				<%= f.submit "Save Questions" %>
+			</div>
+			</td><td>
+			</div><div id="key_question_validation_message">
+			</td></tr></table>
  <% end %>
 <% else %>
   There are no key questions associated with the project. <%= link_to "Add Key Questions", edit_project_path(session[:project_id])%>

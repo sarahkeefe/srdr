@@ -12,20 +12,19 @@
   <% end %>
 
     <%= f.hidden_field :study_id, :value => @study.id %>
-
-  <div class="field">
-    <%= f.label :category_title %>:
+<table class="form_table">
+<tr><td>
+    <%= f.label :category_title %>: </td><td>
     <%= f.text_field :category_title %>
-  </div>
-  <div class="field">
-    <%= f.label :subcategory %>:
+  </td></tr><tr><td>
+    <%= f.label :subcategory %>: </td><td>
     <%= f.text_field :subcategory %>
-  </div>
-  <div class="field">
-    <%= f.label :units %>:
+  </td></tr><tr><td>
+    <%= f.label :units %>: </td><td>
     <%= f.text_field :units %>
-  </div>
+  </td></tr><tr><td colspan="2">
   <div class="actions">
     <%= f.submit "Add Population Characteristic" %>
   </div>
+  </td></tr></table>
 <% end %>

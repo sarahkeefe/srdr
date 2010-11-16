@@ -12,20 +12,17 @@
   <% end %>
   <div id="form_content">
 <%= form_for(@project, :remote =>true) do |f| %>
-  
-  <div class="field">
-    <%= f.label :choose_a_project_title %>: <%= f.text_field :title, :size => 40 %>
-  </div>
-  <div class="field">
-    <%= f.label :enter_a_project_description %>:<br/>
-    <%= f.text_area :description, :cols => 50, :rows => 4 %>
-  </div>
-  <div class="field">
-    <%= f.label :project_notes %>:<br />
-    <%= f.text_area :notes, :cols => 50, :rows => 4 %>
-  </div>
+  <table class="form_table">
+  <tr><td>
+    <%= f.label :choose_a_project_title %>: </td><td><%= f.text_field :title, :size => 40 %></td>
+	</td></tr><tr><td colspan="2">
+    <%= f.label :enter_a_project_description %>:</td></tr><tr><td colspan="2">
+    <%= f.text_area :description, :cols => 50, :rows => 4 %></td></tr><tr><td colspan="2">
+    <%= f.label :project_notes %>:</td></tr><tr><td colspan="2">
+    <%= f.text_area :notes, :cols => 50, :rows => 4 %></td></tr><tr><td colspan="2">
+
   <div class="actions">
     <%= f.submit "Save" %>
-  </div>
+  </div></td></tr></table>
 <% end %>
 </div>

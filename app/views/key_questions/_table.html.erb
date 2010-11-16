@@ -12,7 +12,10 @@
 <td><%= keyq.question_number %></td>
 <td><%= keyq.question %></td>
 <td><%= keyq.description %></td>
-<td>Move Up</td>
+<td>
+<% proj_id = session[:project_id] %>
+<%= link_to "move up" %>
+</td>
 <td>
 	<%= link_to 'Edit', edit_project_key_question_path(session[:project_id],keyq), :remote=>true %>
 </td>

@@ -11,15 +11,15 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :question_text %>:
-    <%= f.text_field :question, :size => 50 %>
-  </div>
-  <div class="field">
-    <%= f.label :question_description %><br />
+  <table class="form_table">
+  <tr><td>
+    <%= f.label :question_text %>:</td><td>
+    <%= f.text_field :question, :size => 50 %></td></tr><tr><td colspan="2">
+    <%= f.label :question_description %>:</td></tr><tr><td colspan="2">
     <%= f.text_area :description, :cols => 50, :rows => 4 %>
-  </div>
+  </td></tr><tr><td colspan="2">
   <div class="actions">
     <%= f.submit "Add Key Question" %>
   </div>
+  </td></tr></table>
 <% end %>

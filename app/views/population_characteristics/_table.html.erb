@@ -1,4 +1,13 @@
 <%= form_for @population_characteristic_data_point, :remote => true, :html=>{:id=>"popchar_data_point_form"} do |f| %>
+	<% arm_ids_list = "" %>
+	<% if @study_arms.length > 0 %>
+		<% i = 1 %>
+		<% for one_arm in @study_arms %>
+			<% arm_ids_list = arm_ids_list + one_arm.id.to_s + " " %>
+		<% end %>
+	<% end %>
+	<input type="hidden" id="arm_ids" value="<%=arm_ids_list%>">
+	<% category_ids_list = "" %>	
 	
 	<table class="list_table">
 		
@@ -32,8 +41,8 @@
 				
 				<%# GET ATTRIBUTES WITH SUBCATEGORIES WITHIN EACH CATEGORY BLOCK %>				
 				<% for item in attblock %>
-					<td><%=item.subcategory%> (<%= attblock[0].units %>)</td>
-					
+					<td><%=item.subcategory%> (<%= item.units %>)</td>
+					<% category_ids_list = category_ids_list + item.id.to_s + " " %>
 					<%# GET AND DISPLAY INPUT BOXES / DATA VALUES FOR EACH ATTRIBUTE BY ARM %>
 					<%# CYCLE THROUGH ARMS %>
 					<% if @study_arms.length > 0 %>
@@ -66,7 +75,7 @@
 		<% end %>
 
 	</table>
-	
+		<input type="hidden" id="category_ids" value="<%=category_ids_list%>">
 	<%= submit_tag "Save" %>
 	
 <%# END FORM %>

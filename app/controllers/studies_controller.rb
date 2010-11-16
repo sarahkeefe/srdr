@@ -61,6 +61,7 @@ class StudiesController < ApplicationController
 		@population_characteristics.sort_by(&:category_title)
 		@population_characteristic = PopulationCharacteristic.new
 		@population_characteristic_data = PopulationCharacteristicDataPoint.where(:study_id => @study.id)
+		render :layout => 'attributes'		
   end
   
   # outcomesetup
@@ -228,8 +229,10 @@ class StudiesController < ApplicationController
 	  	  	@study.assign_questions(questions)	  
 	  	  	format.js{
 	  	  	  render :update do |page|
-	  	  	  	page['status_box'].visual_effect(:highlight,{:startcolor => "#00ee00",:endcolor => "#ffffff", 
-																						 :restorecolor=>"#ffffff", :duration=>2})
+			success_html = "<div class='success_message' style='vertical-align:text-top; display:inline'>Saved</div>"
+			page.replace_html 'key_question_validation_message', success_html
+	  	  	  	page['key_question_validation_message'].visual_effect(:appear)
+				page['key_question_validation_message'].visual_effect(:fade)
 	  	  	  end
   	  	  }
   	  	end
