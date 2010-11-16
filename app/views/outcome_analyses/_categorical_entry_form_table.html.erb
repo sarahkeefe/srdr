@@ -59,7 +59,7 @@
 	<th>P-Value</th>
 </tr>
 <% unless @categorical_analyses.empty? %>
-<% row_num = 1%>
+<% row_num = 1 %>
 	<% @categorical_analyses.each do |cat| %>
   	
 	  <tr class="<%= cycle("even", "odd") %>" id=<%= "categorical_row_" + row_num.to_s %> > 

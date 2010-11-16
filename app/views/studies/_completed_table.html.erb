@@ -11,15 +11,17 @@
 <% i=0 %>
 <% @studies.each do |study| %>
 <% study_pub_info = Study.get_primary_pub_info(study.id) %>
-<% if !study_pub_info.nil? %> 
+ <% if !study_pub_info.nil? %> 
  <tr class="<%= cycle("even", "odd") %>">
   	<td><%= study_pub_info.ui %></td>
     <td><%= study.study_type %></td> 	
-    <td><%= study_pub_info.title %></td>
+    <td><%= link_to  study_pub_info.title, '/projects/'+session[:project_id].to_s+'/studies/'+study.id.to_s %></td>
     <td><%= study_pub_info.author %></td>
     <td><%= study_pub_info.year %></td>
-	<td></td>
+	<td><%= @kq_formatted_strings[i] %></td>
+	</td>
   </tr>
   <% end %>
+  <% i += 1%>
 <% end %>
 </table>
