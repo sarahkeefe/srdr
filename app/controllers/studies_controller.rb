@@ -22,6 +22,9 @@ class StudiesController < ApplicationController
 		@study_questions << KeyQuestion.find(i.key_question_id)
 	end
 	  @primary_publication = @study.get_primary_publication
+	  if @primary_publication.nil?
+		@primary_publication = Publication.new
+	  end
 	  @secondary_publications = @study.get_secondary_publications
 	  @arms = Arm.find(:all, :conditions => {:study_id => @study.id})
 	  @population_characteristics = PopulationCharacteristic.where(:study_id => @study.id)
@@ -35,8 +38,12 @@ class StudiesController < ApplicationController
 	  @continuous_outcomes = Outcome.where(:study_id => @study.id, :outcome_type => "Continuous").all	  
 	  
 	  # get the study title, which is the same as the primary publication for the study
-	  @study_title = Publication.find(:first, :conditions=>["study_id=? AND is_primary=?",@study.id,"t"],:select=>"title")
-	  @study_title = @study_title.title.to_s
+	  @study_title = Publication.where(:study_id => @study.id, :is_primary => true).first
+	  if @study_title.nil?
+		@study_title = ""
+	  else
+		@study_title = @study_title.title.to_s
+	  end
 	  
     respond_to do |format|
       format.html # show.html.erb
