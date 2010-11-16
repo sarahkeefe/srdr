@@ -1,16 +1,26 @@
 <p id="notice"><%= notice %></p>
 <h1>Study Summary</h1>
-  <div class="summary_heading">Study Title and Description</div>
-  <h2><%= @study.title %></h2>
-<table border="0"><tr><td>
-<h4>Study Type:</h4> </td><td> <%= @study.study_type %><br/></td></tr><tr><td>
-  <h4>Participants:</h4> </td><td> <%= @study.num_participants %></td></tr><tr><td colspan="2">
-  <h4>Recruitment Details:</h4></td></tr><tr><td colspan="2"> <%= @study.recruitment_details %>  </td></tr></table>
-
+  
+  <!-- SUMMARY HEADING DIV SECTION -->
+	<div class="summary_heading" onclick="toggle_display('summary_text','summary_link');">
+  	<span id='summary_link' class="toggle_hide_link">-</span>
+  	&nbsp;Study Title and Description
+  </div>
+  <div id="summary_text" style="display:inline;">
+	  <h2><%= @study_title %></h2>
+	  <table border="0"><tr><td>
+	  <h4>Study Type:</h4> </td><td> <%= @study.study_type %><br/></td></tr><tr><td>
+	  <h4>Participants:</h4> </td><td> <%= @study.num_participants %></td></tr><tr><td colspan="2">
+	  <h4>Recruitment Details:</h4></td></tr><tr><td colspan="2"> <%= @study.recruitment_details %>  </td></tr></table>
+	  <br/>
+	</div>
 	<br/>
-
-	<div class="summary_heading">Key Questions Addressed</div>
-	<br/>
+	<!-- KEY QUESTIONS DIV SECTION -->
+	<div class="summary_heading" onclick="toggle_display('key_questions_text','key_questions_link');" >
+	<span id='key_questions_link' class="toggle_hide_link">-</span>
+  	&nbsp;Key Questions Addressed
+	</div>
+	<div id="key_questions_text" style="display:inline;">
 	<% unless @study_questions.empty? %>
 	<% @study_questions.each do |q| %>
 		<%= q.question_number.to_s + ". " + q.question %><br/>
@@ -18,10 +28,14 @@
 	<% else %>
 		There are no key questions associated with this study.
 	<% end %>
-	<br/><br/>
-	
-	<div class="summary_heading">Publication Information</div>
+	</div>
 	<br/>
+	<!-- PUBLICATION INFORMATION DIV SECTION -->
+	<div class="summary_heading" onclick="toggle_display('publications_text','publications_link');" >
+	<span id='publications_link' class="toggle_display_link">+</span>
+  	&nbsp;Publication Information
+	</div>
+	<div id="publications_text" class="hidden">
 	<h4>Primary Publication</h4>
 		<table border="0" cellpadding="2"><tr><td>
 		<b>Title:</b></td><td colspan="3"> <%= @primary_publication.title %> </td></tr><tr><td>
@@ -32,57 +46,106 @@
 	<br/>
 	<h4>Secondary Publications</h4><br/>
 		<%= render 'publications/completed_table' %>	
-	<br/>
-	
-	<div class="summary_heading">Inclusion Criteria</div>
-	<br/>
-	<%= @study.inclusion_criteria %>
-	<br/><br/>
+	</div>
+	<br/>		
 
-	<div class="summary_heading">Exclusion Criteria</div>
+	<!-- INCLUSION CRITERIA DIV SECTION -->
+	<div class="summary_heading" onclick="toggle_display('inclusion_criteria_text','inclusion_criteria_link');" >
+	<span id='inclusion_criteria_link' class="toggle_display_link">+</span>
+  	&nbsp;Inclusion Criteria
+	</div>		
+	<div id='inclusion_criteria_text' class="hidden">
+		<%= @study.inclusion_criteria %>
+		<br/>
+	</div>
 	<br/>
+
+  <!-- EXCLUSION CRITERIA DIV SECTION -->
+	<div class="summary_heading" onclick="toggle_display('exclusion_criteria_text','exclusion_criteria_link');">
+		<span id='exclusion_criteria_link' class="toggle_display_link">+</span>
+  	&nbsp;Exclusion Criteria
+	</div>		
+	<div id="exclusion_criteria_text" class="hidden">
 	<%= @study.exclusion_criteria %>
-	<br/><br/>
-	
-	<div class="summary_heading">Study Arms</div>
 	<br/>
-	<%= render 'arms/completed_table' %>	
+	</div>
+	<br/>
+	
+	<!-- STUDY ARMS DIV SECTION -->
+	<div class="summary_heading" onclick="toggle_display('study_arms_text','study_arms_link');">
+	<span id='study_arms_link' class="toggle_display_link">+</span>
+  	&nbsp;Study Arms
+	</div>
+	<div id="study_arms_text" class="hidden">		
+		<%= render 'arms/completed_table' %>	
+	<br/>
+	</div>
 	<br/>
 
-	<div class="summary_heading">Population Characteristics</div>
-	<br/>
+	<!-- POPULATION CHARACTERISTICS DIV SECTION -->
+	<div class="summary_heading" onclick="toggle_display('pop_char_text','pop_char_link');">
+		<span id='pop_char_link' class='toggle_display_link'>+</span>
+	  &nbsp;Population Characteristics
+	</div>
+	<div id="pop_char_text" class="hidden">
 	<%= render 'population_characteristics/completed_table' %>
-	<br/><br/>
-	
-	<div class="summary_heading">Outcome Results Tables</div>
 	<br/>
-	<%= render 'outcome_results/completed_table' %>	
-	
-	<div class="summary_heading">Outcome Analysis</div>
+	</div>
 	<br/>
+	
+	<!-- OUTCOME RESULTS DIV SECTION -->
+	<div class="summary_heading" onclick="toggle_display('outcome_results_text','outcome_results_link');">
+	  <span id="outcome_results_link" class="toggle_display_link">+</span>
+	  &nbsp;Outcome Results Tables
+	</div>
+	<div id="outcome_results_text" class="hidden">
+		<%= render 'outcome_results/completed_table' %>	
+	<br/>
+	</div>
+	<br/>
+	
+	<!-- OUTCOME ANALYSIS DIV SECTION -->
+	<div class="summary_heading" onclick="toggle_display('outcome_analysis_text','outcome_analysis_link');">
+	  <span id="outcome_analysis_link" class="toggle_display_link">+</span>
+	  &nbsp;Outcome Analysis Tables
+	</div>
+	<div id="outcome_analysis_text" class="hidden">
 	<% if @categorical_analyses.length > 0 %>	
-<%= render 'outcome_analyses/table_cat' %>	
-<% else %>
-<b>There are currently no categorical outcome analyses to be displayed.</b>
-<% end %>
+		<%= render 'outcome_analyses/table_cat' %>	
+	<% else %>
+		<b>There are currently no categorical outcome analyses to be displayed.</b><br/><br/>
+	<% end %>
 	<% if @continuous_analyses.length > 0 %>	
-<%= render 'outcome_analyses/table_cont' %>	
-<% else %>
-<b>There are currently no continuous outcome analyses to be displayed.</b>
-<% end %>
-	<br/><br/>	
-
-	<div class="summary_heading">Adverse Events</div>
+		<%= render 'outcome_analyses/table_cont' %>	
+	<% else %>
+		<b>There are currently no continuous outcome analyses to be displayed.</b><br/><br/>
+	<% end %>
 	<br/>
-	<%= render 'adverse_events/completed_table' %>	
-	<br/><br/>
+	</div>
+	<br/>
 	
-	<div class="summary_heading">Quality Assessment</div>
+  <!-- ADVERSE EVENTS SECTION -->
+	<div class="summary_heading" onclick="toggle_display('adverse_events_text','adverse_events_link');">
+		<span id="outcome_analysis_link" class="toggle_display_link">+</span>
+		&nbsp;Adverse Events
+	</div>
+	<div id="adverse_events_text" class="hidden">
+		<%= render 'adverse_events/completed_table' %>	
+		<br/>
+	</div>
 	<br/>
-	<%= render 'quality_aspects/completed_table' %><br/><br/>
-	<%= render 'quality_ratings/table' %>		
-	<br/><br/>
-	<br/><br/>
+	
+	<!-- QUALITY ASSESSMENT SECTION -->
+	<div class="summary_heading" onclick="toggle_display('qa_text','qa_link');">
+		<span id="qa_link" class='toggle_display_link'>+</span>
+		&nbsp;Quality Assessment
+	</div>
+	<div id="qa_text" class="hidden">
+		<%= render 'quality_aspects/completed_table' %><br/><br/>
+		<%= render 'quality_ratings/table' %>		
+		<br/>
+	</div>
+	<br/>
 <table id="bottom_nav"><tr><td align="left"></td><td align="right">
 <%= link_to 'Edit this Study', edit_project_study_path(@project, @study) %>
 <br/>

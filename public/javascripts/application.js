@@ -51,8 +51,8 @@ function add_continuous_outcome_analysis_row(){
 	  //alert("row_num = " + row_num);
 	}
 	var tbody = $('outcome_analysis_table').getElementsByTagName("tbody")[0];
-	
-	var tr = Builder.node('tr', {id: row_id}),
+	var row_class = get_next_row_class('outcome_analysis_table');
+	var tr = Builder.node('tr', {id: row_id, class: row_class}),
 		td1 = Builder.node('td'),
 		td2 = Builder.node('td'),
 		td3 = Builder.node('td'),
@@ -123,11 +123,11 @@ function add_categorical_outcome_analysis_row(){
 		var previous_row = $('categorical_analysis_table').getElementsByTagName('tr')[num_analyses-1].id.toString();
 	  row_num = parseInt(previous_row.replace("categorical_row_","")) + 1;
 	  row_id = "categorical_row_" + row_num.toString();
-	  //alert("row id = " + row_id);
-	  //alert("row_num = " + row_num);
+	  
 	}
+	var row_class = get_next_row_class('categorical_analysis_table');;
 	
-	var tr = Builder.node('tr', {id: row_id}),
+	var tr = Builder.node('tr', {id: row_id, class: row_class}),
 		td1 = Builder.node('td'),
 		td2 = Builder.node('td'),
 		td3 = Builder.node('td'),
@@ -200,9 +200,63 @@ function add_categorical_outcome_analysis_row(){
 function remove_outcome_analysis_row(row, analysis_table){
 	var row_to_remove = document.getElementById(row)
 	var tbody = $(analysis_table).getElementsByTagName("tbody")[0];
-	tbody.removeChild(row_to_remove)
+	tbody.removeChild(row_to_remove);
+	update_row_classes(analysis_table);
+}
+// after a row has been deleted, go through the table updating the rows
+function update_row_classes(tableName){
+	var tbody = $(tableName).getElementsByTagName("tbody")[0];
+	var trs = tbody.getElementsByTagName("tr")
+	var i = 1;
+	var row_class = "even"
+	if(tableName == "categorical_analysis_table"){
+		i = 2;
+	}
+	for(i; i<trs.length; i++){
+		trs[i].className = row_class
+		row_class = toggle_row(row_class)
+	}
+}
+
+// determine what class the next row being added should contain
+function get_next_row_class(tableName){
+	var tbody = $(tableName).getElementsByTagName("tbody")[0];
+	var trs = tbody.getElementsByTagName("tr")
+	current_class = trs[trs.length-1].className
+	var next_row = toggle_row(current_class)
+	return(next_row);
+}
+
+// utility function to toggle between odd and even rows
+function toggle_row(row){
+	var retVal = "even"
+	if(row == "even"){
+	  retVal = "odd"
+  }
+  return(retVal);
+}
+
+// utility function to toggle show/hide for a given element id
+function toggle_display(element, link){
+	var e = document.getElementById(element);
+	var plus_minus_sign = document.getElementById(link);
+	if(e.style.display == "none" || e.style.display == ""){
+		//e.slideDown(100, plus_minus_sign.innerHTML = "-");
+		e.style.display = "inline";
+		plus_minus_sign.innerHTML = "-";
+		plus_minus_sign.className = "toggle_hide_link"
+	}else if(e.style.display == "inline" || e.style.display == "block"){
+		//e.slideUp(100, plus_minus_sign.innerHTML="+")
+		e.style.display = "none";
+		plus_minus_sign.innerHTML = "+";
+		plus_minus_sign.className = "toggle_display_link"
+	}else{
+		e.style.display = "inline"
+		plus_minus_sign.innerHTML = "-";
+	}	
 }
 function say_the_word(word){
 	alert(word.toString)
 }
+
 

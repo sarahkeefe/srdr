@@ -88,7 +88,7 @@ h4{
 table
 {
 	border-collapse: collapse;
-	#border: 0px;
+	/* border: 0px;*/
 }
 
 .indent_block{
@@ -97,8 +97,7 @@ table
 }
 
 .summary_heading{
-	width: 100%;
-	#height: 25px;
+	width: 80%;
 	background-color: #eee;
 	border: 1px solid #000;
 	font-size: 16px;
@@ -165,7 +164,7 @@ padding: 8px;
 	padding: 5px;
 }
 .error_message{
-	#background-color: #ED4548;
+	/* background-color: #ED4548; */
 	border: 1px solid #ED4548;
 	color: #8F2224;
 	padding: 5px;
@@ -188,6 +187,26 @@ padding: 8px;
 	background: #ffff99;
 	border-top: 1px dotted #cccc33;
 }
+
+.hidden{
+  display:none;
+}
+
+.visible{
+  display:inline;
+}
+
+.toggle_display_link{
+	text-decoration: none;
+	font-size: 20px;
+	color: green;
+}
+.toggle_hide_link{
+	text-decoration: none;
+	font-size: 20px;
+	color: red;
+}
+
 
 table.list_table{
 width: 100%;

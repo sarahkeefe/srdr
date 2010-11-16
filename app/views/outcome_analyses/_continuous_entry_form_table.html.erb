@@ -48,7 +48,7 @@
 	<% row_num = 1%>
 	<% @continuous_analyses.each do |cont| %>
 	  <tr class="<%= cycle("even", "odd") %>" id=<%= "row_" + row_num.to_s %> >
-	  	<th>	
+	  	<td>	
 	  	<select id= <%= 'outcome_analysis_'+row_num.to_s+'_outcome_id' %> name=<%= 'outcome_analysis_'+row_num.to_s+'[outcome_id]'%> >
   				<% @continuous_outcomes.each do |out| %>
   					<% selected = "" %>
@@ -58,8 +58,7 @@
   				  <option value= <%= out.id.to_s %> <%= selected %> ><%= out.title.to_s %></option>
 					<% end %>	
 				</select>
-			</th>
-			
+			</td>
 			
 			<td>
 				<select id=<%= "outcome_analysis_"+row_num.to_s+"_arm1_id" %> name= <%= "outcome_analysis_"+row_num.to_s+"[arm1_id]" %>>			
@@ -79,7 +78,7 @@
 						<% if arm.id.to_i == cont.arm2_id.to_i %>
 							<% selected = "selected='selected'" %>	
 						<% end %>
-						<option value=<%= arm.id.to_s %> ><%= arm.title.to_s %></option>
+						<option value=<%= arm.id.to_s %> <%= selected %> ><%= arm.title.to_s %></option>
 					<% end %>
 				</select>
 			</td>
@@ -99,7 +98,8 @@
 				<% row_id = "row_" + row_num.to_s %>
 				<a href='#' onClick=<%= "remove_outcome_analysis_row('" + row_id + "'" + ",'outcome_analysis_table');" %> >Remove</a>		
 			</td>
-		</tr>  	
+		</tr>
+		<% row_num = row_num + 1 %>
 	<%end%>
 <%end%>
 	  	
