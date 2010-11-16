@@ -1,15 +1,18 @@
 <h2>Add Study</h2>
  <h3>Study Key Questions:</h3><br/>
   <% unless @questions.empty? %>
-<%= form_for(@study, :remote => true) do |f| %>
+
+  <%= form_for(@study, :remote => true) do |f| %>
+<table class="form_table"><tr><td>
   <% @questions.each do |q| %>
-	        
-	    <input type="checkbox" name=<%= "question_" + q.id.to_s %> >
-		<%= q.question_number.to_s + ". " + q.question %><br/>  
+	    <input type="checkbox" name=<%= "question_" + q.id.to_s %> ></td><td>
+		<%= q.question_number.to_s + ". " + q.question %></td></tr><tr><td>
 	  <% end %>
-<table>
-	 	<tr><td><%= f.submit "Save Questions" %></td><td id="status_box" align="right" style="width: 250px; color: white;">...saved</td></tr>
-	</table>
+</td></tr><tr><td colspan="2">
+<div class="actions">
+<%= f.submit "Save Questions" %>
+</div></td><td> </div><div id="key_question_validation_message">
+	</td></tr></table>
 <% end %>
   <% else %>
     There are no key questions associated with this project.

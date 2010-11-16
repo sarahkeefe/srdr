@@ -1,31 +1,31 @@
 <%= form_for @primary_publication, :remote=>true do |f| %>
 
+<table class="form_table"><tr><td>
 
-  <div class="field">
-    <%= f.label :publication_title %>:
+    <%= f.label :publication_title %>:  </td><td colspan="6">
     <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :author %>:
+	
+  </td></tr><tr><td>
+  
+    <%= f.label :author %>: </td><td>
     <%= f.text_field :author, :size => 12 %>
-
-    <%= f.label :country %>:
+</td><td>
+    <%= f.label :country %>: </td><td>
     <%= f.text_field :country, :size => 10 %>
-
-    <%= f.label :year %>:
+</td><td>
+    <%= f.label :year %>:</td><td>
     <%= f.text_field :year, :size => 6 %>
-  </div>
-  <div class="field">
-    <%= f.label :isbn %>:
-    <%= f.text_field :isbn %>
-  </div>
-  <div class="field">
-    <%= f.label :ui %>:
-    <%= f.text_field :ui, :size => 9 %>
-
-    <%= f.label :ui_type %>:
-    <%= f.text_field :ui_type %>
-  </div>
+</td></tr><tr><td>
+    <%= f.label :isbn %>:</td><td>
+    <%= f.text_field :isbn, :size => 14 %>
+</td></tr><tr><td>
+    <%= f.label :ui %>: </td><td>
+    <%= f.text_field :ui, :size => 12 %>
+</td><td>
+    <%= f.label :ui_type %>:</td><td>
+    <%= f.text_field :ui_type, :size => 12 %></td></tr><tr><td colspan="6">
+	<div class="actions">
     <%= hidden_field_tag :is_primary, "true" %>
-	<%= f.submit "Save" %>
+	<%= f.submit "Save" %></div>
+	</td></tr></table>
 <% end %>

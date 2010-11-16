@@ -11,16 +11,16 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :question_text %>:
+  <table class="form_table">
+  <tr><td>
+    <%= f.label :question_text %>:</td><td>
     <%= f.text_field :question, :size => 50 %>
-  </div>
-  <div class="field">
-    <%= f.label :question_description %><br />
+</td></tr><tr><td colspan="2">
+    <%= f.label :question_description %></td></tr><tr><td colspan="2">
     <%= f.text_area :description, :cols => 50, :rows => 4 %>
-  </div>
+  </td></tr><tr><td colspan="2">
   <div class="actions">
     <%= f.submit "Update" %>  <%= link_to 'Done Editing', new_project_key_question_path(session[:project_id]), :remote=>true %>
   </div>
- 
+ </td></tr></table>
 <% end %>

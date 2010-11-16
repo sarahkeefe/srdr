@@ -16,6 +16,19 @@ class ProjectsController < ApplicationController
     end
   end
   
+  def moveup
+@keyquestion = KeyQuestion.find(params[:kqid])
+    respond_to do |format|
+		if @key_question.save  
+			format.js {
+				render :update do |page|
+					page.replace_html 'key_question_table', :partial => 'key_questions/table'
+				end
+			}
+		end
+		end
+  end
+  
   def studies
 	@project = Project.find(params[:id])
 	@studies = Study.where(:project_id => @project.id).all
@@ -44,10 +57,12 @@ class ProjectsController < ApplicationController
   # GET /projects/new.xml
   def new
     @project = Project.new
-	  @project.save
-	  makeActive(@project)
-	  @key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
-	  @key_question = KeyQuestion.new
+		@project.save
+		makeActive(@project)
+		proj_id = @project.id	
+		@key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
+		@key_question = KeyQuestion.new
+	   
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @project }
@@ -57,9 +72,11 @@ class ProjectsController < ApplicationController
   # GET /projects/1/edit
   def edit
     @project = Project.find(params[:id])
-	  makeActive(@project)
-		@key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
-		@key_question = KeyQuestion.new	
+	  session[:project_id] = @project.id
+	  proj_id = @project.id
+	    makeActive(@project)
+	  @key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
+	  @key_question = KeyQuestion.new	
   end
 
   # POST /projects

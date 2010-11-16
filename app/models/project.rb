@@ -17,4 +17,26 @@ class Project < ActiveRecord::Base
 		return @key_qs.length
 	end
 	
+	def self.moveup(project_id, keyq)
+		@proj = Project.find(project_id)
+		keyq_id = keyq.id
+		if keyq.question_number > 1
+			keyq.question_number = keyq.question_number - 1
+			@proj_kqs = KeyQuestion.where(:project_id => @proj.id)
+			for kq in @proj_kqs
+				if (kq.question_number == keyq.question_number) && (kq.id != keyq.id)
+					kq.question_number = kq.question_number + 1
+					kq.save
+				end
+			end
+		end
+			if keyq.save  
+				format.js {
+					render :update do |page|
+						page.replace_html 'key_question_table', :partial => 'key_questions/table'
+					end
+				}
+			end
+	end
+	
 end

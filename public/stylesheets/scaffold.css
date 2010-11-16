@@ -98,7 +98,6 @@ table
 
 .summary_heading{
 	width: 80%;
-	/* height: 25px; */
 	background-color: #eee;
 	border: 1px solid #000;
 	font-size: 16px;
@@ -108,7 +107,7 @@ table
 }
 
 .listing_item{
-	width: 80%;
+	width: 100%;
 	background-color: #eee;
 	border: 1px solid #000;
 	color: #333;
@@ -181,10 +180,12 @@ padding: 8px;
 
 .odd td.calculated{
 	background: #ffffcc;
+	border-top: 1px dotted #cccc66;	
 }
 
 .even td.calculated{
 	background: #ffff99;
+	border-top: 1px dotted #cccc33;
 }
 
 .hidden{
@@ -208,19 +209,58 @@ padding: 8px;
 
 
 table.list_table{
-border: 0px;
 width: 100%;
+background:#D3E4E5;
+border:1px solid gray;
+color:#fff;
+font:normal 12px verdana, arial, helvetica, sans-serif;
 }
 
 table.list_table td{
 padding: 6px;
+text-align: center;
+color:#363636;
+}
+
+table.list_table tr{
+border:1px dotted gray;
+
+}
+
+table.list_table tr:hover { 
+ background:#ccffcc;
+ border:1px solid #99cc99;
+ #color:#000000;
+}
+
+table.non_centered_table td{
+text-align: left;
+#width: 60%;
 }
 
 table.list_table th{
-background: #aaa;
+background:#5C443A;
+ padding:3px 10px 3px 10px;
+}
+
+table.list_table tr th:hover { 
+ /*background:#ccffcc;*/
+ /*border:1px dotted gray;*/
+ /*color:#fff;*/
 }
 
 table.complex_header th{
-border: 1px solid #666;
+border: 1px dotted gray;
 padding: 4px;
+}
+
+table#bottom_nav{
+width: 100%;
+}
+
+table.form_table{
+}
+
+.actions{
+text-align: right;
 }

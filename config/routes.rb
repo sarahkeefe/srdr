@@ -52,6 +52,7 @@ Srdr::Application.routes.draw do
 end
 
 	match 'projects/:project_id/studies/:study_id/show_outcome' => 'studies#show_outcome'
+	match 'projects/:project_id/moveup' => 'projects#moveup'
 	match 'projects/:project_id/studies/:study_id/design' => 'studies#design'
 	match 'projects/:project_id/studies/:study_id/attributes' => 'studies#attributes'
 	match 'projects/:project_id/studies/:study_id/outcomesetup' => 'studies#outcomesetup'

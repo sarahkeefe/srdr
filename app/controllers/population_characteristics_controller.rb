@@ -68,8 +68,9 @@ class PopulationCharacteristicsController < ApplicationController
 						page.replace_html 'population_characteristics_table', :partial => 'population_characteristics/table'
 						page['population_characteristic_form'].reset
 					new_row_name = "pop_char_row_" + @population_characteristic.id.to_s					  
-						page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", 
-																						 :restorecolor=>"#ffffff", :duration=>2})
+						#if !page[new_row_name].nil?
+							#page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", :restorecolor=>"#ffffff", :duration=>2})
+						#end
 						page.replace_html 'population_characteristic_validation_message', ""																						 
 			  	end
 				}
@@ -107,8 +108,7 @@ class PopulationCharacteristicsController < ApplicationController
 			    page.replace_html 'population_characteristics_table', :partial => 'population_characteristics/table'
 				page['population_characteristic_form'].reset
 				new_row_name = "pop_char_row_" + @population_characteristic.id.to_s					  
-				page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", 
-																						 :restorecolor=>"#ffffff", :duration=>2})
+				#page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", :restorecolor=>"#ffffff", :duration=>2})
 				page.replace_html 'population_characteristic_validation_message', ""						
 			end
 		}	  
@@ -150,4 +150,7 @@ class PopulationCharacteristicsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+ def addtotals 
+end 
 end

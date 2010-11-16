@@ -88,10 +88,6 @@ class KeyQuestionsController < ApplicationController
       end
     end
   end
-
-  
-  		
-  
   
   # PUT /key_questions/1
   # PUT /key_questions/1.xml

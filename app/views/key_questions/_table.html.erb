@@ -3,7 +3,6 @@
 <th>Number</th>
 <th>Question Text</th>
 <th>Description</th>
-<th>Move Up</th>
 <th>Edit</th>
 <th>Remove</th>
 <% if !@key_questions.nil? && @key_questions.length > 0 %>
@@ -12,7 +11,6 @@
 <td><%= keyq.question_number %></td>
 <td><%= keyq.question %></td>
 <td><%= keyq.description %></td>
-<td>Move Up</td>
 <td>
 	<%= link_to 'Edit', edit_project_key_question_path(session[:project_id],keyq), :remote=>true %>
 </td>
