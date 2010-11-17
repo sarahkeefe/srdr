@@ -300,6 +300,7 @@ float: right;
 border-bottom-right-radius: 20px;
 -moz-border-radius-bottomleft: 50px;
 border-bottom-left-radius: 50px;
+z-index: 100;
 }
 
 #login-form .form_table, #login-form .form_table td
@@ -324,16 +325,35 @@ border: 1px solid #aaa;
 #border: 0px;
 }
 
-#login-form .form_table td input:focus
+#login-form .form_table td input:focus, .searchbar input:focus
 {
 background: #D7F2F5;
 color: #003333;
 }
 
-.breadcrumbs{
+.breadcrumbs, .searchbar{
 background: #eee;
 	margin-left: -8px;
 	margin-right: -8px;
 	padding-right: 8px;
 	padding-left: 8px;
+}
+
+.searchbar{
+text-align: right;
+}
+
+.searchbar input
+{
+	font-size: 12px;
+	border: 0px;
+}
+
+.searchbar input submit{
+	background-color: #333;
+}
+.searchbar input:focus
+{
+background: #D7F2F5;
+color: #003333;
 }

@@ -3,10 +3,10 @@
 <div class="title">
 Systematic Review Data Repository
 </div>
-<% if current_user_session.nil? %>
+<% if !current_user_session.exists? || current_user_session.nil? %>
 <div class="login-link"><%= link_to "Login", "#", :id => "login-link-txt" %></div>
 <% else %>
-<div class="login-info">Logged in as <%= current_user.login %> | <%= link_to "Log out", :remote => true, :controller => "user_sessions", :action => "destroy" %></div>
+<div class="login-info">Logged in as <%= current_user.login %> | <%= link_to "User Home", "../../" %> | <%= link_to "Log out", :remote => true, :controller => "user_sessions", :action => "destroy" %></div>
 <% end %>
 </div>
 
@@ -28,6 +28,9 @@ $j('#login-link-txt').click(function(event){
 </script>
 
 <% end %>
+<div class="searchbar">
+<%= render "search/form" %>
+</div>
 <div class="breadcrumbs">
 <%= render :inline=> get_bread_crumbs(request.url,">") %>
 </div>
