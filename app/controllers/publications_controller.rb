@@ -76,12 +76,12 @@ class PublicationsController < ApplicationController
 					  page.replace_html 'secondary_publication_table', :partial => 'publications/table'
 						page.replace_html 'secondary_pub_validation_message', ""					  
 					  page['secondary_pub_form'].reset
-					new_row_name = "pub_row_" + @publication.id.to_s					  
+					 new_row_name = "pub_row_" + @publication.id.to_s					  
 						page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", 
 																						 :restorecolor=>"#ffffff", :duration=>2})					  
 					end	  	  	  	
-				page['key_question_validation_message'].visual_effect(:appear)
-				page['key_question_validation_message'].visual_effect(:fade)
+				  #page['key_question_validation_message'].visual_effect(:appear)
+				  #page['key_question_validation_message'].visual_effect(:fade)
 					}
 			elsif params[:is_primary] == 'true'
 				saved_html = "<div class='success_message'>Saved!</div>"

@@ -1,0 +1,32 @@
+<h4>Study-Level Results</h4>
+<% unless @publications_array.empty? %>
+<table id='study_search_results_table' name='study_search_results_table' class="list_table">
+	<tr>
+		<th>UID</th>
+		<th>Type</th>
+		<th>Author</th>
+		<th>Title</th>
+		<th>Country</th>
+		<th>Year</th>
+		<th width="15px"> </th>
+	</tr>
+	  <% i = 0 %>
+		<% @publications_array.each do |pub| %>
+		
+		<tr class="<%= cycle("even", "odd") %>">	
+			<td><%= pub.ui %></td>
+			<td><%= @study_info_array[i][0] %></td>
+			<td><%= pub.author %></td>
+			<td><%= pub.title %></td>
+			<td><%= pub.country %></td>
+			<td><%= pub.year %></td>
+			<td><%= link_to 'Go', '/projects/'+@study_info_array[i][1].to_s+'/studies/'+ pub.id.to_s %></td>
+		</tr>
+		  <% i = i + 1 %>
+		<%end%>
+	</tr>
+</table>
+<% else %>
+<br/>
+<em>No studies were found.</em>
+<% end %>

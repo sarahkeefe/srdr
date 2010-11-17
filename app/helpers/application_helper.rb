@@ -49,7 +49,14 @@ module ApplicationHelper
 							
 						end
 					    
-				when /^\w/
+					when "search"
+						retVal = retVal + create_crumb_link('/search/','Search',true)
+					  retVal.gsub!(/\>$/,"")
+					  
+				  when /\?/
+						next 
+						
+					when /^\w/
 					uri = "/projects/#{project_id.to_s}/studies/#{study_id.to_s}/#{element.to_s}"
 				  text = element.to_s.capitalize  
 				  retVal = retVal + create_crumb_link(uri,text, is_end_of_trail)

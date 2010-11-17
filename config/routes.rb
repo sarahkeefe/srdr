@@ -60,7 +60,8 @@ end
 	match 'projects/:project_id/studies/:study_id/outcomeanalysis' => 'studies#outcomeanalysis'
 	match 'projects/:project_id/studies/:study_id/adverseevents' => 'studies#adverseevents'
 	match 'projects/:project_id/studies/:study_id/quality' => 'studies#quality'	
-
+  match 'search' => 'search#index'
+  match 'search/results' => 'search#results'
 resources :studies do
 	member do 
 		get 'design' 
