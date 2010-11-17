@@ -67,9 +67,6 @@ end
 
 	 resources :user_sessions
 
-  match 'login' => "user_sessions#new",      :as => :login
-  match 'logout' => "user_sessions#destroy", :as => :logout
-
   match 'search' => 'search#index'
   match 'search/results' => 'search#results'
 
@@ -78,6 +75,11 @@ resources :studies do
 		get 'design' 
 	end 
 end 
+
+  match 'login' => "user_sessions#new",      :as => :login
+  match 'logout' => "user_sessions#destroy", :as => :logout
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
