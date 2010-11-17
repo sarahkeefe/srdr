@@ -1,4 +1,8 @@
 Srdr::Application.routes.draw do
+  get "home/index"
+
+  get "user_sessions/new"
+
   resources :outcome_timepoint_results
 
   resources :population_characteristic_data_points
@@ -45,12 +49,12 @@ Srdr::Application.routes.draw do
 
   resources :key_questions
 
-  match 'projects/:id/studies' => 'projects#studies'
+
 
   resources :projects do
 	resources :studies
 end
-
+	match 'projects/:id/studies' => 'studies#index'
 	match 'projects/:project_id/studies/:study_id/show_outcome' => 'studies#show_outcome'
 	match 'projects/:project_id/moveup' => 'projects#moveup'
 	match 'projects/:project_id/studies/:study_id/design' => 'studies#design'
@@ -61,6 +65,12 @@ end
 	match 'projects/:project_id/studies/:study_id/adverseevents' => 'studies#adverseevents'
 	match 'projects/:project_id/studies/:study_id/quality' => 'studies#quality'	
 
+	 resources :user_sessions
+
+  match 'login' => "user_sessions#new",      :as => :login
+  match 'logout' => "user_sessions#destroy", :as => :logout
+
+	
 resources :studies do
 	member do 
 		get 'design' 
@@ -118,7 +128,7 @@ end
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-   root :to => "projects#index"
+root :to => 'home#index'
 
   # See how all your routes lay out with "rake routes"
 

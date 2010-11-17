@@ -7,6 +7,8 @@ gem 'rails', '3.0.0'
 
 gem 'sqlite3-ruby'
 gem 'jquery-rails'
+gem 'authlogic'
+gem 'rails3-generators'
 
 # Use unicorn as the web server
 # gem 'unicorn'

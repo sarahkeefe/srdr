@@ -1,5 +1,7 @@
  var $j = jQuery.noConflict();
-    $j(function(e) 
+
+
+ $j(function(e) 
 	{
 	
 		// Get arm and category id values from the hidden field

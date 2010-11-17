@@ -3,6 +3,6 @@
 <%= render 'newproj' %>
 
 <table id="bottom_nav"><tr><td align="left"></td><td align="right">
-<%= link_to "Continue", project_studies_path(@project) %>
+<%= link_to "Continue", "../../projects/" + @project.id.to_s + "/studies" %>
 </td></tr></table>
 <br/><br/>

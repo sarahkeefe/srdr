@@ -1,0 +1,14 @@
+<%= form_for @user_session, :url => {:controller => "user_sessions", :action => "create"} do |f| %>
+  <table class="form_table"><tr><td>
+    Login: </td><td>
+    <%= f.text_field :login, :size => 20 %></td></tr><tr><td>
+    Password: </td><td>
+    <%= f.password_field :password, :size => 20 %> </td></tr><tr><td colspan="2" class="remember">
+    <%= f.check_box :remember_me %>
+    Remember me
+	</td></tr><tr><td colspan="2">
+	<div class="actions">
+		<%= f.submit "Login" %>
+	</div>
+	</td></tr></table>
+	<% end %>
