@@ -15,12 +15,12 @@ class StudiesController < ApplicationController
   # GET /studies/1.xml
   def show
     @study = Study.find(params[:id])
-	@project = Project.find(session[:project_id])
-	@study_qs = StudiesKeyQuestion.where(:study_id => @study.id)
-	@study_questions = []
-	for i in @study_qs
-		@study_questions << KeyQuestion.find(i.key_question_id)
-	end
+	  @project = Project.find(session[:project_id])
+	  @study_qs = StudiesKeyQuestion.where(:study_id => @study.id)
+	  @study_questions = []
+	  for i in @study_qs
+		  @study_questions << KeyQuestion.find(i.key_question_id)
+	  end
 	  @primary_publication = @study.get_primary_publication
 	  if @primary_publication.nil?
 		@primary_publication = Publication.new

@@ -7,7 +7,7 @@ class ProjectsController < ApplicationController
   def index
     @projects = Project.all
     respond_to do |format|
-	  format.html # index.html.erb
+	    format.html # index.html.erb
       format.xml  { render :xml => @projects }
     end
   end
@@ -42,9 +42,14 @@ class ProjectsController < ApplicationController
   # GET /projects/1.xml
   def show
     @project = Project.find(params[:id])
-	@key_questions = KeyQuestion.where(:project_id => @project.id)
-	@studies = Study.where(:project_id => @project.id)
     makeActive(@project)
+    # get the key questions and format them for display in the table
+    # see format_for_display in KeyQuestion model
+    @key_questions = KeyQuestion.find(:all, :conditions=>["project_id=?",@project.id], :order=>"question_number ASC")
+      
+	  @studies = Study.where(:project_id => @project.id)
+	  @kq_formatted_strings = Study.get_addressed_question_numbers_for_studies(@studies)
+    
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @project }
@@ -55,12 +60,12 @@ class ProjectsController < ApplicationController
   # GET /projects/new.xml
   def new
     @project = Project.new
-	@project.save
-	session[:project_id] = @project.id
-	proj_id = @project.id	
-	@key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
-	@key_question = KeyQuestion.new
-	    makeActive(@project)
+		@project.save
+		makeActive(@project)
+		proj_id = @project.id	
+		@key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
+		@key_question = KeyQuestion.new
+	   
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @project }
@@ -70,19 +75,19 @@ class ProjectsController < ApplicationController
   # GET /projects/1/edit
   def edit
     @project = Project.find(params[:id])
-	session[:project_id] = @project.id
-	proj_id = @project.id
+	  session[:project_id] = @project.id
+	  proj_id = @project.id
 	    makeActive(@project)
-	@key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
-	@key_question = KeyQuestion.new	
+	  @key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
+	  @key_question = KeyQuestion.new	
   end
 
   # POST /projects
   # POST /projects.xml
   def create
     @project = Project.new(params[:project])
-	@key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
-	@key_question = KeyQuestion.new	
+		@key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
+		@key_question = KeyQuestion.new	
     respond_to do |format|
       if @project.save
         #format.html { redirect_to(@project, :notice => 'Project was successfully created.') }
@@ -111,8 +116,9 @@ class ProjectsController < ApplicationController
   # PUT /projects/1.xml
   def update
     @project = Project.find(params[:id])
-	@key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
-	@key_question = KeyQuestion.new	
+		makeActive(@project)
+    @key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
+		@key_question = KeyQuestion.new	
     respond_to do |format|
       if @project.update_attributes(params[:project])
         #format.html { redirect_to(@project, :notice => 'Project was successfully updated.') }
@@ -143,7 +149,7 @@ end
   def destroy
     @project = Project.find(params[:id])
     @project.destroy
-	clearSessionProjectInfo()
+	  clearSessionProjectInfo()
 	
     respond_to do |format|
       format.html { redirect_to(projects_url) }

@@ -1,0 +1,20 @@
+<h4>SR-Level Results</h4>
+<% unless @proj_array.empty? %>
+<table id='sysReview_results_table' name='sysReview_results_table' class="list_table">
+	<tr>
+		<th>Project Title</th>
+		<th>Project Description</th>
+		<th width="15px"> </th>
+	</tr>
+		<% @proj_array.each do |proj| %>
+		<tr class="<%= cycle("even", "odd") %>">	
+		  <td><%= proj.title %></td>
+			<td><%= proj.description %></td>
+			<td><%= link_to 'Go', '/projects/'+proj.id.to_s %></td>
+		</tr>
+		<%end%>
+	</tr>
+</table>
+<% else %>
+<em>No results were found.</em>
+<% end %>

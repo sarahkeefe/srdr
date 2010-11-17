@@ -1,0 +1,11 @@
+<br/>
+<br/>
+<h1>Search the SRDR Database</h1><br/><br/>
+<%= form_tag({:controller=>'search',:action=>'results'}, :method=>'get') %>
+
+	Search Terms:
+	<%= text_field_tag 'user_input' %>
+	<br/>
+	<%= submit_tag("Search") %>
+<br/><br/>
+<%= link_to 'Projects Home', '/projects' %>

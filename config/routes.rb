@@ -70,7 +70,9 @@ end
   match 'login' => "user_sessions#new",      :as => :login
   match 'logout' => "user_sessions#destroy", :as => :logout
 
-	
+  match 'search' => 'search#index'
+  match 'search/results' => 'search#results'
+
 resources :studies do
 	member do 
 		get 'design' 

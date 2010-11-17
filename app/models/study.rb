@@ -55,6 +55,24 @@ class Study < ActiveRecord::Base
 		return (questions_array)
 	end
 	
+	# given an array of studies, return another array of formatted 
+	# strings that show the questions addressed for each study 
+	# example 1, 3 and 4
+	def self.get_addressed_question_numbers_for_studies(studies)
+			return_array = Array.new
+
+			studies.each do |study|
+				questions = Array.new
+				q_addressed = StudiesKeyQuestion.where(:study_id=>study.id)
+								
+				q_addressed.each do |q|
+				  questions << KeyQuestion.where(:id=>q.key_question_id)[0]
+				end
+				return_array << KeyQuestion.format_for_display(questions)
+		 end
+		 return return_array
+	end
+	
 	def get_addressed_ids
 		ids_only = Array.new
 		questions = get_questions_addressed

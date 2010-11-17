@@ -1,0 +1,13 @@
+<br/>
+<h1>Search Results</h1>
+Search Terms:<ul>
+	<% @query.each do |q| %>
+	<li><%= q %></li>
+	<% end %>
+</ul>
+<br/>
+<%= render 'systematic_review_search_result' %>
+<br/><br/>
+<%= render 'study_search_result' %>
+<br/><br/>
+<%= link_to 'Back', '/search/'%>
