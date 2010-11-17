@@ -3,7 +3,7 @@
 <div class="title">
 Systematic Review Data Repository
 </div>
-<% if !current_user_session.exists? || current_user_session.nil? %>
+<% if !local_assigns[:current_user_session] || current_user_session.nil? %>
 <div class="login-link"><%= link_to "Login", "#", :id => "login-link-txt" %></div>
 <% else %>
 <div class="login-info">Logged in as <%= current_user.login %> | <%= link_to "User Home", "../../" %> | <%= link_to "Log out", :remote => true, :controller => "user_sessions", :action => "destroy" %></div>
