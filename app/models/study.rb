@@ -148,4 +148,27 @@ class Study < ActiveRecord::Base
 		return arr
 	end
 	
+	# 
+	def self.duplicate_as_template(study_id)
+	  	#study info
+	  	
+	  	#primary publication info
+	  	
+	  	#secondary publications
+	  	
+	  	#inclusion criteria
+	  	
+	  	#exclusion criteria
+	  	
+	  	#population characteristics
+	  	
+	  	#outcome results tables
+	  	
+	  	#outcome analysis tables
+	  	
+	  	#adverse events
+	  	
+	  	#quality assessment
+	end
+	
 end
