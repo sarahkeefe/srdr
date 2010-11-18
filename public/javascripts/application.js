@@ -255,6 +255,16 @@ function toggle_display(element, link){
 		plus_minus_sign.innerHTML = "-";
 	}	
 }
+
+function check_project_title(){
+	title_field = document.getElementById("project_title")
+	title_text = title_field.value
+	if(title_text.length < 5){
+		alert('The title that you chose for your project is insufficient. Please try again.');
+		return false
+	}
+}
+
 function say_the_word(word){
 	alert(word.toString)
 }

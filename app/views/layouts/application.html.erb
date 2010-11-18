@@ -14,7 +14,9 @@
 
   </head>
 <body>
-<%= render "layouts/header" %>
+<div class="breadcrumbs">
+<%= render :inline=> get_bread_crumbs(request.url,">") %>
+</div><br/>
 
 <%= yield %>
 

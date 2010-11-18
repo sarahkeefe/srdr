@@ -10,29 +10,32 @@
       </ul>
     </div>
   <% end %>
-<table class="form_table">
-    <%= f.label :publication_title %>:</td><td>
-    <%= f.text_field :title %></td></tr><tr><td>
-    <%= f.label :author %>:</td><td>
-    <%= f.text_field :author, :size => 12 %></td><td>
+<div class="field">
+    <%= f.label :publication_title %>:
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :author %>:
+    <%= f.text_field :author, :size => 12 %>
 
-    <%= f.label :country %>:</td><td>
-    <%= f.text_field :country, :size => 10 %></td>td>
+    <%= f.label :country %>:
+    <%= f.text_field :country, :size => 10 %>
 
-    <%= f.label :year %>:</td><td>
+    <%= f.label :year %>:
     <%= f.text_field :year, :size => 6 %>
-</td></tr><tr><td>
-    <%= f.label :isbn %>:</td><td>
+  </div>
+  <div class="field">
+    <%= f.label :isbn %>:
     <%= f.text_field :isbn %>
- </td></tr><tr><td>
-    <%= f.label :ui %>:</td><td>
+  </div>
+  <div class="field">
+    <%= f.label :ui %>:
     <%= f.text_field :ui, :size => 9 %>
-</td></tr><tr><td>
-    <%= f.label :ui_type %>:</td><td>
-    <%= f.text_field :ui_type %>
-</td></tr><tr><td colspan="6">
-  <%= hidden_field_tag :is_primary, "false" %>
 
+    <%= f.label :ui_type %>:
+    <%= f.text_field :ui_type %>
+  </div>
+  <%= hidden_field_tag :is_primary, "false" %>
   <div class="actions">
    <%= f.submit "Update" %>  <%= link_to 'Done Editing', new_study_publication_path(session[:study_id]), :remote=>true %>
   </div>

@@ -88,8 +88,8 @@ class OutcomeAnalysesController < ApplicationController
   # DELETE /outcome_analyses/1
   # DELETE /outcome_analyses/1.xml
   def destroy
-    @outcome_analyasis = OutcomeAnalysis.find(params[:id])
-    @outcome_analyasis.destroy
+    @outcome_analysis = OutcomeAnalysis.find(params[:id])
+    @outcome_analysis.destroy
 
     respond_to do |format|
       format.html { redirect_to(outcome_analyses_url) }

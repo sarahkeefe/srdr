@@ -36,7 +36,7 @@
 
 <br />
 
-<table id="bottom_nav"><tr><td align="left"><%= link_to "Back", "edit" %></td><td align="right">
+<table id="bottom_nav"><tr><td align="left"><%= link_to "Back", "/projects/" + session[:project_id].to_s + "/edit/" %></td><td align="right">
 <%= link_to "New Study", new_project_study_path %><br/>
 <%= link_to "Project Summary Page", project_path(@project) %>
 </td></tr></table>

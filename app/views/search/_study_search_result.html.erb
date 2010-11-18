@@ -20,7 +20,7 @@
 			<td><%= pub.title %></td>
 			<td><%= pub.country %></td>
 			<td><%= pub.year %></td>
-			<td><%= link_to 'Go', '/projects/'+@study_info_array[i][1].to_s+'/studies/'+ pub.id.to_s %></td>
+			<td><%= link_to 'Go', '/projects/'+@study_info_array[i][1].to_s+'/studies/'+ pub.study_id.to_s %></td>
 		</tr>
 		  <% i = i + 1 %>
 		<%end%>

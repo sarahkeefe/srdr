@@ -1,7 +1,7 @@
 <div id="validation_message"><%= flash[:notice] %></div>
 
   <div id="form_content">
-<%= form_for(@project, :remote =>true) do |f| %>
+<%= form_for(@project, :remote =>true, :before=>"if($('project_title').value < 4){return false;}") do |f| %>
   <table class="form_table">
   <tr><td>
     <%= f.label :choose_a_project_title %>: </td><td><%= f.text_field :title, :size => 40 %></td>

@@ -59,8 +59,8 @@ class ProjectsController < ApplicationController
   # GET /projects/new
   # GET /projects/new.xml
   def new
-    @project = Project.new
-		@project.save
+    @project = Project.create
+		
 		makeActive(@project)
 		proj_id = @project.id	
 		@key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
@@ -75,9 +75,8 @@ class ProjectsController < ApplicationController
   # GET /projects/1/edit
   def edit
     @project = Project.find(params[:id])
-	  session[:project_id] = @project.id
+	  makeActive(@project)
 	  proj_id = @project.id
-	    makeActive(@project)
 	  @key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
 	  @key_question = KeyQuestion.new	
   end
@@ -93,22 +92,23 @@ class ProjectsController < ApplicationController
         #format.html { redirect_to(@project, :notice => 'Project was successfully created.') }
         format.html {render :update do |page| 
 						page.replace_html 'validation_message', "<div class='success_message'>Saved successfully!</div><br/>"
-					page.visual_effect(:appear, 'validation_message')	
+					  page.visual_effect(:appear, 'validation_message')	
 					end
-					}		
+			  }		
         format.xml  { render :xml => @project, :status => :created, :location => @project }
       else
-		problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
-		for i in @project.errors
-			problem_html += "<li>" + i.to_s + " " + @project.errors[i][0] + "</li>"
-		end
-		problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
+		    problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
+		    for i in @project.errors
+			    problem_html += "<li>" + i.to_s + " " + @project.errors[i][0] + "</li>"
+		    end
+		    problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
         format.html {render :update do |page| 
-			page.replace_html 'validation_message', problem_html
-			end
-			}       
-        format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
-      end
+			    page.replace_html 'validation_message', problem_html
+		      end
+			  }
+			  format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
+			end       
+      
     end
   end
   

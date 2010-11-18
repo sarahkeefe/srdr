@@ -3,7 +3,7 @@ class Project < ActiveRecord::Base
 	has_many :key_questions
 	has_many :arms, :through => :studies	
 	accepts_nested_attributes_for :key_questions, :allow_destroy => true
-	validates :title, :presence => true, :length => { :minimum => 4}
+	#validates :title, :presence => true, :length => { :minimum => 4}
 	
 	def self.get_num_studies(project)
 		pid = project.id

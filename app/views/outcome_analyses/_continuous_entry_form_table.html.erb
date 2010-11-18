@@ -1,5 +1,6 @@
 <h3>Continuous Outcomes</h3>
 <%= form_for(@new_continuous_analysis, :remote => true, :html=>{:id=>"continuous_analysis_form"}) do |f| %>
+<%= f.hidden_field :categorical_or_continuous, :value=>"Continuous" %>
 <table class="list_table complex_header" id="outcome_analysis_table">
 <tr>
 <th>Outcome Title</th>
@@ -42,7 +43,6 @@
 <th>P-Value</th>
 <th></th>
 </tr>
-<%= f.hidden_field :categorical_or_continuous, :value=>"Continuous" %>
 
 <% unless @continuous_analyses.empty? %>
 	<% row_num = 1%>
