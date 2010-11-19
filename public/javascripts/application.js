@@ -236,7 +236,7 @@ function toggle_row(row){
   return(retVal);
 }
 
-// utility function to toggle show/hide for a given element id
+//utility function to toggle show/hide for a given element id
 function toggle_display(element, link){
 	var e = document.getElementById(element);
 	var plus_minus_sign = document.getElementById(link);
@@ -255,7 +255,6 @@ function toggle_display(element, link){
 		plus_minus_sign.innerHTML = "-";
 	}	
 }
-
 function check_project_title(){
 	title_field = document.getElementById("project_title")
 	title_text = title_field.value

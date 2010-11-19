@@ -35,19 +35,33 @@ class Outcome < ActiveRecord::Base
 	end
 	
 		def self.arm_enrolled_num_exists(outcome_id, arm_id, value)
-			@oen = OutcomeEnrolledNumber.where(:outcome_id => outcome_id, :arm_id => arm_id, :num_enrolled => value).first
-			if !@oen.nil?
-				return true
-			else
+			print "\nChecking for existence\n"
+			print "-------------------Outcome ID is #{outcome_id}----------------\n"
+			print "-------------------Arm ID is #{arm_id} ------------------------\n"
+			print "-------------------Value is #{value}---------------------------\n"
+			oen = OutcomeEnrolledNumber.where(:outcome_id => outcome_id, :arm_id => arm_id).first
+			if oen.nil?
 				return false
+			else
+				return true
 			end
 		end
 		
 		def self.update_arm_enrolled_number(outcome_id, arm_id, value)
-			@oen = OutcomeEnrolledNumber.where(:outcome_id => outcome_id, :arm_id => arm_id).first
-			if !@oen.nil?
-				@oen.num_enrolled = value
-				@oen.save
+			
+			oen = OutcomeEnrolledNumber.where(:outcome_id=>outcome_id, :arm_id=>arm_id).first
+			unless oen.nil?
+				print "----------------- I'm UPDATING THE OEN ----------------\n"
+				print "-------------------Outcome ID is #{outcome_id}.----------------\n"
+				print "-------------------Arm ID is #{arm_id} ------------------------\n"
+				print "-------------------Value is #{value}---------------------------\n"	
+				oen.num_enrolled = value.to_i
+				oen.save
+			else
+				OutcomeEnrolledNumber.create(:arm_id=>arm_id,
+															:outcome_id=>outcome_id,
+															:num_enrolled=>value.to_i,
+															:created_at=>Time.now)
 			end
 		end
 end

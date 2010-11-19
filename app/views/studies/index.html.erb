@@ -9,6 +9,7 @@
     <th>Year</th>
     <th>Key Questions Answered</th>
     <th>Edit</th>
+    <th>Copy</th>
 	<th>Delete</th>
   </tr>
 <% i=0 %>
@@ -28,6 +29,7 @@
 		<%= arr.to_sentence %>
 	</td>
     <td><%= link_to 'Edit', edit_project_study_path(@project, study) %></td>
+    <td><%= link_to 'Copy',new_project_study_path(@project, :template=>study.id) %>
     <td><%= link_to 'Delete', project_study_path(@project, study), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
   <% end %>

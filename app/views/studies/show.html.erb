@@ -35,7 +35,7 @@
 	<span id='publications_link' class="toggle_display_link">+</span>
   	&nbsp;Publication Information
 	</div>
-	<div id="publications_text" class="hidden">
+	<div id="publications_text" style="display:none;">
 	<h4>Primary Publication</h4>
 		<table border="0" cellpadding="2"><tr><td>
 		<b>Title:</b></td><td colspan="3"> <%= @primary_publication.title %> </td></tr><tr><td>
@@ -54,7 +54,7 @@
 	<span id='inclusion_criteria_link' class="toggle_display_link">+</span>
   	&nbsp;Inclusion Criteria
 	</div>		
-	<div id='inclusion_criteria_text' class="hidden">
+	<div id='inclusion_criteria_text' style="display:none;">
 		<%= @study.inclusion_criteria %>
 		<br/>
 	</div>
@@ -65,7 +65,7 @@
 		<span id='exclusion_criteria_link' class="toggle_display_link">+</span>
   	&nbsp;Exclusion Criteria
 	</div>		
-	<div id="exclusion_criteria_text" class="hidden">
+	<div id="exclusion_criteria_text" style="display:none;">
 	<%= @study.exclusion_criteria %>
 	<br/>
 	</div>
@@ -76,7 +76,7 @@
 	<span id='study_arms_link' class="toggle_display_link">+</span>
   	&nbsp;Study Arms
 	</div>
-	<div id="study_arms_text" class="hidden">		
+	<div id="study_arms_text" style="display:none;">		
 		<%= render 'arms/completed_table' %>	
 	<br/>
 	</div>
@@ -87,7 +87,7 @@
 		<span id='pop_char_link' class='toggle_display_link'>+</span>
 	  &nbsp;Population Characteristics
 	</div>
-	<div id="pop_char_text" class="hidden">
+	<div id="pop_char_text" style="display:none;">
 	<%= render 'population_characteristics/completed_table' %>
 	<br/>
 	</div>
@@ -98,7 +98,7 @@
 	  <span id="outcome_results_link" class="toggle_display_link">+</span>
 	  &nbsp;Outcome Results Tables
 	</div>
-	<div id="outcome_results_text" class="hidden">
+	<div id="outcome_results_text" style="display:none;">
 		<%= render 'outcome_results/completed_table' %>	
 	<br/>
 	</div>
@@ -109,7 +109,7 @@
 	  <span id="outcome_analysis_link" class="toggle_display_link">+</span>
 	  &nbsp;Outcome Analysis Tables
 	</div>
-	<div id="outcome_analysis_text" class="hidden">
+	<div id="outcome_analysis_text" style="display:none;">
 	<% if @categorical_analyses.length > 0 %>	
 		<%= render 'outcome_analyses/table_cat' %>	
 	<% else %>
@@ -129,7 +129,7 @@
 		<span id="adverse_events_link" class="toggle_display_link">+</span>
 		&nbsp;Adverse Events
 	</div>
-	<div id="adverse_events_text" class="hidden">
+	<div id="adverse_events_text" style="display:none;">
 		<%= render 'adverse_events/completed_table' %>	
 		<br/>
 	</div>
@@ -140,7 +140,7 @@
 		<span id="qa_link" class='toggle_display_link'>+</span>
 		&nbsp;Quality Assessment
 	</div>
-	<div id="qa_text" class="hidden">
+	<div id="qa_text" style="display:none;">
 		<%= render 'quality_aspects/completed_table' %><br/><br/>
 		<%= render 'quality_ratings/table' %>		
 		<br/>

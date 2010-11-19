@@ -156,16 +156,21 @@ class StudiesController < ApplicationController
   # GET /studies/new
   # GET /studies/new.xml
   def new
-    @study = Study.new
+    
+  	@study = Study.new
     @study.project_id = session[:project_id]
 	  @study.save
 	  makeActive(@study)
-	  
+	  template_id = ""
+	  # if there is a template variable set in the new call
+	  if params.keys.include?("template")
+	  	template_id = params[:template]
+	  	@study.get_template_setup(template_id)
+	  end
+	    	
 	  @primary_publication = Publication.create()
 	  @publication=Publication.new
-    #@publication.errors = nil	  
-	  #@primary_publication.errors = nil
-	  @secondary_publications = []
+    @secondary_publications = []
 		
 	  @questions = @study.get_question_choices(session[:project_id])
     
@@ -178,7 +183,7 @@ class StudiesController < ApplicationController
   # GET /studies/1/edit
   def edit
     @study = Study.find(params[:id])
-	@project = Project.find(params[:project_id])	
+	  @project = Project.find(params[:project_id])	
 		makeActive(@study)
 		  
     # get info on questions addressed
@@ -196,7 +201,6 @@ class StudiesController < ApplicationController
 	  
 	  # create a new publication represented in the secondary publications form
 	  @publication = Publication.new
-	  
   end
 
   # POST /studies
@@ -204,7 +208,7 @@ class StudiesController < ApplicationController
   def create
     @study = Study.new(params[:study])
   	@study.project_id = session[:project_id]
-	@project = Project.find(session[:project_id])	
+	  @project = Project.find(session[:project_id])	
     
   	if params.keys.include?("study")
     	@study.study_type = params[:study][:study_type]

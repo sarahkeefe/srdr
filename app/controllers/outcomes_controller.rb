@@ -122,28 +122,18 @@ class OutcomesController < ApplicationController
   # PUT /outcomes/1.xml
   def update
     @outcome = Outcome.find(params[:id])
-	#@outcome.study_id = params[:study_id]
-	#@outcome.save
-	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})		
-	for a in @study_arms
-		  if !params["num_enrolled"][a.id.to_s].nil?
-				if !Outcome.arm_enrolled_num_exists(@outcome.id, a.id, params["num_enrolled"][a.id.to_s])
-					@outcome_num_enrolled = OutcomeEnrolledNumber.new
-					@outcome_num_enrolled.arm_id = a.id.to_s
-					@outcome_num_enrolled.num_enrolled = params["num_enrolled"][a.id.to_s].to_i
-					@outcome_num_enrolled.outcome_id = @outcome.id
-					@outcome_num_enrolled.save
-				else
-					#update arm enrolled number
-					Outcome.update_arm_enrolled_number(@outcome.id, a.id, params["num_enrolled"][a.id.to_s])	
-				end
-  		end
-	end
+	  @study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})		
+	
     respond_to do |format|
       if @outcome.update_attributes(params[:outcome])
 		    @outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})
 		    @outcome_timepoints = OutcomeTimepoint.where(:outcome_id => @outcome.id).all
-		    @study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})		  
+		    for a in @study_arms
+		  		if !params["num_enrolled"][a.id.to_s].nil?
+						print "----------- updating the value ----------"
+		  			Outcome.update_arm_enrolled_number(@outcome.id, a.id, params["num_enrolled"][a.id.to_s])
+  				end
+				end
         format.js{
         	render :update do |page|
 						page.replace_html 'outcomes_table', :partial => 'outcomes/table'
