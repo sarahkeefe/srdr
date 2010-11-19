@@ -1,0 +1,2 @@
+module PopulationCharacteristicSubcategoriesHelper
+end

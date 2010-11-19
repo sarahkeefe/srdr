@@ -1,0 +1,45 @@
+
+<div id="top-header">
+<div class="title">
+Systematic Review Data Repository
+</div>
+<div class="login-link"><%= link_to "Login", "#", :id => "login-link-txt" %></div>
+</div>
+
+<div id="login-form">
+<% @user_session = UserSession.new %>
+<%= form_for @user_session, :url => {:controller => "user_sessions", :action => "create"} do |f| %>
+  <table class="form_table"><tr><td>
+    Login: </td><td>
+    <%= f.text_field :login, :size => 20 %></td></tr><tr><td>
+    Password: </td><td>
+    <%= f.password_field :password, :size => 20 %> </td></tr><tr><td colspan="2" class="remember">
+    <%= f.check_box :remember_me %>
+    Remember me
+	</td></tr><tr><td colspan="2">
+	<div class="actions">
+		<%= f.submit "Login" %>
+	</div>
+	</td></tr></table>
+	<% end %>
+</div>
+
+
+<script type="text/javascript">
+ var $j = jQuery.noConflict();
+ $j(document).ready(function() {
+  $j('#login-form').hide();
+});
+$j('#login-link-txt').click(function(event){
+  $j('#login-form').toggle();
+  event.preventDefault(); // Prevent link from following its href
+});
+</script>
+
+
+<div class="searchbar">
+<%= render "search/form" %>
+</div>
+<div class="breadcrumbs">
+<%= render :inline=> get_bread_crumbs(request.url,">") %>
+</div>

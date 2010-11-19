@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  subcategory: MyString
+  units: MyString
+  population_characteristic_id: 1
+  value: MyString
+
+two:
+  subcategory: MyString
+  units: MyString
+  population_characteristic_id: 1
+  value: MyString

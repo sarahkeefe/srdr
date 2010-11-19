@@ -1,0 +1,33 @@
+<%= form_for(@population_characteristic_subcategory) do |f| %>
+  <% if @population_characteristic_subcategory.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@population_characteristic_subcategory.errors.count, "error") %> prohibited this population_characteristic_subcategory from being saved:</h2>
+
+      <ul>
+      <% @population_characteristic_subcategory.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :subcategory %><br />
+    <%= f.text_field :subcategory %>
+  </div>
+  <div class="field">
+    <%= f.label :units %><br />
+    <%= f.text_field :units %>
+  </div>
+  <div class="field">
+    <%= f.label :population_characteristic_id %><br />
+    <%= f.text_field :population_characteristic_id %>
+  </div>
+  <div class="field">
+    <%= f.label :value %><br />
+    <%= f.text_field :value %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

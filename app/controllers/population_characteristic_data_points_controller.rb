@@ -40,79 +40,41 @@ class PopulationCharacteristicDataPointsController < ApplicationController
   # POST /population_characteristic_data_points
   # POST /population_characteristic_data_points.xml
   def create
-	@study_arms = Study.get_arms(session[:study_id])
-	@study_pop_chars = Study.get_attributes(session[:study_id])
-	
-	for a in @study_arms
-		for p in @study_pop_chars
-			if !params["arm" + a.id.to_s + "attribute"][p.id.to_s].nil?
-				@existing = PopulationCharacteristicDataPoint.where(:arm_id => a.id, :attribute_id => p.id, :is_total => false).all
-				if @existing.length > 0
-					for i in @existing
-						if i.value != params["arm" + a.id.to_s + "attribute"][p.id.to_s]
-							i.value = params["arm" + a.id.to_s + "attribute"][p.id.to_s]
-							i.save
-						else
-						end
-					end
-				else
-					@population_characteristic_data_point = PopulationCharacteristicDataPoint.new(params[:population_characteristic_data_point])
-					@population_characteristic_data_point.arm_id = a.id
-					@population_characteristic_data_point.attribute_id = p.id
-					@population_characteristic_data_point.value = params["arm" + a.id.to_s + "attribute"][p.id.to_s]
-					@population_characteristic_data_point.is_total = false
-					@population_characteristic_data_point.save
-				end
-			end
-		end
-	end
-
-		for p in @study_pop_chars	
-			if !params["attribute_total"][p.id.to_s].nil?
-				@existing = PopulationCharacteristicDataPoint.where(:arm_id => -1, :attribute_id => p.id, :is_total => true).all
-				if @existing.length > 0
-					for i in @existing
-						if i.value != params["attribute_total"][p.id.to_s]
-							i.value = params["attribute_total"][p.id.to_s]
-							i.save
-						else
-						end
-					end
-				else
-					@population_characteristic_data_point = PopulationCharacteristicDataPoint.new(params[:population_characteristic_data_point])
-					@population_characteristic_data_point.arm_id = -1
-					@population_characteristic_data_point.attribute_id = p.id
-					@population_characteristic_data_point.value = params["attribute_total"][p.id.to_s]
-					@population_characteristic_data_point.is_total = true
-					@population_characteristic_data_point.save
-				end
-			end
-		end			
-	
-    respond_to do |format|
-      if @population_characteristic_data_point.save
-        format.html { redirect_to(@population_characteristic_data_point, :notice => 'Population characteristic data point was successfully created.') }
-        format.xml  { render :xml => @population_characteristic_data_point, :status => :created, :location => @population_characteristic_data_point }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @population_characteristic_data_point.errors, :status => :unprocessable_entity }
-      end
+	respond_to do |format|
+		PopulationCharacteristicDataPoint.save_data_point_info(session[:study_id], params)
+		PopulationCharacteristicDataPoint.save_data_point_totals(session[:study_id], params)
+	      format.js {
+			  	render :update do |page|
+						#page.replace_html 'population_characteristics_table', :partial => 'population_characteristics/table'
+						#page['population_characteristic_form'].reset
+						#new_row_name = "pop_char_row_" + @population_characteristic.id.to_s
+						page.replace_html 'population_characteristic_validation_message', "Saved"
+			  	end
+				}		
+	#if @population_characteristic_data_point.save
+        #format.html { redirect_to(@population_characteristic_data_point, :notice => 'Population characteristic data point was successfully created.') }
+        #format.xml  { render :xml => @population_characteristic_data_point, :status => :created, :location => @population_characteristic_data_point }
+      #else
+       # format.html { render :action => "new" }
+        #format.xml  { render :xml => @population_characteristic_data_point.errors, :status => :unprocessable_entity }
+      #end
     end
   end
 
   # PUT /population_characteristic_data_points/1
   # PUT /population_characteristic_data_points/1.xml
   def update
-    @population_characteristic_data_point = PopulationCharacteristicDataPoint.find(params[:id])
-
+    #@population_characteristic_data_point = PopulationCharacteristicDataPoint.find(params[:id])
+	PopulationCharacteristicDataPoint.save_data_point_info(params[:study_id], params)
+	PopulationCharacteristicDataPoint.save_data_point_totals(params[:study_id], params)
     respond_to do |format|
-      if @population_characteristic_data_point.update_attributes(params[:population_characteristic_data_point])
-        format.html { redirect_to(@population_characteristic_data_point, :notice => 'Population characteristic data point was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @population_characteristic_data_point.errors, :status => :unprocessable_entity }
-      end
+     # if @population_characteristic_data_point.update_attributes(params[:population_characteristic_data_point])
+     #   format.html { redirect_to(@population_characteristic_data_point, :notice => 'Population characteristic data point was successfully updated.') }
+     #   format.xml  { head :ok }
+     # else
+     #   format.html { render :action => "edit" }
+     #   format.xml  { render :xml => @population_characteristic_data_point.errors, :status => :unprocessable_entity }
+     # end
     end
   end
 

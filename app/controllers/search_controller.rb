@@ -52,8 +52,10 @@ class SearchController < ApplicationController
 	def get_study_info(publications)
 	  ret_arr = Array.new
 		publications.each do |pub|
-		  tmp_study = Study.find(pub.study_id)
-		  ret_arr << [tmp_study.study_type, tmp_study.project_id]
+		  if !pub.study_id.nil?
+			tmp_study = Study.find(pub.study_id)
+			ret_arr << [tmp_study.study_type, tmp_study.project_id]
+		  end
 		end
 		return ret_arr
 	end
