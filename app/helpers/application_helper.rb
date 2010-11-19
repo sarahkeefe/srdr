@@ -30,7 +30,7 @@ module ApplicationHelper
 				when "studies"
 					study_uri = "/projects/#{project_id.to_s}/studies"
 				  retVal = retVal + create_crumb_link(study_uri,"Studies", is_end_of_trail)
-			  when /^\d+/
+			  when /^\d*/
 			  	  
 			  	  previous = elements[i-1]
 						
@@ -49,14 +49,14 @@ module ApplicationHelper
 							
 						end
 					    
-					when "search"
+				when "search"
 						retVal = retVal + create_crumb_link('/search/','Search',true)
 					  retVal.gsub!(/\>$/,"")
 					  
-				  when /\?/
-						next 
+				when /\?/
+						next
 						
-					when /^\w/
+				when /^\w/
 					uri = "/projects/#{project_id.to_s}/studies/#{study_id.to_s}/#{element.to_s}"
 				  text = element.to_s.capitalize  
 				  retVal = retVal + create_crumb_link(uri,text, is_end_of_trail)
@@ -69,11 +69,11 @@ module ApplicationHelper
 			end
 			retVal = retVal + " "
 			i = i+1
-		end
+		  end
 		return  retVal
 		
 	rescue
-  	return ""
+  	return "Error in breadcrumbs"
   end
 	end
 	

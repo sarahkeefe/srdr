@@ -19,6 +19,14 @@ class Study < ActiveRecord::Base
 		return Arm.where(:study_id => study_id).all
 	end
 	
+	def self.get_outcomes(study_id)
+		return Outcome.where(:study_id => study_id).all
+	end
+	
+	def self.get_outcome_enrolled_number(outcome_id, arm_id)
+		return OutcomeEnrolledNumber.where(:outcome_id=>outcome_id, :arm_id=>arm_id).first
+	end
+	
 	def self.get_attributes(study_id)
 		return PopulationCharacteristic.where(:study_id => study_id)
 	end
@@ -149,26 +157,54 @@ class Study < ActiveRecord::Base
 	end
 	
 	# 
-	def self.duplicate_as_template(study_id)
-	  	#study info
-	  	
-	  	#primary publication info
-	  	
-	  	#secondary publications
-	  	
-	  	#inclusion criteria
-	  	
-	  	#exclusion criteria
-	  	
-	  	#population characteristics
-	  	
-	  	#outcome results tables
-	  	
-	  	#outcome analysis tables
-	  	
-	  	#adverse events
-	  	
-	  	#quality assessment
-	end
+	def get_template_setup(template_id)	  	
+	  
+		original_arm_ids = Array.new
+		new_arm_ids = Array.new
+		# study arms
+	  arms = Study.get_arms(template_id)
 	
+	  	arms.each do |arm|
+	  	original_arm_ids << arm.id
+	  	
+			tmp_arm = Arm.create(:study_id=>self.id, 
+	  							 :title=>arm.title, 
+	  							 :description=>arm.description, 
+	  							 :num_participants=>"",
+	  							 :created_at=>Time.now )	
+	  		
+	    new_arm_ids << tmp_arm.id
+	  end
+	  	
+	  # study outcomes
+	  outcomes = Study.get_outcomes(template_id)
+	  
+	  outcomes.each do |outcome|
+	  	tmp_out = Outcome.create(:study_id=>self.id,
+	    					:title=>outcome.title,
+	  						:is_primary=>outcome.is_primary,
+	  						:units=>outcome.units,
+	  						:description=>outcome.description,
+	  						:created_at=>Time.now,
+	  						:outcome_type=>outcome.outcome_type )
+	  		
+	  	# set up the numbers enrolled for each arm per outcome
+	  	i=0
+	  	original_arm_ids.each do |arm_id|
+	  		tmp_enrolled_num = Study.get_outcome_enrolled_number(outcome.id, arm_id)
+	  		new_enrolled_num = OutcomeEnrolledNumber.create(:arm_id=>new_arm_ids[i],
+	  											 :outcome_id=>tmp_out.id,
+	  											 :num_enrolled=>0,
+	  											 :created_at=>Time.now,
+	  											 :is_total=>nil)
+	  		i+=1
+	  	end	
+	  	# create an empty outcome timepoint object for the outcome
+	  	#OutcomeTimepoint.create(:study_id=>self.id,
+	  	#								 :outcome_id=>outcome.id,
+	  	#								 :number=>nil,
+	  	#								 :time_unit=>nil,
+	  	#								 :created_at=>Time.now)
+  	end
+	end
 end
