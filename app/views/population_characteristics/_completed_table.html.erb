@@ -6,9 +6,9 @@
 		<th colspan="2">Category</th>
 
 		<%# CYCLE THROUGH ALL ARMS, CREATE TABLE HEADER FOR EACH ARM %>
-		<% if @study_arms.length > 0 %>
+		<% if @arms.length > 0 %>
 			<% i = 1 %>
-			<% for one_arm in @study_arms %>
+			<% for one_arm in @arms %>
 				<th>Arm <%= i %>: <br/><%= one_arm.title %></th>
 				<% i = i + 1 %>
 			<% end %>
@@ -31,8 +31,8 @@
 					 <% for subcat in pop_subcategories %>
 						<td><%=subcat.subcategory%> (<%= subcat.units %>)</td>	
 						
-						<% if @study_arms.length > 0 %>
-							<% for one_arm in @study_arms %>
+						<% if @arms.length > 0 %>
+							<% for one_arm in @arms %>
 								<% val = PopulationCharacteristicDataPoint.get_data_point(one_arm.id, popchar, subcat, false) %>
 								<td><%= val %></td>
 							<% end %>
@@ -47,8 +47,8 @@
 				
 					<td colspan="2"><%=popchar.category_title %></td>
 					 
-						<% if @study_arms.length > 0 %>
-							<% for one_arm in @study_arms %>
+						<% if @arms.length > 0 %>
+							<% for one_arm in @arms %>
 								<% val = PopulationCharacteristicDataPoint.get_data_point(one_arm.id, popchar, nil, false) %>
 								<td><%=  val %></td>
 							<% end %>
