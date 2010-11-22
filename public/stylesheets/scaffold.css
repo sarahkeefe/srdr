@@ -6,6 +6,29 @@ body, p, ol, ul, td {
   line-height: 18px;
 }
 
+.container
+{
+	width: 950px;
+	margin: 0 auto;
+}
+
+.header
+{
+	width: 100%;
+	margin-right: 0;
+}
+
+.left-sidebar{
+	width: 100px;
+	float: left;
+}
+
+.content{
+	width: 850px;
+	margin-right: 0;
+	float: left;
+}
+
 pre {
   background-color: #eee;
   padding: 10px;
@@ -355,6 +378,7 @@ position: absolute;
 right: 0px;
 display: inline;
 margin-top: -5px;
+margin-left: 16px;
 }
 
 .searchbar input
