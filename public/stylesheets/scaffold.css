@@ -388,12 +388,21 @@ color: #000;
 font-size: 11px;
 }
 
-.login-link a, a:visited, a:active{
+.login-link a{
 	text-decoration: underline;
 	font-size: 11px;
 	color: #eee;
 }
-
+.login-link a:visited{
+	text-decoration: underline;
+	font-size: 11px;
+	color: #eee;
+}
+.login-link a:active{
+	text-decoration: underline;
+	font-size: 11px;
+	color: #eee;
+}
 .login-link a:hover {
 	color: #ccc;
 }
