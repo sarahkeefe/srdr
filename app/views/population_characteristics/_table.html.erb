@@ -1,8 +1,5 @@
 <%= form_for @population_characteristic_data_point, :remote => true, :html=>{:id=>"popchar_data_point_form"} do |f| %>
 
-	<div id="category_ids" style="display:none"><%= PopulationCharacteristic.get_category_ids_string(session[:study_id]) %></div>
-	<div id="arm_ids" style="display:none"><%= PopulationCharacteristic.get_arm_ids_string(@study_arms) %></div>
-
 	<table class="list_table">
 		
 		<%# CREATE TABLE HEADERS %>
@@ -24,6 +21,7 @@
 		</tr>
 		
 		<%# GO THROUGH POPULATION CHARACTERISTICS %>
+
 		<% if @population_characteristics.length > 0 %>
 			<% for popchar in @population_characteristics %>
 				
@@ -77,6 +75,8 @@
 		<% end %>
 
 	</table>
+		<input type="hidden" id="category_ids" style="display:none" value="<%= PopulationCharacteristic.get_category_ids_string(session[:study_id]) %>">
+	<input type="hidden" id="arm_ids" style="display:none" value="<%= PopulationCharacteristic.get_arm_ids_string(@study_arms) %>">
 	<%= submit_tag "Save" %>
 	
 <%# END FORM %>

@@ -12,7 +12,7 @@
 	</tr>
 	  <% i = 0 %>
 		<% @publications_array.each do |pub| %>
-		
+		<% if !@study_info_array[i].nil? %>
 		<tr class="<%= cycle("even", "odd") %>">	
 			<td><%= pub.ui %></td>
 			<td><%= @study_info_array[i][0] %></td>
@@ -22,6 +22,7 @@
 			<td><%= pub.year %></td>
 			<td><%= link_to 'Go', '/projects/'+@study_info_array[i][1].to_s+'/studies/'+ pub.study_id.to_s %></td>
 		</tr>
+		<% end %>
 		  <% i = i + 1 %>
 		<%end%>
 	</tr>
