@@ -287,6 +287,7 @@ text-align: left;
 font-size: 16px;
 font-weight: bold;
 width: 100%;
+height: 50px;
 padding-top: 8px;
 padding-bottom:8px;
 }
@@ -335,7 +336,7 @@ color: #003333;
 padding-top: 4px;
 padding-bottom: 4px;
 }
-.breadcrumbs, .searchbar{
+.breadcrumbs{
 background: #eee;
 	margin-left: -8px;
 	margin-right: -8px;
@@ -349,6 +350,8 @@ width: 200px;
 position: absolute;
 right: 0px;
 display: inline;
+margin-top: -5px;
+margin-right: 8px;
 }
 
 .searchbar input
