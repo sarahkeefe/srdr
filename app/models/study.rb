@@ -160,12 +160,20 @@ class Study < ActiveRecord::Base
 		return arr
 	end
 	
-	# 
+	#############################################################
+	# get_template_setup												                #
+	# Gather information from a previous study to serve as a    #
+	# template to a new study. Information should include study #
+	# arms, outcomes, population characteristics, adverse events#
+	# and quality assessment criteria                           #
+	#############################################################
 	def get_template_setup(template_id)	  	
 	  
 		original_arm_ids = Array.new
 		new_arm_ids = Array.new
-		# study arms
+		##############################################
+		# SET UP THE STUDY ARMS FOR THIS TEMPLATE    #
+		##############################################
 	  arms = Study.get_arms(template_id)
 	
 	  	arms.each do |arm|
@@ -180,7 +188,9 @@ class Study < ActiveRecord::Base
 	    new_arm_ids << tmp_arm.id
 	  end
 	  	
-	  # study outcomes
+	  ##############################################
+	  # SET UP THE STUDY OUTCOMES FOR THE TEMPLATE #
+	  ##############################################
 	  outcomes = Study.get_outcomes(template_id)
 	  
 	  outcomes.each do |outcome|
@@ -203,12 +213,16 @@ class Study < ActiveRecord::Base
 	  											 :is_total=>nil)
 	  		i+=1
 	  	end	
-	  	# create an empty outcome timepoint object for the outcome
-	  	#OutcomeTimepoint.create(:study_id=>self.id,
-	  	#								 :outcome_id=>outcome.id,
-	  	#								 :number=>nil,
-	  	#								 :time_unit=>nil,
-	  	#								 :created_at=>Time.now)
-  	end
+	  end
+	  ###################################################
+	  # GET POPULATION CHARACTERISTICS FOR THE TEMPLATE #
+	  ###################################################
+	  popchars = Study.get_attributes(self.id)
+	  popchars.each do |pchar|
+	  
+	  end
+	  
+	  
+	  
 	end
 end
