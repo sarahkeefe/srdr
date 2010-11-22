@@ -14,13 +14,12 @@
   <table class="form_table">
   <tr><td>
     <%= f.label :question_text %>:</td><td>
-    <%= f.text_field :question, :size => 50 %>
-</td></tr><tr><td colspan="2">
-    <%= f.label :question_description %></td></tr><tr><td colspan="2">
-    <%= f.text_area :description, :cols => 50, :rows => 4 %>
-  </td></tr><tr><td colspan="2">
-  <div class="actions">
-    <%= f.submit "Update" %>  <%= link_to 'Done Editing', new_project_key_question_path(session[:project_id]), :remote=>true %>
+    <%= f.text_area :question, :cols=>50,:rows=>4 %>
+  </td></tr>
+  <tr><td colspan="2">
+    <div class="actions">
+      <%= f.submit "Update" %>  <%= link_to 'Done Editing', 
+                   new_project_key_question_path(session[:project_id]), :remote=>true %>
   </div>
  </td></tr></table>
 <% end %>
