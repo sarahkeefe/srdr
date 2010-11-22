@@ -32,7 +32,6 @@ class KeyQuestion < ActiveRecord::Base
 		kq_string = ""
 		i = 1
 		questions.each do |kq|
-			print "###------------ of questions is " + questions.length.to_s
 			if(i < (questions.length - 1))
 				kq_string = kq_string + kq.question_number.to_s + ", "
 			elsif( i < questions.length )
