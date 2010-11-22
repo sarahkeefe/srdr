@@ -1,4 +1,6 @@
 Srdr::Application.routes.draw do
+  resources :population_characteristic_subcategories
+
   get "home/index"
 
   get "user_sessions/new"

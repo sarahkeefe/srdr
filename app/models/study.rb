@@ -31,6 +31,10 @@ class Study < ActiveRecord::Base
 		return PopulationCharacteristic.where(:study_id => study_id)
 	end
 	
+	def self.get_attribute_subcategories(a_id)
+		return PopulationCharacteristicSubcategory.where(:population_characteristic_id => a_id).all
+	end
+	
 	def get_question_choices(project_id)
 		questions = KeyQuestion.find(:all, :order => "question_number ASC", :conditions => ["project_id = ?", project_id])
 		return(questions)

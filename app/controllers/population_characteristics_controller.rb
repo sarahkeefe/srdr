@@ -67,10 +67,7 @@ class PopulationCharacteristicsController < ApplicationController
 			  	render :update do |page|
 						page.replace_html 'population_characteristics_table', :partial => 'population_characteristics/table'
 						page['population_characteristic_form'].reset
-					new_row_name = "pop_char_row_" + @population_characteristic.id.to_s					  
-						#if !page[new_row_name].nil?
-							#page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", :restorecolor=>"#ffffff", :duration=>2})
-						#end
+						new_row_name = "pop_char_row_" + @population_characteristic.id.to_s
 						page.replace_html 'population_characteristic_validation_message', ""																						 
 			  	end
 				}
@@ -83,6 +80,7 @@ class PopulationCharacteristicsController < ApplicationController
 		format.html {
 			render :update do |page| 
 				page.replace_html 'population_characteristic_validation_message', problem_html
+				page['population_characteristic_form'].reset				
 			end
 		}			
         format.html { render :action => "new" }
@@ -101,14 +99,11 @@ class PopulationCharacteristicsController < ApplicationController
 		@population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => session[:study_id]}, :order => :category_title)
 		@population_characteristics.sort_by(&:category_title)		
 		@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
-		@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
 		@study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})	  
 		format.js{
 			render :update do |page|
 			    page.replace_html 'population_characteristics_table', :partial => 'population_characteristics/table'
-				page['population_characteristic_form'].reset
 				new_row_name = "pop_char_row_" + @population_characteristic.id.to_s					  
-				#page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", :restorecolor=>"#ffffff", :duration=>2})
 				page.replace_html 'population_characteristic_validation_message', ""						
 			end
 		}	  

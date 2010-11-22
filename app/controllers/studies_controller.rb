@@ -72,6 +72,8 @@ class StudiesController < ApplicationController
 		@population_characteristics.sort_by(&:category_title)
 		@population_characteristic = PopulationCharacteristic.new
 		@population_characteristic_data = PopulationCharacteristicDataPoint.where(:study_id => @study.id)
+		@population_characteristic_subcategories = PopulationCharacteristicSubcategory.where(:population_characteristic_id => @population_characteristic.id).all
+		@population_characteristic_subcategory = PopulationCharacteristicSubcategory.new
 		render :layout => 'attributes'		
   end
   

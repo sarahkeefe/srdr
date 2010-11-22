@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Subcategory:</b>
+  <%= @population_characteristic_subcategory.subcategory %>
+</p>
+
+<p>
+  <b>Units:</b>
+  <%= @population_characteristic_subcategory.units %>
+</p>
+
+<p>
+  <b>Population characteristic:</b>
+  <%= @population_characteristic_subcategory.population_characteristic_id %>
+</p>
+
+<p>
+  <b>Value:</b>
+  <%= @population_characteristic_subcategory.value %>
+</p>
+
+
+<%= link_to 'Edit', edit_population_characteristic_subcategory_path(@population_characteristic_subcategory) %> |
+<%= link_to 'Back', population_characteristic_subcategories_path %>

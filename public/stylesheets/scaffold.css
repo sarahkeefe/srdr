@@ -284,10 +284,11 @@ text-align: left;
 }
 
 .title{
-font-size: 20px;
+font-size: 16px;
 font-weight: bold;
 width: 100%;
 padding-top: 8px;
+padding-bottom:8px;
 }
 
 #login-form{
@@ -330,7 +331,10 @@ border: 1px solid #aaa;
 background: #D7F2F5;
 color: #003333;
 }
-
+.breadcrumbs{
+padding-top: 4px;
+padding-bottom: 4px;
+}
 .breadcrumbs, .searchbar{
 background: #eee;
 	margin-left: -8px;
@@ -340,7 +344,11 @@ background: #eee;
 }
 
 .searchbar{
-text-align: right;
+#text-align: right;
+width: 200px;
+position: absolute;
+right: 0px;
+display: inline;
 }
 
 .searchbar input
