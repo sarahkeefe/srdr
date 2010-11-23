@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101122195235) do
+ActiveRecord::Schema.define(:version => 20101123165955) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer  "study_id"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(:version => 20101122195235) do
     t.integer  "project_id"
     t.integer  "question_number"
     t.string   "question"
+    t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -75,7 +76,7 @@ ActiveRecord::Schema.define(:version => 20101122195235) do
     t.datetime "updated_at"
     t.integer  "outcome_id"
     t.string   "adjusted_estimation_parameter_type"
-    t.string   "adjusted_estimation_parameter_value"
+    t.integer  "adjusted_estimation_parameter_value"
   end
 
   create_table "outcome_enrolled_numbers", :force => true do |t|
@@ -84,6 +85,7 @@ ActiveRecord::Schema.define(:version => 20101122195235) do
     t.integer  "num_enrolled"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_total"
   end
 
   create_table "outcome_results", :force => true do |t|
@@ -116,6 +118,7 @@ ActiveRecord::Schema.define(:version => 20101122195235) do
   end
 
   create_table "outcome_timepoints", :force => true do |t|
+    t.integer  "study_id"
     t.integer  "outcome_id"
     t.integer  "number"
     t.string   "time_unit"
@@ -149,13 +152,16 @@ ActiveRecord::Schema.define(:version => 20101122195235) do
     t.string   "subcategory"
     t.string   "units"
     t.integer  "population_characteristic_id"
+    t.string   "value"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "population_characteristics", :force => true do |t|
     t.integer  "study_id"
+    t.integer  "arm_id"
     t.string   "category_title"
+    t.string   "subcategory"
     t.string   "units"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -167,6 +173,7 @@ ActiveRecord::Schema.define(:version => 20101122195235) do
     t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "isbn"
   end
 
   create_table "publications", :force => true do |t|
@@ -175,7 +182,6 @@ ActiveRecord::Schema.define(:version => 20101122195235) do
     t.string   "author"
     t.string   "country"
     t.string   "year"
-    t.string   "isbn"
     t.string   "ui"
     t.string   "ui_type"
     t.boolean  "is_primary"
@@ -196,11 +202,6 @@ ActiveRecord::Schema.define(:version => 20101122195235) do
     t.integer  "study_id"
     t.string   "guideline_used"
     t.string   "current_overall_rating"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "static_pages", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end

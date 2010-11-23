@@ -27,14 +27,10 @@
     <%= f.text_field :year, :size => 6 %>
   </div>
   <div class="field">
-    <%= f.label :isbn %>:
-    <%= f.text_field :isbn %>
-  </div>
-  <div class="field">
-    <%= f.label :ui %>:
+    UID:
     <%= f.text_field :ui, :size => 9 %>
 
-    <%= f.label :ui_type %>:
+    UID Type:
     <%= f.text_field :ui_type %>
   </div>
   <%= hidden_field_tag :is_primary, "false" %>

@@ -5,10 +5,29 @@
   <table class="form_table">
   <tr><td>
     <%= f.label :choose_a_project_title %>: </td><td><%= f.text_field :title, :size => 40 %></td>
-	</td></tr><tr><td colspan="2">
-    <%= f.label :enter_a_project_description %>:</td></tr><tr><td colspan="2">
-    <%= f.text_area :description, :cols => 50, :rows => 4 %></td></tr><tr><td colspan="2">
-    <%= f.label :project_notes %>:</td></tr><tr><td colspan="2">
+	</td></tr>
+	<tr>
+		<td colspan="2">
+    <%= f.label :enter_a_project_description %>:
+    </td>
+  </tr>
+  <tr>
+  	<td colspan='2'>
+    	  <%= f.text_area :description, :cols => 50, :rows => 4 %>
+	  </td>
+  </tr>
+  <tr>
+  	<td colspan="2">
+    ISBN: <%= f.text_field :isbn, :size=>20 %>
+    </td>
+  </tr>
+  <tr>
+  	<td colspan='2'>
+  	  <%= f.label :project_notes %>:
+	  </td>
+  </tr>
+  <tr>
+  	<td colspan="2">
     <%= f.text_area :notes, :cols => 50, :rows => 4 %></td></tr><tr><td colspan="2">
 
   <div class="actions">

@@ -175,54 +175,90 @@ class Study < ActiveRecord::Base
 		# SET UP THE STUDY ARMS FOR THIS TEMPLATE    #
 		##############################################
 	  arms = Study.get_arms(template_id)
-	
+		unless arms.empty?
 	  	arms.each do |arm|
-	  	original_arm_ids << arm.id
-	  	
-			tmp_arm = Arm.create(:study_id=>self.id, 
-	  							 :title=>arm.title, 
-	  							 :description=>arm.description, 
-	  							 :num_participants=>"",
-	  							 :created_at=>Time.now )	
-	  		
-	    new_arm_ids << tmp_arm.id
+		  	original_arm_ids << arm.id
+		  	
+				tmp_arm = Arm.create(:study_id=>self.id, 
+		  							 :title=>arm.title, 
+		  							 :description=>arm.description, 
+		  							 :num_participants=>"",
+		  							 :created_at=>Time.now )	
+		  		
+		    new_arm_ids << tmp_arm.id
+		  end
 	  end
 	  	
 	  ##############################################
 	  # SET UP THE STUDY OUTCOMES FOR THE TEMPLATE #
 	  ##############################################
 	  outcomes = Study.get_outcomes(template_id)
-	  
-	  outcomes.each do |outcome|
-	  	tmp_out = Outcome.create(:study_id=>self.id,
-	    					:title=>outcome.title,
-	  						:is_primary=>outcome.is_primary,
-	  						:units=>outcome.units,
-	  						:description=>outcome.description,
-	  						:created_at=>Time.now,
-	  						:outcome_type=>outcome.outcome_type )
-	  		
-	  	# set up the numbers enrolled for each arm per outcome
-	  	i=0
-	  	original_arm_ids.each do |arm_id|
-	  		tmp_enrolled_num = Study.get_outcome_enrolled_number(outcome.id, arm_id)
-	  		new_enrolled_num = OutcomeEnrolledNumber.create(:arm_id=>new_arm_ids[i],
-	  											 :outcome_id=>tmp_out.id,
-	  											 :num_enrolled=>0,
-	  											 :created_at=>Time.now,
-	  											 :is_total=>nil)
-	  		i+=1
-	  	end	
-	  end
+	  unless outcomes.empty?
+		  outcomes.each do |outcome|
+		  	tmp_out = Outcome.create(:study_id=>self.id,
+		    					:title=>outcome.title,
+		  						:is_primary=>outcome.is_primary,
+		  						:units=>outcome.units,
+		  						:description=>outcome.description,
+		  						:created_at=>Time.now,
+		  						:outcome_type=>outcome.outcome_type )
+		  		
+		  	# set up the numbers enrolled for each arm per outcome
+		  	i=0
+		  	original_arm_ids.each do |arm_id|
+		  		tmp_enrolled_num = Study.get_outcome_enrolled_number(outcome.id, arm_id)
+		  		new_enrolled_num = OutcomeEnrolledNumber.create(:arm_id=>new_arm_ids[i],
+		  											 :outcome_id=>tmp_out.id,
+		  											 :num_enrolled=>0,
+		  											 :created_at=>Time.now,
+		  											 :is_total=>nil)
+		  		i+=1
+		  	end	
+		  end
+    end
 	  ###################################################
 	  # GET POPULATION CHARACTERISTICS FOR THE TEMPLATE #
 	  ###################################################
-	  popchars = Study.get_attributes(self.id)
-	  popchars.each do |pchar|
-	  
+	  popchars = Study.get_attributes(template_id)
+	  unless popchars.empty?
+	  	popchars.each do |pchar|
+	   		tmp_pchar = PopulationCharacteristic.create(:study_id=>self.id,
+	   							 :category_title=>pchar.category_title,
+	   							 :units=>pchar.units,:created_at=>Time.now())
+	   							 
+	   		#------ GET ANY SUBCATEGORIES ASSOCIATED WITH THIS CHARACTERISTIC ------#
+	   		subcats = Study.get_attribute_subcategories(pchar.id)
+	   		unless subcats.empty?
+	   			subcats.each do |sub|
+	   				tmp_sub = PopulationCharacteristicSubcategory.create(:subcategory=>sub.subcategory,
+	   								:units=>sub.units,:population_characteristic_id=>tmp_pchar.id,
+	   								:created_at=>Time.now())
+   			  end
+   			end
+   		end
 	  end
 	  
-	  
-	  
-	end
+	  ###################################################
+	  # GET ADVERSE EVENT DATA FROM PREVIOUS STUDY      #
+	  ###################################################
+	  adverseEvents = AdverseEvent.where(:study_id=>template_id)
+	  unless adverseEvents.empty?
+		  adverseEvents.each do |advev|
+		  	tmp_advev = AdverseEvent.create(:study_id=>self.id,
+		  							:title=>advev.title, :timeframe=>advev.timeframe,
+		  							:description=>advev.description, :is_serious=>advev.is_serious,
+		  							:definition_used=>advev.definition_used, :created_at=>Time.now())
+		  end
+		end
+	  ###################################################
+	  # GET QUALITY DATA FROM PREVIOUS STUDY            #
+	  ###################################################
+	  qualityMetrics = QualityAspect.where(:study_id=>template_id)
+	  unless qualityMetrics.empty?
+		  qualityMetrics.each do |qm|
+		  	tmp_qm = QualityAspect.create(:study_id=>self.id, :dimension=>qm.dimension,
+		  							:value=>qm.value, :notes=>qm.notes, :created_at=>Time.now())
+		  end
+	  end
+	end #// END OF THE TEMPLATE SETUP METHOD
 end

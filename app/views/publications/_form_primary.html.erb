@@ -2,11 +2,15 @@
 
 <table class="form_table"><tr><td>
 
-    <%= f.label :publication_title %>:  </td><td colspan="6">
+    <%= f.label :publication_title %>:  </td>
+    <td colspan="6">
     <%= f.text_field :title %>
 	
-  </td></tr><tr><td>
+  </td>
   
+</tr>
+<tr>
+	<td>
     <%= f.label :author %>: </td><td>
     <%= f.text_field :author, :size => 12 %>
 </td><td>
@@ -15,15 +19,14 @@
 </td><td>
     <%= f.label :year %>:</td><td>
     <%= f.text_field :year, :size => 6 %>
-</td></tr><tr><td>
-    <%= f.label :isbn %>:</td><td>
-    <%= f.text_field :isbn, :size => 14 %>
-</td></tr><tr><td>
-    <%= f.label :ui %>: </td><td>
+</td></tr>
+<tr><td>
+    UID: </td><td>
     <%= f.text_field :ui, :size => 12 %>
-</td><td>
-    <%= f.label :ui_type %>:</td><td>
-    <%= f.text_field :ui_type, :size => 12 %></td></tr><tr><td colspan="6">
+</td>
+<td>UID Type:</td>
+<td><%= f.text_field :ui_type, :size => 12 %></td></tr>
+<tr><td colspan="6">
 	<div class="actions">
     <%= hidden_field_tag :is_primary, "true" %>
 	<%= f.submit "Save" %></div>

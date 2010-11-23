@@ -31,31 +31,21 @@
     <%= f.text_field :units %>
   </div>
  
+<br/>
+  <h4>Numbers Enrolled by Arm</h4><br/>
 
-  <h4>Numbers Enrolled by Arm</h4>
-
-  <% if @study_arms.length > 0 %>
-
- <table class="list_table"><tr>
-	<% i = 1 %>
+<% if @study_arms.length > 0 %>
 	
-	<% for one_arm in @study_arms %>
-		<th>Arm <%= i %>: <%= one_arm.title %></th>
-		<% i = i + 1 %>
+	<table>
+  <% i = 1 %>
+	
+  <% @study_arms.each do |one_arm| %>
+	  <% fieldname = "num_enrolled_" + one_arm.id.to_s %>
+		<tr><td align='right'>Arm <%= i %>: <%= one_arm.title %></td><td> <%= text_field :num_enrolled, one_arm.id.to_s,:size=>10 %></td></tr>
+	  <% i += 1 %>
 	<% end %>
-	<tr class="<%= cycle("even", "odd") %>">
-	<% for one_arm in @study_arms %>
-		<td>
-		<% fieldname = "num_enrolled_" + one_arm.id.to_s %>
-		  <%= text_field :num_enrolled, one_arm.id.to_s %>
-		  </td>
-		<% i = i + 1 %>
-	<% end %>
-	</tr>
-		
 	</table>
-	<% end %>
-  
+<% end %><br/>
 
   <h4>Add Outcome Time Points</h4>
   

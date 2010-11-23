@@ -454,6 +454,24 @@ color: #999;
 	float:right;
 	margin-top: 3px;
 	margin-right: 5px;
+
+.login-link a{
+	text-decoration: underline;
+	font-size: 11px;
+	color: #eee;
+}
+.login-link a:visited{
+	text-decoration: underline;
+	font-size: 11px;
+	color: #eee;
+}
+.login-link a:active{
+	text-decoration: underline;
+	font-size: 11px;
+	color: #eee;
+}
+.login-link a:hover {
+	color: #ccc;
 }
 
 .searchbar input
