@@ -103,6 +103,7 @@ class StudiesController < ApplicationController
 	@outcomes = Outcome.find(:all, :conditions => {:study_id => params[:study_id]})
 	@outcome_result = OutcomeResult.new
 	@selected_outcome = Outcome.where(:study_id => params[:study_id]).first
+		render :layout => 'outcomesetup'	
 	 end
   
 	# outcomeanalysis

@@ -20,7 +20,12 @@
 	<tr class="<%= cycle("even", "odd") %>" id=<%= "outcome_"+oneoutcome.id.to_s %>>
 	<td><%= oneoutcome.title %></td>
 	<td><%= oneoutcome.outcome_type %></td>
-	<td><%= oneoutcome.is_primary %></td>
+	<td><% if oneoutcome.is_primary %>
+		Yes
+		<% else %>
+		No
+		<% end %>
+	</td>
 	<td><%= oneoutcome.units %></td>
 	
 	<% if @study_arms.length > 0 %>

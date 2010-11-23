@@ -12,13 +12,16 @@
   </head>
 <body>
 
+	<div class="login-header">
+			<%= render "layouts/login" %>
+	</div>
+
 	<div class="container">
 		<div class="header">
 			<%= render "layouts/header" %>
-			
-			<%= render "layouts/breadcrumbs" %>
 		</div>
 		<div class="content">
+					<%= render "layouts/breadcrumbs" %>
 			<%= yield %>
 		</div>
 	</div>
