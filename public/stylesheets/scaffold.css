@@ -481,6 +481,10 @@ color: #999;
 	border: 0px;
 }
 
+input[type="text"]{
+border: 0px;
+}
+
 .searchbar input:focus
 {
 background: #D7F2F5;

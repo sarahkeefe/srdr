@@ -32,16 +32,15 @@
   </div>
  
 <br/>
-  <h4>Numbers Enrolled by Arm</h4><br/>
+  <h4>Numbers Analyzed by Arm</h4><br/>
 
 <% if @study_arms.length > 0 %>
 	
 	<table>
   <% i = 1 %>
-	
   <% @study_arms.each do |one_arm| %>
 	  <% fieldname = "num_enrolled_" + one_arm.id.to_s %>
-		<tr><td align='right'>Arm <%= i %>: <%= one_arm.title %></td><td> <%= text_field :num_enrolled, one_arm.id.to_s,:size=>10 %></td></tr>
+		<tr><td align='right'>Arm <%= i %>. <%= one_arm.title %>: </td><td> <%= text_field :num_enrolled, one_arm.id.to_s,:size=>10 %></td></tr>
 	  <% i += 1 %>
 	<% end %>
 	</table>
@@ -55,6 +54,15 @@
   <%= t.link_to_remove "Remove" %><br/>
   <% end %><br/>
 <%= f.link_to_add "Add a timepoint", :outcome_timepoints %>
+  <br/><br/>
+  
+   <h4>Add Other Columns </h4>
+  
+	<%= f.fields_for :outcome_columns do |t| %>
+  Column Name: <%= t.text_field :name %>    
+  Column Description: <%= t.text_field :description %>  <%= t.link_to_remove "Remove" %><br/>
+  <% end %><br/>
+<%= f.link_to_add "Add a Column", :outcome_columns %>
   <br/><br/>
   <div class="field">
     <%= f.label :description %>:<br />

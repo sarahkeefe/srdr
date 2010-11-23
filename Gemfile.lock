@@ -28,6 +28,7 @@ GEM
       activemodel (= 3.0.0)
       activesupport (= 3.0.0)
     activesupport (3.0.0)
+    acts_as_list (0.1.2)
     arel (1.0.1)
       activesupport (~> 3.0.0)
     authlogic (2.1.6)
@@ -76,6 +77,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  acts_as_list
   authlogic
   jquery-rails
   rails (= 3.0.0)

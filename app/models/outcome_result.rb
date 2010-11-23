@@ -3,7 +3,7 @@ class OutcomeResult < ActiveRecord::Base
 		# Save results in outcome_results_table as new OutcomeResult objects. 
 		# does not include timepoint/arm data.
 		def self.save_general_results(study_id, a, outcome_id, params)
-				@existing = self.where(:outcome_id => outcome_id, :study_id => study_id, :arm_id => a.id).all
+				@existing = self.where(:outcome_id => outcome_id, :study_id => study_id, :arm_id => a.id, :column_id => params[:column_id], :column_type => params[:column_type]).all
 				if @existing.length > 0
 					for i in @existing
 						i.n_analyzed = params["arm_nanalyzed"][a.id.to_s]
@@ -11,6 +11,8 @@ class OutcomeResult < ActiveRecord::Base
 						i. measure_value = params["arm_measurereg"][a.id.to_s].to_s
 						i.measure_dispersion_type = params["measure_disp_type"]["measure_disp_type"]						
 						i.measure_dispersion_value = params["arm_measuredisp"][a.id.to_s].to_s	
+						i.column_id = params["column_id"]
+					    i.column_type = params["column_type"]
 						i.p_value = params["arm_pvalue"][a.id.to_s].to_s
 						if params["arm" + a.id.to_s + "_nanalyzed_calculated"] == "t"
 							i.nanalyzed_is_calculated = true
@@ -39,6 +41,8 @@ class OutcomeResult < ActiveRecord::Base
 					@outcome_result_new.arm_id = a.id
 					@outcome_result_new.study_id = study_id
 					@outcome_result_new.outcome_id = outcome_id
+					@outcome_result_new.column_id = params[:column_id]
+					@outcome_result_new.column_type = params[:column_type]
 					@outcome_result_new.n_analyzed = params["arm_nanalyzed"][a.id.to_s]
 					@outcome_result_new.measure_type = params["measure_type"]["measure_type"]			
 					@outcome_result_new.measure_value = params["arm_measurereg"][a.id.to_s]

@@ -12,6 +12,7 @@
 	<% end %>
 <% end %>
 <th>Follow-Up Time Points</th>
+<th>Other Columns</th>
 <th>Outcome Description</th>
 <th>Edit</th>
 <th>Delete</th>
@@ -38,6 +39,10 @@
 	<td>
 	<% outcome_timepoints = Outcome.get_timepoints(oneoutcome.id) %>
 	<%= outcome_timepoints %>
+	</td>
+	<td>
+	<% outcome_columns = Outcome.get_columns(oneoutcome.id) %>
+	<%= outcome_columns %>
 	</td>
 	<td><%= oneoutcome.description %></td>
 	<td><%= link_to "Edit", edit_outcome_path(oneoutcome), :remote=>true %></td>

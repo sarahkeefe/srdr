@@ -3,10 +3,12 @@ class Outcome < ActiveRecord::Base
 	has_many :outcome_results
 	has_many :outcome_timepoints
 	has_many :outcome_enrolled_numbers
+	has_many :outcome_columns
 	belongs_to :study
 	accepts_nested_attributes_for :outcome_timepoints, :allow_destroy => true
 	accepts_nested_attributes_for :outcome_enrolled_numbers, :allow_destroy => true
-	attr_accessible :outcome_type, :study_id, :title, :is_primary, :units, :description, :notes, :arm_id, :outcome_id, :num_enrolled, :outcome_timepoints_attributes
+	accepts_nested_attributes_for :outcome_columns, :allow_destroy => true	
+	attr_accessible :outcome_type, :study_id, :title, :is_primary, :units, :description, :notes, :arm_id, :outcome_id, :num_enrolled, :outcome_timepoints_attributes, :outcome_columns_attributes
 	validates :title, :presence => true
 	
 	
@@ -19,7 +21,37 @@ class Outcome < ActiveRecord::Base
 		tp_list = tp_array.join(', ')
 		return tp_list 
 	end
+	
+	def self.get_columns(outcome_id)
+		@outcome_cs = OutcomeColumn.where(:outcome_id => outcome_id).all
+		c_array = []
+		for i in @outcome_cs
+			c_array << i.name.to_s
+		end
+		c_list = c_array.join(', ')
+		return c_list 
+	end	
 
+	def self.get_columns_array(outcome_id)
+		@outcome_cs = OutcomeColumn.where(:outcome_id => outcome_id).all
+		return @outcome_cs 
+	end
+	
+	def self.get_tp_col_array(outcome_id)
+		@all_arr = []
+		@outcome_cs = OutcomeColumn.where(:outcome_id => outcome_id).all
+		@outcome_tps = OutcomeTimepoint.where(:outcome_id => outcome_id).all
+		for i in @outcome_tps
+			@new_chunk = Hash["object" => i, "type" => "timepoint"]
+			@all_arr << @new_chunk
+		end
+		for i in @outcome_cs
+			@new_chunk = Hash["object" => i, "type" => "column"]
+			@all_arr << @new_chunk
+		end
+		return @all_arr
+	end
+	
 	def self.get_timepoints_array(outcome_id)
 		@outcome_tps = OutcomeTimepoint.where(:outcome_id => outcome_id).all
 		return @outcome_tps 

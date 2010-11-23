@@ -1,4 +1,6 @@
 Srdr::Application.routes.draw do
+  resources :outcome_columns
+
   resources :population_characteristic_subcategories
 
   get "home/index"

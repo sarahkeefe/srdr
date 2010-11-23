@@ -75,6 +75,16 @@
 		<% i = i + 1 %>			
   	<% end %>
   <%= f.link_to_add "Add a timepoint", :outcome_timepoints %> 
+  <br/><br/>
+  
+   <h4>Add Other Columns </h4>
+  
+	<%= f.fields_for :outcome_columns do |t| %>
+  Column Name: <%= t.text_field :name %>    
+  Column Description: <%= t.text_field :description %>  <%= t.link_to_remove "Remove" %><br/>
+  <% end %><br/>
+<%= f.link_to_add "Add a Column", :outcome_columns %>
+  <br/><br/>
   
   <%#############################%>
   <%# DESCRIPTION, NOTES, SUBMIT %>
