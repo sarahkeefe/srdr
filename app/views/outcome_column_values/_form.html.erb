@@ -1,0 +1,37 @@
+<%= form_for(@outcome_column_value) do |f| %>
+  <% if @outcome_column_value.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@outcome_column_value.errors.count, "error") %> prohibited this outcome_column_value from being saved:</h2>
+
+      <ul>
+      <% @outcome_column_value.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :outcome_id %><br />
+    <%= f.text_field :outcome_id %>
+  </div>
+  <div class="field">
+    <%= f.label :timepoint_id %><br />
+    <%= f.text_field :timepoint_id %>
+  </div>
+  <div class="field">
+    <%= f.label :subgroup_id %><br />
+    <%= f.text_field :subgroup_id %>
+  </div>
+  <div class="field">
+    <%= f.label :value %><br />
+    <%= f.text_field :value %>
+  </div>
+  <div class="field">
+    <%= f.label :is_calculated %><br />
+    <%= f.check_box :is_calculated %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

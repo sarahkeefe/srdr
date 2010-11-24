@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101123202534) do
+ActiveRecord::Schema.define(:version => 20101124155323) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer  "study_id"
@@ -38,11 +38,6 @@ ActiveRecord::Schema.define(:version => 20101123202534) do
     t.string   "title"
     t.text     "description"
     t.integer  "num_participants"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "forms", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -78,20 +73,24 @@ ActiveRecord::Schema.define(:version => 20101123202534) do
     t.string   "adjusted_estimation_parameter_value"
   end
 
+  create_table "outcome_column_values", :force => true do |t|
+    t.integer  "outcome_id"
+    t.integer  "timepoint_id"
+    t.integer  "subgroup_id"
+    t.string   "value"
+    t.boolean  "is_calculated"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "outcome_columns", :force => true do |t|
     t.integer  "outcome_id"
     t.string   "name"
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "outcome_enrolled_numbers", :force => true do |t|
-    t.integer  "arm_id"
-    t.integer  "outcome_id"
-    t.integer  "num_enrolled"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer  "timepoint_id"
+    t.integer  "subgroup_id"
   end
 
   create_table "outcome_results", :force => true do |t|
@@ -112,17 +111,16 @@ ActiveRecord::Schema.define(:version => 20101123202534) do
     t.boolean  "pvalue_is_calculated"
     t.integer  "column_id"
     t.string   "column_type"
+    t.integer  "timepoint_id"
+    t.integer  "subgroup_id"
   end
 
-  create_table "outcome_timepoint_results", :force => true do |t|
+  create_table "outcome_subgroups", :force => true do |t|
     t.integer  "outcome_id"
-    t.integer  "study_id"
-    t.integer  "arm_id"
-    t.integer  "timepoint_id"
-    t.string   "value"
+    t.string   "title"
+    t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_calculated"
   end
 
   create_table "outcome_timepoints", :force => true do |t|
@@ -206,11 +204,6 @@ ActiveRecord::Schema.define(:version => 20101123202534) do
     t.integer  "study_id"
     t.string   "guideline_used"
     t.string   "current_overall_rating"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "static_pages", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end

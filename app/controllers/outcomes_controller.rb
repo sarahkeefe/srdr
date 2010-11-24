@@ -42,22 +42,7 @@ class OutcomesController < ApplicationController
   def edit
     @outcome = Outcome.find(params[:id])
     @study_arms = Arm.find(:all, :select=>[:id,:title,:num_participants], :conditions => {:study_id => session[:study_id]})	
-    @existing_time_points = []
-	@outcome_timepoint = OutcomeTimepoint.new
-    time_points = OutcomeTimepoint.where(:outcome_id => @outcome.id).all
-	time_points.each do |tp|
-    	@existing_time_points << tp.time_unit
-    end
-    
-    # Get the number of participants by outcome and arm
-    @numbers_enrolled = []
-    @study_arms.each do |arm|
-    	# i'm passing the arm id as well so that it can be used in assigning the label and form field id
-    	# CHANGE THIS SO THAT WE CAN PASS AN ARRAY OF IDS TO THE FUNCTION
-    	# SO THAT WE ONLY NEED TO HIT THE DATABASE ONCE
-    	@numbers_enrolled << [arm.id, Outcome.getNumEnrolledByArm(@outcome.id, arm.id)]
-    end      
-    
+
    respond_to do |format|
     format.js {
 		    render :update do |page|
@@ -71,22 +56,10 @@ class OutcomesController < ApplicationController
   # POST /outcomes.xml
   def create
     @outcome = Outcome.new(params[:outcome])
-	  @outcome.study_id = session[:study_id]
-    
-	  @outcome.save
+	@outcome.study_id = session[:study_id]
+	@outcome.save
+	@study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})	
 	  
-	  @study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})	
-	  
-	  for a in @study_arms
-		  if !params["num_enrolled"][a.id.to_s].nil?
-				@outcome_num_enrolled = OutcomeEnrolledNumber.new
-				@outcome_num_enrolled.arm_id = a.id.to_s
-				@outcome_num_enrolled.num_enrolled = params["num_enrolled"][a.id.to_s].to_i
-				@outcome_num_enrolled.outcome_id = @outcome.id
-				@outcome_num_enrolled.save
-  		end
-
-	  end
     respond_to do |format|
       if @outcome.save
 		    @outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})
@@ -122,18 +95,12 @@ class OutcomesController < ApplicationController
   # PUT /outcomes/1.xml
   def update
     @outcome = Outcome.find(params[:id])
-	  @study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})		
+	@study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})		
 	
     respond_to do |format|
       if @outcome.update_attributes(params[:outcome])
 		    @outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})
-		    @outcome_timepoints = OutcomeTimepoint.where(:outcome_id => @outcome.id).all
-		    for a in @study_arms
-		  		if !params["num_enrolled"][a.id.to_s].nil?
-						print "----------- updating the value ----------"
-		  			Outcome.update_arm_enrolled_number(@outcome.id, a.id, params["num_enrolled"][a.id.to_s])
-  				end
-				end
+
         format.js{
         	render :update do |page|
 						page.replace_html 'outcomes_table', :partial => 'outcomes/table'
@@ -166,11 +133,26 @@ class OutcomesController < ApplicationController
   def destroy
     @outcome = Outcome.find(params[:id])
 	@outcome_tps = OutcomeTimepoint.where(:outcome_id => @outcome.id).all
+	@outcome_subs = OutcomeSubgroup.where(:outcome_id => @outcome.id).all
+	@outcome_columns = OutcomeColumn.where(:outcome_id => @outcome.id).all
+	@outcome_column_vals = OutcomeColumnValue.where(:outcome_id => @outcome.id).all
+	@outcome_results = OutcomeResult.where(:outcome_id => @outcome.id).all
     @outcome.destroy
 	for i in @outcome_tps
 		i.destroy
 	end
-
+	for i in @outcome_subs
+		i.destroy
+	end
+	for i in @outcome_columns
+		i.destroy
+	end	
+	for i in @outcome_column_vals
+		i.destroy
+	end	
+	for i in @outcome_results
+		i.destroy
+	end	
     respond_to do |format|
 	  @outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})
 		@study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})	  

@@ -3,27 +3,12 @@
 
 	<h2>Outcome Title: <%= one_outcome.title %></h2><br/>
 
-<% @outcome_all_list = Outcome.get_tp_col_array(one_outcome.id) %>
-
-<% if @outcome_all_list.length > 0 %>
-<% for the_item in @outcome_all_list %>
 		<%= form_for @outcome_result, :remote => true do |f| %>
-		
-		<% if the_item["type"] == "timepoint" %>
-			<h4>Timepoint Table: <%= the_item["object"].number.to_s %> <%= the_item["object"].time_unit %></h4><br/><br/>
 
 			<%= hidden_field_tag "outcome_id", one_outcome.id.to_s %>
-			<%= hidden_field_tag :column_id, :column_id, :value =>  the_item["object"].id.to_s %>
-			<%= hidden_field_tag :column_type, :column_type, :value => "timepoint" %>
-		<% else %>
-
-			<h4>Column Table: <%= the_item["object"].name.to_s %> - <%= the_item["object"].description %></h4><br/><br/>
-
-			<%= hidden_field_tag "outcome_id", one_outcome.id.to_s %>
-			<%= hidden_field_tag :column_id, :column_id, :value => the_item["object"].id.to_s %>
-			<%= hidden_field_tag :column_type, :column_type, :value =>  "column" %>
+			<%# hidden_field_tag "timepoint_id", one_outcome.timepoint_id.to_s %>
+			<%# hidden_field_tag "subgroup_id", one_outcome.subgroup_id.to_s %>
 		
-		<% end %>
 			<table class="list_table non_centered_table">
 				<th>Arm</th>
 
@@ -68,5 +53,3 @@
 		<br/><br/>
 	<% end %>
 	<% end %>
-<% end %>
-<% end %>

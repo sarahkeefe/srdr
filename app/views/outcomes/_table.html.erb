@@ -1,18 +1,10 @@
 
 <table class="list_table">
 <th>Outcome Title</th>
-<th>Type</th>
 <th>Primary?</th>
 <th>Units</th>
-<% if @study_arms.length > 0 %>
-	<% i = 1 %>
-	<% for one_arm in @study_arms %>
-		<th>Arm <%= i %>: <%= one_arm.title %> <br/> Number Enrolled</th>
-		<% i = i + 1 %>
-	<% end %>
-<% end %>
 <th>Follow-Up Time Points</th>
-<th>Other Columns</th>
+<th>Subgroups</th>
 <th>Outcome Description</th>
 <th>Edit</th>
 <th>Delete</th>
@@ -20,7 +12,6 @@
 <% for oneoutcome in @outcomes %>
 	<tr class="<%= cycle("even", "odd") %>" id=<%= "outcome_"+oneoutcome.id.to_s %>>
 	<td><%= oneoutcome.title %></td>
-	<td><%= oneoutcome.outcome_type %></td>
 	<td><% if oneoutcome.is_primary %>
 		Yes
 		<% else %>
@@ -29,20 +20,13 @@
 	</td>
 	<td><%= oneoutcome.units %></td>
 	
-	<% if @study_arms.length > 0 %>
-		
-		<% for one_arm in @study_arms %>
-			<td><%= Outcome.getNumEnrolledByArm(oneoutcome.id, one_arm.id) %></td>
-		<% end %>
-	
-	<% end %>
 	<td>
 	<% outcome_timepoints = Outcome.get_timepoints(oneoutcome.id) %>
 	<%= outcome_timepoints %>
 	</td>
 	<td>
-	<% outcome_columns = Outcome.get_columns(oneoutcome.id) %>
-	<%= outcome_columns %>
+	<% outcome_subgroups = Outcome.get_subgroups(oneoutcome.id) %>
+	<%= outcome_subgroups %>
 	</td>
 	<td><%= oneoutcome.description %></td>
 	<td><%= link_to "Edit", edit_outcome_path(oneoutcome), :remote=>true %></td>

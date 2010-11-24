@@ -18,10 +18,7 @@
     <%= f.label :outcome_title %>:
     <%= f.text_field :title, :class=>"bp_form_complete-1353-name" %>
   </div>
-  <div class="field">
-    <%= f.label :outcome_type %>:
-<%= f.select :outcome_type, options_for_select([ "Categorical", "Continuous" ]) %>
-  </div>
+
   <div class="field">
     <%= f.label :is_this_a_primary_outcome %>?
     <%= f.check_box :is_primary %>
@@ -32,19 +29,7 @@
   </div>
  
 <br/>
-  <h4>Numbers Analyzed by Arm</h4><br/>
 
-<% if @study_arms.length > 0 %>
-	
-	<table>
-  <% i = 1 %>
-  <% @study_arms.each do |one_arm| %>
-	  <% fieldname = "num_enrolled_" + one_arm.id.to_s %>
-		<tr><td align='right'>Arm <%= i %>. <%= one_arm.title %>: </td><td> <%= text_field :num_enrolled, one_arm.id.to_s,:size=>10 %></td></tr>
-	  <% i += 1 %>
-	<% end %>
-	</table>
-<% end %><br/>
 
   <h4>Add Outcome Time Points</h4>
   
@@ -56,13 +41,13 @@
 <%= f.link_to_add "Add a timepoint", :outcome_timepoints %>
   <br/><br/>
   
-   <h4>Add Other Columns </h4>
+   <h4>Add Outcome Subgroups </h4>
   
-	<%= f.fields_for :outcome_columns do |t| %>
-  Column Name: <%= t.text_field :name %>    
-  Column Description: <%= t.text_field :description %>  <%= t.link_to_remove "Remove" %><br/>
+	<%= f.fields_for :outcome_subgroups do |t| %>
+  Subgroup Title: <%= t.text_field :title %> <br/>
+  Subgroup Description (Optional): <%= t.text_field :description %>  <%= t.link_to_remove "Remove" %><br/>
   <% end %><br/>
-<%= f.link_to_add "Add a Column", :outcome_columns %>
+<%= f.link_to_add "Add a Subgroup", :outcome_subgroups %>
   <br/><br/>
   <div class="field">
     <%= f.label :description %>:<br />

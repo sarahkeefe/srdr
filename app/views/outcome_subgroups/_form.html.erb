@@ -1,0 +1,29 @@
+<%= form_for(@outcome_subgroup) do |f| %>
+  <% if @outcome_subgroup.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@outcome_subgroup.errors.count, "error") %> prohibited this outcome_subgroup from being saved:</h2>
+
+      <ul>
+      <% @outcome_subgroup.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :outcome_id %><br />
+    <%= f.text_field :outcome_id %>
+  </div>
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
