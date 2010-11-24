@@ -1,6 +1,6 @@
 class OutcomeColumn < ActiveRecord::Base
 	belongs_to :outcome
-	attr_accessible :name, :description
+	attr_accessible :name, :description, :outcome_id
 	validates :name, :presence => true
 	
 	def self.get_custom_columns(outcome_id, timepoint_id, subgroup_id)

@@ -104,9 +104,10 @@ class StudiesController < ApplicationController
 	@outcomes = Outcome.find(:all, :conditions => {:study_id => params[:study_id]})
 	
 	@first_outcome = @outcomes[0]
-  @first_subgroups = Outcome.get_subgroups_array(@first_outcome.id)
-  @first_timepoints = Outcome.get_timepoints_array(@first_outcome.id)
+	@first_subgroups = Outcome.get_subgroups_array(@first_outcome.id)
+	@first_timepoints = Outcome.get_timepoints_array(@first_outcome.id)
 
+	@outcome_column = OutcomeColumn.new
 	@outcome_result = OutcomeResult.new
 	@selected_outcome = Outcome.where(:study_id => params[:study_id]).first
 		render :layout => 'outcomesetup'	
