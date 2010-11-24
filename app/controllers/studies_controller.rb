@@ -110,25 +110,14 @@ class StudiesController < ApplicationController
 	# displays a table for (both?) categorical and continuous outcomes
 	# enables data entry into that table (and saving)
    def outcomeanalysis
-	   @new_categorical_analysis = nil
-	   @new_continuous_analysis = nil
-	   @categorical_analyses = []
-	   @continuous_analyses = []
-	   
+	      
 		 @study_arms = Arm.find(:all, :conditions=>["study_id=?",session[:study_id]], :select=>["id","title"])
 	   
-		 @continuous_outcomes = Outcome.find(:all, :conditions=>["study_id=? AND outcome_type=?",session[:study_id],"Continuous"],:select=>["id","title","description"])
-		 
-	   @categorical_outcomes = Outcome.find(:all, :conditions=>["study_id=? AND outcome_type=?",session[:study_id],"Categorical"],:select=>["id","title","description"])	   																		 														 
-    
-     unless @categorical_outcomes.empty?
-		 	@new_categorical_analysis = OutcomeAnalysis.new
-		  @categorical_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND categorical_or_continuous=?",session[:study_id], "Categorical"])	   				
-	 	 end
-	 	 
-	 	 unless @continuous_outcomes.empty?
+		 @outcomes = Outcome.find(:all, :conditions=>["study_id=?",session[:study_id]],:select=>["id","title","description"])
+		
+	 	 unless @outcomes.empty?
 	   	@new_continuous_analysis = OutcomeAnalysis.new
-      @continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND categorical_or_continuous=?",session[:study_id], "Continuous"])
+      @continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=?",session[:study_id]])
    	end
   end
 

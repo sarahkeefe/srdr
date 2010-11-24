@@ -4,16 +4,10 @@
 		<option value=<%= arm.id.to_s %>><%= arm.title.to_s %></option>
 	<% end %>
 </select>
-<%# CATEGORICAL OUTCOME TITLES %>
-<select id="categorical_outcomes" name="categorical_outcomes" class="hidden_select">
-    <% @categorical_outcomes.each do |cat| %>
-  	    <option value=<%= cat.id.to_s %>><%= cat.title.to_s %></option>
-		<% end %>
-</select>	
 
-<%# CONTINUOUS OUTCOME TITLES %>
+<%# OUTCOME TITLES %>
 <select id="continuous_outcomes" name="continuous_outcomes" class="hidden_select">
-    <% @continuous_outcomes.each do |cont| %>
+    <% @outcomes.each do |cont| %>
   	    <option value=<%= cont.id.to_s %>><%= cont.title.to_s %></option>
 		<% end %>
 </select>	

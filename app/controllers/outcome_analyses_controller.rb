@@ -24,7 +24,7 @@ class OutcomeAnalysesController < ApplicationController
   # GET /outcome_analyses/new
   # GET /outcome_analyses/new.xml
   def new
-    @outcome_analyasis = OutcomeAnalysis.new
+    @outcome_analysis = OutcomeAnalysis.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -42,17 +42,15 @@ class OutcomeAnalysesController < ApplicationController
   def create
     analyses = get_analysis_params(params) 
     cat_or_cont = params[:outcome_analysis][:categorical_or_continuous]
-    OutcomeAnalysis.remove_analyses(session[:study_id], cat_or_cont)
+    OutcomeAnalysis.remove_analyses(session[:study_id])
     @outcome_analysis = ""
     analyses.each do |oa|
     	@outcome_analysis = OutcomeAnalysis.new(params[oa])
     	@outcome_analysis.categorical_or_continuous = cat_or_cont
     	@outcome_analysis.estimation_parameter_type = params[:outcome_analysis][:estimation_parameter_type]
     	@outcome_analysis.parameter_dispersion_type = params[:outcome_analysis][:parameter_dispersion_type]
-    	if(cat_or_cont == "Categorical")
-    		@outcome_analysis.adjusted_estimation_parameter_type = params[:outcome_analysis][:adjusted_estimation_parameter_type]
-    		@outcome_analysis.adjusted_parameter_dispersion_type = params[:outcome_analysis][:adjusted_parameter_dispersion_type]
-    	end
+    	@outcome_analysis.adjusted_estimation_parameter_type = params[:outcome_analysis][:adjusted_estimation_parameter_type]
+    	@outcome_analysis.adjusted_parameter_dispersion_type = params[:outcome_analysis][:adjusted_parameter_dispersion_type]
     	@outcome_analysis.study_id = session[:study_id]
     	@outcome_analysis.save
     end

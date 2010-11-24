@@ -1,0 +1,176 @@
+<%= form_for(@new_continuous_analysis, :remote => true, :html=>{:id=>"outcome_analysis_form"}) do |f| %>
+<%= f.hidden_field :categorical_or_continuous, :value=>"" %>
+<table class="list_table complex_header" id="continuous_analysis_table">
+<tr>
+<th rowspan=2>Outcome Title</th>
+<th rowspan=2>Arm A</th>
+<th rowspan=2>Arm B</th>
+<th rowspan=2>Analysis Type</th>
+<th colspan=6 align='center'>Non-Adjusted</th>
+<th colspan=6 align='center'>Adjusted</th>
+</tr>
+<tr>
+<!-- THE ANALYSIS SECTION WAS ORIGINALLY TO BE USED AS TWO SEPARATE ANALYSIS TABLES. ONE FOR
+	   CONTINUOUS OUTCOMES, AND ANOTHER FOR CATEGORICAL OUTCOMES. IT HAS SINCE BEEN COMBINED INTO ONLY 
+	   ONE FORM, WHICH EXPLAINS WHY MANY OF THE NAMES IN THIS PAGE DESCRIBE A CONTINUOUS OUTCOME.-->
+											
+		<%# OPTIONS FOR ESTIMATION PARAMETER TYPE %>  
+<% ept_options = [['Estimation Parameter','Estimation Parameter'], \
+											["Cox Proportional Hazard","Cox Proportional Hazard"], \
+    									["Hazard Ratio (HR)","Hazard Ratio (HR)"], \
+    									["Hazard Ratio, log","Hazard Ratio, log"], \
+    									['Mean Difference (Final Values)','Mean Difference (Final Values)'], \
+    									['Mean Difference (Net)','Mean Difference (Net)'], \
+    									['Median Difference (Net)','Median Difference (Net)'], \
+    									['Odds Ratio (OR)','Odds Ratio (OR)'], \
+    									['Odds Ratio, log','Odds Ratio, log'], \
+    									['Risk Difference (RD)','Risk Difference (RD)'], \
+    									['Risk Ratio (RR)','Risk Ratio (RR)'], \
+    									['Risk Ratio, log','Risk Ratio, log'], \
+    									['Slope','Slope'], \
+    									['Other','Other']]%>
+    									
+<%# OPTIONS FOR PARAMETER DISPERSION TYPE%>
+<% pdt_options = [['Dispersion','Parameter Dispersion Type'], \
+								["Std Dev","Standard Deviation"], \
+								["Std Err","Standard Error of the Mean"]]%>
+	
+	<% selected_analysis_type = "" %>
+	<% selected_adjusted_estimation_parameter = "" %>
+	<% selected_adjusted_parameter_dispersion = "" %>
+	<% selected_estimation_parameter = "" %>
+	<% selected_parameter_dispersion = "" %>
+	
+	<% unless @continuous_analyses.empty? %>	
+	  <% my_cont = @continuous_analyses[0] %>
+	  <% selected_analysis_type = my_cont.statistical_test %>
+	  <% selected_adjusted_estimation_parameter = my_cont.adjusted_estimation_parameter_type %>
+	  <% selected_adjusted_parameter_dispersion = my_cont.adjusted_parameter_dispersion_type %>
+	  <% selected_estimation_parameter = my_cont.estimation_parameter_type %>
+	  <% selected_parameter_dispersion = my_cont.parameter_dispersion_type %>
+	<% end %>
+	<th>
+		<%= f.select :estimation_parameter_type, options_for_select(ept_options, selected_estimation_parameter.to_s) %>
+	</th>
+	<th>
+		<%= f.select :parameter_dispersion_type, options_for_select(pdt_options, selected_parameter_dispersion.to_s) %>
+	</th>
+	<th>CI %</th>
+	<th>LCL</th>
+	<th>UCL</th>
+	<th>P-Value</th>
+	<th>
+		<%= f.select :adjusted_estimation_parameter_type, options_for_select(ept_options, selected_adjusted_estimation_parameter.to_s ) %>
+	</th>
+	<th>
+		<%= f.select :adjusted_parameter_dispersion_type, options_for_select(pdt_options, selected_adjusted_parameter_dispersion.to_s ) %>
+	</th>
+	<th>CI %</th>
+	<th>LCL</th>
+	<th>UCL</th>
+	<th>P-Value</th>
+</tr>
+<% unless @continuous_analyses.empty? %>
+<% row_num = 1 %>
+	<% @continuous_analyses.each do |cont| %>
+  
+	  <tr class="<%= cycle("even", "odd") %>" id=<%= "row_" + row_num.to_s %> > 
+  		<td>
+  			<select id= <%= 'outcome_analysis_'+row_num.to_s+'_outcome_id' %> name=<%= 'outcome_analysis_'+row_num.to_s+'[outcome_id]'%> >
+  				<% @outcomes.each do |out| %>
+  					<% selected = "" %>
+						<% if out.id.to_i == cont.outcome_id.to_i %>
+							<% selected = "selected='selected'" %>
+						<% end %>  	
+  				  <option value= <%= out.id.to_s %> <%= selected %> ><%= shrink_text(out.title.to_s,4) %></option>
+					<% end %>	
+				</select>
+			</td>
+			<td>
+				<select id=<%= "outcome_analysis_"+row_num.to_s+"_arm1_id" %> name= <%= "outcome_analysis_"+row_num.to_s+"[arm1_id]" %>>			
+					<% @study_arms.each do |arm| %>
+						<% selected = "" %>
+						<% if arm.id.to_i == cont.arm1_id.to_i %>
+							<% selected = "selected='selected'" %>	
+						<% end %>
+						<option value=<%= arm.id.to_s %> <%= selected %> > <%= arm.title.to_s %> </option>
+					<% end %>
+				</select>
+			</td>
+			<td>
+				<select id=<%= "outcome_analysis_"+row_num.to_s+"_arm2_id" %> name= <%= "outcome_analysis_"+row_num.to_s+"[arm2_id]" %>>			
+					<% @study_arms.each do |arm| %>
+						<% selected = "" %>
+						<% if arm.id.to_i == cont.arm2_id.to_i %>
+							<% selected = "selected='selected'" %>	
+						<% end %>
+						<option value=<%= arm.id.to_s %> ><%= arm.title.to_s %></option>
+					<% end %>
+				</select>
+			</td>
+			<td>
+				 <%# OPTIONS FOR STATISTICAL TEST %>  
+<% analysis_type_options = "<option value='Analysis Type...'>Analysis Type...</option>
+											<option value='ANOVA'>ANOVA</option>
+											<option value='ANCOVA'>ANCOVA</option>
+											<option value='Chi-Squared'>Chi-Squared</option>
+											<option value='Chi-Squared, Corrected'>Chi-Squared, Corrected</option>
+											<option value='Fisher Exact'>Fisher Exact</option>
+											<option value='Kruskal-Wallis'>Kruskal-Wallis</option>"	%>
+				<select name= <%="outcome_analysis_"+row_num.to_s+"[statistical_test]" %>  
+					      id = <%="outcome_analysis_"+row_num.to_s+"_statistical_test" %> >
+				 	<%= render :inline => analysis_type_options %>
+				</select>
+			</td>
+			<td>
+				<input type='text' name= <%= "outcome_analysis_"+row_num.to_s+"[estimation_parameter_value]" %> id= <%= "outcome_analysis_"+row_num.to_s+"_estimation_parameter_value" %> size='30' value=<%= cont.estimation_parameter_value.to_s %> />
+			</td>
+			<td>
+				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[parameter_dispersion_value]" %> id=<%= "outcome_analysis_"+row_num.to_s+"_parameter_dispersion_value" %> size='10' value=<%= cont.parameter_dispersion_value.to_s %> />
+			</td>
+			<td>
+				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[unadjusted_ci_level]"%> id= <%="outcome_analysis_"+row_num.to_s+"unadjusted_ci_level" %> size='3' value=<%= cont.unadjusted_ci_level.to_s %> />
+			</td>	
+			<td>
+			<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[unadjusted_ci_lower_limit]"%> id= <%="outcome_analysis_"+row_num.to_s+"unadjusted_ci_lower_limit" %> size='3' value=<%= cont.unadjusted_ci_lower_limit.to_s %> />
+			</td>
+			<td>	
+			<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[unadjusted_ci_upper_limit]"%> id= <%="outcome_analysis_"+row_num.to_s+"unadjusted_ci_upper_limit" %> size='3' value=<%= cont.unadjusted_ci_upper_limit.to_s %> />
+			</td>		
+			<td>
+				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[p_value]"%> id= <%="outcome_analysis_"+row_num.to_s+"_p_value" %> size='3' value=<%= cont.p_value.to_s %> />
+			</td>		
+			<td>
+				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[adjusted_estimation_parameter_value]" %> id=<%="outcome_analysis_"+row_num.to_s+"_adjusted_estimation_parameter_value" %> size='30' value=<%= cont.adjusted_estimation_parameter_value.to_s %> />
+			</td>	
+			<td>
+				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[adjusted_parameter_dispersion_value]" %> id=<%= "outcome_analysis_"+row_num.to_s+"_adjusted_parameter_dispersion_value" %> size='10' value=<%= cont.adjusted_parameter_dispersion_value.to_s %> />
+			</td>
+			<td>
+				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_ci_level]"%> id= <%="outcome_analysis_"+row_num.to_s+"adjusted_ci_level" %> size='3' value=<%= cont.adjusted_ci_level.to_s %> />
+			</td>	
+			<td>
+			<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_ci_lower_limit]"%> id= <%="outcome_analysis_"+row_num.to_s+"adjusted_ci_lower_limit" %> size='3' value=<%= cont.adjusted_ci_lower_limit.to_s %> />
+			</td>
+			<td>	
+			<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_ci_upper_limit]"%> id= <%="outcome_analysis_"+row_num.to_s+"adjusted_ci_upper_limit" %> size='3' value=<%= cont.adjusted_ci_upper_limit.to_s %> />
+			</td>		
+			<td>
+				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_p_value]"%> id= <%="outcome_analysis_"+row_num.to_s+"_adjusted_p_value" %> size='3' value=<%= cont.adjusted_p_value.to_s %> />
+			</td>	
+			<td>	
+				<% row_id = "row_" + row_num.to_s %>
+				
+				<a onClick=<%= "remove_outcome_analysis_row('" + row_id + "'" + ",'continuous_analysis_table');" %> >Remove</a>		
+			</td>
+			
+			<% row_num = row_num + 1 %>
+	  
+	<% end %>
+<% end %>
+
+</table>
+<%= f.submit "Save" %>
+<% end %>
+<br/>
+<%= link_to "Add Analysis Row", "#",  :onclick=>"add_continuous_outcome_analysis_row();"%>

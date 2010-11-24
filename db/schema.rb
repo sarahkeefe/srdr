@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101123165955) do
+ActiveRecord::Schema.define(:version => 20101123214728) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer  "study_id"
@@ -77,6 +77,14 @@ ActiveRecord::Schema.define(:version => 20101123165955) do
     t.integer  "outcome_id"
     t.string   "adjusted_estimation_parameter_type"
     t.integer  "adjusted_estimation_parameter_value"
+    t.integer  "subgroup_id"
+    t.string   "statistical_test"
+    t.string   "unadjusted_ci_level"
+    t.integer  "unadjusted_ci_lower_limit"
+    t.integer  "unadjusted_ci_upper_limit"
+    t.string   "adjusted_ci_level"
+    t.integer  "adjusted_ci_lower_limit"
+    t.integer  "adjusted_ci_upper_limit"
   end
 
   create_table "outcome_enrolled_numbers", :force => true do |t|

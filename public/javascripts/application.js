@@ -64,6 +64,12 @@ function add_continuous_outcome_analysis_row(){
 		td10 = Builder.node('td'),
 		td11 = Builder.node('td'),
 		td12 = Builder.node('td');
+		td13 = Builder.node('td');
+		td14 = Builder.node('td');
+		td15 = Builder.node('td');
+		td16 = Builder.node('td');
+		td17 = Builder.node('td');
+		
 		
 		// GET THE NUMBER OF OUTCOMES THAT WE NEED TO ITERATE THROUGH
 		var num_outcomes = $('continuous_outcomes').options.length
@@ -91,19 +97,34 @@ function add_continuous_outcome_analysis_row(){
 													$('available_arms').options[i].value.toString() + 
 													"'>" + $('available_arms').options[i].innerHTML.toString() + "</option>"
 		}
+		var analysis_type_options = "<option value='Analysis Type...'>Analysis Type...</option>"+
+											"<option value='ANOVA'>ANOVA</option>"+
+											"<option value='ANCOVA'>ANCOVA</option>"+
+											"<option value='Chi-Squared'>Chi-Squared</option>"+
+											"<option value='Chi-Squared, Corrected'>Chi-Squared, Corrected</option>"+
+											"<option value='Fisher Exact'>Fisher Exact</option>"+
+											"<option value='Kruskal-Wallis'>Kruskal-Wallis</option>";
+											
+	  var ci_level_options = "<option value='95%'>95%</option>"+
+	  											  "<option value='90%'>90%</option>";
 		
 		td1.innerHTML = "<select id='outcome_analysis_"+row_num+"_outcome_id' name='outcome_analysis_"+row_num+"[outcome_id]'>"+outcome_select_options+"</select>";
 		td2.innerHTML = "<select id='outcome_analysis_"+row_num+"_arm1_id' name='outcome_analysis_"+row_num+"[arm1_id]'>"+arm_select_options+"</select>";
 		td3.innerHTML = "<select id='outcome_analysis_"+row_num+"_arm2_id' name='outcome_analysis_"+row_num+"[arm2_id]'>"+arm_select_options+"</select>";
-		td4.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[n_total]' id='outcome_analysis_"+row_num+"_n_total' size='10' />";
-		td5.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[n_event]' id='outcome_analysis_"+row_num+"_n_event' size='10' />";
-		td6.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[estimation_parameter_value]' id='outcome_analysis_"+row_num+"_estimation_parameter_value' size='30' />";
-		td7.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[parameter_dispersion_value]' id='outcome_analysis_"+row_num+"_parameter_dispersion_value' size='30'/>";
-		td8.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[p_value]' id='outcome_analysis_"+row_num+"_p_value' size='10' />";
-		td9.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[adjusted_estimation_parameter_value]' id='outcome_analysis_"+row_num+"_estimation_parameter_value' size='30' />";
-		td10.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[adjusted_parameter_dispersion_value]' id='outcome_analysis_"+row_num+"_parameter_dispersion_value' size='30'/>";
-		td11.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[adjusted_p_value]' id='outcome_analysis_"+row_num+"_p_value' size='10' />";
-		td12.innerHTML = "<a href='#' onClick=remove_outcome_analysis_row('" + row_id + "'" + ",'continuous_analysis_table');>Remove</a>";
+		td4.innerHTML = "<select id='outcome_analysis_"+row_num+"_statistical_test' name='outcome_analysis_"+row_num+"[statistical_test]'>" + analysis_type_options+"</select>"
+		td5.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[estimation_parameter_value]' id='outcome_analysis_"+row_num+"_estimation_parameter_value' size='30' />";
+		td6.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[parameter_dispersion_value]' id='outcome_analysis_"+row_num+"_parameter_dispersion_value' size='10'/>";
+		td7.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[unadjusted_ci_level]' id='outcome_analysis_"+row_num+"_unadjusted_ci_level' size='3' />"
+		td8.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[unadjusted_ci_lower_limit]' id='outcome_analysis_"+row_num+"_unadjusted_ci_lower_limit' size='3' />"
+		td9.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[unadjusted_ci_lower_limit]' id='outcome_analysis_"+row_num+"_unadjusted_ci_upper_limit' size='3' />"
+		td10.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[p_value]' id='outcome_analysis_"+row_num+"_p_value' size='3' />";
+		td11.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[adjusted_estimation_parameter_value]' id='outcome_analysis_"+row_num+"_estimation_parameter_value' size='30' />";
+		td12.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[adjusted_parameter_dispersion_value]' id='outcome_analysis_"+row_num+"_parameter_dispersion_value' size='10'/>";
+		td13.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[adjusted_ci_level]' id='outcome_analysis_"+row_num+"_unadjusted_ci_level' size='3' />"
+		td14.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[adjusted_ci_lower_limit]' id='outcome_analysis_"+row_num+"_unadjusted_ci_lower_limit' size='3' />"
+		td15.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[adjusted_ci_lower_limit]' id='outcome_analysis_"+row_num+"_unadjusted_ci_upper_limit' size='3' />"
+		td16.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[adjusted_p_value]' id='outcome_analysis_"+row_num+"_p_value' size='3' />";
+		td17.innerHTML = "<a onClick=remove_outcome_analysis_row('" + row_id + "'" + ",'continuous_analysis_table');>Remove</a>";
 		tr.appendChild(td1);
 		tr.appendChild(td2);
 		tr.appendChild(td3);
@@ -116,111 +137,16 @@ function add_continuous_outcome_analysis_row(){
 		tr.appendChild(td10);
 		tr.appendChild(td11);
 		tr.appendChild(td12);
+		tr.appendChild(td13);
+		tr.appendChild(td14);
+		tr.appendChild(td15);
+		tr.appendChild(td16);
+		tr.appendChild(td17);
 	
 	
 		tbody.appendChild(tr)		
 
 } // end add_continuous_outcome_analysis_row
-
-function add_categorical_outcome_analysis_row(){
-	var row_id = "categorical_row_1"
-	var row_num = 1
-	var num_analyses = $('categorical_analysis_table').getElementsByTagName('tr').length
-	
-	var tbody = $('categorical_analysis_table').getElementsByTagName("tbody")[0];
-	
-	if(num_analyses > 1){
-		//alert("length > 1");
-		var previous_row = $('categorical_analysis_table').getElementsByTagName('tr')[num_analyses-1].id.toString();
-	  row_num = parseInt(previous_row.replace("categorical_row_","")) + 1;
-	  row_id = "categorical_row_" + row_num.toString();
-	  
-	}
-	var row_class = get_next_row_class('categorical_analysis_table');;
-	
-	var tr = Builder.node('tr', {id: row_id, class: row_class}),
-		td1 = Builder.node('td'),
-		td2 = Builder.node('td'),
-		td3 = Builder.node('td'),
-		td4 = Builder.node('td'),
-		td5 = Builder.node('td'),
-		td6 = Builder.node('td'),
-		td7 = Builder.node('td'),
-		td8 = Builder.node('td');
-		
-		// GET THE NUMBER OF OUTCOMES THAT WE NEED TO ITERATE THROUGH
-		var num_outcomes = $('categorical_outcomes').options.length
-		var i = 0;
-		var outcome_select_options = ""
-		
-		// CREATE A STRING OF OUTCOME OPTIONS 
-		for(i=0; i<num_outcomes; i++){
-			outcome_select_options = outcome_select_options + "<option value='" + 
-															 $('categorical_outcomes').options[i].value.toString() + 
-															 "'>"+ $('categorical_outcomes').options[i].innerHTML.toString() + "</option>";
-		}
-		
-		// GET THE NUMBER OF ARMS THAT WE NEED TO ITERATE THROUGH
-		var num_arms = $('available_arms').options.length
-		arm_select_options = ""
-		var selected = ""
-		for(i=0; i<num_arms; i++){
-			if(i == 1){
-				selected = "selected"
-			}else{
-				selected = ""
-			}
-			arm_select_options = arm_select_options + "<option value='" + 
-													$('available_arms').options[i].value.toString() + 
-													"'>" + $('available_arms').options[i].innerHTML.toString() + "</option>"
-		}
-		td1.innerHTML = "<select id='outcome_analysis_"+row_num+"_outcome_id' name='outcome_analysis_"+row_num+"[outcome_id]'>"+outcome_select_options+"</select>";
-		td2.innerHTML = "<select id='outcome_analysis_"+row_num+"_arm1_id' name='outcome_analysis_"+row_num+"[arm1_id]'>"+arm_select_options+"</select>";
-		td3.innerHTML = "<select id='outcome_analysis_"+row_num+"_arm2_id' name='outcome_analysis_"+row_num+"[arm2_id]'>"+arm_select_options+"</select>";
-		td4.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[n_analyzed]' id='outcome_analysis_"+row_num+"_n_analyzed' size='10' />";
-		td5.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[estimation_parameter_value]' id='outcome_analysis_"+row_num+"_estimation_parameter_value' size='30' />";
-		td6.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[parameter_dispersion_value]' id='outcome_analysis_"+row_num+"_parameter_dispersion_value' size='30'/>";
-		td7.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[p_value]' id='outcome_analysis_"+row_num+"_p_value' size='10' />";
-		td8.innerHTML = "<a href='#' onClick=remove_outcome_analysis_row('" + row_id + "','categorical_analysis_table');>Remove</a>";
-		tr.appendChild(td1);
-		tr.appendChild(td2);
-		tr.appendChild(td3);
-		tr.appendChild(td4);
-		tr.appendChild(td5);
-		tr.appendChild(td6);
-		tr.appendChild(td7);
-		tr.appendChild(td8);
-	
-		/*
-		td1.innerHTML = "<select id='outcome_analysis_"+row_num+"_outcome_id' name='outcome_analysis_"+row_num+"[outcome_id]'>"+outcome_select_options+"</select>";
-		td2.innerHTML = "<select id='outcome_analysis_"+row_num+"_arm1_id' name='outcome_analysis_"+row_num+"[arm1_id]'>"+arm_select_options+"</select>";
-		td3.innerHTML = "<select id='outcome_analysis_"+row_num+"_arm2_id' name='outcome_analysis_"+row_num+"[arm2_id]'>"+arm_select_options+"</select>";
-		td4.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[n_total]' id='outcome_analysis_"+row_num+"_n_total' size='10' />";
-		td5.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[n_event]' id='outcome_analysis_"+row_num+"_n_event' size='10' />";
-		td6.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[estimation_parameter_value]' id='outcome_analysis_"+row_num+"_estimation_parameter_value' size='30' />";
-		td7.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[parameter_dispersion_value]' id='outcome_analysis_"+row_num+"_parameter_dispersion_value' size='30'/>";
-		td8.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[p_value]' id='outcome_analysis_"+row_num+"_p_value' size='10' />";
-		td9.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[adjusted_estimation_parameter_value]' id='outcome_analysis_"+row_num+"_estimation_parameter_value' size='30' />";
-		td10.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[adjusted_parameter_dispersion_value]' id='outcome_analysis_"+row_num+"_parameter_dispersion_value' size='30'/>";
-		td11.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[adjusted_p_value]' id='outcome_analysis_"+row_num+"_p_value' size='10' />";
-		td12.innerHTML = "<a href='#' onClick=remove_outcome_analysis_row('" + row_id + "'" + ",'categorical_analysis_table');>Remove</a>";
-		tr.appendChild(td1);
-		tr.appendChild(td2);
-		tr.appendChild(td3);
-		tr.appendChild(td4);
-		tr.appendChild(td5);
-		tr.appendChild(td6);
-		tr.appendChild(td7);
-		tr.appendChild(td8);
-		tr.appendChild(td9);
-		tr.appendChild(td10);
-		tr.appendChild(td11);
-		tr.appendChild(td12);*/
-	
-	
-		tbody.appendChild(tr)		
-
-} // end add_categorical_outcome_analysis_row
 
 function remove_outcome_analysis_row(row, analysis_table){
 	var row_to_remove = document.getElementById(row)

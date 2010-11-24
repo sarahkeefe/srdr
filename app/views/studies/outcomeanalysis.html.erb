@@ -3,12 +3,10 @@
 <% if @study_arms.length > 1 %>
 	<%= render "outcome_analyses/outcome_analysis_options" %>
 	
-  <% unless @continuous_outcomes.empty? %>
-		<%= render "outcome_analyses/continuous_entry_form_table" %>
-	<% end %>
-	
-	<% unless @categorical_outcomes.empty? %>
-		<%= render "outcome_analyses/categorical_entry_form_table" %>
+  <% unless @outcomes.empty? %>
+		<%= render "outcome_analyses/entry_form_table" %>
+	<% else %>
+	  There are no outcomes defined for this study.
 	<% end %>
 <% else %>
   This study does not have enough arms for a comparison.
