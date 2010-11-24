@@ -2,15 +2,15 @@ class OutcomeResult < ActiveRecord::Base
 
 		# Save results in outcome_results_table as new OutcomeResult objects. 
 		# does not include timepoint/arm data.
-		def self.save_general_results(study_id, a, outcome_id, params)
-				@existing = self.where(:outcome_id => outcome_id, :study_id => study_id, :arm_id => a.id).all
+		def self.save_general_results(study_id, a, outcome_id, timepoint_id, subgroup_id, params)
+				@existing = self.where(:outcome_id => outcome_id, :study_id => study_id, :arm_id => a.id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id).all
 				if @existing.length > 0
 					for i in @existing
 						i.n_analyzed = params["arm_nanalyzed"][a.id.to_s]
 						i.measure_type = params["measure_type"]["measure_type"]					
 						i. measure_value = params["arm_measurereg"][a.id.to_s].to_s
 						i.measure_dispersion_type = params["measure_disp_type"]["measure_disp_type"]						
-						i.measure_dispersion_value = params["arm_measuredisp"][a.id.to_s].to_s	
+						i.measure_dispersion_value = params["arm_measuredisp"][a.id.to_s].to_s
 						i.p_value = params["arm_pvalue"][a.id.to_s].to_s
 						if params["arm" + a.id.to_s + "_nanalyzed_calculated"] == "t"
 							i.nanalyzed_is_calculated = true
@@ -39,6 +39,8 @@ class OutcomeResult < ActiveRecord::Base
 					@outcome_result_new.arm_id = a.id
 					@outcome_result_new.study_id = study_id
 					@outcome_result_new.outcome_id = outcome_id
+					@outcome_result_new.timepoint_id = timepoint_id
+					@outcome_result_new.subgroup_id = subgroup_id
 					@outcome_result_new.n_analyzed = params["arm_nanalyzed"][a.id.to_s]
 					@outcome_result_new.measure_type = params["measure_type"]["measure_type"]			
 					@outcome_result_new.measure_value = params["arm_measurereg"][a.id.to_s]
@@ -69,38 +71,9 @@ class OutcomeResult < ActiveRecord::Base
 					@outcome_result_new.save
 				end
 		end
-
-		# Save timepoint results based on arm in the outcome_timepoint_results table.
-		def self.save_timepoint_results(outcome_id, study_id, a, tp, params)
-			@existing = OutcomeTimepointResult.where(:outcome_id => outcome_id, :study_id => study_id, :arm_id => a.id, :timepoint_id => tp.id).all
-				if @existing.length > 0
-					for i in @existing
-						i.value = params["arm" + a.id.to_s + "timepoint"][tp.id.to_s]
-						if params["arm" + a.id.to_s + "timepoint" + tp.id.to_s + "_calculated"] == "t"
-							i.is_calculated = true
-						else
-							i.is_calculated = false						
-						end
-						i.save
-					end
-				else
-					@outcome_tp_result_new = OutcomeTimepointResult.new
-					@outcome_tp_result_new.arm_id = a.id
-					@outcome_tp_result_new.study_id = study_id
-					@outcome_tp_result_new.outcome_id = outcome_id				
-					@outcome_tp_result_new.timepoint_id = tp.id
-					if params["arm" + a.id.to_s + "timepoint" + tp.id.to_s + "_calculated"] == "t"
-						@outcome_tp_result_new.is_calculated = true
-					else
-						@outcome_tp_result_new.is_calculated = false						
-					end
-					@outcome_tp_result_new.value = params["arm" + a.id.to_s + "timepoint"][tp.id.to_s]
-					@outcome_tp_result_new.save
-				end
-		end
 		
-		def self.get_data_point(arm_id, outcome_id)
-			o_res = OutcomeResult.where(:outcome_id => outcome_id, :arm_id => arm_id).first
+		def self.get_data_point(arm_id, outcome_id, timepoint_id, subgroup_id)
+			o_res = OutcomeResult.where(:outcome_id => outcome_id, :arm_id => arm_id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id).first
 			arr = Hash.new
 			if !o_res.nil?
 				arr["nanalyzed"] = o_res.n_analyzed
@@ -116,8 +89,8 @@ class OutcomeResult < ActiveRecord::Base
 			return arr
 		end
 
-		def self.get_data_point_calc(arm_id, outcome_id)
-			o_res = OutcomeResult.where(:outcome_id => outcome_id, :arm_id => arm_id).first
+		def self.get_data_point_calc(arm_id, outcome_id, timepoint_id, subgroup_id)
+			o_res = OutcomeResult.where(:outcome_id => outcome_id, :arm_id => arm_id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id).first
 			arr = Hash.new
 			if !o_res.nil?
 				arr["nanalyzed"] = o_res.nanalyzed_is_calculated
@@ -132,29 +105,9 @@ class OutcomeResult < ActiveRecord::Base
 			end
 			return arr
 		end
-		
-		def self.get_timepoint_data_point(arm_id, outcome_id, tp_id)
-			if !arm_id.nil? && !outcome_id.nil? && !tp_id.nil?
-				o_res = OutcomeTimepointResult.where(:outcome_id => outcome_id, :arm_id => arm_id, :timepoint_id => tp_id).first
-				if !o_res.nil?
-					return o_res.value		
-				else return ""
-				end
-			end
-		end
-		
-		def self.get_timepoint_data_point_calc(arm_id, outcome_id, tp_id)
-			if !arm_id.nil? && !outcome_id.nil? && !tp_id.nil?
-				o_res = OutcomeTimepointResult.where(:outcome_id => outcome_id, :arm_id => arm_id, :timepoint_id => tp_id).first
-				if !o_res.nil?
-					return o_res.is_calculated		
-				else return false
-				end
-			end
-		end		
-		
-		def self.get_measure_types(outcome_id)
-			o_res = OutcomeResult.where(:outcome_id => outcome_id).first
+
+		def self.get_measure_types(outcome_id, timepoint_id, subgroup_id)
+			o_res = OutcomeResult.where(:outcome_id => outcome_id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id).first
 			if !o_res.nil?
 				arr = Hash.new
 				arr["measure_type"] = o_res.measure_type
@@ -168,8 +121,6 @@ class OutcomeResult < ActiveRecord::Base
 			end
 		end
 
-		
-		
 		def self.get_outcomes_for_dropdown
 			#@outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})		
 				arr = []

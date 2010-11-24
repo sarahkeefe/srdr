@@ -1,0 +1,27 @@
+<h1>Listing outcome_subgroups</h1>
+
+<table>
+  <tr>
+    <th>Outcome</th>
+    <th>Title</th>
+    <th>Description</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @outcome_subgroups.each do |outcome_subgroup| %>
+  <tr>
+    <td><%= outcome_subgroup.outcome_id %></td>
+    <td><%= outcome_subgroup.title %></td>
+    <td><%= outcome_subgroup.description %></td>
+    <td><%= link_to 'Show', outcome_subgroup %></td>
+    <td><%= link_to 'Edit', edit_outcome_subgroup_path(outcome_subgroup) %></td>
+    <td><%= link_to 'Destroy', outcome_subgroup, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Outcome subgroup', new_outcome_subgroup_path %>

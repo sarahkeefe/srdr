@@ -49,11 +49,11 @@ class OutcomeResultsController < ApplicationController
 		OutcomeResult.save_general_results(session[:study_id], a, oid, params)
 	end
 	
-	for a in @study_arms
-		for p in @study_timepoints
-			OutcomeResult.save_timepoint_results(oid, session[:study_id], a, p, params)
-		end
-	end
+	#for a in @study_arms
+		#for p in @study_timepoints
+		#	OutcomeResult.save_timepoint_results(oid, session[:study_id], a, p, params)
+		#end
+	#end
 	
     respond_to do |format|
         format.html { redirect_to(@outcome_result, :notice => 'Outcome result was successfully created.') }

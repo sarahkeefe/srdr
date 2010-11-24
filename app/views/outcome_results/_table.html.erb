@@ -1,17 +1,16 @@
 <% if !@selected_outcome.nil? %>
 <% one_outcome = @selected_outcome %>
-		<b>Outcome Title: <%= one_outcome.title %></b><br/>
+
+	<h2>Outcome Title: <%= one_outcome.title %></h2><br/>
+
 		<%= form_for @outcome_result, :remote => true do |f| %>
+
 			<%= hidden_field_tag "outcome_id", one_outcome.id.to_s %>
-			
+			<%# hidden_field_tag "timepoint_id", one_outcome.timepoint_id.to_s %>
+			<%# hidden_field_tag "subgroup_id", one_outcome.subgroup_id.to_s %>
+		
 			<table class="list_table non_centered_table">
 				<th>Arm</th>
-				<% @outcome_timepoints = Outcome.get_timepoints_array(one_outcome.id) %>
-				<% if @outcome_timepoints.length > 0 %>
-						<% for tp in @outcome_timepoints %>
-							<th><%= tp.number.to_s %> <%= tp.time_unit %></th>
-						<% end %>
-					<% end %>
 
 					<% val = OutcomeResult.get_measure_types(one_outcome.id) %>
 				<th>N Analyzed</th>
@@ -26,17 +25,7 @@
 					<% for one_arm in @study_arms %>
 						<tr class="<%= cycle("even", "odd") %>">
 							<td>Arm <%= i %>: <%= one_arm.title %></td>
-							<% @outcome_timepoints = Outcome.get_timepoints_array(one_outcome.id) %>
-							<% if @outcome_timepoints.length > 0 %>
-								<% for tp in @outcome_timepoints %>
-									<% val = OutcomeResult.get_timepoint_data_point(one_arm.id, one_outcome.id, tp.id) %>
-									<% calc = OutcomeResult.get_timepoint_data_point_calc(one_arm.id, one_outcome.id, tp.id) %>					
-									<td>
-									<%= text_field "arm" + one_arm.id.to_s + "timepoint", tp.id.to_s, :size => 5, :value => val, :class => "calculated_checkbox" %>
-									<%= check_box_tag "arm" + one_arm.id.to_s + "timepoint" + tp.id.to_s  + "_calculated", "t", calc, :class => "styled" %>	
-									</td>
-								<% end %>
-							<% end %>
+							
 							<% val = OutcomeResult.get_data_point(one_arm.id, one_outcome.id) %>
 							<% calc = OutcomeResult.get_data_point_calc(one_arm.id, one_outcome.id) %>								
 							<td>
@@ -61,6 +50,6 @@
 					</tr>
 			</table>
 		<%= submit_tag "Save" %>
+		<br/><br/>
 	<% end %>
 	<% end %>
-<br/><br/>

@@ -10,75 +10,45 @@
       </ul>
     </div>
   <% end %>
-	<%############################################%>
-	<%# NOT SURE IF THE NEXT 3 LINES ARE NECESSARY? %>
-	<%############################################%>
+
   <div class="field">
-    <%= f.hidden_field :study_id, :value => session[:study_id] %>
+    <%= f.hidden_field :study_id, :value=>session[:study_id] %>
   </div>
-  
-  <%############################################%>
-  <%# TITLE, OUTCOME_TYPE, IS_PRIMARY, UNITS%>
-  <%############################################%>
   <div class="field">
     <%= f.label :outcome_title %>:
-    <%= f.text_field :title %>
+    <%= f.text_field :title, :class=>"bp_form_complete-1353-name" %>
   </div>
-  <div class="field">
-    <%= f.label :outcome_type %>:
-    <%= f.select :outcome_type, options_for_select([ "Categorical", "Continuous" ]) %>
-  </div>
+ 
   <div class="field">
     <%= f.label :is_this_a_primary_outcome %>?
     <%= f.check_box :is_primary %>
   </div>
+  
   <div class="field">
     <%= f.label :units %>:
     <%= f.text_field :units %>
   </div>
-  <%##########################%>
-  <%# NUMBERS ENROLLED BY ARM%>
-  <%##########################%>
-  <h4>Numbers Enrolled by Arm</h4>
+ 
+<br/>
 
-  <% if @study_arms.length > 0 %>
 
- <table class="list_table"><tr>
-	<% i = 1 %>
-	
-	<% for one_arm in @study_arms %>
-		<th>Arm <%= i %>: <%= one_arm.title %></th>
-		<% i = i + 1 %>
-	<% end %>
-	<tr class="<%= cycle("even", "odd") %>">
-	<% for one_arm in @numbers_enrolled %>
-		<td>
-		<% fieldname = "num_enrolled_" + one_arm[0].to_s %>
-		  <%= text_field :num_enrolled, one_arm[0].to_s, :value=>one_arm[1].to_s %>
-		  </td>
-		<% i = i + 1 %>
-	<% end %>
-	</tr>
-		
-	</table>
-	<% end %>
-  
-	<%##########################%>
-  <%# ADD OUTCOME TIME POINTS %>
-  <%##########################%>
   <h4>Add Outcome Time Points</h4>
-   <% i = 0 %>
-  	<%= f.fields_for :outcome_timepoints do |et|  %> 
-  		<%= et.text_field :number %>
-  		<%= et.select :time_unit, options_for_select(["minutes", "hours", "days", "weeks", "months", "years"], :selected => @existing_time_points[i].to_s) %>
-  		<%= et.link_to_remove "Remove" %>
-		<% i = i + 1 %>			
-  	<% end %>
-  <%= f.link_to_add "Add a timepoint", :outcome_timepoints %> 
   
-  <%#############################%>
-  <%# DESCRIPTION, NOTES, SUBMIT %>
-  <%#############################%>
+	<%= f.fields_for :outcome_timepoints do |t| %>
+  <%= t.text_field :number %>
+  <%= t.select :time_unit, options_for_select([ "minutes", "hours", "days", "weeks", "months", "years" ]) %>
+  <%= t.link_to_remove "Remove" %><br/>
+  <% end %><br/>
+<%= f.link_to_add "Add a timepoint", :outcome_timepoints %>
+  <br/><br/>
+  
+   <h4>Add Outcome Subgroups </h4>
+  
+	<%= f.fields_for :outcome_subgroups do |t| %>
+  Subgroup Title: <%= t.text_field :title %> <br/>
+  Subgroup Description (Optional): <%= t.text_field :description %>  <%= t.link_to_remove "Remove" %><br/>
+  <% end %><br/>
+<%= f.link_to_add "Add a Subgroup", :outcome_subgroups %>
   <br/><br/>
   <div class="field">
     <%= f.label :description %>:<br />
@@ -89,6 +59,6 @@
     <%= f.text_area :notes, :rows => 4, :cols => 40 %>
   </div>
   <div class="actions">
-    <%= f.submit "Update" %>  <%= link_to 'Done Editing', new_outcome_path, :remote=>true %>
+    <%= f.submit "Update Outcome" %>  <%= link_to 'Done Editing', new_outcome_path, :remote=>true %>
   </div>
 <% end %>

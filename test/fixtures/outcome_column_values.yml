@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  outcome_id: 1
+  timepoint_id: 1
+  subgroup_id: 1
+  value: MyString
+  is_calculated: false
+
+two:
+  outcome_id: 1
+  timepoint_id: 1
+  subgroup_id: 1
+  value: MyString
+  is_calculated: false
