@@ -98,9 +98,15 @@ class StudiesController < ApplicationController
   def outcomedata
 	@study = Study.find(params[:study_id])
 	makeActive(@study)
+	@model_name="outcome_data"
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
 	@outcomes = Outcome.find(:all, :conditions => {:study_id => params[:study_id]})
+	
+	@first_outcome = @outcomes[0]
+  @first_subgroups = Outcome.get_subgroups_array(@first_outcome.id)
+  @first_timepoints = Outcome.get_timepoints_array(@first_outcome.id)
+
 	@outcome_result = OutcomeResult.new
 	@selected_outcome = Outcome.where(:study_id => params[:study_id]).first
 		render :layout => 'outcomesetup'	
