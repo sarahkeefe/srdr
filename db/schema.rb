@@ -10,11 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(:version => 20101123214728) do
-=======
 ActiveRecord::Schema.define(:version => 20101124155323) do
->>>>>>> 0f8b3ecfb780bc1b58684d925e23db2401ead357
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer  "study_id"
@@ -74,7 +70,7 @@ ActiveRecord::Schema.define(:version => 20101124155323) do
     t.datetime "updated_at"
     t.integer  "outcome_id"
     t.string   "adjusted_estimation_parameter_type"
-    t.integer  "adjusted_estimation_parameter_value"
+    t.string   "adjusted_estimation_parameter_value"
     t.integer  "subgroup_id"
     t.string   "statistical_test"
     t.string   "unadjusted_ci_level"
