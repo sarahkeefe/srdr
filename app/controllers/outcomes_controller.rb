@@ -1,26 +1,4 @@
 class OutcomesController < ApplicationController
-  # GET /outcomes
-  # GET /outcomes.xml
-  def index
-    @outcomes = Outcome.all
-
-    respond_to do |format|
-    	format.html # index.html.erb
-      format.xml  { render :xml => @outcomes }
-    end
-  end
-
-  # GET /outcomes/1
-  # GET /outcomes/1.xml
-  def show
-    @outcome = Outcome.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @outcome }
-    end
-  end
-
   # GET /outcomes/new
   # GET /outcomes/new.xml
   def new

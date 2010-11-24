@@ -1,26 +1,4 @@
 class PopulationCharacteristicDataPointsController < ApplicationController
-  # GET /population_characteristic_data_points
-  # GET /population_characteristic_data_points.xml
-  def index
-    @population_characteristic_data_points = PopulationCharacteristicDataPoint.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @population_characteristic_data_points }
-    end
-  end
-
-  # GET /population_characteristic_data_points/1
-  # GET /population_characteristic_data_points/1.xml
-  def show
-    @population_characteristic_data_point = PopulationCharacteristicDataPoint.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @population_characteristic_data_point }
-    end
-  end
-
   # GET /population_characteristic_data_points/new
   # GET /population_characteristic_data_points/new.xml
   def new

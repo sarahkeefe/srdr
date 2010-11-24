@@ -1,26 +1,4 @@
 class AdverseEventArmsController < ApplicationController
-  # GET /adverse_event_arms
-  # GET /adverse_event_arms.xml
-  def index
-    @adverse_event_arms = AdverseEventArm.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @adverse_event_arms }
-    end
-  end
-
-  # GET /adverse_event_arms/1
-  # GET /adverse_event_arms/1.xml
-  def show
-    @adverse_event_arm = AdverseEventArm.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @adverse_event_arm }
-    end
-  end
-
   # GET /adverse_event_arms/new
   # GET /adverse_event_arms/new.xml
   def new

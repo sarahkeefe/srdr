@@ -1,28 +1,5 @@
 class OutcomeColumnValuesController < ApplicationController
-  # GET /outcome_column_values
-  # GET /outcome_column_values.xml
-  def index
-    @outcome_column_values = OutcomeColumnValue.all
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @outcome_column_values }
-    end
-  end
-
-  # GET /outcome_column_values/1
-  # GET /outcome_column_values/1.xml
-  def show
-    @outcome_column_value = OutcomeColumnValue.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @outcome_column_value }
-    end
-  end
-
-  # GET /outcome_column_values/new
-  # GET /outcome_column_values/new.xml
   def new
     @outcome_column_value = OutcomeColumnValue.new
 
@@ -32,7 +9,6 @@ class OutcomeColumnValuesController < ApplicationController
     end
   end
 
-  # GET /outcome_column_values/1/edit
   def edit
     @outcome_column_value = OutcomeColumnValue.find(params[:id])
   end

@@ -1,28 +1,4 @@
 class OutcomeResultsController < ApplicationController
-  # GET /outcome_results
-  # GET /outcome_results.xml
-  def index
-    @outcome_results = OutcomeResult.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @outcome_results }
-    end
-  end
-
-  # GET /outcome_results/1
-  # GET /outcome_results/1.xml
-  def show
-    @outcome_result = OutcomeResult.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @outcome_result }
-    end
-  end
-
-  # GET /outcome_results/new
-  # GET /outcome_results/new.xml
   def new
     @outcome_result = OutcomeResult.new
 
@@ -32,21 +8,22 @@ class OutcomeResultsController < ApplicationController
     end
   end
 
-  # GET /outcome_results/1/edit
   def edit
     @outcome_result = OutcomeResult.find(params[:id])
-  end
-
+  end 
+ 
   # POST /outcome_results 
   # POST /outcome_results.xml
   def create
     @outcome_result = OutcomeResult.new(params[:outcome_result])
 	@study_arms = Study.get_arms(session[:study_id].to_i)
 	oid = params[:outcome_id].to_i
+	tp_id = params[:timepoint_id].to_i
+	subgroup_id = params[:subgroup_id.to_i]
 	@study_timepoints = Outcome.get_timepoints_array(oid)
 
 	for a in @study_arms
-		OutcomeResult.save_general_results(session[:study_id], a, oid, params)
+		OutcomeResult.save_general_results(session[:study_id], a, oid, tp_id, subgroup_id, params)
 	end
 	
 	#for a in @study_arms

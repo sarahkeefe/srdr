@@ -1,26 +1,4 @@
 class QualityAspectsController < ApplicationController
-  # GET /quality_aspects
-  # GET /quality_aspects.xml
-  def index
-    @quality_aspects = QualityAspect.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @quality_aspects }
-    end
-  end
-
-  # GET /quality_aspects/1
-  # GET /quality_aspects/1.xml
-  def show
-    @quality_aspect = QualityAspect.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @quality_aspect }
-    end
-  end
-
   # GET /quality_aspects/new
   # GET /quality_aspects/new.xml
   def new

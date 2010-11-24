@@ -1,26 +1,4 @@
 class PopulationCharacteristicSubcategoriesController < ApplicationController
-  # GET /population_characteristic_subcategories
-  # GET /population_characteristic_subcategories.xml
-  def index
-    @population_characteristic_subcategories = PopulationCharacteristicSubcategory.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @population_characteristic_subcategories }
-    end
-  end
-
-  # GET /population_characteristic_subcategories/1
-  # GET /population_characteristic_subcategories/1.xml
-  def show
-    @population_characteristic_subcategory = PopulationCharacteristicSubcategory.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @population_characteristic_subcategory }
-    end
-  end
-
   # GET /population_characteristic_subcategories/new
   # GET /population_characteristic_subcategories/new.xml
   def new

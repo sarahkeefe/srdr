@@ -10,7 +10,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20101124165350) do
+=======
+ActiveRecord::Schema.define(:version => 20101124172621) do
+>>>>>>> 0fd028632de74c0babf41b9a08ff13a89aae91e3
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer  "study_id"
@@ -174,7 +178,6 @@ ActiveRecord::Schema.define(:version => 20101124165350) do
     t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "outcome_type"
   end
 
   create_table "population_characteristic_data_points", :force => true do |t|

@@ -1,26 +1,4 @@
 class ArmsController < ApplicationController
-  # GET /arms
-  # GET /arms.xml
-  def index
-    @arms = Arm.all
-  
-		respond_to do |format|
-    	format.html # index.html.erb
-      format.xml  { render :xml => @arms }
-    end
-  end
-
-  # GET /arms/1
-  # GET /arms/1.xml
-  def show
-    @arm = Arm.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @arm }
-    end
-  end
-
   # GET /arms/new
   # GET /arms/new.xml
   def new
