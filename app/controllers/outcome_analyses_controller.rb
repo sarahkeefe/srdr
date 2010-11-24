@@ -19,11 +19,16 @@ class OutcomeAnalysesController < ApplicationController
   # POST /outcome_analyses.xml
   def create
     analyses = get_analysis_params(params) 
-    cat_or_cont = params[:outcome_analysis][:categorical_or_continuous]
+    outcome_id = params[:outcome_analysis][:outcome_id]
+    subgroup_id = params[:outcome_analysis][:subgroup_id]
+    timepoint_id = params[:outcome_analysis][:timepoint_id]
     OutcomeAnalysis.remove_analyses(session[:study_id])
     @outcome_analysis = ""
     analyses.each do |oa|
     	@outcome_analysis = OutcomeAnalysis.new(params[oa])
+    	@outcome_analysis.outcome_id = outcome_id.to_i
+    	@outcome_analysis.subgroup_id = subgroup_id.to_i
+    	@outcome_analysis.timepoint_id = timepoint_id.to_i
     	@outcome_analysis.categorical_or_continuous = cat_or_cont
     	@outcome_analysis.estimation_parameter_type = params[:outcome_analysis][:estimation_parameter_type]
     	@outcome_analysis.parameter_dispersion_type = params[:outcome_analysis][:parameter_dispersion_type]

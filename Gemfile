@@ -9,7 +9,7 @@ gem 'sqlite3-ruby'
 gem 'jquery-rails'
 gem 'authlogic'
 gem 'rails3-generators'
-gem 'acts_as_list'
+#gem 'acts_as_list'
 # Use unicorn as the web server
 # gem 'unicorn'
 

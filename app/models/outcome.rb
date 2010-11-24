@@ -32,7 +32,7 @@ class Outcome < ActiveRecord::Base
 	end	
 
 	def self.get_subgroups_array(outcome_id)
-		@outcome_cs = OutcomeColumn.where(:outcome_id => outcome_id).all
+		@outcome_cs = OutcomeSubgroup.where(:outcome_id => outcome_id).all
 		return @outcome_cs 
 	end
 	

@@ -98,9 +98,15 @@ class StudiesController < ApplicationController
   def outcomedata
 	@study = Study.find(params[:study_id])
 	makeActive(@study)
+	@model_name="outcome_data"
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
 	@outcomes = Outcome.find(:all, :conditions => {:study_id => params[:study_id]})
+	
+	@first_outcome = @outcomes[0]
+  @first_subgroups = Outcome.get_subgroups_array(@first_outcome.id)
+  @first_timepoints = Outcome.get_timepoints_array(@first_outcome.id)
+
 	@outcome_result = OutcomeResult.new
 	@selected_outcome = Outcome.where(:study_id => params[:study_id]).first
 		render :layout => 'outcomesetup'	
@@ -109,15 +115,19 @@ class StudiesController < ApplicationController
 	# outcomeanalysis
 	# displays a table for (both?) categorical and continuous outcomes
 	# enables data entry into that table (and saving)
-   def outcomeanalysis
-	      
-		 @study_arms = Arm.find(:all, :conditions=>["study_id=?",session[:study_id]], :select=>["id","title"])
-	   
-		 @outcomes = Outcome.find(:all, :conditions=>["study_id=?",session[:study_id]],:select=>["id","title","description"])
+  def outcomeanalysis
+	  @model_name = "outcome_analysis"    
+		@study_arms = Arm.find(:all, :conditions=>["study_id=?",session[:study_id]], :select=>["id","title"])
+		@outcomes = Outcome.find(:all, :conditions=>["study_id=?",session[:study_id]],:select=>["id","title","description"])
 		
-	 	 unless @outcomes.empty?
-	   	@new_continuous_analysis = OutcomeAnalysis.new
+	 	unless @outcomes.empty?
+	  	@new_continuous_analysis = OutcomeAnalysis.new
       @continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=?",session[:study_id]])
+      @first_outcome = @outcomes[0]
+      
+      @first_subgroups = Outcome.get_subgroups_array(@first_outcome.id)
+      @first_timepoints = Outcome.get_timepoints_array(@first_outcome.id)
+     
    	end
   end
 
@@ -285,16 +295,31 @@ class StudiesController < ApplicationController
   	return questions
   end
 
-   def show_outcome
-	@outcome_result = OutcomeResult.new
-	@study_arms = Arm.where(:study_id => session[:study_id]).all
-	@selected_outcome = Outcome.find(params[:selected_outcome_id])	
-	  	  	    respond_to do |format|
-			format.js{	
-	render :update do |page|
-		page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
-	end
-	}
-	end
+  def show_outcome
+		@outcome_result = OutcomeResult.new
+		@study_arms = Arm.where(:study_id => session[:study_id]).all
+		@selected_outcome = Outcome.find(params[:selected_outcome_id])	
+		  respond_to do |format|
+				format.js{	
+					render :update do |page|
+						page.replace_html 'entry_form', :partial => 'outcome_results/table'
+					end
+				}
+		end
+  end
+  
+  def show_outcome_subgroups_and_timepoints
+  	@selected_outcome = Outcome.find(params[:selected_outcome_id])
+  	@model_name = params[:form_type]
+  	@outcome_subgroups = OutcomeSubgroup.where(:outcome_id=>@selected_outcome.id).all
+  	@outcome_timepoints = OutcomeTimepoint.where(:outcome_id=>@selected_outcome.id).all
+  	respond_to do |format|
+  		format.js{
+  			render :update do |page|
+  				page.replace_html 'timepoint_options',:partial => 'outcomes/timepoint_selector'
+  				page.replace_html 'subgroup_options',:partial => 'outcomes/subgroup_selector'
+  			end
+  		}
+  	end
   end
 end
