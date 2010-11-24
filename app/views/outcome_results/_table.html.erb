@@ -18,7 +18,7 @@
 
 				<th>N Analyzed</th>
 				
-				<% @outcome_columns = OutcomeColumns.get_custom_columns(one_outcome.id, timepoint_id, subgroup_id) %>
+				<% @outcome_columns = OutcomeColumn.get_custom_columns(one_outcome.id, timepoint_id, subgroup_id) %>
 				<% if !@outcome_columns.nil? && @outcome_columns.length > 0 %>
 					<% for custom_col in @outcome_columns %>
 							<th><%= custom_col.name %></th>
