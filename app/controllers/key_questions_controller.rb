@@ -1,27 +1,4 @@
 class KeyQuestionsController < ApplicationController
-  # GET /key_questions
-  # GET /key_questions.xml
-  def index
-    @key_questions = KeyQuestion.where(["project_id = ?", session[:project_id]])
-    
-    respond_to do |format|
-    	  	
-      format.html # index.html.erb
-      format.xml  { render :xml => @key_questions }
-    end
-  end
-
-  # GET /key_questions/1
-  # GET /key_questions/1.xml
-  def show
-    @key_question = KeyQuestion.find(params[:id])
-		@key_questions = KeyQuestion.where(:project_id => session[:project_id]).all
-         
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @key_question }
-    end
-  end
 
   # GET /key_questions/new
   # GET /key_questions/new.xml

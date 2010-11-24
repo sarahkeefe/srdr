@@ -1,26 +1,4 @@
 class OutcomeAnalysesController < ApplicationController
-  # GET /outcome_analyses
-  # GET /outcome_analyses.xml
-  def index
-    @outcome_analyses = OutcomeAnalysis.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @outcome_analyses }
-    end
-  end
-
-  # GET /outcome_analyses/1
-  # GET /outcome_analyses/1.xml
-  def show
-    @outcome_analysis = OutcomeAnalysis.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @outcome_analysis }
-    end
-  end
-
   # GET /outcome_analyses/new
   # GET /outcome_analyses/new.xml
   def new

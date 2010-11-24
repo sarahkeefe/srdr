@@ -1,26 +1,4 @@
 class PopulationCharacteristicsController < ApplicationController
-  # GET /population_characteristics
-  # GET /population_characteristics.xml
-  def index
-    @population_characteristics = PopulationCharacteristic.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @population_characteristics }
-    end
-  end
-
-  # GET /population_characteristics/1
-  # GET /population_characteristics/1.xml
-  def show
-    @population_characteristic = PopulationCharacteristic.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @population_characteristic }
-    end
-  end
-
   # GET /population_characteristics/new
   # GET /population_characteristics/new.xml
   def new

@@ -1,26 +1,4 @@
 class OutcomeTimepointsController < ApplicationController
-  # GET /outcome_timepoints
-  # GET /outcome_timepoints.xml
-  def index
-    @outcome_timepoints = OutcomeTimepoint.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @outcome_timepoints }
-    end
-  end
-
-  # GET /outcome_timepoints/1
-  # GET /outcome_timepoints/1.xml
-  def show
-    @outcome_timepoint = OutcomeTimepoint.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @outcome_timepoint }
-    end
-  end
-
   # GET /outcome_timepoints/new
   # GET /outcome_timepoints/new.xml
   def new

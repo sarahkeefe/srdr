@@ -1,26 +1,4 @@
 class QualityRatingsController < ApplicationController
-  # GET /quality_ratings
-  # GET /quality_ratings.xml
-  def index
-    @quality_ratings = QualityRating.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @quality_ratings }
-    end
-  end
-
-  # GET /quality_ratings/1
-  # GET /quality_ratings/1.xml
-  def show
-    @quality_rating = QualityRating.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @quality_rating }
-    end
-  end
-
   # GET /quality_ratings/new
   # GET /quality_ratings/new.xml
   def new

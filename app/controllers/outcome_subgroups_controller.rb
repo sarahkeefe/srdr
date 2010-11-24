@@ -1,26 +1,4 @@
 class OutcomeSubgroupsController < ApplicationController
-  # GET /outcome_subgroups
-  # GET /outcome_subgroups.xml
-  def index
-    @outcome_subgroups = OutcomeSubgroup.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @outcome_subgroups }
-    end
-  end
-
-  # GET /outcome_subgroups/1
-  # GET /outcome_subgroups/1.xml
-  def show
-    @outcome_subgroup = OutcomeSubgroup.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @outcome_subgroup }
-    end
-  end
-
   # GET /outcome_subgroups/new
   # GET /outcome_subgroups/new.xml
   def new
