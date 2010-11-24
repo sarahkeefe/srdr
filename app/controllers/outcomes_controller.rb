@@ -3,8 +3,8 @@ class OutcomesController < ApplicationController
   # GET /outcomes/new.xml
   def new
     @outcome = Outcome.new
-	  @outcome_timepoint = OutcomeTimepoint.new
-	  @study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})	
+	#@outcome_timepoint = OutcomeTimepoint.new
+	
     respond_to do |format|
       format.js{
     	  render :update do |page|
@@ -36,8 +36,15 @@ class OutcomesController < ApplicationController
     @outcome = Outcome.new(params[:outcome])
 	@outcome.study_id = session[:study_id]
 	@outcome.save
-	@study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})	
-	  
+	
+	if !OutcomeSubgroup.total_subgroup_exists(@outcome.id)
+		@outcome_total_subgroup = OutcomeSubgroup.new
+		@outcome_total_subgroup.outcome_id = @outcome.id
+		@outcome_total_subgroup.title = "Total"
+		@outcome_total_subgroup.description = "Total value (added by default)"
+		@outcome_total_subgroup.save
+	end
+	
     respond_to do |format|
       if @outcome.save
 		    @outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})
