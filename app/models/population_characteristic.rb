@@ -1,30 +1,20 @@
 class PopulationCharacteristic < ActiveRecord::Base
 	belongs_to :study
 	has_many :population_characteristic_subcategories
-	accepts_nested_attributes_for :population_characteristic_subcategories, :allow_destroy => true	
+	accepts_nested_attributes_for :population_characteristic_subcategories, :allow_destroy => true, :reject_if => :reject_condition
 	# Check if there is a duplicate population characteristic category and subcategory in the list
 	# (used in determining whether to create a new PopulationCharacteristic item )
-	#validates :category_title, :presence => true
+	validates :category_title, :presence => true, :uniqueness => true
 	#validates :units, :presence => true
+
+def reject_condition(attributed)
+	reject = false
+	if (attributed['subcategory'] == "" || attributed['subcategory'].blank?)
+		reject = true
+	end
+	return reject
+end
 	
-	def self.has_duplicates(category_title, subcategory, study_id)
-			if subcategory.nil? || subcategory == ""
-				@pop_char_check = PopulationCharacteristic.where("population_characteristics.study_id = ? AND population_characteristics.category_title = ?", study_id, category_title).all
-					if @pop_char_check.length > 0
-						return true
-					else
-						return false
-					end
-			else
-				@sub_check = PopulationCharacteristic.where("population_characteristics.study_id = ? AND population_characteristics.category_title = ? AND population_characteristics.subcategory = ?", study_id, category_title, subcategory).all
-				if @sub_check.length > 0
-					return true
-				else
-					return false
-				end
-			end
-		end
-		
 	# Get the number of categories that are the same
 	# used in grouping attributes by category and subcategory
 	def self.get_num_same_cats(list, pos)

@@ -89,6 +89,15 @@ class OutcomeResult < ActiveRecord::Base
 			return arr
 		end
 
+	 def self.get_custom_col_data_point(arm_id, outcome_id, timepoint_id, subgroup_id, col_id)
+			o_res = OutcomeColumnValue.where(:outcome_id => outcome_id, :arm_id => arm_id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id, :column_id => col_id).first
+			if !o_res.nil?
+				return o_res.value
+			else
+				return ""
+			end
+		end
+		
 		def self.get_data_point_calc(arm_id, outcome_id, timepoint_id, subgroup_id)
 			o_res = OutcomeResult.where(:outcome_id => outcome_id, :arm_id => arm_id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id).first
 			arr = Hash.new
@@ -105,6 +114,15 @@ class OutcomeResult < ActiveRecord::Base
 			end
 			return arr
 		end
+		
+		def self.get_custom_col_data_point_calc(arm_id, outcome_id, timepoint_id, subgroup_id, col_id)
+			o_res = OutcomeColumnValue.where(:outcome_id => outcome_id, :arm_id => arm_id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id, :column_id => col_id).first
+			if !o_res.nil?
+				return o_res.is_calculated
+			else
+				return false		
+			end
+		end		
 
 		def self.get_measure_types(outcome_id, timepoint_id, subgroup_id)
 			o_res = OutcomeResult.where(:outcome_id => outcome_id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id).first
@@ -120,6 +138,7 @@ class OutcomeResult < ActiveRecord::Base
 				return arr
 			end
 		end
+		
 
 		def self.get_outcomes_for_dropdown
 			#@outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})		
