@@ -1,5 +1,9 @@
 <%= form_for(@new_continuous_analysis, :remote => true, :html=>{:id=>"outcome_analysis_form"}) do |f| %>
-<%= f.hidden_field :categorical_or_continuous, :value=>"" %>
+
+<%= render "outcomes/subgroup_timepoint_selector" %>
+<%# f.hidden_field :categorical_or_continuous, :value=>"" %>
+<br/><br/>
+<div id="entry_form">
 <table class="list_table complex_header" id="continuous_analysis_table">
 <tr>
 <th rowspan=2>Outcome Title</th>
@@ -170,6 +174,7 @@
 <% end %>
 
 </table>
+</div>
 <%= f.submit "Save" %>
 <% end %>
 <br/>

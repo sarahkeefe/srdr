@@ -1,0 +1,18 @@
+<b>Select a Sub-Group to Analyze</b><br/>
+<% unless @outcome_subgroups.empty? %>
+		  <% subgroups = "" %>
+		  <% i = 0 %>
+		  <% selected = "selected" %>
+		  <% @outcome_subgroups.each do |sg| %>
+		    <% unless i < 1 %>
+		       <% selected = "" %>
+		    <% end %>
+		    <% subgroups = subgroups + "<option value=#{sg.id}  #{selected}>#{sg.title}</option>" %>
+		    <%i += 1%>
+		  <% end %>
+			<select name=<%= @model_name + "[subgroup_id]" %> id=<%= @model_name + "_subgroup_id" %>>
+		  	<%= render :inline=>subgroups %>
+		  </select>
+<% else %>
+<em>There are no subgroups defined for this outcome. If you require a subgroup, please edit the <%= link_to "Outcome Setup Page", "/projects/#{session[:project_id]}/studies/#{session[:study_id]}/outcomesetup" %></em>
+<% end %>
