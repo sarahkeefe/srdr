@@ -106,6 +106,7 @@ class StudiesController < ApplicationController
 	@first_outcome = @outcomes[0]
   @first_subgroups = Outcome.get_subgroups_array(@first_outcome.id)
   @first_timepoints = Outcome.get_timepoints_array(@first_outcome.id)
+  
 
 	@outcome_result = OutcomeResult.new
 	@selected_outcome = Outcome.where(:study_id => params[:study_id]).first
@@ -119,16 +120,39 @@ class StudiesController < ApplicationController
 	  @model_name = "outcome_analysis"    
 		@study_arms = Arm.find(:all, :conditions=>["study_id=?",session[:study_id]], :select=>["id","title"])
 		@outcomes = Outcome.find(:all, :conditions=>["study_id=?",session[:study_id]],:select=>["id","title","description"])
-		
+		@new_continuous_analysis = OutcomeAnalysis.new
 	 	unless @outcomes.empty?
-	  	@new_continuous_analysis = OutcomeAnalysis.new
-      @continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=?",session[:study_id]])
-      @first_outcome = @outcomes[0]
-      
-      @first_subgroups = Outcome.get_subgroups_array(@first_outcome.id)
-      @first_timepoints = Outcome.get_timepoints_array(@first_outcome.id)
-     
+	  	
+      @selected_outcome = @outcomes[0].id
+      @first_subgroups = Outcome.get_subgroups_array(@selected_outcome)
+      @first_timepoints = Outcome.get_timepoints_array(@selected_outcome)
+    
+      current_selections = get_selected_sg_and_tp(@first_subgroups, @first_timepoints)
+      @selected_subgroup = current_selections[0]
+      @selected_timepoint = current_selections[1]
+      @continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND outcome_id=? AND subgroup_id=? AND timepoint_id=? ",
+      														session[:study_id], @selected_outcome, @selected_subgroup, @selected_timepoint])
    	end
+  end
+  
+  # Return the ids for selected subgroup and timepoint in outcomedata or
+  # outcomeanalysis pages. 
+  # Params: arrays of subgroups and timepoints
+  # Returns: an array containing subgroup id and timepoint id
+  def get_selected_sg_and_tp(subgroups, timepoints)
+  	print "GETTING THE SELECTIONS NOW -----------------\n"
+  	selected_subgroup = 0
+    selected_timepoint = 0
+    retVal = Array.new
+    unless subgroups.empty?
+    	selected_subgroup = subgroups[0].id
+    end
+    unless timepoints.empty?
+    	selected_timepoint = timepoints[0].id
+    end
+    retVal = [selected_subgroup, selected_timepoint]
+    print "RETVAL IS: " + selected_subgroup.to_s + ", " + selected_timepoint.to_s + "._________________\n"
+    return retVal
   end
 
   def adverseevents
@@ -309,17 +333,72 @@ class StudiesController < ApplicationController
   end
   
   def show_outcome_subgroups_and_timepoints
+  	print "IM IN SHOW_OUTCOME_SUBGRUOPS_AND_TIMEPIONTS SHOWING THINGS NOW ------------\n"
   	@selected_outcome = Outcome.find(params[:selected_outcome_id])
+  	@selected_outcome = @selected_outcome.id
+  	@outcome_subgroups = OutcomeSubgroup.where(:outcome_id=>@selected_outcome).all
+  	@outcome_timepoints = OutcomeTimepoint.where(:outcome_id=>@selected_outcome).all
+  	current_selections = get_selected_sg_and_tp(@outcome_subgroups, @outcome_timepoints)
+  	@selected_subgroup = current_selections[0]
+  	@selected_timepoint = current_selections[1]
   	@model_name = params[:form_type]
-  	@outcome_subgroups = OutcomeSubgroup.where(:outcome_id=>@selected_outcome.id).all
-  	@outcome_timepoints = OutcomeTimepoint.where(:outcome_id=>@selected_outcome.id).all
+  	print "SELECTED SUBGROUP IS " + @selected_subgroup.to_s + "-------------------\n"
+  	print "SELECTED TIMEPOINT IS " + @selected_timepoint.to_s + "-------------------\n"
   	respond_to do |format|
   		format.js{
   			render :update do |page|
   				page.replace_html 'timepoint_options',:partial => 'outcomes/timepoint_selector'
   				page.replace_html 'subgroup_options',:partial => 'outcomes/subgroup_selector'
+  				if(@model_name == "outcome_analysis")
+  					 @continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND outcome_id=? AND subgroup_id=? AND timepoint_id=? ",
+      														session[:study_id], @selected_outcome.to_i, @selected_subgroup.to_i, @selected_timepoint.to_i])
+    				 @new_continuous_analysis = OutcomeAnalysis.new
+    				 @study_arms = Arm.find(:all, :conditions=>["study_id=?",session[:study_id]], :select=>["id","title"])
+    				 page.replace_html 'entry_form',:partial=> 'outcome_analyses/entry_form_table'
+  				end
   			end
   		}
   	end
+  end
+  def update_partial
+  	print "---------------------UPDATING FROM UPDATE_PARTIAL IN STUDIES ---------------------------\n"
+  	print "SELECTED OUTCOME: " + params[:selected_outcome_id] + "\n"
+  	print "SELECTED SUBGROUP: " + params[:selected_subgroup] + "\n"
+  	print "SELECTED TIMEPOINT: " + params[:selected_timepoint] + "\n"
+  	print "FORM TYPE: " + params[:form_type] + "\n"
+
+  	coming_from = params[:form_type]
+  	@selected_outcome = params[:selected_outcome_id]  # outcome id
+  	@selected_subgroup = params[:selected_subgroup] # subgroup id
+  	@selected_timepoint = params[:selected_timepoint]   # timepoint id
+  	@model_name = params[:form_type]
+  	respond_to do |format|
+  		format.js{
+	  		render :update do |page|
+  				if(coming_from == "outcome_analysis")
+	  				#page.replace_html 'timepoint_options',:partial => 'outcomes/timepoint_selector'
+  				  #page.replace_html 'subgroup_options',:partial => 'outcomes/subgroup_selector'
+  				  @continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND outcome_id=? AND subgroup_id=? AND timepoint_id=? ",
+      														session[:study_id], @selected_outcome.to_i, @selected_subgroup.to_i, @selected_timepoint.to_i])
+    				@new_continuous_analysis = OutcomeAnalysis.new
+    				@study_arms = Arm.find(:all, :conditions=>["study_id=?",session[:study_id]], :select=>["id","title"])
+    				page.replace_html 'entry_form',:partial=> 'outcome_analyses/entry_form_table'
+  				else
+	  				update_outcome_data_table(@selected_outcome.to_s,@selected_subgroup.to_s,@selected_timepoint.to_s,page)
+	  			end
+  			end
+  		}
+  	end
+  end
+  
+  def update_outcome_analysis_table
+    print "OK WE HAVE TO UPDATE THE ANALYSIS TABLE NOW!"	
+    #@continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND outcome_id=? AND subgroup_id=? AND timepoint_id=? ",
+    #  														session[:study_id], oc_id, sg_id, tp_id])
+    #@new_continuous_analysis = OutcomeAnalysis.new
+    #page.replace_html 'entry_form',:partial=> 'outcome_analyses/entry_form_table'
+  end
+  def update_outcome_data_table
+  
   end
 end

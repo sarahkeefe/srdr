@@ -4,10 +4,15 @@
 	
 	<%= render "outcome_analyses/outcome_analysis_options" %>
 	
-	<%= render "outcome_analyses/entry_form_table" %>
+	<%= render "outcomes/subgroup_timepoint_selector" %>
+	
+  <%= render "outcome_analyses/entry_form_table"%>
+	
+  
+
 	
 <% else %>
-	  This study has insufficient data for analysis. This could mean either no outcomes, or not enough arms.
+	  This study has insufficient data for analysis. This could mean either no outcomes or not enough arms.
 <% end %>
 <br/>
 <table id="bottom_nav"><tr><td align="left"><%= link_to "Back", "outcomedata" %></td><td align="right">

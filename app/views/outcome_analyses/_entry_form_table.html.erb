@@ -1,12 +1,12 @@
-<%= form_for(@new_continuous_analysis, :remote => true, :html=>{:id=>"outcome_analysis_form"}) do |f| %>
-
-<%= render "outcomes/subgroup_timepoint_selector" %>
-<%# f.hidden_field :categorical_or_continuous, :value=>"" %>
-<br/><br/>
 <div id="entry_form">
+<%= form_for(@new_continuous_analysis, :remote => true, :html=>{:id=>"outcome_analysis_form"}) do |f| %>
+<input type="hidden" name="selected_outcome" id="selected_outcome" value= <%= @selected_outcome %> >
+<input type="hidden" name="selected_subgroup" id="selected_subgroup" value= <%= @selected_subgroup %> >
+<input type="hidden" name="selected_timepoint" id="selected_timepoint" value=<%= @selected_timepoint %> >
+<br/><br/>
+
 <table class="list_table complex_header" id="continuous_analysis_table">
 <tr>
-<th rowspan=2>Outcome Title</th>
 <th rowspan=2>Arm A</th>
 <th rowspan=2>Arm B</th>
 <th rowspan=2>Analysis Type</th>
@@ -79,23 +79,12 @@
 	<% @continuous_analyses.each do |cont| %>
   
 	  <tr class="<%= cycle("even", "odd") %>" id=<%= "row_" + row_num.to_s %> > 
-  		<td>
-  			<select id= <%= 'outcome_analysis_'+row_num.to_s+'_outcome_id' %> name=<%= 'outcome_analysis_'+row_num.to_s+'[outcome_id]'%> >
-  				<% @outcomes.each do |out| %>
-  					<% selected = "" %>
-						<% if out.id.to_i == cont.outcome_id.to_i %>
-							<% selected = "selected='selected'" %>
-						<% end %>  	
-  				  <option value= <%= out.id.to_s %> <%= selected %> ><%= shrink_text(out.title.to_s,4) %></option>
-					<% end %>	
-				</select>
-			</td>
 			<td>
 				<select id=<%= "outcome_analysis_"+row_num.to_s+"_arm1_id" %> name= <%= "outcome_analysis_"+row_num.to_s+"[arm1_id]" %>>			
 					<% @study_arms.each do |arm| %>
 						<% selected = "" %>
 						<% if arm.id.to_i == cont.arm1_id.to_i %>
-							<% selected = "selected='selected'" %>	
+							<% selected = "selected" %>	
 						<% end %>
 						<option value=<%= arm.id.to_s %> <%= selected %> > <%= arm.title.to_s %> </option>
 					<% end %>
@@ -106,24 +95,27 @@
 					<% @study_arms.each do |arm| %>
 						<% selected = "" %>
 						<% if arm.id.to_i == cont.arm2_id.to_i %>
-							<% selected = "selected='selected'" %>	
+							<% selected = "selected" %>	
 						<% end %>
-						<option value=<%= arm.id.to_s %> ><%= arm.title.to_s %></option>
+						<option value=<%= arm.id.to_s %> <%= selected %>><%= arm.title.to_s %></option>
 					<% end %>
 				</select>
 			</td>
 			<td>
 				 <%# OPTIONS FOR STATISTICAL TEST %>  
-<% analysis_type_options = "<option value='Analysis Type...'>Analysis Type...</option>
-											<option value='ANOVA'>ANOVA</option>
-											<option value='ANCOVA'>ANCOVA</option>
-											<option value='Chi-Squared'>Chi-Squared</option>
-											<option value='Chi-Squared, Corrected'>Chi-Squared, Corrected</option>
-											<option value='Fisher Exact'>Fisher Exact</option>
-											<option value='Kruskal-Wallis'>Kruskal-Wallis</option>"	%>
-				<select name= <%="outcome_analysis_"+row_num.to_s+"[statistical_test]" %>  
+				 <% analysis_options = ["ANOVA","ANCOVA","Chi-Squared","Chi-Squared Corrected","Fisher Exact","Kruskal-Wallis"]%>
+				 <select name= <%="outcome_analysis_"+row_num.to_s+"[statistical_test]" %>  
 					      id = <%="outcome_analysis_"+row_num.to_s+"_statistical_test" %> >
-				 	<%= render :inline => analysis_type_options %>
+				 <option value='Analysis Type...'>Analysis Type...</option>
+				 <% i = 0 %>
+				 <% analysis_options.each do |opt| %>
+				 	 <% opt_selected = "" %>
+				   <% if analysis_options[i] == cont.statistical_test %>
+				     <% opt_selected = "selected" %>
+				   <% end %>
+				   <option value=<%= analysis_options[i] %> <%= opt_selected %> ><%= analysis_options[i] %></option>
+				   <% i += 1 %>
+			  <% end %>
 				</select>
 			</td>
 			<td>
@@ -174,8 +166,9 @@
 <% end %>
 
 </table>
-</div>
+
 <%= f.submit "Save" %>
 <% end %>
 <br/>
 <%= link_to "Add Analysis Row", "#",  :onclick=>"add_continuous_outcome_analysis_row();"%>
+</div>
