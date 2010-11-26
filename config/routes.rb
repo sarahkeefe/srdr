@@ -1,9 +1,11 @@
 Srdr::Application.routes.draw do
   resources :outcome_column_values
 
-  resources :outcome_subgroups
-
-  resources :outcome_columns
+  	resources :outcome_columns
+	resources :outcome_subgroups
+	resources :outcome_timepoints
+  
+  resources :outcomes
 
   resources :population_characteristic_subcategories
 
@@ -47,9 +49,6 @@ Srdr::Application.routes.draw do
 
   resources :outcome_results
 
-  resources :outcome_timepoints
-
-  resources :outcomes
 
   resources :population_characteristics
 

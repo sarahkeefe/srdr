@@ -35,7 +35,7 @@ class PopulationCharacteristicsController < ApplicationController
     @population_characteristic = PopulationCharacteristic.new(params[:population_characteristic])
 	  @study = Study.find(session[:study_id])
     respond_to do |format|
-	    if !PopulationCharacteristic.has_duplicates(@population_characteristic.category_title, @population_characteristic.subcategory, @population_characteristic.study_id) && @population_characteristic.save
+	    if @population_characteristic.save
 			  @population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => session[:study_id]}, :order => :category_title)
 			  @population_characteristics.sort_by(&:category_title)
 			  @population_characteristic_data_point = PopulationCharacteristicDataPoint.new

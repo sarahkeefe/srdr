@@ -25,7 +25,9 @@ class Outcome < ActiveRecord::Base
 		@outcome_cs = OutcomeSubgroup.where(:outcome_id => outcome_id).all
 		c_array = []
 		for i in @outcome_cs
-			c_array << i.title.to_s
+			if i.title.to_s != "Total"
+				c_array << i.title.to_s
+			end
 		end
 		c_list = c_array.join(', ')
 		return c_list 

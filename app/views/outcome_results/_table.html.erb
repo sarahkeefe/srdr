@@ -6,19 +6,30 @@
 		<%= form_for @outcome_result, :remote => true do |f| %>
 
 			<%= hidden_field_tag "outcome_id", one_outcome.id.to_s %>
+			
+			<%# CHANGE THIS!!!!!!!!!!!!!!!!!!!! THIS IS DEPENDENT ON WHAT IS CHOSEN IN THE DROPDOWNS %>
 			<%# hidden_field_tag "timepoint_id", one_outcome.timepoint_id.to_s %>
 			<%# hidden_field_tag "subgroup_id", one_outcome.subgroup_id.to_s %>
-			<%# CHANGE THIS!!!!!!!!!!!!!!!!!!!! THIS IS DEPENDENT ON WHAT IS CHOSEN IN THE DROPDOWNS %>
 			<% timepoint_id = 0 %>
 			<% subgroup_id = 0 %>
+			
 			<table class="list_table non_centered_table">
 				<th>Arm</th>
 
-					<% val = OutcomeResult.get_measure_types(one_outcome.id, timepoint_id, subgroup_id) %>
 				<th>N Analyzed</th>
+				
+				<% @outcome_columns = OutcomeColumn.get_custom_columns(one_outcome.id, timepoint_id, subgroup_id) %>
+				<% if !@outcome_columns.nil? && @outcome_columns.length > 0 %>
+					<% for custom_col in @outcome_columns %>
+							<th><%= custom_col.name %></th>
+					<% end %>
+				<% end %>
+				<% val = OutcomeResult.get_measure_types(one_outcome.id, timepoint_id, subgroup_id) %>				
+				
 				<% @measure_types_array = [["Select Measure Type", "Select Measure Type"], ["Number", "Number"], ["Mean", "Mean"], ["Median", "Median"], ["Least Squares Mean", "Least Squares Mean"], ["Geometric Mean", "Geometric Mean"], ["Log Mean", "Log Mean"]]%>
-				<% @measure_disp_types_array =  [["Select Measure Of Dispersion/Precision", "Select Measure Of Dispersion/Precision"], ["Not Applicable", "Not Applicable"], ["Standard Deviation", "Standard Deviation"], ["Inter-Quartile Range", "Inter-Quartile Range"], ["Full Range", "Full Range"]]%>
 				<th><%= select :measure_type, :measure_type, options_for_select(@measure_types_array, val["measure_type"].to_s) %></th>
+				
+				<% @measure_disp_types_array =  [["Select Measure Of Dispersion/Precision", "Select Measure Of Dispersion/Precision"], ["Not Applicable", "Not Applicable"], ["Standard Deviation", "Standard Deviation"], ["Inter-Quartile Range", "Inter-Quartile Range"], ["Full Range", "Full Range"]]%>				
 				<th><%= select :measure_disp_type, :measure_disp_type, options_for_select(@measure_disp_types_array, val["measure_dispersion_type"].to_s) %></th>
 				<th>P-Value</th>
 
@@ -34,6 +45,18 @@
 								<%= text_field "arm_nanalyzed", one_arm.id.to_s, :size => 5, :value => val["nanalyzed"], :class => "calculated_checkbox" %>
 								<%= check_box_tag "arm" + one_arm.id.to_s + "_nanalyzed_calculated", "t", calc["nanalyzed"], :class => "styled" %>							
 							</td>
+							
+							<% if !@outcome_columns.nil? && @outcome_columns.length > 0 %>
+								<% for custom_col in @outcome_columns %>
+									<% val = OutcomeResult.get_custom_col_data_point(one_arm.id, one_outcome.id, timepoint_id, subgroup_id, custom_col.id) %>
+									<% calc = OutcomeResult.get_custom_col_data_point_calc(one_arm.id, one_outcome.id, timepoint_id, subgroup_id, custom_col.id) %>	
+									<td>
+										<%= text_field "arm_custom_" + custom_col.id.to_s, one_arm.id.to_s, :size => 5, :value => val, :class => "calculated_checkbox" %>
+										<%= check_box_tag "arm" + one_arm.id.to_s + "_custom_" + custom_col.id.to_s + "_calculated", "t", calc, :class => "styled" %>											
+									</td>
+								<% end %>
+							<% end %>
+							
 							<td>
 								<%= text_field "arm_measurereg", one_arm.id.to_s, :size => 5, :value => val["measurereg"], :class => "calculated_checkbox" %>
 								<%= check_box_tag "arm" + one_arm.id.to_s + "_measurereg_calculated", "t", calc["measurereg"], :class => "styled" %>											

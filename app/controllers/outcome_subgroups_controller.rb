@@ -19,7 +19,7 @@ class OutcomeSubgroupsController < ApplicationController
   # POST /outcome_subgroups.xml
   def create
     @outcome_subgroup = OutcomeSubgroup.new(params[:outcome_subgroup])
-
+	
     respond_to do |format|
       if @outcome_subgroup.save
         format.html { redirect_to(@outcome_subgroup, :notice => 'Outcome subgroup was successfully created.') }
