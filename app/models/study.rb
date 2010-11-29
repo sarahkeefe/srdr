@@ -200,20 +200,8 @@ class Study < ActiveRecord::Base
 		  						:is_primary=>outcome.is_primary,
 		  						:units=>outcome.units,
 		  						:description=>outcome.description,
-		  						:created_at=>Time.now,
-		  						:outcome_type=>outcome.outcome_type )
+		  						:created_at=>Time.now)
 		  		
-		  	# set up the numbers enrolled for each arm per outcome
-		  	i=0
-		  	original_arm_ids.each do |arm_id|
-		  		tmp_enrolled_num = Study.get_outcome_enrolled_number(outcome.id, arm_id)
-		  		new_enrolled_num = OutcomeEnrolledNumber.create(:arm_id=>new_arm_ids[i],
-		  											 :outcome_id=>tmp_out.id,
-		  											 :num_enrolled=>0,
-		  											 :created_at=>Time.now,
-		  											 :is_total=>nil)
-		  		i+=1
-		  	end	
 		  end
     end
 	  ###################################################
@@ -229,12 +217,15 @@ class Study < ActiveRecord::Base
 	   		#------ GET ANY SUBCATEGORIES ASSOCIATED WITH THIS CHARACTERISTIC ------#
 	   		subcats = Study.get_attribute_subcategories(pchar.id)
 	   		unless subcats.empty?
+	   			print "I'm CREATING CHARACTERISTIC SUBCATEGORIES------------\n"
 	   			subcats.each do |sub|
 	   				tmp_sub = PopulationCharacteristicSubcategory.create(:subcategory=>sub.subcategory,
 	   								:units=>sub.units,:population_characteristic_id=>tmp_pchar.id,
 	   								:created_at=>Time.now())
    			  end
    			end
+   			
+   			#--------- GET ANY DATA POINTS ASSOCIATED WITH THIS STUDY
    		end
 	  end
 	  
