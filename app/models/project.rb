@@ -1,6 +1,6 @@
 class Project < ActiveRecord::Base
-	has_many :studies
-	has_many :key_questions
+	has_many :studies, :dependent=>:destroy
+	has_many :key_questions, :dependent=>:destroy
 	has_many :arms, :through => :studies	
 	accepts_nested_attributes_for :key_questions, :allow_destroy => true
 	#validates :title, :presence => true, :length => { :minimum => 4}
