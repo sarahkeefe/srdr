@@ -1,29 +1,23 @@
-<% if !@selected_outcome.nil? %>
-<% one_outcome = @selected_outcome %>
+<% if !@selected_outcome_object.nil? %>
+<% one_outcome = @selected_outcome_object %>
 
 	<h2>Outcome Title: <%= one_outcome.title %></h2><br/>
 
-		<%= form_for @outcome_result, :remote => true do |f| %>
+		<%= form_for @selected_outcome_object_results, :remote => true do |f| %>
 
 			<%= hidden_field_tag "outcome_id", one_outcome.id.to_s %>
 			
-			<%# CHANGE THIS!!!!!!!!!!!!!!!!!!!! THIS IS DEPENDENT ON WHAT IS CHOSEN IN THE DROPDOWNS %>
-			<%# hidden_field_tag "timepoint_id", one_outcome.timepoint_id.to_s %>
-			<%# hidden_field_tag "subgroup_id", one_outcome.subgroup_id.to_s %>
-			<% timepoint_id = 0 %>
-			<% subgroup_id = 0 %>
-			
+			<% timepoint_id = @selected_timepoint %>
+			<% subgroup_id = @selected_subgroup %>
+			<input type="hidden" name="selected_outcome" id="selected_outcome" value= <%= one_outcome.id %> >
+			<input type="hidden" name="selected_subgroup" id="selected_subgroup" value= <%= @selected_subgroup %> >
+			<input type="hidden" name="selected_timepoint" id="selected_timepoint" value=<%= @selected_timepoint %> >
 			<table class="list_table non_centered_table">
 				<th>Arm</th>
 
 				<th>N Analyzed</th>
 				
-				<% @outcome_columns = OutcomeColumn.get_custom_columns(one_outcome.id, timepoint_id, subgroup_id) %>
-				<% if !@outcome_columns.nil? && @outcome_columns.length > 0 %>
-					<% for custom_col in @outcome_columns %>
-							<th><%= custom_col.name %></th>
-					<% end %>
-				<% end %>
+
 				<% val = OutcomeResult.get_measure_types(one_outcome.id, timepoint_id, subgroup_id) %>				
 				
 				<% @measure_types_array = [["Select Measure Type", "Select Measure Type"], ["Number", "Number"], ["Mean", "Mean"], ["Median", "Median"], ["Least Squares Mean", "Least Squares Mean"], ["Geometric Mean", "Geometric Mean"], ["Log Mean", "Log Mean"]]%>

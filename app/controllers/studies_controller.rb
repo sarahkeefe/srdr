@@ -96,7 +96,7 @@ class StudiesController < ApplicationController
   def outcomedata
 	@study = Study.find(params[:study_id])
 	makeActive(@study)
-	@model_name="outcome_data"
+	@model_name="outcome_result"
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
 	@outcomes = Outcome.find(:all, :conditions => {:study_id => params[:study_id]})
@@ -104,11 +104,20 @@ class StudiesController < ApplicationController
 	@first_outcome = @outcomes[0]
   @first_subgroups = Outcome.get_subgroups_array(@first_outcome.id)
   @first_timepoints = Outcome.get_timepoints_array(@first_outcome.id)
-
+	
+	current_selections = get_selected_sg_and_tp(@first_subgroups, @first_timepoints)
+    @selected_subgroup = current_selections[0]
+    @selected_timepoint = current_selections[1]	
+	
 	@outcome_column = OutcomeColumn.new
-	@outcome_result = OutcomeResult.new
-	@selected_outcome = Outcome.where(:study_id => params[:study_id]).first
-		render :layout => 'outcomesetup'	
+
+	@selected_outcome_object = Outcome.find(@first_outcome.id)
+	@selected_outcome_object_results = OutcomeResult.where(:subgroup_id => @selected_subgroup, :timepoint_id => @selected_timepoint, :outcome_id => @first_outcome.id).first
+	
+	if @selected_outcome_object_results.nil?
+		@selected_outcome_object_results = OutcomeResult.new
+	end
+	render :layout => 'outcomesetup'	
 	 end
   
 	# outcomeanalysis
@@ -332,8 +341,8 @@ class StudiesController < ApplicationController
   
   def show_outcome_subgroups_and_timepoints
   	print "IM IN SHOW_OUTCOME_SUBGRUOPS_AND_TIMEPIONTS SHOWING THINGS NOW ------------\n"
-  	@selected_outcome = Outcome.find(params[:selected_outcome_id])
-  	@selected_outcome = @selected_outcome.id
+  	@selected_outcome_object = Outcome.find(params[:selected_outcome_id])
+  	@selected_outcome = @selected_outcome_object.id
   	@outcome_subgroups = OutcomeSubgroup.where(:outcome_id=>@selected_outcome).all
   	@outcome_timepoints = OutcomeTimepoint.where(:outcome_id=>@selected_outcome).all
   	current_selections = get_selected_sg_and_tp(@outcome_subgroups, @outcome_timepoints)
@@ -353,6 +362,15 @@ class StudiesController < ApplicationController
     				 @new_continuous_analysis = OutcomeAnalysis.new
     				 @study_arms = Arm.find(:all, :conditions=>["study_id=?",session[:study_id]], :select=>["id","title"])
     				 page.replace_html 'entry_form',:partial=> 'outcome_analyses/entry_form_table'
+				elsif (@model_name == "outcome_result")
+					@study_arms = Arm.where(:study_id => session[:study_id]).all
+					@selected_outcome_object = Outcome.find(@selected_outcome)
+					@selected_outcome_object_results = OutcomeResult.where(:subgroup_id => @selected_subgroup.to_i, :timepoint_id => @selected_timepoint.to_i, :outcome_id => @selected_outcome).first
+					
+					if @selected_outcome_object_results.nil?
+						@selected_outcome_object_results = OutcomeResult.new
+					end
+					page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
   				end
   			end
   		}
@@ -381,8 +399,16 @@ class StudiesController < ApplicationController
     				@new_continuous_analysis = OutcomeAnalysis.new
     				@study_arms = Arm.find(:all, :conditions=>["study_id=?",session[:study_id]], :select=>["id","title"])
     				page.replace_html 'entry_form',:partial=> 'outcome_analyses/entry_form_table'
-  				else
-	  				update_outcome_data_table(@selected_outcome.to_s,@selected_subgroup.to_s,@selected_timepoint.to_s,page)
+  				elsif (coming_from == "outcome_result")
+					@study_arms = Arm.where(:study_id => session[:study_id]).all
+					@selected_outcome_object = Outcome.find(@selected_outcome)
+					@selected_outcome_object_results = OutcomeResult.where(:subgroup_id => @selected_subgroup.to_i, :timepoint_id => @selected_timepoint.to_i, :outcome_id => @selected_outcome.to_i).first
+	
+					if @selected_outcome_object_results.nil?
+						@selected_outcome_object_results = OutcomeResult.new
+					end
+					page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
+	  				#update_outcome_data_table(@selected_outcome.to_s,@selected_subgroup.to_s,@selected_timepoint.to_s,page)
 	  			end
   			end
   		}
