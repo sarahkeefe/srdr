@@ -1,0 +1,29 @@
+<%= form_for(@outcome_subgroup_level) do |f| %>
+  <% if @outcome_subgroup_level.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@outcome_subgroup_level.errors.count, "error") %> prohibited this outcome_subgroup_level from being saved:</h2>
+
+      <ul>
+      <% @outcome_subgroup_level.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :subgroup_id %><br />
+    <%= f.text_field :subgroup_id %>
+  </div>
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

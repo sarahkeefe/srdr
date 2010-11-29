@@ -42,13 +42,20 @@
   <br/><br/>
   
    <h4>Add Outcome Subgroups </h4>
-  
+
 	<%= f.fields_for :outcome_subgroups do |t| %>
-  Subgroup Title: <%= t.text_field :title %> <br/>
-  Subgroup Description (Optional): <%= t.text_field :description %>  <%= t.link_to_remove "Remove" %><br/>
-  <% end %><br/>
+<table class="subgroup_table"><tr><td>
+Subgroup Title: <%= t.text_field :title %> <br/>
+Description (Optional): <%= t.text_field :description %><br/><%= t.link_to_remove "Remove This Subgroup" %>
+  </td><td>
+			<%= t.fields_for :outcome_subgroup_levels do |n| %>
+		  Subgroup Level Title: <%= n.text_field :title %> <%= n.link_to_remove "Remove" %><br/>
+		  <% end %><br/>
+		<%= t.link_to_add "Add a Subgroup Level", :outcome_subgroup_levels %>
+  </td></tr></table>
+  <% end %><br/><br/><br/>
 <%= f.link_to_add "Add a Subgroup", :outcome_subgroups %>
-  <br/><br/>
+  <br/><br/><br/><br/>
   <div class="field">
     <%= f.label :description %>:<br />
     <%= f.text_area :description, :rows => 4, :cols => 40 %>

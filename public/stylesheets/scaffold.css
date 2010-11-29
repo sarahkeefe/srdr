@@ -177,7 +177,7 @@ td.calculated{
 width: 19px;
 height: 25px;
 padding: 0 5px 0 0;
-background: url(../images/checkbox.gif) no-repeat;
+background: url(/images/checkbox.gif) no-repeat;
 display: block;
 clear: left;
 float: left;
@@ -489,4 +489,10 @@ border: 0px;
 {
 background: #D7F2F5;
 color: #003333;
+}
+
+table.subgroup_table{
+	padding: 5px;
+	border: 0px;
+	margin-bottom: 15px;
 }
