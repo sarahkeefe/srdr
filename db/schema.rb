@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101124194919) do
+ActiveRecord::Schema.define(:version => 20101129182845) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer  "study_id"
@@ -124,6 +124,14 @@ ActiveRecord::Schema.define(:version => 20101124194919) do
     t.string   "column_type"
     t.integer  "timepoint_id"
     t.integer  "subgroup_id"
+  end
+
+  create_table "outcome_subgroup_levels", :force => true do |t|
+    t.string   "title"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "outcome_subgroup_id"
   end
 
   create_table "outcome_subgroups", :force => true do |t|

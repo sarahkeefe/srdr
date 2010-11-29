@@ -1,4 +1,6 @@
 Srdr::Application.routes.draw do
+  resources :outcome_subgroup_levels
+
   resources :outcome_column_values
 
   	resources :outcome_columns

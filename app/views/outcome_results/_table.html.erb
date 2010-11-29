@@ -1,10 +1,9 @@
 <% if !@selected_outcome_object.nil? %>
 <% one_outcome = @selected_outcome_object %>
-
 	<h2>Outcome Title: <%= one_outcome.title %></h2><br/>
 
 		<%= form_for @selected_outcome_object_results, :remote => true do |f| %>
-
+			
 			<%= hidden_field_tag "outcome_id", one_outcome.id.to_s %>
 			
 			<% timepoint_id = @selected_timepoint %>

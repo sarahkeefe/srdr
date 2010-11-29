@@ -20,17 +20,10 @@ class OutcomeResultsController < ApplicationController
 	oid = params[:outcome_id].to_i
 	tp_id = params[:selected_timepoint].to_i
 	subgroup_id = params[:selected_subgroup].to_i
-	#@study_timepoints = Outcome.get_timepoints_array(oid)
 
 	for a in @study_arms
 		OutcomeResult.save_general_results(session[:study_id], a, oid, tp_id, subgroup_id, params)
 	end
-	
-	#for a in @study_arms
-		#for p in @study_timepoints
-		#	OutcomeResult.save_timepoint_results(oid, session[:study_id], a, p, params)
-		#end
-	#end
 	
     respond_to do |format|
         format.html { redirect_to(@outcome_result, :notice => 'Outcome result was successfully created.') }
