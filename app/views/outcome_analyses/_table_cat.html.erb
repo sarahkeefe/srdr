@@ -1,11 +1,9 @@
-<h3>Categorical Outcomes</h3>
+<h3>Outcomes</h3>
 <table class="list_table complex_header">
 <tr>
 <th rowspan=2>Outcome Title</th>
 <th rowspan=2>Arm A</th>
 <th rowspan=2>Arm B</th>
-<th rowspan=2>N<br/> Total</th>
-<th rowspan=2>N<br/>Event</th>
 <th colspan=3 align='center'>Non-Adjusted</th>
 <th colspan=3 align='center'>Adjusted</th>
 </tr>
@@ -16,8 +14,8 @@
 		<% selected_estimation_parameter = "" %>
 		<% selected_parameter_dispersion = "" %>
 		
-		<% unless @categorical_analyses.empty? %>	
-		  <% my_cat = @categorical_analyses[0] %>
+		<% unless @analyses.empty? %>	
+		  <% my_cat = @analyses[0] %>
 		  <% selected_adjusted_estimation_parameter = my_cat.adjusted_estimation_parameter_type %>
 		  <% selected_adjusted_parameter_dispersion = my_cat.adjusted_parameter_dispersion_type %>
 		  <% selected_estimation_parameter = my_cat.estimation_parameter_type %>
@@ -37,13 +35,13 @@
 	</th>
 	<th>P-Value</th>
 </tr>
-<% unless @categorical_analyses.empty? %>
+<% unless @analyses.empty? %>
 <% row_num = 1%>
-	<% @categorical_analyses.each do |cat| %>
+	<% analyses.each do |cat| %>
   	
 	  <tr class="<%= cycle("even", "odd") %>" id=<%= "categorical_row_" + row_num.to_s %> > 
   		<td>
-  				<% @categorical_outcomes.each do |out| %>
+  				<% @outcomes.each do |out| %>
 						<% if out.id.to_i == cat.outcome_id.to_i %>
 							<%= out.title.to_s %>						
 						<% end %>
@@ -64,13 +62,6 @@
 							<%= arm.title.to_s %>
 						<% end %>
 					<% end %>
-			</td>
-			
-			<td>
-				<%= cat.n_total.to_s %>
-			</td>	
-			<td>
-				<%= cat.n_event.to_s %>
 			</td>
 			<td>
 				<%= cat.estimation_parameter_value.to_s %>
