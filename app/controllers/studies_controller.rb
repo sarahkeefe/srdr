@@ -31,10 +31,8 @@ class StudiesController < ApplicationController
 	  @adverse_events = AdverseEvent.where(:study_id => @study.id)
 	  @quality_aspects = QualityAspect.where(:study_id => @study.id)
 	  @quality_rating = QualityRating.find(:all, :conditions => {:study_id => @study.id}).first
-	  @categorical_analyses = OutcomeAnalysis.where(:categorical_or_continuous => "Categorical", :study_id => @study.id).all
-	  @categorical_outcomes = Outcome.where(:study_id => @study.id, :outcome_type => "Categorical").all
-	  @continuous_analyses = OutcomeAnalysis.where(:categorical_or_continuous => "Continuous", :study_id => @study.id).all
-	  @continuous_outcomes = Outcome.where(:study_id => @study.id, :outcome_type => "Continuous").all	  
+	  @analyses = OutcomeAnalysis.where(:study_id => @study.id).all
+	  @outcomes = Outcome.where(:study_id => @study.id).all	  
 	  
 	  # get the study title, which is the same as the primary publication for the study
 	  @study_title = Publication.where(:study_id => @study.id, :is_primary => true).first

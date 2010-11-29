@@ -110,15 +110,10 @@
 	  &nbsp;Outcome Analysis Tables
 	</div>
 	<div id="outcome_analysis_text" style="display:none;">
-	<% if @categorical_analyses.length > 0 %>	
+	<% if @analyses.length > 0 %>	
 		<%= render 'outcome_analyses/table_cat' %>	
 	<% else %>
-		<b>There are currently no categorical outcome analyses to be displayed.</b><br/><br/>
-	<% end %>
-	<% if @continuous_analyses.length > 0 %>	
-		<%= render 'outcome_analyses/table_cont' %>	
-	<% else %>
-		<b>There are currently no continuous outcome analyses to be displayed.</b><br/><br/>
+		<b>There are currently no outcome analyses to be displayed.</b><br/><br/>
 	<% end %>
 	<br/>
 	</div>
