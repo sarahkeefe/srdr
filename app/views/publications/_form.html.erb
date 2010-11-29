@@ -26,6 +26,15 @@
     <%= f.label :year %>:
     <%= f.text_field :year, :size => 6 %>
   </div>
+  <div class="field">Association Type: 
+  	<% association_options = ["Contributed to Analysis","Used for Reference","Methods Description"] %>
+  	<select id="publication_association" name="publication[association]">
+  		  <option value="">Select the type of association</option>
+  		<% association_options.each do |opt| %>
+  			<option value=<%= opt.gsub(" ","_") %>><%= opt %></option>
+  		<% end %>
+  	</select>
+  </div>
   <div class="field">
     UID:
     <%= f.text_field :ui, :size => 9 %>
