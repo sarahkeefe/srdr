@@ -10,7 +10,6 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-
 ActiveRecord::Schema.define(:version => 20101124194919) do
 
   create_table "adverse_event_arms", :force => true do |t|
@@ -43,16 +42,10 @@ ActiveRecord::Schema.define(:version => 20101124194919) do
     t.datetime "updated_at"
   end
 
-  create_table "forms", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "key_questions", :force => true do |t|
     t.integer  "project_id"
     t.integer  "question_number"
     t.string   "question"
-    t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -77,7 +70,7 @@ ActiveRecord::Schema.define(:version => 20101124194919) do
     t.datetime "updated_at"
     t.integer  "outcome_id"
     t.string   "adjusted_estimation_parameter_type"
-    t.integer  "adjusted_estimation_parameter_value"
+    t.string   "adjusted_estimation_parameter_value"
     t.integer  "subgroup_id"
     t.string   "statistical_test"
     t.string   "unadjusted_ci_level"
@@ -107,15 +100,8 @@ ActiveRecord::Schema.define(:version => 20101124194919) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "outcome_enrolled_numbers", :force => true do |t|
-    t.integer  "arm_id"
-    t.integer  "outcome_id"
-    t.integer  "num_enrolled"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "is_total"
+    t.integer  "timepoint_id"
+    t.integer  "subgroup_id"
   end
 
   create_table "outcome_results", :force => true do |t|
@@ -134,10 +120,10 @@ ActiveRecord::Schema.define(:version => 20101124194919) do
     t.boolean  "measurereg_is_calculated"
     t.boolean  "measuredisp_is_calculated"
     t.boolean  "pvalue_is_calculated"
-    t.integer  "timepoint_id"
-    t.integer  "subgroup_id"
     t.integer  "column_id"
     t.string   "column_type"
+    t.integer  "timepoint_id"
+    t.integer  "subgroup_id"
   end
 
   create_table "outcome_subgroups", :force => true do |t|
@@ -148,19 +134,7 @@ ActiveRecord::Schema.define(:version => 20101124194919) do
     t.datetime "updated_at"
   end
 
-  create_table "outcome_timepoint_results", :force => true do |t|
-    t.integer  "outcome_id"
-    t.integer  "study_id"
-    t.integer  "arm_id"
-    t.integer  "timepoint_id"
-    t.string   "value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "is_calculated"
-  end
-
   create_table "outcome_timepoints", :force => true do |t|
-    t.integer  "study_id"
     t.integer  "outcome_id"
     t.integer  "number"
     t.string   "time_unit"
@@ -193,16 +167,13 @@ ActiveRecord::Schema.define(:version => 20101124194919) do
     t.string   "subcategory"
     t.string   "units"
     t.integer  "population_characteristic_id"
-    t.string   "value"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "population_characteristics", :force => true do |t|
     t.integer  "study_id"
-    t.integer  "arm_id"
     t.string   "category_title"
-    t.string   "subcategory"
     t.string   "units"
     t.datetime "created_at"
     t.datetime "updated_at"

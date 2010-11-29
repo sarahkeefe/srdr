@@ -18,9 +18,9 @@ class OutcomeResultsController < ApplicationController
     @outcome_result = OutcomeResult.new(params[:outcome_result])
 	@study_arms = Study.get_arms(session[:study_id].to_i)
 	oid = params[:outcome_id].to_i
-	tp_id = params[:timepoint_id].to_i
-	subgroup_id = params[:subgroup_id.to_i]
-	@study_timepoints = Outcome.get_timepoints_array(oid)
+	tp_id = params[:selected_timepoint].to_i
+	subgroup_id = params[:selected_subgroup].to_i
+	#@study_timepoints = Outcome.get_timepoints_array(oid)
 
 	for a in @study_arms
 		OutcomeResult.save_general_results(session[:study_id], a, oid, tp_id, subgroup_id, params)
