@@ -113,7 +113,7 @@ class StudiesController < ApplicationController
 
 	@selected_outcome_object = Outcome.find(@first_outcome.id)
 	@selected_outcome_object_results = OutcomeResult.where(:subgroup_id => @selected_subgroup, :timepoint_id => @selected_timepoint, :outcome_id => @first_outcome.id).first
-	
+	@outcome_columns = OutcomeColumn.where(:outcome_id => @first_outcome.id, :subgroup_id =>@selected_subgroup, :timepoint_id => @selected_timepoint).all
 	if @selected_outcome_object_results.nil?
 		@selected_outcome_object_results = OutcomeResult.new
 	end
@@ -366,6 +366,7 @@ class StudiesController < ApplicationController
 					@study_arms = Arm.where(:study_id => session[:study_id]).all
 					@selected_outcome_object = Outcome.find(@selected_outcome)
 					@selected_outcome_object_results = OutcomeResult.get_selected_outcome_results(@selected_outcome, @selected_subgroup.to_i, @selected_timepoint.to_i)
+					@outcome_columns = OutcomeColumn.where(:outcome_id => @selected_outcome, :subgroup_id => @selected_subgroup.to_i, :timepoint_id => @selected_timepoint.to_i).all
 					page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
   				end
   			end
@@ -398,7 +399,8 @@ class StudiesController < ApplicationController
   				elsif (coming_from == "outcome_result")
 					@study_arms = Arm.where(:study_id => session[:study_id]).all
 					@selected_outcome_object = Outcome.find(@selected_outcome)
-					@selected_outcome_object_results = OutcomeResult.get_selected_outcome_results(@selected_outcome.to_i, @selected_subgroup.to_i, @selected_timepoint.to_i)					
+					@selected_outcome_object_results = OutcomeResult.get_selected_outcome_results(@selected_outcome.to_i, @selected_subgroup.to_i, @selected_timepoint.to_i)
+					@outcome_columns = OutcomeColumn.where(:outcome_id => @selected_outcome.to_i, :subgroup_id => @selected_subgroup.to_i, :timepoint_id => @selected_timepoint.to_i).all
 					page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
 	  				#update_outcome_data_table(@selected_outcome.to_s,@selected_subgroup.to_s,@selected_timepoint.to_s,page)
 	  			end

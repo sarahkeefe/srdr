@@ -68,7 +68,6 @@ class OutcomeResultsController < ApplicationController
 	@selected_timepoint = params[:timepoint_id]
 	@selected_outcome_object_results =OutcomeResult.get_selected_outcome_results(params[:outcome_id], params[:subgroup_id], params[:timepoint_id])
 	@study_arms = Arm.where(:study_id => session[:study_id]).all
-	@outcome_column = OutcomeColumn.new
 	
     respond_to do |format|
         format.js {
