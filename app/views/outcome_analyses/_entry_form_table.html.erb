@@ -1,8 +1,7 @@
-<div id="entry_form">
 <%= form_for(@new_continuous_analysis, :remote => true, :html=>{:id=>"outcome_analysis_form"}) do |f| %>
 <input type="hidden" name="selected_outcome" id="selected_outcome" value= <%= @selected_outcome %> >
-<input type="hidden" name="selected_subgroup" id="selected_subgroup" value= <%= @selected_subgroup %> >
-<input type="hidden" name="selected_timepoint" id="selected_timepoint" value=<%= @selected_timepoint %> >
+<input type="hidden" name="selected_subgroup" id="selected_subgroup" value= <%= @selected_sg_comparison %> >
+<input type="hidden" name="selected_timepoint" id="selected_timepoint" value=<%= @selected_tp_comparison %> >
 <br/><br/>
 
 <table class="list_table complex_header" id="continuous_analysis_table">
@@ -103,7 +102,7 @@
 			</td>
 			<td>
 				 <%# OPTIONS FOR STATISTICAL TEST %>  
-				 <% analysis_options = ["ANOVA","ANCOVA","Chi-Squared","Chi-Squared Corrected","Fisher Exact","Kruskal-Wallis"]%>
+				 <% analysis_options = ["ANOVA","ANCOVA","Chi-Squared","Chi-Squared_Corrected","Fisher_Exact","Kruskal-Wallis"]%>
 				 <select name= <%="outcome_analysis_"+row_num.to_s+"[statistical_test]" %>  
 					      id = <%="outcome_analysis_"+row_num.to_s+"_statistical_test" %> >
 				 <option value='Analysis Type...'>Analysis Type...</option>
@@ -113,7 +112,7 @@
 				   <% if analysis_options[i] == cont.statistical_test %>
 				     <% opt_selected = "selected" %>
 				   <% end %>
-				   <option value=<%= analysis_options[i] %> <%= opt_selected %> ><%= analysis_options[i] %></option>
+				   <option value=<%= analysis_options[i] %> <%= opt_selected %> ><%= analysis_options[i].gsub("_"," ") %></option>
 				   <% i += 1 %>
 			  <% end %>
 				</select>
@@ -171,4 +170,3 @@
 <% end %>
 <br/>
 <%= link_to "Add Analysis Row", "#",  :onclick=>"add_continuous_outcome_analysis_row();"%>
-</div>

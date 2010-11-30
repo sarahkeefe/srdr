@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101129214522) do
+ActiveRecord::Schema.define(:version => 20101130192209) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer  "study_id"
@@ -51,7 +51,6 @@ ActiveRecord::Schema.define(:version => 20101129214522) do
     t.integer  "project_id"
     t.integer  "question_number"
     t.string   "question"
-    t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -60,10 +59,6 @@ ActiveRecord::Schema.define(:version => 20101129214522) do
     t.integer  "study_id"
     t.integer  "arm1_id"
     t.integer  "arm2_id"
-    t.string   "categorical_or_continuous"
-    t.float    "n_analyzed"
-    t.float    "n_total"
-    t.float    "n_event"
     t.string   "estimation_parameter_type"
     t.string   "estimation_parameter_value"
     t.string   "parameter_dispersion_type"
@@ -77,7 +72,6 @@ ActiveRecord::Schema.define(:version => 20101129214522) do
     t.integer  "outcome_id"
     t.string   "adjusted_estimation_parameter_type"
     t.integer  "adjusted_estimation_parameter_value"
-    t.integer  "subgroup_id"
     t.string   "statistical_test"
     t.string   "unadjusted_ci_level"
     t.integer  "unadjusted_ci_lower_limit"
@@ -85,7 +79,8 @@ ActiveRecord::Schema.define(:version => 20101129214522) do
     t.string   "adjusted_ci_level"
     t.integer  "adjusted_ci_lower_limit"
     t.integer  "adjusted_ci_upper_limit"
-    t.integer  "timepoint_id"
+    t.string   "timepoint_comp"
+    t.string   "subgroup_comp"
   end
 
   create_table "outcome_column_values", :force => true do |t|
@@ -114,7 +109,6 @@ ActiveRecord::Schema.define(:version => 20101129214522) do
     t.integer  "num_enrolled"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_total"
   end
 
   create_table "outcome_results", :force => true do |t|
@@ -139,6 +133,14 @@ ActiveRecord::Schema.define(:version => 20101129214522) do
     t.string   "column_type"
   end
 
+  create_table "outcome_subgroup_levels", :force => true do |t|
+    t.string   "title"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "outcome_subgroup_id"
+  end
+
   create_table "outcome_subgroups", :force => true do |t|
     t.integer  "outcome_id"
     t.string   "title"
@@ -159,7 +161,6 @@ ActiveRecord::Schema.define(:version => 20101129214522) do
   end
 
   create_table "outcome_timepoints", :force => true do |t|
-    t.integer  "study_id"
     t.integer  "outcome_id"
     t.integer  "number"
     t.string   "time_unit"
@@ -192,16 +193,13 @@ ActiveRecord::Schema.define(:version => 20101129214522) do
     t.string   "subcategory"
     t.string   "units"
     t.integer  "population_characteristic_id"
-    t.string   "value"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "population_characteristics", :force => true do |t|
     t.integer  "study_id"
-    t.integer  "arm_id"
     t.string   "category_title"
-    t.string   "subcategory"
     t.string   "units"
     t.datetime "created_at"
     t.datetime "updated_at"
