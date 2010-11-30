@@ -1,7 +1,7 @@
 jQuery(function ($) {
     var csrf_token = $('meta[name=csrf-token]').attr('content'),
         csrf_param = $('meta[name=csrf-param]').attr('content');
-
+		
     $.fn.extend({
         /**
          * Triggers a custom event on an element and returns the event result
@@ -143,4 +143,6 @@ jQuery(function ($) {
         });
     });
 
+	
+	
 });

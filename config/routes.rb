@@ -1,13 +1,9 @@
 Srdr::Application.routes.draw do
-  resources :outcome_subgroup_levels
 
-  resources :outcome_column_values
-
-  	resources :outcome_columns
+    resources :outcome_subgroup_levels
 	resources :outcome_subgroups
 	resources :outcome_timepoints
-  
-  resources :outcomes
+    resources :outcomes
 
   resources :population_characteristic_subcategories
 
@@ -67,6 +63,7 @@ end
 	match 'projects/:project_id/studies/:study_id/show_outcome' => 'studies#show_outcome'
 	match 'projects/:project_id/studies/:study_id/show_outcome_subgroups_and_timepoints' => 'studies#show_outcome_subgroups_and_timepoints'
 	match 'projects/:project_id/studies/:study_id/update_partial' => 'studies#update_partial'
+	match 'projects/:project_id/studies/:study_id/clear_table' => 'outcome_results#clear_table'
 	match 'projects/:project_id/moveup' => 'projects#moveup'
 	match 'projects/:project_id/studies/:study_id/design' => 'studies#design'
 	match 'projects/:project_id/studies/:study_id/attributes' => 'studies#attributes'
@@ -89,7 +86,9 @@ end
 
   match 'login' => "user_sessions#new",      :as => :login
   match 'logout' => "user_sessions#destroy", :as => :logout
+  resources :outcome_column_values
 
+  	resources :outcome_columns
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

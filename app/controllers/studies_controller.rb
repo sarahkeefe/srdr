@@ -340,7 +340,7 @@ class StudiesController < ApplicationController
   end
   
   def show_outcome_subgroups_and_timepoints
-  	print "IM IN SHOW_OUTCOME_SUBGRUOPS_AND_TIMEPIONTS SHOWING THINGS NOW ------------\n"
+  	#print "IM IN SHOW_OUTCOME_SUBGRUOPS_AND_TIMEPIONTS SHOWING THINGS NOW ------------\n"
   	@selected_outcome_object = Outcome.find(params[:selected_outcome_id])
   	@selected_outcome = @selected_outcome_object.id
   	@outcome_subgroups = OutcomeSubgroup.where(:outcome_id=>@selected_outcome).all
@@ -349,8 +349,8 @@ class StudiesController < ApplicationController
   	@selected_subgroup = current_selections[0]
   	@selected_timepoint = current_selections[1]
   	@model_name = params[:form_type]
-  	print "SELECTED SUBGROUP IS " + @selected_subgroup.to_s + "-------------------\n"
-  	print "SELECTED TIMEPOINT IS " + @selected_timepoint.to_s + "-------------------\n"
+  	#print "SELECTED SUBGROUP IS " + @selected_subgroup.to_s + "-------------------\n"
+  	#print "SELECTED TIMEPOINT IS " + @selected_timepoint.to_s + "-------------------\n"
   	respond_to do |format|
   		format.js{
   			render :update do |page|
@@ -365,11 +365,7 @@ class StudiesController < ApplicationController
 				elsif (@model_name == "outcome_result")
 					@study_arms = Arm.where(:study_id => session[:study_id]).all
 					@selected_outcome_object = Outcome.find(@selected_outcome)
-					@selected_outcome_object_results = OutcomeResult.where(:subgroup_id => @selected_subgroup.to_i, :timepoint_id => @selected_timepoint.to_i, :outcome_id => @selected_outcome).first
-					
-					if @selected_outcome_object_results.nil?
-						@selected_outcome_object_results = OutcomeResult.new
-					end
+					@selected_outcome_object_results = OutcomeResult.get_selected_outcome_results(@selected_outcome, @selected_subgroup.to_i, @selected_timepoint.to_i)
 					page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
   				end
   			end
@@ -377,11 +373,11 @@ class StudiesController < ApplicationController
   	end
   end
   def update_partial
-  	print "---------------------UPDATING FROM UPDATE_PARTIAL IN STUDIES ---------------------------\n"
-  	print "SELECTED OUTCOME: " + params[:selected_outcome_id] + "\n"
-  	print "SELECTED SUBGROUP: " + params[:selected_subgroup] + "\n"
-  	print "SELECTED TIMEPOINT: " + params[:selected_timepoint] + "\n"
-  	print "FORM TYPE: " + params[:form_type] + "\n"
+  	#print "---------------------UPDATING FROM UPDATE_PARTIAL IN STUDIES ---------------------------\n"
+  	#print "SELECTED OUTCOME: " + params[:selected_outcome_id] + "\n"
+  	#print "SELECTED SUBGROUP: " + params[:selected_subgroup] + "\n"
+  	#print "SELECTED TIMEPOINT: " + params[:selected_timepoint] + "\n"
+  	#print "FORM TYPE: " + params[:form_type] + "\n"
 
   	coming_from = params[:form_type]
   	@selected_outcome = params[:selected_outcome_id]  # outcome id
@@ -402,11 +398,7 @@ class StudiesController < ApplicationController
   				elsif (coming_from == "outcome_result")
 					@study_arms = Arm.where(:study_id => session[:study_id]).all
 					@selected_outcome_object = Outcome.find(@selected_outcome)
-					@selected_outcome_object_results = OutcomeResult.where(:subgroup_id => @selected_subgroup.to_i, :timepoint_id => @selected_timepoint.to_i, :outcome_id => @selected_outcome.to_i).first
-	
-					if @selected_outcome_object_results.nil?
-						@selected_outcome_object_results = OutcomeResult.new
-					end
+					@selected_outcome_object_results = OutcomeResult.get_selected_outcome_results(@selected_outcome.to_i, @selected_subgroup.to_i, @selected_timepoint.to_i)					
 					page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
 	  				#update_outcome_data_table(@selected_outcome.to_s,@selected_subgroup.to_s,@selected_timepoint.to_s,page)
 	  			end
@@ -416,7 +408,7 @@ class StudiesController < ApplicationController
   end
   
   def update_outcome_analysis_table
-    print "OK WE HAVE TO UPDATE THE ANALYSIS TABLE NOW!"	
+    #print "OK WE HAVE TO UPDATE THE ANALYSIS TABLE NOW!"	
     #@continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND outcome_id=? AND subgroup_id=? AND timepoint_id=? ",
     #  														session[:study_id], oc_id, sg_id, tp_id])
     #@new_continuous_analysis = OutcomeAnalysis.new

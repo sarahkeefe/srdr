@@ -59,5 +59,24 @@ class OutcomeResultsController < ApplicationController
     end
   end
   
-
+  def clear_table
+	OutcomeResult.clear_table(params)
+  
+	# this is all information needed to show the table properly
+	@selected_outcome_object = Outcome.find(params[:outcome_id])
+	@selected_subgroup = params[:subgroup_id]
+	@selected_timepoint = params[:timepoint_id]
+	@selected_outcome_object_results =OutcomeResult.get_selected_outcome_results(params[:outcome_id], params[:subgroup_id], params[:timepoint_id])
+	@study_arms = Arm.where(:study_id => session[:study_id]).all
+	@outcome_column = OutcomeColumn.new
+	
+    respond_to do |format|
+        format.js {
+		      render :update do |page|
+					page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
+					page.call "Custom.init();"
+		  		end
+				}
+		end
+ end
 end
