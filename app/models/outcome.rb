@@ -1,9 +1,9 @@
 class Outcome < ActiveRecord::Base
-	has_many :outcome_analyses
-	has_many :outcome_results
-	has_many :outcome_timepoints
-	has_many :outcome_columns
-	has_many :outcome_subgroups
+	has_many :outcome_analyses, :dependent=>:destroy
+	has_many :outcome_results, :dependent=>:destroy
+	has_many :outcome_timepoints, :dependent=>:destroy
+	has_many :outcome_columns, :dependent=>:destroy
+	has_many :outcome_subgroups, :dependent=>:destroy
 	belongs_to :study
 	accepts_nested_attributes_for :outcome_timepoints, :allow_destroy => true
 	accepts_nested_attributes_for :outcome_columns, :allow_destroy => true	

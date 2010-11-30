@@ -1,10 +1,10 @@
 class PopulationCharacteristic < ActiveRecord::Base
 	belongs_to :study
-	has_many :population_characteristic_subcategories
+	has_many :population_characteristic_subcategories, :dependent=>:destroy
 	accepts_nested_attributes_for :population_characteristic_subcategories, :allow_destroy => true, :reject_if => :reject_condition
 	# Check if there is a duplicate population characteristic category and subcategory in the list
 	# (used in determining whether to create a new PopulationCharacteristic item )
-	validates :category_title, :presence => true, :uniqueness => true
+	validates :category_title, :presence => true, :uniqueness => {:scope=>:study_id}
 	#validates :units, :presence => true
 
 def reject_condition(attributed)

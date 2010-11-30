@@ -9,7 +9,7 @@
 					:with => "'selected_outcome_id='+$('outcome_outcome').value+
 										'&selected_subgroup='+ this.value +
 										'&selected_timepoint='+$($('timepoint_field_id').value).value +
-										'&form_type=' + $('model_name').value")} %>
+										'&form_type=' + $('model_name').value",:complete=>"Custom.init()")} %>
 										
 <% else %>
 <em>There are no subgroups defined for this outcome. If you require a subgroup, please edit the <%= link_to "Outcome Setup Page", "/projects/#{session[:project_id]}/studies/#{session[:study_id]}/outcomesetup" %></em>

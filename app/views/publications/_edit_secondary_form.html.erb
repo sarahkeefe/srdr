@@ -16,7 +16,21 @@
     	<%= f.label :author %>: <%= f.text_field :author, :size => 12 %>
     	<%= f.label :country %>: <%= f.text_field :country, :size => 10 %>
       <%= f.label :year %>:<%= f.text_field :year, :size => 6 %></td></tr>
-    <tr><td><%= f.label :isbn %>:<%= f.text_field :isbn %></td></tr>
+    <tr><td>
+    	Association Type: 
+  		<% association_options = ["Contributed to Analysis","Used for Reference","Methods Description"] %>
+  		<select id="publication_association" name="publication[association]">
+  		  <option value="">Select the type of association</option>
+  		<% association_options.each do |opt| %>
+  		  <% selected = "" %>
+  		  <% if @publication.association == opt.gsub(" ","_") %>
+  		    <% selected = "selected" %>
+  		  <% end %>
+  			<option value=<%= opt.gsub(" ","_") %> <%= selected %>><%= opt %></option>
+  		<% end %>
+  		</select>
+  		
+    </td></tr>
     <tr><td>
     	<%= f.label :ui %>: <%= f.text_field :ui, :size => 9 %>
       <%= f.label :ui_type %>:<%= f.text_field :ui_type %>
