@@ -44,6 +44,15 @@ class OutcomesController < ApplicationController
 		@outcome_total_subgroup.description = "Total value (added by default)"
 		@outcome_total_subgroup.save
 	end
+
+	if !OutcomeTimepoint.baseline_timepoint_exists(@outcome.id)
+		@outcome_baseline_tp = OutcomeTimepoint.new
+		@outcome_baseline_tp.outcome_id = @outcome.id
+		@outcome_baseline_tp.number = 0
+		@outcome_baseline_tp.time_unit = "baseline"
+		@outcome_baseline_tp.save
+	end	
+	
 	
     respond_to do |format|
       if @outcome.save

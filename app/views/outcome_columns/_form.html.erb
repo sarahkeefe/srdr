@@ -1,18 +1,9 @@
 <div id="outcome_column_validation_message"></div>
-<%= form_for(@outcome_column, :remote => true,  :html=>{:id=>"outcome_columns_form"}) do |f| %>
-  <% if @outcome_column.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@outcome_column.errors.count, "error") %> prohibited this column from being created:</h2>
-
-      <ul>
-      <% @outcome_column.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-    <%= f.hidden_field :outcome_id, :value => @selected_outcome.id %>
+<%= form_for @outcome_column, :action => :create, :remote => true,  :id=>"outcome_columns_form" do |f| %>
+	
+    <%= hidden_field_tag "outcome_id", !@selected_outcome_object.nil? ? @selected_outcome_object.id : nil %>
+	<%= hidden_field_tag "subgroup_id", !@selected_timepoint.nil? ? @selected_timepoint : 0 %>
+	<%= hidden_field_tag "timepoint_id", !@selected_subgroup.nil? ? @selected_subgroup : 0 %>
   <div class="field">
     Custom Column Title: <%= f.text_field :name %> Description: <%= f.text_field :description %> <%= f.submit "Add Custom Column" %>
 <% end %>

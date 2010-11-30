@@ -1,5 +1,23 @@
 class OutcomeResult < ActiveRecord::Base
 
+		def self.clear_table(params)
+			@study_arms = Arm.where(:study_id => params[:study_id]).all
+			for a in @study_arms
+				@to_be_deleted = OutcomeResult.where(:study_id => params[:study_id], :arm_id => a.id, :timepoint_id => params[:tpid], :subgroup_id => params[:sid], :outcome_id => params[:oid]).all
+				for tbd in @to_be_deleted
+					tbd.destroy
+				end
+			end
+		end
+
+		def self.get_selected_outcome_results(o_id, sub_id, tp_id)
+			@selected_outcome_object_results = OutcomeResult.where(:subgroup_id => sub_id.to_i, :timepoint_id => tp_id.to_i, :outcome_id => o_id.to_i).first		
+			if @selected_outcome_object_results.nil?
+				@selected_outcome_object_results = OutcomeResult.new
+			end
+			return @selected_outcome_object_results
+		end
+
 		# Save results in outcome_results_table as new OutcomeResult objects. 
 		# does not include timepoint/arm data.
 		def self.save_general_results(study_id, a, outcome_id, timepoint_id, subgroup_id, params)
@@ -102,10 +120,10 @@ class OutcomeResult < ActiveRecord::Base
 			o_res = OutcomeResult.where(:outcome_id => outcome_id, :arm_id => arm_id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id).first
 			arr = Hash.new
 			if !o_res.nil?
-				arr["nanalyzed"] = o_res.nanalyzed_is_calculated
-				arr["measurereg"] = o_res.measurereg_is_calculated
-				arr["measuredisp"] = o_res.measuredisp_is_calculated
-				arr["pvalue"] = o_res.pvalue_is_calculated
+				arr["nanalyzed"] = (o_res.nanalyzed_is_calculated.to_s == 't' || o_res.nanalyzed_is_calculated.to_s == 'f') ? o_res.nanalyzed_is_calculated : "f"
+				arr["measurereg"] = (o_res.measurereg_is_calculated.to_s == 't' || o_res.measurereg_is_calculated.to_s == 'f') ? o_res.measurereg_is_calculated : "f"
+				arr["measuredisp"] = (o_res.measuredisp_is_calculated.to_s == 't' || o_res.measuredisp_is_calculated.to_s == 'f' ) ? o_res.measuredisp_is_calculated : "f"
+				arr["pvalue"] = (o_res.pvalue_is_calculated.to_s == 't' || o_res.pvalue_is_calculated.to_s == 'f' ) ? o_res.pvalue_is_calculated : "f"
 			else
 				arr["nanalyzed"] = ""
 				arr["measurereg"] = ""

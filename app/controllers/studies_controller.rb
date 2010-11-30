@@ -100,7 +100,7 @@ class StudiesController < ApplicationController
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
 	@outcomes = Outcome.find(:all, :conditions => {:study_id => params[:study_id]})
-	
+
 	@first_outcome = @outcomes[0]
   @first_subgroups = Outcome.get_subgroups_array(@first_outcome.id)
   @first_timepoints = Outcome.get_timepoints_array(@first_outcome.id)

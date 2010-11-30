@@ -162,9 +162,29 @@ padding: 8px;
 	width: 80%;
 }
 
-table#bottom_nav{
-width: 80%;
+.searchbar input
+{
+	background-color: #ccc;
+	font-size: 12px;
+	border: 0px;
 }
+
+.searchbar input:focus
+{
+background: #D7F2F5;
+color: #003333;
+}
+
+.searchbar{
+	float:right;
+	margin-top: 3px;
+	margin-right: 5px;
+}
+
+table#bottom_nav{
+	width: 80%;
+}
+
 td.calculated{
 	background-color: #ffff99
 }
@@ -450,11 +470,6 @@ color: #666;
 color: #999;
 }
 
-.searchbar{
-	float:right;
-	margin-top: 3px;
-	margin-right: 5px;
-
 .login-link a{
 	text-decoration: underline;
 	font-size: 11px;
@@ -472,23 +487,6 @@ color: #999;
 }
 .login-link a:hover {
 	color: #ccc;
-}
-
-.searchbar input
-{
-	background-color: #ccc;
-	font-size: 12px;
-	border: 0px;
-}
-
-input[type="text"]{
-border: 0px;
-}
-
-.searchbar input:focus
-{
-background: #D7F2F5;
-color: #003333;
 }
 
 table.subgroup_table{
