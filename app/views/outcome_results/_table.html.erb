@@ -19,6 +19,12 @@
 				<th>Arm</th>
 				<th>N Analyzed</th>
 
+				<% if !@outcome_columns.nil? && @outcome_columns.length > 0 %>
+					<% for custom_col in @outcome_columns %>
+						<th><%= custom_col.name %></th>
+					<% end %>
+				<% end %>
+				
 				<% val = OutcomeResult.get_measure_types(@selected_outcome_object.id, timepoint_id, subgroup_id) %>				
 				
 				<th><%= select :measure_type, :measure_type, options_for_select(@measure_types_array, val["measure_type"].to_s) %></th>
@@ -70,15 +76,11 @@
 			</table>
 		<%= submit_tag "Save" %>
 	<% end %>
-		<%= form_tag url_for(:controller => 'outcome_results', :action => 'clear_table'), :id => "clear_data_table_link", :remote => true do %>
+		<%= form_tag url_for(:controller => 'outcome_results', :action => 'clear_table', :project_id => session[:project_id], :study_id => session["study_id"]), :id => "clear_data_table_link", :remote => true do %>
 		<%= hidden_field_tag "subgroup_id", subgroup_id %>
 		<%= hidden_field_tag "outcome_id", @selected_outcome_object.id %>
 		<%= hidden_field_tag "timepoint_id", timepoint_id %>
 		<%= submit_tag "Clear Table Data from Database", :remote => true, :confirm => 'This will delete all the information in this table. Are you sure?', :id => "clear_data_table_link", :method => :post %>
 		<% end %>
-		
-<div id="new_col_entry">
-<%= render 'outcome_columns/form' %>
-</div>
 		
 	<% end %>

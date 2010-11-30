@@ -1,5 +1,5 @@
 <div id="outcome_column_validation_message"></div>
-<%= form_for @outcome_column, :action => :create, :remote => true,  :id=>"outcome_columns_form" do |f| %>
+<%= form_for @outcome_column, :action => :create,  :remote => true do |f| %>
 	
     <%= hidden_field_tag "outcome_id", !@selected_outcome_object.nil? ? @selected_outcome_object.id : nil %>
 	<%= hidden_field_tag "subgroup_id", !@selected_timepoint.nil? ? @selected_timepoint : 0 %>

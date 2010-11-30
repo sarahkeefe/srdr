@@ -20,6 +20,8 @@ class OutcomeColumnsController < ApplicationController
   def create
     @outcome_column = OutcomeColumn.new(params[:outcome_column])
 	@outcome_column.outcome_id = params[:outcome_id]
+	@outcome_column.timepoint_id = params[:timepoint_id]
+	@outcome_column.subgroup_id = params[:subgroup_id]
 	@study = Study.find(session[:study_id])
 
 	@selected_outcome_object = Outcome.find(params[:outcome_id])
@@ -27,14 +29,15 @@ class OutcomeColumnsController < ApplicationController
 	@selected_timepoint = params[:timepoint_id]
 	@selected_outcome_object_results =OutcomeResult.get_selected_outcome_results(params[:outcome_id], params[:subgroup_id], params[:timepoint_id])
 	@study_arms = Arm.where(:study_id => session[:study_id]).all
+
 	
 	if @outcome_column.save
-	    @outcome_columns = OutcomeColumn.where(:outcome_id => params[:outcome_column][:outcome_id]).all
+		@outcome_columns = OutcomeColumn.where(:outcome_id => params[:outcome_id], :subgroup_id => params[:subgroup_id], :timepoint_id => params[:timepoint_id]).all
 		respond_to do |format|
 			format.js {
 		      render :update do |page|
 				    page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
-				    page['outcome_columns_form'].reset
+				    page['new_outcome_column'].reset
 					page.replace_html 'outcome_column_validation_message', ""
 		      end
 		    }
