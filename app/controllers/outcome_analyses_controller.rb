@@ -22,13 +22,13 @@ class OutcomeAnalysesController < ApplicationController
     outcome_id = params[:selected_outcome]
     subgroup_id = params[:selected_subgroup]
     timepoint_id = params[:selected_timepoint]
-    OutcomeAnalysis.remove_analyses(session[:study_id], outcome_id, subgroup_id, timepoint_id)
+    OutcomeAnalysis.remove_analyses(session[:study_id], outcome_id, subgroup_id.to_s, timepoint_id.to_s)
     @outcome_analysis = ""
     analyses.each do |oa|
     	@outcome_analysis = OutcomeAnalysis.new(params[oa])
     	@outcome_analysis.outcome_id = outcome_id.to_i
-    	@outcome_analysis.subgroup_id = subgroup_id.to_i
-    	@outcome_analysis.timepoint_id = timepoint_id.to_i
+    	@outcome_analysis.subgroup_comp = subgroup_id
+    	@outcome_analysis.timepoint_comp = timepoint_id
     	@outcome_analysis.estimation_parameter_type = params[:outcome_analysis][:estimation_parameter_type]
     	@outcome_analysis.parameter_dispersion_type = params[:outcome_analysis][:parameter_dispersion_type]
     	@outcome_analysis.adjusted_estimation_parameter_type = params[:outcome_analysis][:adjusted_estimation_parameter_type]
@@ -52,15 +52,15 @@ class OutcomeAnalysesController < ApplicationController
   # PUT /outcome_analyses/1
   # PUT /outcome_analyses/1.xml
   def update
-    @outcome_analyasis = OutcomeAnalysis.find(params[:id])
+    @outcome_analysis = OutcomeAnalysis.find(params[:id])
 
     respond_to do |format|
-      if @outcome_analyasis.update_attributes(params[:outcome_analysis])
-        format.html { redirect_to(@outcome_analyasis, :notice => 'Outcome analysis was successfully updated.') }
+      if @outcome_analysis.update_attributes(params[:outcome_analysis])
+        format.html { redirect_to(@outcome_analysis, :notice => 'Outcome analysis was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @outcome_analyasis.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @outcome_analysis.errors, :status => :unprocessable_entity }
       end
     end
   end

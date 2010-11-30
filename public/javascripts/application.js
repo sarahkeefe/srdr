@@ -70,19 +70,6 @@ function add_continuous_outcome_analysis_row(){
 		td16 = Builder.node('td');
 		td17 = Builder.node('td');
 		
-		
-		// GET THE NUMBER OF OUTCOMES THAT WE NEED TO ITERATE THROUGH
-		var num_outcomes = $('continuous_outcomes').options.length
-		var i = 0;
-		var outcome_select_options = ""
-		
-		// CREATE A STRING OF OUTCOME OPTIONS 
-		for(i=0; i<num_outcomes; i++){
-			outcome_select_options = outcome_select_options + "<option value='" + 
-															 $('continuous_outcomes').options[i].value.toString() + 
-															 "'>"+ $('continuous_outcomes').options[i].innerHTML.toString() + "</option>";
-		}
-		
 		// GET THE NUMBER OF ARMS THAT WE NEED TO ITERATE THROUGH
 		var num_arms = $('available_arms').options.length
 		arm_select_options = ""
