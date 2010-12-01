@@ -98,25 +98,23 @@ class StudiesController < ApplicationController
 	makeActive(@study)
 	@model_name="outcome_result"
 	@project = Project.find(params[:project_id])
-	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
-	@outcomes = Outcome.find(:all, :conditions => {:study_id => params[:study_id]})
+	@study_arms = Arm.where(:study_id => params[:study_id]).all
+	@outcomes = Outcome.where(:study_id => params[:study_id]).all
 
 	@first_outcome = @outcomes[0]
-  @first_subgroups = Outcome.get_subgroups_array(@first_outcome.id)
-  @first_timepoints = Outcome.get_timepoints_array(@first_outcome.id)
+	@first_subgroups = Outcome.get_subgroups_array(@first_outcome.id)
+	@first_timepoints = Outcome.get_timepoints_array(@first_outcome.id)
 	
 	current_selections = get_selected_sg_and_tp(@first_subgroups, @first_timepoints)
     @selected_subgroup = current_selections[0]
     @selected_timepoint = current_selections[1]	
+
+	@selected_outcome_object = Outcome.find(@first_outcome.id)
+	@selected_outcome_object_results = OutcomeResult.get_selected_outcome_results(@first_outcome.id, @selected_subgroup, @selected_timepoint)
 	
 	@outcome_column = OutcomeColumn.new
 
-	@selected_outcome_object = Outcome.find(@first_outcome.id)
-	@selected_outcome_object_results = OutcomeResult.where(:subgroup_id => @selected_subgroup, :timepoint_id => @selected_timepoint, :outcome_id => @first_outcome.id).first
-	@outcome_columns = OutcomeColumn.where(:outcome_id => @first_outcome.id, :subgroup_id =>@selected_subgroup, :timepoint_id => @selected_timepoint).all
-	if @selected_outcome_object_results.nil?
-		@selected_outcome_object_results = OutcomeResult.new
-	end
+	
 	render :layout => 'outcomesetup'	
 	 end
   
@@ -153,9 +151,9 @@ class StudiesController < ApplicationController
   	@selected_outcome = @selected_outcome_object.id
   	@outcome_subgroups = Outcome.get_subgroups_array(@selected_outcome)
   	@outcome_timepoints = Outcome.get_timepoints_array(@selected_outcome)
-  	print "OUTCOME TIMEPOINTS HAS #{@outcome_timepoints.length} ITEMS IN IT " +
-  			  "AND THE FIRST IS #{@outcome_timepoints[0].number} #{@outcome_timepoints[0].time_unit}\n\n"
-  	print "OUTCOME SUBGROUPS HAS #{@outcome_subgroups.length} ITEMS IN IT\n\n"
+  	#print "OUTCOME TIMEPOINTS HAS #{@outcome_timepoints.length} ITEMS IN IT " +
+  	#		  "AND THE FIRST IS #{@outcome_timepoints[0].number} #{@outcome_timepoints[0].time_unit}\n\n"
+  	#print "OUTCOME SUBGROUPS HAS #{@outcome_subgroups.length} ITEMS IN IT\n\n"
   	@study_arms = Arm.find(:all, :conditions=>["study_id=?",session[:study_id]], :select=>["id","title"])
   	@model_name = params[:form_type]
   	if(@model_name == "outcome_analysis")
@@ -166,9 +164,9 @@ class StudiesController < ApplicationController
   		@selected_tp_comparison = current_selections[1]
   	end
   	  	
-  	print "SELECTED OUTCOME IS " + @selected_outcome.to_s + "-------------------\n"
-  	print "SELECTED SUBGROUP IS " + @selected_sg_comparison.to_s + "-------------------\n"
-  	print "SELECTED TIMEPOINT IS " + @selected_tp_comparison.to_s + "-------------------\n"
+  	#print "SELECTED OUTCOME IS " + @selected_outcome.to_s + "-------------------\n"
+  	#print "SELECTED SUBGROUP IS " + @selected_sg_comparison.to_s + "-------------------\n"
+  	#print "SELECTED TIMEPOINT IS " + @selected_tp_comparison.to_s + "-------------------\n"
   	
   	respond_to do |format|
   		format.js{
@@ -240,12 +238,10 @@ class StudiesController < ApplicationController
 						@study_arms = Arm.where(:study_id => session[:study_id]).all
 						@selected_outcome_object = Outcome.find(@selected_outcome)
 						@selected_outcome_object_results = OutcomeResult.where(:subgroup_id => @selected_subgroup.to_i, :timepoint_id => @selected_timepoint.to_i, :outcome_id => @selected_outcome.to_i).first
-	
+						#@outcome_columns = OutcomeColumn.where(:outcome_id => @selected_outcome.to_i, :timepoint_id => @selected_timepoint.to_i, :subgroup_id => @selected_subgroup.to_i).all
 						if @selected_outcome_object_results.nil?
 							@selected_outcome_object_results = OutcomeResult.new
 						end
-						page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
-	  				#update_outcome_data_table(@selected_outcome.to_s,@selected_subgroup.to_s,@selected_timepoint.to_s,page)
 	  			end
   			end
   		}
@@ -308,7 +304,7 @@ class StudiesController < ApplicationController
     	selected_timepoint = timepoints[0].id
     end
     retVal = [selected_subgroup, selected_timepoint]
-    print "RETVAL IS: " + selected_subgroup.to_s + ", " + selected_timepoint.to_s + "._________________\n"
+    #print "RETVAL IS: " + selected_subgroup.to_s + ", " + selected_timepoint.to_s + "._________________\n"
     return retVal
   end
   
@@ -319,14 +315,14 @@ class StudiesController < ApplicationController
   	retVal=Array.new
   	unless subgroups.empty?
   		selected_subgroup = subgroups[0][1]
-  		print "SETTING SELECTED SUBGROUP AS: " + selected_subgroup + "!!!!!!!!!!!!!\n\n"
+  		#print "SETTING SELECTED SUBGROUP AS: " + selected_subgroup + "!!!!!!!!!!!!!\n\n"
   	end
   	unless timepoints.empty?
   		selected_timepoint = timepoints[0][1]
-  		print "SETTING SELECTED TIMEPOINT AS: " + selected_timepoint + "!!!!!!!!!!!!!\n\n"
+  		#print "SETTING SELECTED TIMEPOINT AS: " + selected_timepoint + "!!!!!!!!!!!!!\n\n"
   	end
   	retVal = [selected_subgroup, selected_timepoint]
-  	print "RETVAL IS: " + selected_subgroup.to_s + ", " + selected_timepoint.to_s + "--------------\n"
+  	#print "RETVAL IS: " + selected_subgroup.to_s + ", " + selected_timepoint.to_s + "--------------\n"
   	return retVal
   end
   def adverseevents
@@ -533,7 +529,7 @@ class StudiesController < ApplicationController
 					@study_arms = Arm.where(:study_id => session[:study_id]).all
 					@selected_outcome_object = Outcome.find(@selected_outcome)
 					@selected_outcome_object_results = OutcomeResult.get_selected_outcome_results(@selected_outcome, @selected_subgroup.to_i, @selected_timepoint.to_i)
-					@outcome_columns = OutcomeColumn.where(:outcome_id => @selected_outcome, :subgroup_id => @selected_subgroup.to_i, :timepoint_id => @selected_timepoint.to_i).all
+					#@outcome_columns = OutcomeColumn.where(:outcome_id => @selected_outcome, :subgroup_id => @selected_subgroup.to_i, :timepoint_id => @selected_timepoint.to_i).all
 					page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
   				end
   			end
@@ -567,7 +563,7 @@ class StudiesController < ApplicationController
 					@study_arms = Arm.where(:study_id => session[:study_id]).all
 					@selected_outcome_object = Outcome.find(@selected_outcome)
 					@selected_outcome_object_results = OutcomeResult.get_selected_outcome_results(@selected_outcome.to_i, @selected_subgroup.to_i, @selected_timepoint.to_i)
-					@outcome_columns = OutcomeColumn.where(:outcome_id => @selected_outcome.to_i, :subgroup_id => @selected_subgroup.to_i, :timepoint_id => @selected_timepoint.to_i).all
+					#@outcome_columns = OutcomeColumn.where(:outcome_id => @selected_outcome.to_i, :subgroup_id => @selected_subgroup.to_i, :timepoint_id => @selected_timepoint.to_i).all
 					page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
 	  				#update_outcome_data_table(@selected_outcome.to_s,@selected_subgroup.to_s,@selected_timepoint.to_s,page)
 	  			end

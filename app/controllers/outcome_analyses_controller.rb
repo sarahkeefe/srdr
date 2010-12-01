@@ -41,7 +41,7 @@ class OutcomeAnalysesController < ApplicationController
     respond_to do |format|
       if @outcome_analysis.save      	
       	format.html { redirect_to(@outcome_analysis, :notice => 'Outcome analysis was successfully created.') }
-        format.xml  { render :xml => @outcome_analysis, :status => :created, :location => @outcome_analyasis }
+        format.xml  { render :xml => @outcome_analysis, :status => :created, :location => @outcome_analysis }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @outcome_analysis.errors, :status => :unprocessable_entity }

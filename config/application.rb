@@ -41,6 +41,6 @@ module Srdr
 	
 	#turn off inline error messages
 	config.action_view.field_error_proc = Proc.new{ |html_tag, instance| html_tag }
-	
+	config.cache_classes = true
   end
 end
