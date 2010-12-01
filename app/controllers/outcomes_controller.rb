@@ -126,28 +126,7 @@ class OutcomesController < ApplicationController
   # DELETE /outcomes/1.xml
   def destroy
     @outcome = Outcome.find(params[:id])
-	@outcome_tps = OutcomeTimepoint.where(:outcome_id => @outcome.id).all
-	@outcome_subs = OutcomeSubgroup.where(:outcome_id => @outcome.id).all
-	@outcome_columns = OutcomeColumn.where(:outcome_id => @outcome.id).all
-	@outcome_column_vals = OutcomeColumnValue.where(:outcome_id => @outcome.id).all
-	@outcome_results = OutcomeResult.where(:outcome_id => @outcome.id).all
-
-	for i in @outcome_tps
-		i.destroy
-	end
-	for i in @outcome_subs
-		i.destroy
-	end
-	for i in @outcome_columns
-		i.destroy
-	end	
-	for i in @outcome_column_vals
-		i.destroy
-	end	
-	for i in @outcome_results
-		i.destroy
-	end	
-    @outcome.destroy
+	@outcome.destroy 
     respond_to do |format|
 	  @outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})
 		@study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})	  
