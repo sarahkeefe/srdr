@@ -9,7 +9,7 @@
 <th rowspan=2>Arm B</th>
 <th rowspan=2>Analysis Type</th>
 <th colspan=6 align='center' class='non_adjusted_analysis'>Non-Adjusted</th>
-<th colspan=6 align='center' class='adjusted_analysis'>Adjusted</th>
+<th colspan=7 align='center' class='adjusted_analysis'>Adjusted</th>
 </tr>
 <tr>
 <!-- THE ANALYSIS SECTION WAS ORIGINALLY TO BE USED AS TWO SEPARATE ANALYSIS TABLES. ONE FOR
@@ -71,6 +71,7 @@
 	<th class='adjusted_analysis'>LCL</th>
 	<th class='adjusted_analysis'>UCL</th>
 	<th class='adjusted_analysis'>P-Value</th>
+	<th class='adjusted_analysis'>Adjusted For..</th>
 </tr>
 <% unless @continuous_analyses.empty? %>
 <% row_num = 1 %>
@@ -116,22 +117,22 @@
 			  <% end %>
 				</select>
 			</td>
-			<td>
+			<td class='non_adjusted_analysis'>
 				<input type='text' name= <%= "outcome_analysis_"+row_num.to_s+"[estimation_parameter_value]" %> id= <%= "outcome_analysis_"+row_num.to_s+"_estimation_parameter_value" %> size='30' value=<%= cont.estimation_parameter_value.to_s %> />
 			</td>
-			<td>
+			<td class='non_adjusted_analysis'>
 				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[parameter_dispersion_value]" %> id=<%= "outcome_analysis_"+row_num.to_s+"_parameter_dispersion_value" %> size='10' value=<%= cont.parameter_dispersion_value.to_s %> />
 			</td>
-			<td>
+			<td class='non_adjusted_analysis'>
 				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[unadjusted_ci_level]"%> id= <%="outcome_analysis_"+row_num.to_s+"unadjusted_ci_level" %> size='3' value=<%= cont.unadjusted_ci_level.to_s %> />
 			</td>	
-			<td>
+			<td class='non_adjusted_analysis'>
 			<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[unadjusted_ci_lower_limit]"%> id= <%="outcome_analysis_"+row_num.to_s+"unadjusted_ci_lower_limit" %> size='3' value=<%= cont.unadjusted_ci_lower_limit.to_s %> />
-			</td>
-			<td>	
+			</td class='non_adjusted_analysis'>
+			<td class='non_adjusted_analysis'>	
 			<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[unadjusted_ci_upper_limit]"%> id= <%="outcome_analysis_"+row_num.to_s+"unadjusted_ci_upper_limit" %> size='3' value=<%= cont.unadjusted_ci_upper_limit.to_s %> />
 			</td>		
-			<td>
+			<td class='non_adjusted_analysis'>
 				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[p_value]"%> id= <%="outcome_analysis_"+row_num.to_s+"_p_value" %> size='3' value=<%= cont.p_value.to_s %> />
 			</td>		
 			<td class='adjusted_analysis'>
@@ -152,6 +153,9 @@
 			<td class='adjusted_analysis'>
 				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_p_value]"%> id= <%="outcome_analysis_"+row_num.to_s+"_adjusted_p_value" %> size='3' value=<%= cont.adjusted_p_value.to_s %> />
 			</td>	
+			<td class='adjusted_analysis'>
+				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_for]"%> id= <%="outcome_analysis_"+row_num.to_s+"_adjusted_for" %> size='8' value=<%= cont.adjusted_for.to_s %> />
+			</td>	
 			<td>	
 				<% row_id = "row_" + row_num.to_s %>
 				
@@ -168,4 +172,4 @@
 <%= f.submit "Save" %>
 <% end %>
 <br/>
-<%= link_to "Add Analysis Row", "#",  :onclick=>"add_continuous_outcome_analysis_row();"%>
+<span style="text-decoration:underline" onClick="add_continuous_outcome_analysis_row();" class='span_link'>Add Analysis Row</span>

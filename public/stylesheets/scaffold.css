@@ -494,3 +494,17 @@ table.subgroup_table{
 	border: 0px;
 	margin-bottom: 15px;
 }
+.non_adjusted_analysis{
+	display: table-cell;	
+}
+.adjusted_analysis{
+  display: table-cell;	
+}
+#toggle_nonadjusted_link, #toggle_adjusted_link{
+  text-decoration: underline;
+}
+.span_link{
+  text-decoration: underline;	
+}
+
+
