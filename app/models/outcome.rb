@@ -1,5 +1,5 @@
 class Outcome < ActiveRecord::Base
-	has_many :outcome_analyses, :dependent=>:destroy
+	has_many :outcome_analyses
 	has_many :outcome_results, :dependent=>:destroy
 	has_many :outcome_timepoints, :dependent=>:destroy
 	has_many :outcome_columns, :dependent=>:destroy

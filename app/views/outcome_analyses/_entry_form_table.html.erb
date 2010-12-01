@@ -1,16 +1,15 @@
+<%= render :inline=>@analysis_title %>
 <%= form_for(@new_continuous_analysis, :remote => true, :html=>{:id=>"outcome_analysis_form"}) do |f| %>
 <input type="hidden" name="selected_outcome" id="selected_outcome" value= <%= @selected_outcome %> >
-<input type="hidden" name="selected_subgroup" id="selected_subgroup" value= <%= @selected_sg_comparison %> >
-<input type="hidden" name="selected_timepoint" id="selected_timepoint" value=<%= @selected_tp_comparison %> >
-<br/><br/>
-
+<input type="hidden" name="selected_subgroup" id="selected_subgroup" value= <%= @selected_subgroup %> >
+<input type="hidden" name="selected_timepoint" id="selected_timepoint" value=<%= @selected_timepoint %> >
 <table class="list_table complex_header" id="continuous_analysis_table">
 <tr>
 <th rowspan=2>Arm A</th>
 <th rowspan=2>Arm B</th>
 <th rowspan=2>Analysis Type</th>
-<th colspan=6 align='center'>Non-Adjusted</th>
-<th colspan=6 align='center'>Adjusted</th>
+<th colspan=6 align='center' class='non_adjusted_analysis'>Non-Adjusted</th>
+<th colspan=6 align='center' class='adjusted_analysis'>Adjusted</th>
 </tr>
 <tr>
 <!-- THE ANALYSIS SECTION WAS ORIGINALLY TO BE USED AS TWO SEPARATE ANALYSIS TABLES. ONE FOR
@@ -52,26 +51,26 @@
 	  <% selected_estimation_parameter = my_cont.estimation_parameter_type %>
 	  <% selected_parameter_dispersion = my_cont.parameter_dispersion_type %>
 	<% end %>
-	<th>
+	<th class='non_adjusted_analysis'>
 		<%= f.select :estimation_parameter_type, options_for_select(ept_options, selected_estimation_parameter.to_s) %>
 	</th>
-	<th>
+	<th class='non_adjusted_analysis'>
 		<%= f.select :parameter_dispersion_type, options_for_select(pdt_options, selected_parameter_dispersion.to_s) %>
 	</th>
-	<th>CI %</th>
-	<th>LCL</th>
-	<th>UCL</th>
-	<th>P-Value</th>
-	<th>
+	<th class='non_adjusted_analysis'>CI %</th>
+	<th class='non_adjusted_analysis'>LCL</th>
+	<th class='non_adjusted_analysis'>UCL</th>
+	<th class='non_adjusted_analysis'>P-Value</th>
+	<th class='adjusted_analysis'>
 		<%= f.select :adjusted_estimation_parameter_type, options_for_select(ept_options, selected_adjusted_estimation_parameter.to_s ) %>
 	</th>
-	<th>
+	<th class='adjusted_analysis'>
 		<%= f.select :adjusted_parameter_dispersion_type, options_for_select(pdt_options, selected_adjusted_parameter_dispersion.to_s ) %>
 	</th>
-	<th>CI %</th>
-	<th>LCL</th>
-	<th>UCL</th>
-	<th>P-Value</th>
+	<th class='adjusted_analysis'>CI %</th>
+	<th class='adjusted_analysis'>LCL</th>
+	<th class='adjusted_analysis'>UCL</th>
+	<th class='adjusted_analysis'>P-Value</th>
 </tr>
 <% unless @continuous_analyses.empty? %>
 <% row_num = 1 %>
@@ -135,22 +134,22 @@
 			<td>
 				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[p_value]"%> id= <%="outcome_analysis_"+row_num.to_s+"_p_value" %> size='3' value=<%= cont.p_value.to_s %> />
 			</td>		
-			<td>
+			<td class='adjusted_analysis'>
 				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[adjusted_estimation_parameter_value]" %> id=<%="outcome_analysis_"+row_num.to_s+"_adjusted_estimation_parameter_value" %> size='30' value=<%= cont.adjusted_estimation_parameter_value.to_s %> />
 			</td>	
-			<td>
+			<td class='adjusted_analysis'>
 				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[adjusted_parameter_dispersion_value]" %> id=<%= "outcome_analysis_"+row_num.to_s+"_adjusted_parameter_dispersion_value" %> size='10' value=<%= cont.adjusted_parameter_dispersion_value.to_s %> />
 			</td>
-			<td>
+			<td class='adjusted_analysis'>
 				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_ci_level]"%> id= <%="outcome_analysis_"+row_num.to_s+"adjusted_ci_level" %> size='3' value=<%= cont.adjusted_ci_level.to_s %> />
 			</td>	
-			<td>
+			<td class='adjusted_analysis'>
 			<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_ci_lower_limit]"%> id= <%="outcome_analysis_"+row_num.to_s+"adjusted_ci_lower_limit" %> size='3' value=<%= cont.adjusted_ci_lower_limit.to_s %> />
 			</td>
-			<td>	
+			<td class='adjusted_analysis'>	
 			<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_ci_upper_limit]"%> id= <%="outcome_analysis_"+row_num.to_s+"adjusted_ci_upper_limit" %> size='3' value=<%= cont.adjusted_ci_upper_limit.to_s %> />
 			</td>		
-			<td>
+			<td class='adjusted_analysis'>
 				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_p_value]"%> id= <%="outcome_analysis_"+row_num.to_s+"_adjusted_p_value" %> size='3' value=<%= cont.adjusted_p_value.to_s %> />
 			</td>	
 			<td>	

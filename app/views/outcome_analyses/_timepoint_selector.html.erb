@@ -4,14 +4,15 @@
 <b>Time Point Analysis</b><br/>
 <% unless @outcome_timepoints.empty? %>
 			
-			<%= select @model_name, "timepoint_id", @outcome_timepoint_comparisons,{},
+			<%= select @model_name, "timepoint_id", @outcome_timepoint_comparisons,{:selected=>@selected_timepoint},
 					{:onchange =>remote_function(:url => {:action => "update_partial",:controller=>"studies"}, 
 					:with => "'selected_outcome_id='+$('outcome_outcome').value+
 										'&selected_subgroup='+ $($('subgroup_field_id').value).value +
 										'&selected_timepoint='+this.value +
+										'&updating='+'timepoint' +
 										'&form_type=' + $('model_name').value")} %>
 		  </select>
 <% else %>
 	  <em>There are no time points defined for this outcome. If you require a time point, please edit the <%= link_to "Outcome Setup Page", "/projects/#{session[:project_id]}/studies/#{session[:study_id]}/outcomesetup" %></em>
-	  <input type="hidden" id="outcome_analysis_timepoint_id" value="0"/>
+	  <input type="hidden" id="outcome_analysis_timepoint_id" value="Time_0"/>
 <% end %>		
