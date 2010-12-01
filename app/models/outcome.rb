@@ -71,4 +71,12 @@ class Outcome < ActiveRecord::Base
 		return @outcome_tps 
 	end
 	
+	def self.get_array_of_titles(outcome_ids)
+		retVal = Array.new()
+		outcome_ids.each do |id|
+			tmp = Outcome.find(id, :select=>'title')
+			retVal << tmp.title
+		end
+		return retVal
+	end
 end

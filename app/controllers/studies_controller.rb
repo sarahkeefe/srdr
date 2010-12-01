@@ -141,6 +141,8 @@ class StudiesController < ApplicationController
       
       @continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND outcome_id=? AND subgroup_comp=? AND timepoint_comp=?",
       														session[:study_id], @selected_outcome, @selected_subgroup.to_s, @selected_timepoint])
+      
+      @saved_analyses = OutcomeAnalysis.get_saved_analyses(session[:study_id])
       @analysis_title = OutcomeAnalysis.get_analysis_title(@outcomes[0].title, @selected_subgroup, @selected_timepoint)
    	end
   end
@@ -182,7 +184,6 @@ class StudiesController < ApplicationController
   					 @continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND outcome_id=? AND subgroup_comp=? AND timepoint_comp=? ",
       														session[:study_id], @selected_outcome.to_i, @selected_subgroup, @selected_timepoint])
     				 @new_continuous_analysis = OutcomeAnalysis.new
-    			
     				 page.replace_html 'entry_form',:partial=> 'outcome_analyses/entry_form_table'
 					
     				 
@@ -243,7 +244,7 @@ class StudiesController < ApplicationController
 				end	
 		end
 			@analysis_title = OutcomeAnalysis.get_analysis_title(outcome_title.title, @selected_subgroup, @selected_timepoint)
-	end
+	 end
 	
   	respond_to do |format|
   		format.js{
@@ -269,8 +270,6 @@ class StudiesController < ApplicationController
   		}
   	end
   end
-  
-  
   def adverseevents
 		@study = Study.find(params[:study_id])
 		@project = Project.find(params[:project_id])

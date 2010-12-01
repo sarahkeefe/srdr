@@ -97,7 +97,17 @@ class OutcomeAnalysis < ActiveRecord::Base
 	  
   	return retVal
   end
-  
+  def self.get_saved_analyses(study_id)
+  		existing_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=?",study_id], :select=>["id","outcome_id","subgroup_comp","timepoint_comp"])
+			saved_outcome_ids = existing_analyses.collect{|cont| cont.outcome_id}      														
+			saved_outcome_titles = Outcome.get_array_of_titles(saved_outcome_ids)
+			retVal = Array.new
+			for i in 0..saved_outcome_titles.length-1
+			  retVal << [saved_outcome_titles[i],existing_analyses[i].subgroup_comp,existing_analyses[i].timepoint_comp]
+			end
+			retVal = retVal.uniq
+			return retVal
+  end
   # Return the values for selected subgroup and timepoint for outcome analysis. 
   def self.get_selected_analysis_sg_and_tp(subgroups,timepoints)
   	selected_subgroup = ""
