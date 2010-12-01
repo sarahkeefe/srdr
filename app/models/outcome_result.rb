@@ -130,7 +130,7 @@ class OutcomeResult < ActiveRecord::Base
 
 	 def self.get_custom_col_data_point(arm_id, outcome_id, timepoint_id, subgroup_id, col_id)
 			o_res = OutcomeColumnValue.where(:outcome_id => outcome_id, :arm_id => arm_id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id, :column_id => col_id).first
-			return o_res
+			return o_res.nil? ? nil : o_res.value
 		end
 		
 		def self.get_data_point_calc(arm_id, outcome_id, timepoint_id, subgroup_id)
@@ -152,7 +152,7 @@ class OutcomeResult < ActiveRecord::Base
 		
 		def self.get_custom_col_data_point_calc(arm_id, outcome_id, timepoint_id, subgroup_id, col_id)
 			o_res = OutcomeColumnValue.where(:outcome_id => outcome_id, :arm_id => arm_id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id, :column_id => col_id).first
-			if !o_res.nil?
+			if !o_res.nil? && (o_res.is_calculated == "t" || o_res.is_calculated == "f")
 				return o_res.is_calculated
 			else
 				return false		
@@ -175,16 +175,25 @@ class OutcomeResult < ActiveRecord::Base
 		end
 		
 
-		def self.get_outcomes_for_dropdown
-			#@outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})		
-				arr = []
-			if !@outcomes.nil?
-				for i in @outcomes
-
-				end
-			end
-			return arr
-		end
+# Return the ids for selected subgroup and timepoint in outcomedata or
+  # outcomeanalysis pages. 
+  # Params: arrays of subgroups and timepoints
+  # Returns: an array containing subgroup id and timepoint id
+  def self.get_selected_sg_and_tp(subgroups, timepoints)
+  	print "GETTING THE SELECTIONS NOW -----------------\n"
+  	selected_subgroup = 0
+    selected_timepoint = 0
+    retVal = Array.new
+    unless subgroups.empty?
+    	selected_subgroup = subgroups[0].id
+    end
+    unless timepoints.empty?
+    	selected_timepoint = timepoints[0].id
+    end
+    retVal = [selected_subgroup, selected_timepoint]
+    print "RETVAL IS: " + selected_subgroup.to_s + ", " + selected_timepoint.to_s + "._________________\n"
+    return retVal
+  end
 
 		
 end

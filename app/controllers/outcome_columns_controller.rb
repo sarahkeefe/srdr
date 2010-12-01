@@ -38,6 +38,7 @@ class OutcomeColumnsController < ApplicationController
 		      render :update do |page|
 				    page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
 				    page['new_outcome_column'].reset
+					page.call "Custom.init"
 					page.replace_html 'outcome_column_validation_message', ""
 		      end
 		    }
