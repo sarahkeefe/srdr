@@ -75,7 +75,7 @@ class StudiesController < ApplicationController
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.where(:study_id => params[:study_id]).all
 	@outcome = Outcome.new
-	@outcomes = Outcome.find(:study_id => params[:study_id]).all
+	@outcomes = Outcome.where(:study_id => params[:study_id]).all
 	@outcome_timepoints = OutcomeTimepoint.where(:outcome_id => @outcome.id).all	
 	@outcome_timepoint = OutcomeTimepoint.new
 	render :layout => 'outcomesetup'	
@@ -335,7 +335,7 @@ class StudiesController < ApplicationController
   def update
     @study = Study.find(params[:id])
 	@project = Project.find(session[:project_id])
-	Study.set_study_type(params)	
+	@study = Study.set_study_type(params, @study)	
 	
     respond_to do |format|
       if @study.update_attributes(params[:study])

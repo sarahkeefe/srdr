@@ -20,13 +20,14 @@ class Study < ActiveRecord::Base
 	  if params.keys.include?("template")
 			template_id = params[:template]
 			study.get_template_setup(template_id)
-	  end	
+	  end
 	end
 	
-	def self.set_study_type(params)
+	def self.set_study_type(params, study)
 		if params.keys.include?("study")
-			@study.study_type = params[:study][:study_type]
+			study.study_type = params[:study][:study_type]
 		end
+		return study
 	end
 	
 	def self.get_arms(study_id)
