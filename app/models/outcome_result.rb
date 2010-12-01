@@ -11,7 +11,7 @@ class OutcomeResult < ActiveRecord::Base
 		end
 
 		def self.get_selected_outcome_results(o_id, sub_id, tp_id)
-			@selected_outcome_object_results = OutcomeResult.where(:subgroup_id => sub_id.to_i, :timepoint_id => tp_id.to_i, :outcome_id => o_id.to_i).first		
+			@selected_outcome_object_results = OutcomeResult.where(:subgroup_id => sub_id, :timepoint_id => tp_id, :outcome_id => o_id).first		
 			if @selected_outcome_object_results.nil?
 				@selected_outcome_object_results = OutcomeResult.new
 			end
@@ -19,7 +19,6 @@ class OutcomeResult < ActiveRecord::Base
 		end
 
 		# Save results in outcome_results_table as new OutcomeResult objects. 
-		# does not include timepoint/arm data.
 		def self.save_general_results(study_id, a, outcome_id, timepoint_id, subgroup_id, params)
 				@existing = self.where(:outcome_id => outcome_id, :study_id => study_id, :arm_id => a.id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id).all
 				if @existing.length > 0
@@ -90,6 +89,28 @@ class OutcomeResult < ActiveRecord::Base
 				end
 		end
 		
+		# Save results in custom columns as new OutcomeColumnValues
+		def self.save_custom_results(study_id, a, outcome_id, timepoint_id, subgroup_id, column_id, params)
+			@existing = OutcomeColumnValue.where(:outcome_id => outcome_id, :arm_id => a.id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id, :column_id => column_id).all
+				if @existing.length > 0
+					for i in @existing
+						i.value = params["arm_custom" + column_id.to_s][a.id.to_s]
+						i.is_calculated = params["arm_custom" + column_id.to_s + "_calculated"]
+						i.save
+					end
+				else
+					@col_val_new = OutcomeColumnValue.new
+					@col_val_new.arm_id = a.id
+					@col_val_new.column_id = column_id
+					@col_val_new.outcome_id = outcome_id
+					@col_val_new.subgroup_id = subgroup_id
+					@col_val_new.timepoint_id = timepoint_id
+					@col_val_new.value = params["arm_custom" + column_id.to_s][a.id.to_s]
+					@col_val_new.is_calculated = params["arm" + a.id.to_s + "_custom" + column_id.to_s + "_calculated"]
+					@col_val_new.save
+				end
+		end
+		
 		def self.get_data_point(arm_id, outcome_id, timepoint_id, subgroup_id)
 			o_res = OutcomeResult.where(:outcome_id => outcome_id, :arm_id => arm_id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id).first
 			arr = Hash.new
@@ -109,11 +130,7 @@ class OutcomeResult < ActiveRecord::Base
 
 	 def self.get_custom_col_data_point(arm_id, outcome_id, timepoint_id, subgroup_id, col_id)
 			o_res = OutcomeColumnValue.where(:outcome_id => outcome_id, :arm_id => arm_id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id, :column_id => col_id).first
-			if !o_res.nil?
-				return o_res.value
-			else
-				return ""
-			end
+			return o_res
 		end
 		
 		def self.get_data_point_calc(arm_id, outcome_id, timepoint_id, subgroup_id)

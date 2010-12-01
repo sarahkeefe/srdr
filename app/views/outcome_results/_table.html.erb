@@ -18,7 +18,7 @@
 			
 				<th>Arm</th>
 				<th>N Analyzed</th>
-
+				<% 	@outcome_columns = OutcomeColumn.where(:outcome_id => @selected_outcome_object.id, :timepoint_id => timepoint_id, :subgroup_id => subgroup_id).all	%>
 				<% if !@outcome_columns.nil? && @outcome_columns.length > 0 %>
 					<% for custom_col in @outcome_columns %>
 						<th><%= custom_col.name %></th>
@@ -48,11 +48,11 @@
 							
 							<% if !@outcome_columns.nil? && @outcome_columns.length > 0 %>
 							<% for custom_col in @outcome_columns %>
-									<%# val = OutcomeResult.get_custom_col_data_point(one_arm.id, @selected_outcome_object.id, timepoint_id, subgroup_id, custom_col.id) %>
-									<%# calc = OutcomeResult.get_custom_col_data_point_calc(one_arm.id, @selected_outcome_object.id, timepoint_id, subgroup_id, custom_col.id) %>
+									<% custom_val = OutcomeResult.get_custom_col_data_point(one_arm.id, @selected_outcome_object.id, timepoint_id, subgroup_id, custom_col.id) %>
+									<% custom_calc = OutcomeResult.get_custom_col_data_point_calc(one_arm.id, @selected_outcome_object.id, timepoint_id, subgroup_id, custom_col.id) %>
 									<td>
-										<%# text_field "arm_custom_" + custom_col.id.to_s, one_arm.id.to_s, :size => 5, :value => val, :class => "calculated_checkbox" %>
-										<%# check_box_tag "arm" + one_arm.id.to_s + "_custom_" + custom_col.id.to_s + "_calculated", "t", calc, :class => "styled" %>
+										<%= text_field "arm_custom" + custom_col.id.to_s, one_arm.id.to_s, :size => 5, :value => custom_val, :class => "calculated_checkbox" %>
+										<%= check_box_tag "arm" + one_arm.id.to_s + "_custom" + custom_col.id.to_s + "_calculated", "t", custom_calc, :class => "styled" %>
 									</td>
 								<% end %>
 							<% end %>
@@ -82,5 +82,7 @@
 		<%= hidden_field_tag "timepoint_id", timepoint_id %>
 		<%= submit_tag "Clear Table Data from Database", :remote => true, :confirm => 'This will delete all the information in this table. Are you sure?', :id => "clear_data_table_link", :method => :post %>
 		<% end %>
-		
+<div id="new_col_entry">
+<%= render 'outcome_columns/form' %>
+</div>
 	<% end %>

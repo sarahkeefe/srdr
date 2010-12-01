@@ -131,7 +131,7 @@ class OutcomesController < ApplicationController
 	@outcome_columns = OutcomeColumn.where(:outcome_id => @outcome.id).all
 	@outcome_column_vals = OutcomeColumnValue.where(:outcome_id => @outcome.id).all
 	@outcome_results = OutcomeResult.where(:outcome_id => @outcome.id).all
-    @outcome.destroy
+
 	for i in @outcome_tps
 		i.destroy
 	end
@@ -147,6 +147,7 @@ class OutcomesController < ApplicationController
 	for i in @outcome_results
 		i.destroy
 	end	
+    @outcome.destroy
     respond_to do |format|
 	  @outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})
 		@study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})	  

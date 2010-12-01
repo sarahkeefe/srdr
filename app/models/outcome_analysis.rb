@@ -1,4 +1,5 @@
 class OutcomeAnalysis < ActiveRecord::Base
+	belongs_to :outcome
 	
 	def self.remove_analyses(study_id, outcome_id, subgroup_id, timepoint_id)
 		sql = ActiveRecord::Base.connection()
