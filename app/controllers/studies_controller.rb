@@ -162,17 +162,20 @@ class StudiesController < ApplicationController
   	  current_selections = get_selected_analysis_sg_and_tp(@outcome_subgroup_comparisons, @outcome_timepoint_comparisons)
   	  @selected_sg_comparison = current_selections[0]
   		@selected_tp_comparison = current_selections[1]
-  	end
-  	  	
-  	#print "SELECTED OUTCOME IS " + @selected_outcome.to_s + "-------------------\n"
-  	#print "SELECTED SUBGROUP IS " + @selected_sg_comparison.to_s + "-------------------\n"
-  	#print "SELECTED TIMEPOINT IS " + @selected_tp_comparison.to_s + "-------------------\n"
+  	elsif(@model_name == "outcome_result")
+	  	current_selections = get_selected_sg_and_tp(@outcome_subgroups, @outcome_timepoints)
+	  	@selected_subgroup = current_selections[0]
+	  	@selected_timepoint = current_selections[1]
+	  end
+
   	
   	respond_to do |format|
   		format.js{
   			render :update do |page|
   				if(@model_name == "outcome_analysis")
-  					 
+  					 print "SELECTED OUTCOME IS " + @selected_outcome.to_s + "-------------------\n"
+  					 print "SELECTED SUBGROUP IS " + @selected_sg_comparison.to_s + "-------------------\n"
+  					 print "SELECTED TIMEPOINT IS " + @selected_tp_comparison.to_s + "-------------------\n"
   					 page.replace_html 'timepoint_options',:partial => 'outcome_analyses/timepoint_selector'
   					 page.replace_html 'subgroup_options',:partial => 'outcome_analyses/subgroup_selector'
   					 
@@ -184,10 +187,9 @@ class StudiesController < ApplicationController
 					
     				 
   				 elsif (@model_name == "outcome_result")
-  				 	 current_selections = get_selected_sg_and_tp(@outcome_subgroups, @outcome_timepoints)
-  				 	 @selected_subgroup = current_selections[0]
-  					 @selected_timepoint = current_selections[1]
-						 
+						 print "SELECTED OUTCOME IS " + @selected_outcome.to_s + "-------------------\n"
+  					 print "SELECTED SUBGROUP IS " + @selected_subgroup.to_s + "-------------------\n"
+  					 print "SELECTED TIMEPOINT IS " + @selected_timepoint.to_s + "-------------------\n"
   					 page.replace_html 'timepoint_options',:partial => 'outcomes/timepoint_selector'
   					 page.replace_html 'subgroup_options',:partial => 'outcomes/subgroup_selector'
   					 
@@ -198,7 +200,7 @@ class StudiesController < ApplicationController
 							 @selected_outcome_object_results = OutcomeResult.new
 						 end
 						 page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
-  				end
+  				  end
   			end
   		}
   	end
