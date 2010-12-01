@@ -5,6 +5,6 @@
     <%= hidden_field_tag "outcome_id", !@selected_outcome_object.nil? ? @selected_outcome_object.id : nil %>
 	<%= hidden_field_tag "timepoint_id", !@selected_timepoint.nil? ? @selected_timepoint : 0 %>
 	<%= hidden_field_tag "subgroup_id", !@selected_subgroup.nil? ? @selected_subgroup : 0 %>
-  <div class="field">
+ 
     Custom Column Title: <%= f.text_field :name %> Description: <%= f.text_field :description %> <%= f.submit "Add Custom Column" %>
 <% end %>
