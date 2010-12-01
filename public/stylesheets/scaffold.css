@@ -470,24 +470,6 @@ color: #666;
 color: #999;
 }
 
-.login-link a{
-	text-decoration: underline;
-	font-size: 11px;
-	color: #eee;
-}
-.login-link a:visited{
-	text-decoration: underline;
-	font-size: 11px;
-	color: #eee;
-}
-.login-link a:active{
-	text-decoration: underline;
-	font-size: 11px;
-	color: #eee;
-}
-.login-link a:hover {
-	color: #ccc;
-}
 
 table.subgroup_table{
 	padding: 5px;
@@ -506,5 +488,3 @@ table.subgroup_table{
 .span_link{
   text-decoration: underline;	
 }
-
-

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101201193211) do
+ActiveRecord::Schema.define(:version => 20101201200742) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer  "study_id"
@@ -102,6 +102,8 @@ ActiveRecord::Schema.define(:version => 20101201193211) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "timepoint_id"
+    t.integer  "subgroup_id"
   end
 
   create_table "outcome_enrolled_numbers", :force => true do |t|
@@ -188,6 +190,7 @@ ActiveRecord::Schema.define(:version => 20101201193211) do
     t.datetime "updated_at"
     t.boolean  "is_total"
     t.integer  "subcategory_id"
+    t.integer  "study_id"
   end
 
   create_table "population_characteristic_subcategories", :force => true do |t|

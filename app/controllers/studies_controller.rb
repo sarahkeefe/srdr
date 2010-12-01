@@ -3,7 +3,7 @@ class StudiesController < ApplicationController
   # GET /studies.xml
   def index
     @studies = Study.where(:project_id => params[:project_id])
-	  @project = Project.find(params[:project_id])	
+	@project = Project.find(params[:project_id])	
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @studies }
@@ -14,33 +14,24 @@ class StudiesController < ApplicationController
   # GET /studies/1.xml
   def show
     @study = Study.find(params[:id])
-	  @project = Project.find(session[:project_id])
-	  @study_qs = StudiesKeyQuestion.where(:study_id => @study.id)
-	  @study_questions = []
-	  for i in @study_qs
-		  @study_questions << KeyQuestion.find(i.key_question_id)
-	  end
-	  @primary_publication = @study.get_primary_publication
-	  if @primary_publication.nil?
-		@primary_publication = Publication.new
-	  end
-	  @secondary_publications = @study.get_secondary_publications
-	  @arms = Arm.find(:all, :conditions => {:study_id => @study.id})
-	  @population_characteristics = PopulationCharacteristic.where(:study_id => @study.id)
-	  @outcomes = Outcome.where(:study_id => @study.id)
-	  @adverse_events = AdverseEvent.where(:study_id => @study.id)
-	  @quality_aspects = QualityAspect.where(:study_id => @study.id)
-	  @quality_rating = QualityRating.find(:all, :conditions => {:study_id => @study.id}).first
-	  @analyses = OutcomeAnalysis.where(:study_id => @study.id).all
-	  @outcomes = Outcome.where(:study_id => @study.id).all	  
+	@project = Project.find(session[:project_id])
+	@study_qs = StudiesKeyQuestion.where(:study_id => @study.id).all
+	@study_questions = []
+	@study_qs.each{|i| @study_questions << KeyQuestion.find(i.key_question_id)}	  
+	@primary_publication = @study.get_primary_publication.nil? ? Publication.new : @study.get_primary_publication
+	@secondary_publications = @study.get_secondary_publications
+	@arms = Arm.where(:study_id => @study.id).all
+	@population_characteristics = PopulationCharacteristic.where(:study_id => @study.id).all
+	@outcomes = Outcome.where(:study_id => @study.id).all
+	@adverse_events = AdverseEvent.where(:study_id => @study.id).all
+	@quality_aspects = QualityAspect.where(:study_id => @study.id).all
+	@quality_rating = QualityRating.where(:study_id => @study.id).first
+	@analyses = OutcomeAnalysis.where(:study_id => @study.id).all
+	@outcomes = Outcome.where(:study_id => @study.id).all
 	  
-	  # get the study title, which is the same as the primary publication for the study
-	  @study_title = Publication.where(:study_id => @study.id, :is_primary => true).first
-	  if @study_title.nil?
-		@study_title = ""
-	  else
-		@study_title = @study_title.title.to_s
-	  end
+	# get the study title, which is the same as the primary publication for the study
+	@study_title = Publication.where(:study_id => @study.id, :is_primary => true).first
+	@study_title = @study_title.nil? ? "" : @study_title.title.to_s
 	  
     respond_to do |format|
       format.html # show.html.erb
@@ -54,8 +45,8 @@ class StudiesController < ApplicationController
   def design
 	  @study = Study.find(params[:study_id])
 	  makeActive(@study)
-		@arm = Arm.new
-	  @arms = Arm.find(:all, :conditions => {:study_id => @study.id})	
+	  @arm = Arm.new
+	  @arms = Arm.where(:study_id => @study.id).all	
 	end
   
   # attributes
@@ -64,12 +55,12 @@ class StudiesController < ApplicationController
 		@study = Study.find(params[:study_id])
 		makeActive(@study)
 		@project = Project.find(params[:project_id])
-		@study_arms = Arm.find(:all, :conditions => {:study_id => @study.id})
-		@population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => @study.id}, :order => :category_title)
-		@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
+		@study_arms = Arm.where(:study_id => @study.id).all
+		@population_characteristics = PopulationCharacteristic.where(:study_id => @study.id).all
 		@population_characteristics.sort_by(&:category_title)
+		@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
 		@population_characteristic = PopulationCharacteristic.new
-		@population_characteristic_data = PopulationCharacteristicDataPoint.where(:study_id => @study.id)
+		@population_characteristic_data = PopulationCharacteristicDataPoint.where(:study_id => @study.id).all
 		@population_characteristic_subcategories = PopulationCharacteristicSubcategory.where(:population_characteristic_id => @population_characteristic.id).all
 		@population_characteristic_subcategory = PopulationCharacteristicSubcategory.new
 		render :layout => 'attributes'		
@@ -82,9 +73,9 @@ class StudiesController < ApplicationController
 	@study = Study.find(params[:study_id])
 	makeActive(@study)
 	@project = Project.find(params[:project_id])
-	@study_arms = Arm.find(:all, :conditions => {:study_id => params[:study_id]})
+	@study_arms = Arm.where(:study_id => params[:study_id]).all
 	@outcome = Outcome.new
-	@outcomes = Outcome.find(:all, :conditions => {:study_id => params[:study_id]})
+	@outcomes = Outcome.where(:study_id => params[:study_id]).all
 	@outcome_timepoints = OutcomeTimepoint.where(:outcome_id => @outcome.id).all	
 	@outcome_timepoint = OutcomeTimepoint.new
 	render :layout => 'outcomesetup'	
@@ -100,21 +91,15 @@ class StudiesController < ApplicationController
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.where(:study_id => params[:study_id]).all
 	@outcomes = Outcome.where(:study_id => params[:study_id]).all
-
 	@first_outcome = @outcomes[0]
 	@first_subgroups = Outcome.get_subgroups_array(@first_outcome.id)
 	@first_timepoints = Outcome.get_timepoints_array(@first_outcome.id)
-	
 	current_selections = OutcomeResult.get_selected_sg_and_tp(@first_subgroups, @first_timepoints)
     @selected_subgroup = current_selections[0]
-    @selected_timepoint = current_selections[1]	
-
+    @selected_timepoint = current_selections[1]
 	@selected_outcome_object = Outcome.find(@first_outcome.id)
 	@selected_outcome_object_results = OutcomeResult.get_selected_outcome_results(@first_outcome.id, @selected_subgroup, @selected_timepoint)
-	
 	@outcome_column = OutcomeColumn.new
-
-	
 	render :layout => 'outcomesetup'	
 	 end
   
@@ -122,7 +107,7 @@ class StudiesController < ApplicationController
 	# displays a table for (both?) categorical and continuous outcomes
 	# enables data entry into that table (and saving)
   def outcomeanalysis
-	  @model_name = "outcome_analysis"    
+		@model_name = "outcome_analysis"    
 		@study_arms = Arm.find(:all, :conditions=>["study_id=?",session[:study_id]], :select=>["id","title"])
 		@outcomes = Outcome.find(:all, :conditions=>["study_id=?",session[:study_id]],:select=>["id","title","description"])
 		@new_continuous_analysis = OutcomeAnalysis.new
@@ -144,8 +129,8 @@ class StudiesController < ApplicationController
       
       @saved_analyses = OutcomeAnalysis.get_saved_analyses(session[:study_id])
       @analysis_title = OutcomeAnalysis.get_analysis_title(@outcomes[0].title, @selected_subgroup, @selected_timepoint)
-   	end
-  end
+ 		 end
+ 	end
   
   # When the outcome type is changed in the outcome analysis or data page, we have to update the 
   # other subgroup and timepoint selections accordingly. 
@@ -159,49 +144,43 @@ class StudiesController < ApplicationController
   	
   	if(@model_name == "outcome_analysis")
   		@outcome_timepoint_comparisons = OutcomeAnalysis.get_analysis_timepoint_comparisons(@outcome_timepoints)
-			@outcome_subgroup_comparisons = OutcomeAnalysis.get_analysis_subgroup_comparisons(@outcome_subgroups)	  	
-  	  current_selections = OutcomeAnalysis.get_selected_analysis_sg_and_tp(@outcome_subgroup_comparisons, @outcome_timepoint_comparisons)
-  	  @selected_subgroup = current_selections[0]
+		@outcome_subgroup_comparisons = OutcomeAnalysis.get_analysis_subgroup_comparisons(@outcome_subgroups)	  	
+		current_selections = OutcomeAnalysis.get_selected_analysis_sg_and_tp(@outcome_subgroup_comparisons, @outcome_timepoint_comparisons)
+		@selected_subgroup = current_selections[0]
   		@selected_timepoint = current_selections[1]
   		@analysis_title = OutcomeAnalysis.get_analysis_title(@selected_outcome_object.title, @selected_subgroup, @selected_timepoint)
-  	
-		elsif(@model_name == "outcome_result")
+	elsif(@model_name == "outcome_result")
 	  	current_selections = OutcomeResult.get_selected_sg_and_tp(@outcome_subgroups, @outcome_timepoints)
 	  	@selected_subgroup = current_selections[0]
 	  	@selected_timepoint = current_selections[1]
-	  end
+	end
 
   	respond_to do |format|
   		format.js{
   			render :update do |page|
+			
   				if(@model_name == "outcome_analysis")
   					 print "SELECTED OUTCOME IS " + @selected_outcome.to_s + "-------------------\n"
   					 print "SELECTED SUBGROUP IS " + @selected_subgroup.to_s + "-------------------\n"
   					 print "SELECTED TIMEPOINT IS " + @selected_timepoint.to_s + "-------------------\n"
   					 page.replace_html 'timepoint_options',:partial => 'outcome_analyses/timepoint_selector'
   					 page.replace_html 'subgroup_options',:partial => 'outcome_analyses/subgroup_selector'
-  					 
   					 @continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND outcome_id=? AND subgroup_comp=? AND timepoint_comp=? ",
       														session[:study_id], @selected_outcome.to_i, @selected_subgroup, @selected_timepoint])
     				 @new_continuous_analysis = OutcomeAnalysis.new
     				 page.replace_html 'entry_form',:partial=> 'outcome_analyses/entry_form_table'
-					
-    				 
+					 
   				 elsif (@model_name == "outcome_result")
 					 print "SELECTED OUTCOME IS " + @selected_outcome.to_s + "-------------------\n"
   					 print "SELECTED SUBGROUP IS " + @selected_subgroup.to_s + "-------------------\n"
   					 print "SELECTED TIMEPOINT IS " + @selected_timepoint.to_s + "-------------------\n"
   					 page.replace_html 'timepoint_options',:partial => 'outcomes/timepoint_selector'
   					 page.replace_html 'subgroup_options',:partial => 'outcomes/subgroup_selector'
-  					 
-						 @selected_outcome_object = Outcome.find(@selected_outcome)
-						 @selected_outcome_object_results = OutcomeResult.where(:subgroup_id => @selected_subgroup.to_i, :timepoint_id => @selected_timepoint.to_i, :outcome_id => @selected_outcome).first
-				 	
-				 		 if @selected_outcome_object_results.nil?
-							 @selected_outcome_object_results = OutcomeResult.new
-						 end
-						 page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
-  				  end
+					@selected_outcome_object = Outcome.find(@selected_outcome)
+					@selected_outcome_object_results = OutcomeResult.where(:subgroup_id => @selected_subgroup, :timepoint_id => @selected_timepoint, :outcome_id => @selected_outcome).first
+				 	@selected_outcome_object_results = @selected_outcome_object_results.nil? ? OutcomeResult.new : @selected_outcome_object_results
+					page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
+  				end
   			end
   		}
   	end
@@ -218,9 +197,9 @@ class StudiesController < ApplicationController
   	
   	print "FORM TYPE: " + params[:form_type] + "\n"
   	@selected_outcome = params[:selected_outcome_id]  # outcome id
-  	outcome_title = Outcome.find(@selected_outcome, :select=>"title")
   	@selected_subgroup = params[:selected_subgroup] # subgroup id
   	@selected_timepoint = params[:selected_timepoint]   # timepoint id
+	outcome_title = Outcome.find(@selected_outcome, :select=>"title")
   	@model_name = params[:form_type]
   	
   	user_selected = ""
@@ -250,7 +229,6 @@ class StudiesController < ApplicationController
   		format.js{
 	  		render :update do |page|
   				if(@model_name == "outcome_analysis")
-	  				
   				  @continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND outcome_id=? AND subgroup_comp=? AND timepoint_comp=? ",
       														session[:study_id], @selected_outcome.to_i, @selected_subgroup, @selected_timepoint])
     				@new_continuous_analysis = OutcomeAnalysis.new
@@ -284,11 +262,8 @@ class StudiesController < ApplicationController
 	@quality_aspects = QualityAspect.where(:study_id => params[:study_id]).all	
 	@quality_aspect = QualityAspect.new
 	@exists = QualityRating.where(:study_id => session[:study_id]).first
-	if !@exists.nil?
-		@quality_rating = @exists
-	else
-		@quality_rating = QualityRating.new
-	end
+	@quality_rating = @exists.nil? ? QualityRating.new : @exists
+
 	end
   
   # GET /studies/new
@@ -297,20 +272,17 @@ class StudiesController < ApplicationController
     
   	@study = Study.new
     @study.project_id = session[:project_id]
-	  @study.save
-	  makeActive(@study)
-	  template_id = ""
-	  # if there is a template variable set in the new call
-	  if params.keys.include?("template")
-	  	template_id = params[:template]
-	  	@study.get_template_setup(template_id)
-	  end
+	@study.save
+	makeActive(@study)
+
+	# if there is a template variable set in the new call
+	Study.set_template_id_if_exists(params, @study)
 	    	
-	  @primary_publication = Publication.create()
-	  @publication=Publication.new
+	@primary_publication = Publication.create()
+	@publication=Publication.new
     @secondary_publications = []
 		
-	  @questions = @study.get_question_choices(session[:project_id])
+	@questions = @study.get_question_choices(session[:project_id])
     
     respond_to do |format|
       format.html # new.html.erb
@@ -321,24 +293,22 @@ class StudiesController < ApplicationController
   # GET /studies/1/edit
   def edit
     @study = Study.find(params[:id])
-	  @project = Project.find(params[:project_id])	
-		makeActive(@study)
+	@project = Project.find(params[:project_id])	
+	makeActive(@study)
 		  
     # get info on questions addressed
     @questions = @study.get_question_choices(session[:project_id])
     @checked_ids = @study.get_addressed_ids
 		
     # get info on primary publication
-	  @primary_publication = @study.get_primary_publication
-    if @primary_publication.nil?
-		  @primary_publication = Publication.create()
-	  end
+	@primary_publication = @study.get_primary_publication
+	@primary_publication = @primary_publication.nil? ? Publication.create() : @primary_publication
 	  
-	  # get info on secondary publications
-	  @secondary_publications = @study.get_secondary_publications
+	# get info on secondary publications
+	@secondary_publications = @study.get_secondary_publications
 	  
-	  # create a new publication represented in the secondary publications form
-	  @publication = Publication.new
+	# create a new publication represented in the secondary publications form
+	@publication = Publication.new
   end
 
   # POST /studies
@@ -346,18 +316,13 @@ class StudiesController < ApplicationController
   def create
     @study = Study.new(params[:study])
   	@study.project_id = session[:project_id]
-	  @project = Project.find(session[:project_id])	
-    
-  	if params.keys.include?("study")
-    	@study.study_type = params[:study][:study_type]
-    end
+	@project = Project.find(session[:project_id])
+	Study.set_study_type(params)
     
   	makeActive(@study)
-    #questions = get_questions_params(params)
 	  
     respond_to do |format|
       if @study.save
-      	#@study.assign_questions(questions)
       	format.html { redirect_to(@study, :notice => 'Study was successfully created.') }
         format.xml  { render :xml => @study, :status => :created, :location => @study }
       else
@@ -371,28 +336,26 @@ class StudiesController < ApplicationController
   # PUT /studies/1.xml
   def update
     @study = Study.find(params[:id])
-	@project = Project.find(session[:project_id])	
-		if params.keys.include?("study")
-    	@study.study_type = params[:study][:study_type]
-    end
+	@project = Project.find(session[:project_id])
+	@study = Study.set_study_type(params, @study)	
+	
     respond_to do |format|
       if @study.update_attributes(params[:study])
-	  	  questions_flag = false
-      	questions = get_questions_params(params)
+			questions_flag = false
+			questions = get_questions_params(params)
 	      unless questions.empty?
-	      	
 	  	  	@study.assign_questions(questions)	  
-	  	  	format.js{
-	  	  	  render :update do |page|
-			success_html = "<div class='success_message' style='vertical-align:text-top; display:inline'>Saved</div>"
-			page.replace_html 'key_question_validation_message', success_html
-	  	  	  	page['key_question_validation_message'].visual_effect(:appear)
-				page['key_question_validation_message'].visual_effect(:fade)
-	  	  	  end
-  	  	  }
-  	  	end
+			format.js{
+				  render :update do |page|
+					success_html = "<div class='success_message' style='vertical-align:text-top; display:inline'>Saved</div>"
+					page.replace_html 'key_question_validation_message', success_html
+					page['key_question_validation_message'].visual_effect(:appear)
+					page['key_question_validation_message'].visual_effect(:fade)
+				  end
+			  }
+		end
 	  	  
-	  	  format.html { redirect_to(@study, :notice => 'Study was successfully updated.') }
+	  	format.html { redirect_to(@study, :notice => 'Study was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

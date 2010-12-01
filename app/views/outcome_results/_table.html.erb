@@ -72,17 +72,23 @@
 							<% i = i + 1 %>
 					<% end %>
 				<% end %>
+				
 					</tr>
 			</table>
+			
 		<%= submit_tag "Save" %>
+		
 	<% end %>
+	
 		<%= form_tag url_for(:controller => 'outcome_results', :action => 'clear_table', :project_id => session[:project_id], :study_id => session["study_id"]), :id => "clear_data_table_link", :remote => true do %>
 		<%= hidden_field_tag "subgroup_id", subgroup_id %>
 		<%= hidden_field_tag "outcome_id", @selected_outcome_object.id %>
 		<%= hidden_field_tag "timepoint_id", timepoint_id %>
 		<%= submit_tag "Clear Table Data from Database", :remote => true, :confirm => 'This will delete all the information in this table. Are you sure?', :id => "clear_data_table_link", :method => :post %>
 		<% end %>
+		
 <div id="new_col_entry">
 <%= render 'outcome_columns/form' %>
 </div>
-	<% end %>
+
+<% end %>
