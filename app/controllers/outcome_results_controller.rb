@@ -79,7 +79,7 @@ class OutcomeResultsController < ApplicationController
         format.js {
 		      render :update do |page|
 					page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
-					page.call "Custom.init();"
+					page.call "Custom.init"
 		  		end
 				}
 		end

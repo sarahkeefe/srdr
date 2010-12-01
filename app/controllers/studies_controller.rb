@@ -105,7 +105,7 @@ class StudiesController < ApplicationController
 	@first_subgroups = Outcome.get_subgroups_array(@first_outcome.id)
 	@first_timepoints = Outcome.get_timepoints_array(@first_outcome.id)
 	
-	current_selections = get_selected_sg_and_tp(@first_subgroups, @first_timepoints)
+	current_selections = OutcomeResult.get_selected_sg_and_tp(@first_subgroups, @first_timepoints)
     @selected_subgroup = current_selections[0]
     @selected_timepoint = current_selections[1]	
 
@@ -130,18 +130,18 @@ class StudiesController < ApplicationController
 	  	
       @selected_outcome = @outcomes[0].id
       @first_subgroups = Outcome.get_subgroups_array(@selected_outcome)
-      @first_subgroup_comparisons = get_analysis_subgroup_comparisons(@first_subgroups)
+      @first_subgroup_comparisons = OutcomeAnalysis.get_analysis_subgroup_comparisons(@first_subgroups)
       
       @first_timepoints = Outcome.get_timepoints_array(@selected_outcome)
-    	@first_timepoint_comparisons = get_analysis_timepoint_comparisons(@first_timepoints)
+    	@first_timepoint_comparisons = OutcomeAnalysis.get_analysis_timepoint_comparisons(@first_timepoints)
       
-      current_selections = get_selected_analysis_sg_and_tp(@first_subgroup_comparisons, @first_timepoint_comparisons)
+      current_selections = OutcomeAnalysis.get_selected_analysis_sg_and_tp(@first_subgroup_comparisons, @first_timepoint_comparisons)
       @selected_subgroup = current_selections[0]
       @selected_timepoint = current_selections[1]
       
       @continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND outcome_id=? AND subgroup_comp=? AND timepoint_comp=?",
       														session[:study_id], @selected_outcome, @selected_subgroup.to_s, @selected_timepoint])
-      @analysis_title = get_analysis_title(@outcomes[0].title, @selected_subgroup, @selected_timepoint)
+      @analysis_title = OutcomeAnalysis.get_analysis_title(@outcomes[0].title, @selected_subgroup, @selected_timepoint)
    	end
   end
   
@@ -156,20 +156,19 @@ class StudiesController < ApplicationController
   	@model_name = params[:form_type]
   	
   	if(@model_name == "outcome_analysis")
-  		@outcome_timepoint_comparisons = get_analysis_timepoint_comparisons(@outcome_timepoints)
-			@outcome_subgroup_comparisons = get_analysis_subgroup_comparisons(@outcome_subgroups)	  	
-  	  current_selections = get_selected_analysis_sg_and_tp(@outcome_subgroup_comparisons, @outcome_timepoint_comparisons)
+  		@outcome_timepoint_comparisons = OutcomeAnalysis.get_analysis_timepoint_comparisons(@outcome_timepoints)
+			@outcome_subgroup_comparisons = OutcomeAnalysis.get_analysis_subgroup_comparisons(@outcome_subgroups)	  	
+  	  current_selections = OutcomeAnalysis.get_selected_analysis_sg_and_tp(@outcome_subgroup_comparisons, @outcome_timepoint_comparisons)
   	  @selected_subgroup = current_selections[0]
   		@selected_timepoint = current_selections[1]
-  		@analysis_title = get_analysis_title(@selected_outcome_object.title, @selected_subgroup, @selected_timepoint)
+  		@analysis_title = OutcomeAnalysis.get_analysis_title(@selected_outcome_object.title, @selected_subgroup, @selected_timepoint)
   	
 		elsif(@model_name == "outcome_result")
-	  	current_selections = get_selected_sg_and_tp(@outcome_subgroups, @outcome_timepoints)
+	  	current_selections = OutcomeResult.get_selected_sg_and_tp(@outcome_subgroups, @outcome_timepoints)
 	  	@selected_subgroup = current_selections[0]
 	  	@selected_timepoint = current_selections[1]
 	  end
 
-  	
   	respond_to do |format|
   		format.js{
   			render :update do |page|
@@ -188,7 +187,7 @@ class StudiesController < ApplicationController
 					
     				 
   				 elsif (@model_name == "outcome_result")
-						 print "SELECTED OUTCOME IS " + @selected_outcome.to_s + "-------------------\n"
+					 print "SELECTED OUTCOME IS " + @selected_outcome.to_s + "-------------------\n"
   					 print "SELECTED SUBGROUP IS " + @selected_subgroup.to_s + "-------------------\n"
   					 print "SELECTED TIMEPOINT IS " + @selected_timepoint.to_s + "-------------------\n"
   					 page.replace_html 'timepoint_options',:partial => 'outcomes/timepoint_selector'
@@ -230,21 +229,21 @@ class StudiesController < ApplicationController
   	if @model_name == "outcome_analysis"
   		@outcome_subgroups = Outcome.get_subgroups_array(@selected_outcome)
   		@outcome_timepoints = Outcome.get_timepoints_array(@selected_outcome)
-  		@outcome_subgroup_comparisons = get_analysis_subgroup_comparisons(@outcome_subgroups, @selected_timepoint) 
-  		@outcome_timepoint_comparisons = get_analysis_timepoint_comparisons(@outcome_timepoints, @selected_subgroup) 
+  		@outcome_subgroup_comparisons = OutcomeAnalysis.get_analysis_subgroup_comparisons(@outcome_subgroups, @selected_timepoint) 
+  		@outcome_timepoint_comparisons = OutcomeAnalysis.get_analysis_timepoint_comparisons(@outcome_timepoints, @selected_subgroup) 
   		if @selected_timepoint =~ /\_vs\_/ && @selected_subgroup =~ /\_vs\_/ 
   			user_selected = params[:updating]
   			print "IM IN THE UPDATE PARTIAL AND WE NEED TO DO AN ALERT ----------------\n\n"
 				if user_selected == "timepoint"
-					@outcome_subgroup_comparisons = get_analysis_subgroup_comparisons(@outcome_subgroups, @selected_timepoint) 
+					@outcome_subgroup_comparisons = OutcomeAnalysis.get_analysis_subgroup_comparisons(@outcome_subgroups, @selected_timepoint) 
 					@selected_subgroup = "Total"				
 				elsif user_selected == "subgroup"
-					@outcome_timepoint_comparisons = get_analysis_timepoint_comparisons(@outcome_timepoints, @selected_subgroup) 
+					@outcome_timepoint_comparisons = OutcomeAnalysis.get_analysis_timepoint_comparisons(@outcome_timepoints, @selected_subgroup) 
 					@selected_timepoint = "Time_0"
 				end	
-			end
-			@analysis_title = get_analysis_title(outcome_title.title, @selected_subgroup, @selected_timepoint)
 		end
+			@analysis_title = OutcomeAnalysis.get_analysis_title(outcome_title.title, @selected_subgroup, @selected_timepoint)
+	end
 	
   	respond_to do |format|
   		format.js{
@@ -264,136 +263,14 @@ class StudiesController < ApplicationController
   				elsif (@model_name == "outcome_result")
 						@study_arms = Arm.where(:study_id => session[:study_id]).all
 						@selected_outcome_object = Outcome.find(@selected_outcome)
-						@selected_outcome_object_results = OutcomeResult.where(:subgroup_id => @selected_subgroup.to_i, :timepoint_id => @selected_timepoint.to_i, :outcome_id => @selected_outcome.to_i).first
-						#@outcome_columns = OutcomeColumn.where(:outcome_id => @selected_outcome.to_i, :timepoint_id => @selected_timepoint.to_i, :subgroup_id => @selected_subgroup.to_i).all
-						if @selected_outcome_object_results.nil?
-							@selected_outcome_object_results = OutcomeResult.new
-						end
+						@selected_outcome_object_results = OutcomeResult.new
 	  			end
   			end
   		}
   	end
   end
   
-  # format the title of the analysis based on what has been selected.
-  def get_analysis_title(outcome, subgroup, timepoint)
-  	my_timepoint = timepoint.gsub("_"," ")
-  	my_subgroup = subgroup.gsub("_"," ")
-  	
-  	comparison = Array.new
-  	retVal = "Enter Analysis For: <strong>#{outcome}</strong><br/>"
-  	being_compared="subgroup"
-  	comparison_made = false
-  	i = 0
-  	[my_subgroup,my_timepoint].each do |title|
-  	  if title=~/\svs\s/
-  		  comparison_made = true
-  		  if i > 0
-  			   being_compared="title"
-  		  end
-  		  comparison = [being_compared, title]
-  	  end
-  	  i = i + 1
-  	end
-  	
-  	if comparison_made
-  		if comparison[0]=="title"
-  			timepoints = comparison[1].split(/\svs\s/)
-  			retVal += "Comparing <strong>" + timepoints[0].to_s + "</strong> to <strong>" + timepoints[1].to_s + 
-  								"</strong> for the <strong>" + my_subgroup + "</strong> subgroup."
-  	  elsif comparison[0] == "subgroup"
-  	  	subgroups = comparison[1].split(/\svs\s/)
-  			retVal += "Comparing <strong>" + subgroups[0].to_s + "</strong> and <strong>" + subgroups[1].to_s + 
-  							 "</strong> subgroups at <strong>" + my_timepoint + "</strong>."
-  	  end	
-  	else
-  		retVal += "<strong>"+ my_subgroup + "</strong> subgroup at <strong>" + my_timepoint + "</strong>."	
-  	end
-  	return retVal
-  end
-  # Given an array of subgroups in the outcome, construct an array of 
-  # possible comparisons for the dropdown. Return this as an array of arrays
-  # such as [["Option Display","Option Value"], ["Option Display 2","Option Value 2"]]
-  def get_analysis_subgroup_comparisons(subgroups, selected_timepoint="Time_0")
-  	retVal = Array.new
-  	retVal << ['Total','Total']
-  	subs = subgroups.collect{|sg| sg.title}
-  	subs.each do |sub|
-  	  retVal << [sub.gsub("_"," "), sub]	
-  	end
-  	unless selected_timepoint =~ /\_vs\_/
-  		comparisons = Array.new
-  		for i in 0..retVal.length-2
-  			for j in i+1..retVal.length-1
-  				title = retVal[j][0] + " vs " + retVal[i][0]
-  				comparisons << [title, title.gsub(" ","_")]
-	  		end
-	  	end
-	  	retVal = retVal + comparisons
-	  end
-  	return retVal
-  end
   
-  # Given an array of timepoints in the outcome, construct an array of 
-  # possible comparisons for the dropdown. Return this as an array of arrays
-  # such as [["Option Display","Option Value"], ["Option Display 2","Option Value 2"]]
-  def get_analysis_timepoint_comparisons(timepoints, selected_subgroup="Total")
-  	retVal = Array.new
-  	retVal << ['Time 0','Time_0']
-  	points = timepoints.collect{|tp| tp.number.to_s + "_" + tp.time_unit.to_s}
-  	points.each do |point|
-  	  retVal << [point.gsub("_"," "), point]	
-  	end
-  	unless selected_subgroup =~ /\_vs\_/
-  		comparisons = Array.new
-  		for i in 0..retVal.length-2
-  			for j in i+1..retVal.length-1
-  				title = retVal[j][0] + " vs " + retVal[i][0]
-  				comparisons << [title, title.gsub(" ","_")]
-	  		end
-	  	end
-	  	retVal = retVal + comparisons
-	  end
-	  
-  	return retVal
-  end
-  # Return the ids for selected subgroup and timepoint in outcomedata or
-  # outcomeanalysis pages. 
-  # Params: arrays of subgroups and timepoints
-  # Returns: an array containing subgroup id and timepoint id
-  def get_selected_sg_and_tp(subgroups, timepoints)
-  	print "GETTING THE SELECTIONS NOW -----------------\n"
-  	selected_subgroup = 0
-    selected_timepoint = 0
-    retVal = Array.new
-    unless subgroups.empty?
-    	selected_subgroup = subgroups[0].id
-    end
-    unless timepoints.empty?
-    	selected_timepoint = timepoints[0].id
-    end
-    retVal = [selected_subgroup, selected_timepoint]
-    #print "RETVAL IS: " + selected_subgroup.to_s + ", " + selected_timepoint.to_s + "._________________\n"
-    return retVal
-  end
-  
-  # Return the values for selected subgroup and timepoint for outcome analysis. 
-  def get_selected_analysis_sg_and_tp(subgroups,timepoints)
-  	selected_subgroup = ""
-  	selected_timepoint = ""
-  	retVal=Array.new
-  	unless subgroups.empty?
-  		selected_subgroup = subgroups[0][1]
-  		#print "SETTING SELECTED SUBGROUP AS: " + selected_subgroup + "!!!!!!!!!!!!!\n\n"
-  	end
-  	unless timepoints.empty?
-  		selected_timepoint = timepoints[0][1]
-  		#print "SETTING SELECTED TIMEPOINT AS: " + selected_timepoint + "!!!!!!!!!!!!!\n\n"
-  	end
-  	retVal = [selected_subgroup, selected_timepoint]
-  	#print "RETVAL IS: " + selected_subgroup.to_s + ", " + selected_timepoint.to_s + "--------------\n"
-  	return retVal
-  end
   def adverseevents
 		@study = Study.find(params[:study_id])
 		@project = Project.find(params[:project_id])

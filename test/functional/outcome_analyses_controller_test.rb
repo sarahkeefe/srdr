@@ -2,7 +2,7 @@ require 'test_helper'
 
 class OutcomeAnalysesControllerTest < ActionController::TestCase
   setup do
-    @outcome_analyasis = outcome_analyses(:one)
+    @outcome_analysis = outcome_analyses(:one)
   end
 
   test "should get index" do
@@ -16,32 +16,32 @@ class OutcomeAnalysesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create outcome_analyasis" do
+  test "should create outcome_analysis" do
     assert_difference('OutcomeAnalysis.count') do
-      post :create, :outcome_analyasis => @outcome_analyasis.attributes
+      post :create, :outcome_analysis => @outcome_analysis.attributes
     end
 
-    assert_redirected_to outcome_analyasis_path(assigns(:outcome_analyasis))
+    assert_redirected_to outcome_analysis_path(assigns(:outcome_analysis))
   end
 
-  test "should show outcome_analyasis" do
-    get :show, :id => @outcome_analyasis.to_param
+  test "should show outcome_analysis" do
+    get :show, :id => @outcome_analysis.to_param
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, :id => @outcome_analyasis.to_param
+    get :edit, :id => @outcome_analysis.to_param
     assert_response :success
   end
 
-  test "should update outcome_analyasis" do
-    put :update, :id => @outcome_analyasis.to_param, :outcome_analyasis => @outcome_analyasis.attributes
-    assert_redirected_to outcome_analyasis_path(assigns(:outcome_analyasis))
+  test "should update outcome_analysis" do
+    put :update, :id => @outcome_analysis.to_param, :outcome_analysis => @outcome_analysis.attributes
+    assert_redirected_to outcome_analysis_path(assigns(:outcome_analysis))
   end
 
-  test "should destroy outcome_analyasis" do
+  test "should destroy outcome_analysis" do
     assert_difference('OutcomeAnalysis.count', -1) do
-      delete :destroy, :id => @outcome_analyasis.to_param
+      delete :destroy, :id => @outcome_analysis.to_param
     end
 
     assert_redirected_to outcome_analyses_path
