@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101130192209) do
+ActiveRecord::Schema.define(:version => 20101201193211) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer  "study_id"
@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(:version => 20101130192209) do
     t.integer  "adjusted_ci_upper_limit"
     t.string   "timepoint_comp"
     t.string   "subgroup_comp"
+    t.string   "adjusted_for"
   end
 
   create_table "outcome_column_values", :force => true do |t|

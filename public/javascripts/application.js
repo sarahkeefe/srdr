@@ -27,7 +27,9 @@ function getElementsByClass( searchClass, domNode, tagName) {
 	} 
 	return el;
 } 
+function show_hide_adjusted_data_option(adjusted_or_non){
 
+} 
 function disable_delete_links(){
 	alert('In the function');
 	var links = getElementsByClass("kq_delete_link")
@@ -56,19 +58,20 @@ function add_continuous_outcome_analysis_row(){
 		td2 = Builder.node('td'),
 		td3 = Builder.node('td'),
 		td4 = Builder.node('td'),
-		td5 = Builder.node('td'),
-		td6 = Builder.node('td'),
-		td7 = Builder.node('td'),
-		td8 = Builder.node('td'),
-		td9 = Builder.node('td'),
-		td10 = Builder.node('td'),
-		td11 = Builder.node('td'),
-		td12 = Builder.node('td');
-		td13 = Builder.node('td');
-		td14 = Builder.node('td');
-		td15 = Builder.node('td');
-		td16 = Builder.node('td');
-		td17 = Builder.node('td');
+		td5 = Builder.node('td',{class: 'non_adjusted_analysis'}),
+		td6 = Builder.node('td',{class: 'non_adjusted_analysis'}),
+		td7 = Builder.node('td',{class: 'non_adjusted_analysis'}),
+		td8 = Builder.node('td',{class: 'non_adjusted_analysis'}),
+		td9 = Builder.node('td',{class: 'non_adjusted_analysis'}),
+		td10 = Builder.node('td',{class: 'non_adjusted_analysis'}),
+		td11 = Builder.node('td',{class: 'adjusted_analysis'}),
+		td12 = Builder.node('td',{class: 'adjusted_analysis'});
+		td13 = Builder.node('td',{class: 'adjusted_analysis'});
+		td14 = Builder.node('td',{class: 'adjusted_analysis'});
+		td15 = Builder.node('td',{class: 'adjusted_analysis'});
+		td16 = Builder.node('td',{class: 'adjusted_analysis'});
+	  td17 = Builder.node('td',{class: 'adjusted_analysis'});
+		td18 = Builder.node('td');
 		
 		// GET THE NUMBER OF ARMS THAT WE NEED TO ITERATE THROUGH
 		var num_arms = $('available_arms').options.length
@@ -111,7 +114,8 @@ function add_continuous_outcome_analysis_row(){
 		td14.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[adjusted_ci_lower_limit]' id='outcome_analysis_"+row_num+"_adjusted_ci_lower_limit' size='3' />"
 		td15.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[adjusted_ci_upper_limit]' id='outcome_analysis_"+row_num+"_adjusted_ci_upper_limit' size='3' />"
 		td16.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[adjusted_p_value]' id='outcome_analysis_"+row_num+"_p_value' size='3' />";
-		td17.innerHTML = "<a onClick=remove_outcome_analysis_row('" + row_id + "'" + ",'continuous_analysis_table');>Remove</a>";
+		td17.innerHTML = "<input type='text' name='outcome_analysis_"+row_num+"[adjusted_for]' id='outcome_analysis_"+row_num+"_adjusted_for' size='8' />";
+		td18.innerHTML = "<a onClick=remove_outcome_analysis_row('" + row_id + "'" + ",'continuous_analysis_table');>Remove</a>";
 		//tr.appendChild(td1);
 		tr.appendChild(td2);
 		tr.appendChild(td3);
@@ -129,6 +133,7 @@ function add_continuous_outcome_analysis_row(){
 		tr.appendChild(td15);
 		tr.appendChild(td16);
 		tr.appendChild(td17);
+		tr.appendChild(td18);
 	
 	
 		tbody.appendChild(tr)		
@@ -205,5 +210,82 @@ function check_project_title(){
 function say_the_word(word){
 	alert(word.toString)
 }
+
+function toggle_display_by_class(class_name,default_display,element_id){
+	var cssRules;
+	
+	if(document.styleSheets[0]['rules']){ //IE
+		cssRules = 'rules';
+	}else if(document.styleSheets[0]['cssRules']){ //FIREFOX, ETC
+		cssRules = 'cssRules';
+	}else{
+		//browser unknown
+	}
+	var mysheet=document.styleSheets[0]
+	for (var i=0; i < mysheet.cssRules.length; i++){		
+		if (mysheet.cssRules[i].selectorText == class_name){
+			//alert(mysheet.cssRules[i].selectorText);
+			
+			if(mysheet.cssRules[i].style['display'] == 'none'){
+				mysheet.cssRules[i].style['display'] = default_display;
+				$(element_id).innerHTML = "Hide"
+			}else{
+				mysheet.cssRules[i].style['display'] = 'none'
+				$(element_id).innerHTML = "Show"
+			}
+		}
+	}
+}
+//Custom JavaScript Functions by Shawn Olson
+//Copyright 2006-2008
+//http://www.shawnolson.net
+//If you copy any functions from this page into your scripts, you must provide credit to Shawn Olson & http://www.shawnolson.net
+//*******************************************
+function changecss(theClass,element,value) {
+	alert("I'm changing the CSS now")
+	//Last Updated on October 10, 1020
+	//documentation for this script at
+	//http://www.shawnolson.net/a/503/altering-css-class-attributes-with-javascript.html
+	 var cssRules;
+
+	 var added = false;
+	 for (var S = 0; S < document.styleSheets.length; S++){
+
+    if (document.styleSheets[S]['rules']) {
+	  cssRules = 'rules';
+	 } else if (document.styleSheets[S]['cssRules']) {
+	  cssRules = 'cssRules';
+	 } else {
+	  //no rules found... browser unknown
+	 }
+
+	  for (var R = 0; R < document.styleSheets[S][cssRules].length; R++) {
+	   if (document.styleSheets[S][cssRules][R].selectorText == theClass) {
+	    if(document.styleSheets[S][cssRules][R].style[element]){
+	    document.styleSheets[S][cssRules][R].style[element] = value;
+	    added=true;
+		break;
+	    }
+	   }
+	  }
+	  if(!added){
+	  try{
+	  	document.styleSheets[S].insertRule(theClass+' { '+element+': '+value+'; }',document.styleSheets[S][cssRules].length);
+
+	  } catch(err){
+	  		try{document.styleSheets[S].addRule(theClass,element+': '+value+';');}catch(err){}
+
+	  }
+
+	  //if(document.styleSheets[S].insertRule){
+			  //document.styleSheets[S].insertRule(theClass+' { '+element+': '+value+'; }',document.styleSheets[S][cssRules].length);
+			//} else if (document.styleSheets[S].addRule) {
+				//document.styleSheets[S].addRule(theClass,element+': '+value+';');
+			//}
+	  }
+	 }
+}
+
+
 
 
