@@ -95,7 +95,11 @@ class OutcomeResult < ActiveRecord::Base
 				if @existing.length > 0
 					for i in @existing
 						i.value = params["arm_custom" + column_id.to_s][a.id.to_s]
-						i.is_calculated = params["arm_custom" + column_id.to_s + "_calculated"]
+						if params["arm_custom" + a.id.to_s + "_custom" + column_id.to_s + "_calculated"].to_s.eql? "t"
+							i.is_calculated = true
+						else
+							i.is_calculated = false
+						end
 						i.save
 					end
 				else
@@ -106,7 +110,11 @@ class OutcomeResult < ActiveRecord::Base
 					@col_val_new.subgroup_id = subgroup_id
 					@col_val_new.timepoint_id = timepoint_id
 					@col_val_new.value = params["arm_custom" + column_id.to_s][a.id.to_s]
-					@col_val_new.is_calculated = params["arm" + a.id.to_s + "_custom" + column_id.to_s + "_calculated"]
+					if params["arm" + a.id.to_s + "_custom" + column_id.to_s + "_calculated"].to_s.eql? "t"
+						@col_val_new.is_calculated = true
+					else
+						@col_val_new.is_calculated = false
+					end
 					@col_val_new.save
 				end
 		end
@@ -152,10 +160,10 @@ class OutcomeResult < ActiveRecord::Base
 		
 		def self.get_custom_col_data_point_calc(arm_id, outcome_id, timepoint_id, subgroup_id, col_id)
 			o_res = OutcomeColumnValue.where(:outcome_id => outcome_id, :arm_id => arm_id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id, :column_id => col_id).first
-			if !o_res.nil? && (o_res.is_calculated == "t" || o_res.is_calculated == "f")
+			if !o_res.nil?
 				return o_res.is_calculated
 			else
-				return false		
+				return true		
 			end
 		end		
 
