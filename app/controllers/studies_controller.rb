@@ -243,6 +243,8 @@ class StudiesController < ApplicationController
 						@study_arms = Arm.where(:study_id => session[:study_id]).all
 						@selected_outcome_object = Outcome.find(@selected_outcome)
 						@selected_outcome_object_results = OutcomeResult.new
+						page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
+    				
 	  			end
   			end
   		}
