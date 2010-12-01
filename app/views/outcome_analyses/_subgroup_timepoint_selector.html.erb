@@ -1,3 +1,6 @@
+<table width=925>
+	<tr>
+		<td>
 <br/>
 <b>Select the Outcome to Analyze: </b><br/>
 	<%= select "outcome", "outcome", Outcome.where(:study_id => session[:study_id]).all.collect {|o| [o.title,o.id]}, {},
@@ -44,3 +47,11 @@
     Non-Adjusted: <span id='toggle_nonadjusted_link' onClick="toggle_display_by_class('.non_adjusted_analysis','table-cell',this.id);">Hide</span>
     <br/>Adjusted: <span id='toggle_adjusted_link' onClick="toggle_display_by_class('.adjusted_analysis','table-cell',this.id);">Hide</span>
 		<br/><br/>
+     </td>
+     <td width=50% valign=top>
+     	  <div id='existing_analyses'>
+     	  	<%= render :partial=>"outcome_analyses/saved_analyses" %>
+     	  </div>
+     	</td>
+     <tr>
+     </table>

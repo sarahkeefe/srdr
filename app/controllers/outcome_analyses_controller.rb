@@ -18,6 +18,7 @@ class OutcomeAnalysesController < ApplicationController
   # POST /outcome_analyses
   # POST /outcome_analyses.xml
   def create
+  begin
     analyses = get_analysis_params(params) 
     outcome_id = params[:selected_outcome]
     subgroup_id = params[:selected_subgroup]
@@ -34,17 +35,30 @@ class OutcomeAnalysesController < ApplicationController
     	@outcome_analysis.adjusted_estimation_parameter_type = params[:outcome_analysis][:adjusted_estimation_parameter_type]
     	@outcome_analysis.adjusted_parameter_dispersion_type = params[:outcome_analysis][:adjusted_parameter_dispersion_type]
     	@outcome_analysis.study_id = session[:study_id]
-    	@outcome_analysis.save
+  		@outcome_analysis.save
     end
-  	
-
+  rescue Exception=>e
+    		print "\n\n\n\nWe may have a problem with the study analysis\n\n\n\n"
+  end
+  
     respond_to do |format|
       if @outcome_analysis.save      	
+      	@saved_analyses = OutcomeAnalysis.get_saved_analyses(session[:study_id])
       	format.html { redirect_to(@outcome_analysis, :notice => 'Outcome analysis was successfully created.') }
         format.xml  { render :xml => @outcome_analysis, :status => :created, :location => @outcome_analysis }
+        format.js{
+        	render :update do |page|
+        		 page.replace_html 'existing_analyses',:partial => 'outcome_analyses/saved_analyses'
+        	end
+      	}
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @outcome_analysis.errors, :status => :unprocessable_entity }
+        format.js{
+        	render :update do |page|
+        		 page.replace_html 'existing_analyses',:partial => 'outcome_analyses/saved_analyses'
+        	end
+      	}
       end
     end
   end

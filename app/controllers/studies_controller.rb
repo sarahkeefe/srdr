@@ -112,21 +112,25 @@ class StudiesController < ApplicationController
 		@outcomes = Outcome.find(:all, :conditions=>["study_id=?",session[:study_id]],:select=>["id","title","description"])
 		@new_continuous_analysis = OutcomeAnalysis.new
 	 	unless @outcomes.empty?
-			@selected_outcome = @outcomes[0].id
-			@first_subgroups = Outcome.get_subgroups_array(@selected_outcome)
-			@first_subgroup_comparisons = OutcomeAnalysis.get_analysis_subgroup_comparisons(@first_subgroups)
-		  
-			@first_timepoints = Outcome.get_timepoints_array(@selected_outcome)
-			@first_timepoint_comparisons = OutcomeAnalysis.get_analysis_timepoint_comparisons(@first_timepoints)
-		  
-			current_selections = OutcomeAnalysis.get_selected_analysis_sg_and_tp(@first_subgroup_comparisons, @first_timepoint_comparisons)
-			@selected_subgroup = current_selections[0]
-			@selected_timepoint = current_selections[1]
-			@continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND outcome_id=? AND subgroup_comp=? AND timepoint_comp=?",
-																session[:study_id], @selected_outcome, @selected_subgroup.to_s, @selected_timepoint])
-			@analysis_title = OutcomeAnalysis.get_analysis_title(@outcomes[0].title, @selected_subgroup, @selected_timepoint)
-		end
-  end
+	  	
+      @selected_outcome = @outcomes[0].id
+      @first_subgroups = Outcome.get_subgroups_array(@selected_outcome)
+      @first_subgroup_comparisons = OutcomeAnalysis.get_analysis_subgroup_comparisons(@first_subgroups)
+      
+      @first_timepoints = Outcome.get_timepoints_array(@selected_outcome)
+    	@first_timepoint_comparisons = OutcomeAnalysis.get_analysis_timepoint_comparisons(@first_timepoints)
+      
+      current_selections = OutcomeAnalysis.get_selected_analysis_sg_and_tp(@first_subgroup_comparisons, @first_timepoint_comparisons)
+      @selected_subgroup = current_selections[0]
+      @selected_timepoint = current_selections[1]
+      
+      @continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND outcome_id=? AND subgroup_comp=? AND timepoint_comp=?",
+      														session[:study_id], @selected_outcome, @selected_subgroup.to_s, @selected_timepoint])
+      
+      @saved_analyses = OutcomeAnalysis.get_saved_analyses(session[:study_id])
+      @analysis_title = OutcomeAnalysis.get_analysis_title(@outcomes[0].title, @selected_subgroup, @selected_timepoint)
+ 		 end
+ 	end
   
   # When the outcome type is changed in the outcome analysis or data page, we have to update the 
   # other subgroup and timepoint selections accordingly. 
@@ -219,7 +223,7 @@ class StudiesController < ApplicationController
 				end	
 		end
 			@analysis_title = OutcomeAnalysis.get_analysis_title(outcome_title.title, @selected_subgroup, @selected_timepoint)
-	end
+	 end
 	
   	respond_to do |format|
   		format.js{
@@ -239,13 +243,13 @@ class StudiesController < ApplicationController
 						@study_arms = Arm.where(:study_id => session[:study_id]).all
 						@selected_outcome_object = Outcome.find(@selected_outcome)
 						@selected_outcome_object_results = OutcomeResult.new
+						page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
+    				
 	  			end
   			end
   		}
   	end
   end
-  
-  
   def adverseevents
 		@study = Study.find(params[:study_id])
 		@project = Project.find(params[:project_id])
