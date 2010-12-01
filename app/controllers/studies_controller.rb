@@ -152,12 +152,6 @@ class StudiesController < ApplicationController
   	@selected_outcome = @selected_outcome_object.id
   	@outcome_subgroups = Outcome.get_subgroups_array(@selected_outcome)
   	@outcome_timepoints = Outcome.get_timepoints_array(@selected_outcome)
-<<<<<<< HEAD
-=======
-  	#print "OUTCOME TIMEPOINTS HAS #{@outcome_timepoints.length} ITEMS IN IT " +
-  	#		  "AND THE FIRST IS #{@outcome_timepoints[0].number} #{@outcome_timepoints[0].time_unit}\n\n"
-  	#print "OUTCOME SUBGROUPS HAS #{@outcome_subgroups.length} ITEMS IN IT\n\n"
->>>>>>> cb2a4135fdd9d296a6fc7d2b0d23e474fccb130e
   	@study_arms = Arm.find(:all, :conditions=>["study_id=?",session[:study_id]], :select=>["id","title"])
   	@model_name = params[:form_type]
   	
