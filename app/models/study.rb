@@ -15,6 +15,20 @@ class Study < ActiveRecord::Base
 	has_many :publications, :dependent=>:destroy
 	attr_accessible :study_type, :recruitment_details, :inclusion_criteria, :exclusion_criteria, :num_participants, :outcome_attributes
 
+	def self.set_template_id_if_exists(params, study)
+	  template_id = ""
+	  if params.keys.include?("template")
+			template_id = params[:template]
+			study.get_template_setup(template_id)
+	  end	
+	end
+	
+	def self.set_study_type(params)
+		if params.keys.include?("study")
+			@study.study_type = params[:study][:study_type]
+		end
+	end
+	
 	def self.get_arms(study_id)
 		return Arm.where(:study_id => study_id).all
 	end
