@@ -61,14 +61,17 @@ module ApplicationHelper
 							study_title="New Study"
 						end
 						study_uri = "/projects/#{project_id.to_s}/studies/#{study_id.to_s}"
-						retVal = retVal + create_crumb_link(study_uri, study_title, is_end_of_trail)	
+						retVal = retVal + create_crumb_link(study_uri, study_title, true)	
+						#retVal = retVal + get_study_level_links(project_id, study_id,"|")
+						retVal = retVal + get_study_level_jump_menu(project_id, study_id)
 					else
 						 # fill this in for other types of urls
 					end  
 				when /^\w+/
-					uri = "/projects/#{project_id.to_s}/studies/#{study_id.to_s}/#{element.to_s}"
-					text = element.to_s.capitalize  
-					retVal = retVal + create_crumb_link(uri,text, is_end_of_trail)
+					#uri = "/projects/#{project_id.to_s}/studies/#{study_id.to_s}/#{element.to_s}"
+					#text = element.to_s.capitalize  
+					#retVal = retVal + create_crumb_link(uri,text, is_end_of_trail)
+					retVal.gsub!(/\>\s$/,"")
 					
 				else	
 					# get rid of the trailing characters
@@ -86,6 +89,46 @@ module ApplicationHelper
   	end
 	end
 	
+	# Return a list of links when the user is already inside a study.
+	# These should include things like Design, Baseline Characteristics,
+	# Outcome Setup, Outcome Data Entry, Outcome Analysis, Adverse Events,
+	# and Study Quality
+	def get_study_level_links(pid, sid, sep)
+		retVal = "<br/>&nbsp;&nbsp;Study Links: "
+		base_url = "/projects/#{pid.to_s}/studies/#{sid.to_s}/"
+		publication = "<a href='" + base_url + "edit'>Publications</a> " + sep + " "
+		arms = "<a href='" + base_url + "design'>Arms</a> "  + sep + " "
+		characteristics = "<a href='" + base_url + "attributes'>Baseline Characteristics</a> " + sep + " "
+		outcomes = "<a href='" + base_url + "outcomesetup'>Outcomes</a> " + sep + " "
+		results = "<a href='" + base_url + "outcomedata'>Outcome Results</a> " + sep + " "
+		analysis = "<a href='" + base_url + "outcomeanalysis'>Outcome Analysis</a> " + sep + " "
+		adverse = "<a href='" + base_url + "adverseevents'>Adverse Events</a> " + sep + " " 
+		quality = "<a href='" + base_url + "quality'>Study Quality</a> " + sep + " " 
+		preview = "<a href='" + base_url + "'>Preview</a>"
+		
+		retVal = retVal + publication + arms + characteristics + outcomes + results + analysis + adverse + quality + preview
+		return retVal
+	end
+	
+	# An alternative way to display study-level links, this will allow users to jump to various 
+	# sections in the study using a dropdown selector.
+	def get_study_level_jump_menu(pid, sid)
+		retVal = "<br/><div style='float:right;'><select class='jumpmenu'>"
+		base_url = "/projects/#{pid.to_s}/studies/#{sid.to_s}/"
+		default = "<option value='"+base_url+"edit'>Jump To Study Section...</option>"
+		publication = "<option value='"+base_url+"edit'>Publications</option>"
+		arms = "<option value='"+base_url+"design'>Arms</option>"
+		characteristics = "<option value='"+base_url+"attributes'>Baseline Characteristics</option>"
+		outcomes = "<option value='"+base_url+"outcomesetup'>Outcomes</option>"
+		results = "<option value='"+base_url+"outcomedata'>Outcome Results</option>"
+		analysis = "<option value='"+base_url+"outcomeanalysis'>Outcome Analysis</option>"
+		adverse = "<option value='"+base_url+"adverseevents'>Adverse Events</option>"
+		quality = "<option value='"+base_url+"quality'>Study Quality</option>"
+		preview = "<option value='"+base_url+"'>Preview/Summary</option>"
+		retVal = retVal + default + publication + arms + characteristics + outcomes + results + analysis + adverse + quality + preview
+		retVal = retVal + "</select></div>"
+		return retVal
+	end
 	def create_crumb_link(uri,text,end_of_trail)
 		link = ""
 		if end_of_trail
