@@ -45,6 +45,8 @@ Identifier: <%= t.text_field :number %> Identifier type: <%= t.text_field :numbe
   <%= hidden_field_tag :is_primary, "false" %>
 
   <div class="actions">
-    <%= f.submit "Add Secondary Publication" %>
+    		<button type="submit" class="positive">
+			<%= image_tag "Add.png"%>Add Secondary Publication
+		</button>
   </div>
 <% end %>

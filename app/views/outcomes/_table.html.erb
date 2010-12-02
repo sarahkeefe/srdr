@@ -6,8 +6,8 @@
 <th>Follow-Up Time Points</th>
 <th>Subgroups</th>
 <th>Outcome Description</th>
-<th>Edit</th>
-<th>Delete</th>
+<th>Notes</th>
+<th>Actions</th>
 <% if @outcomes.length > 0 %>
 <% for oneoutcome in @outcomes %>
 	<tr class="<%= cycle("even", "odd") %>" id=<%= "outcome_"+oneoutcome.id.to_s %>>
@@ -29,8 +29,9 @@
 	<%= outcome_subgroups %>
 	</td>
 	<td><%= oneoutcome.description %></td>
-	<td><%= link_to "Edit", edit_outcome_path(oneoutcome), :remote=>true %></td>
-	<td><%= link_to "Delete", oneoutcome, :remote => true, :update => "outcomes_table", :confirm => 'Are you sure?', :method => :delete %></td>
+	<td><%= oneoutcome.notes %></td>
+	<td><%= link_to "Edit", edit_outcome_path(oneoutcome), :remote=>true, :class => "edit_link" %>
+	<%= link_to "Delete", oneoutcome, :remote => true, :update => "outcomes_table", :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %></td>
 	</tr>
 	<% end %>
 <% end %>

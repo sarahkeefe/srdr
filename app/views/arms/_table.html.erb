@@ -4,15 +4,14 @@
   	<th>Arm Title</th>
   	<th>Participants</th>
   	<th>Arm Description</th>
-  	<th>Edit</th>
-  	<th>Delete</th>
+  	<th>Actions</th>
     <% for onearm in @arms %>
       <tr class="<%= cycle("even", "odd") %>" id="arm_row_<%=onearm.id.to_s %>">
 				<td><%= onearm.title %></td>
 				<td><%= onearm.num_participants %></td>
 				<td><%= onearm.description %></td>
-				<td><%= link_to 'Edit', edit_study_arm_path(session[:study_id],onearm), :remote=>true %></td>
-				<td><%= link_to "Delete", onearm, :remote => true, :confirm => 'Are you sure?', :method => :delete %></td>
+				<td><%= link_to 'Edit', edit_study_arm_path(session[:study_id],onearm), :remote=>true, :class => "edit_link" %>
+				<%= link_to "Delete", onearm, :remote => true, :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %></td>
 			</tr>
 		<% end %>
 	</table>

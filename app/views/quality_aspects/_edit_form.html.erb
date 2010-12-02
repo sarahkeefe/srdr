@@ -27,6 +27,8 @@
     <%= f.text_area :notes, :rows => 4, :cols => 40 %>
   </div>
   <div class="actions">
- <%= f.submit "Update" %>  <%= link_to 'Done Editing', new_quality_aspect_path, :remote=>true %>
+		<button type="submit" class="positive">
+			<%= image_tag "Add.png"%>Update Quality Dimension
+		</button>  <%= link_to 'Done Editing', new_quality_aspect_path, :remote=>true %>
   </div>
 <% end %>

@@ -41,6 +41,8 @@
     <%= f.text_field :definition_used %>
   </div>
   <div class="actions">
-    <%= f.submit "Update" %>  <%= link_to 'Done Editing', new_adverse_event_path, :remote=>true %>
+		<button type="submit" class="positive">
+			<%= image_tag "Add.png"%>Update Adverse Event
+		</button> <%= link_to 'Done Editing', new_adverse_event_path, :remote=>true %>
   </div>
 <% end %>

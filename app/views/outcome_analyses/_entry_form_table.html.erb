@@ -168,8 +168,11 @@
 <% end %>
 
 </table>
-
-<%= f.submit "Save" %>
+<div class="actions">
+		<button type="submit" class="positive">
+			<%= image_tag "Accept.png"%>Save Analysis Table Data
+		</button>
+		</div>
 <% end %>
 <br/>
 <span style="text-decoration:underline" onClick="add_continuous_outcome_analysis_row();" class='span_link'>Add Analysis Row</span>

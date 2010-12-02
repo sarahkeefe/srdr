@@ -17,9 +17,10 @@
 		<!--
 		//on page load
 		// originally saw this script at http://www.encaffeinated.com/articles/view/creating_a_jumpmenu_in_jquery/
-		$(document).ready(function() {
-		    $(".jumpmenu").change(function() {
-		        var val = $(this).selectedValues();
+		var $j = jQuery.noConflict();
+		$j(document).ready(function() {
+		    $j(".jumpmenu").change(function() {
+		        var val = $j(this).selectedValues();
 		        if (val != '') {
 		            location.href=val;
 		        }

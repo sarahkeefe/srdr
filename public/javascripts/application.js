@@ -1,6 +1,17 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
+function do_confirm(event, str)
+{
+var answer = confirm(str); 
+if (answer) {
+}
+else
+{
+	event.preventDefault();
+	}
+}
+
 // Clear the form in the key questions creation after the information is submitted
 // and updated via ajax
 function clear_kq_form(){

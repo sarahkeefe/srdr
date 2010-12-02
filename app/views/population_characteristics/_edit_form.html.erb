@@ -24,8 +24,12 @@
   <% end %><br/>
 <%= f.link_to_add "Add a Subcategory", :population_characteristic_subcategories %>
 </td></tr><tr><td>
+    <%= f.label :notes_on_this_characteristic %>:<br/>
+    <%= f.text_area :notes, :rows => 4, :cols => 40 %><br/><br/>
   <div class="actions">
-    <%= f.submit "Update" %>
+		<button type="submit" class="positive">
+			<%= image_tag "Add.png"%>Update Baseline Characteristic
+		</button>
     <%= link_to 'Done Editing', new_study_population_characteristic_path(session[:study_id]), :remote=>true %>	
   </div>
   </td></tr></table>

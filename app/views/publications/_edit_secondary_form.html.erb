@@ -42,7 +42,10 @@
   <%= hidden_field_tag :is_primary, "false" %>
 
   <div class="actions">
-   <%= f.submit "Update" %>  <%= link_to 'Done Editing', new_study_publication_path(session[:study_id]), :remote=>true %>
+ 		<button type="submit" class="positive">
+			<%= image_tag "Add.png"%>Update Publication
+		</button>
+		<%= link_to 'Done Editing', new_study_publication_path(session[:study_id]), :remote=>true %>
   </div>
 
 <% end %>

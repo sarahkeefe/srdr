@@ -30,8 +30,11 @@
   	<td colspan="2">
     <%= f.text_area :notes, :cols => 50, :rows => 4 %></td></tr><tr><td colspan="2">
 
-  <div class="actions">
-    <%= f.submit "Save" %>
-  </div></td></tr></table>
+	<div class="actions">
+		<button type="submit" class="positive">
+			<%= image_tag "Accept.png"%>Save Project
+		</button>
+  </div>
+  </td></tr></table>
 <% end %>
 </div>

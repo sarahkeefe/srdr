@@ -8,9 +8,7 @@
     <th>Author</th>
     <th>Year</th>
     <th>Key Questions Answered</th>
-    <th>Edit</th>
-    <th>Copy</th>
-	<th>Delete</th>
+    <th>Actions</th>
   </tr>
 <% i=0 %>
 <% @studies.each do |study| %>
@@ -28,9 +26,9 @@
 		<% arr = Study.get_key_question_output(study.id) %>
 		<%= arr.to_sentence %>
 	</td>
-    <td><%= link_to 'Edit', edit_project_study_path(@project, study) %></td>
-    <td><%= link_to 'Copy',new_project_study_path(@project, :template=>study.id) %>
-    <td><%= link_to 'Delete', project_study_path(@project, study), :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Edit', edit_project_study_path(@project, study), :class => "edit_link" %>
+	<%= link_to 'Copy',new_project_study_path(@project, :template=>study.id), :class => "edit_link" %>
+	<%= link_to 'Delete', project_study_path(@project, study), :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %></td>
   </tr>
   <% end %>
 <% end %>

@@ -55,10 +55,14 @@
     <%= f.text_area :description, :rows => 4, :cols => 40 %>
   </div>
   <div class="field">
-    <%= f.label :notes %>:<br />
+        General notes about this outcome:<br/>
+		(Specific notes about timepoints, subgroups, and data can be entered on the Results page)<br/>
     <%= f.text_area :notes, :rows => 4, :cols => 40 %>
   </div>
   <div class="actions">
-    <%= f.submit "Update Outcome" %>  <%= link_to 'Done Editing', new_outcome_path, :remote=>true %>
+		<button type="submit" class="positive">
+			<%= image_tag "Add.png"%>Update Outcome
+		</button>
+  <%= link_to 'Done Editing', new_outcome_path, :remote=>true %>
   </div>
 <% end %>

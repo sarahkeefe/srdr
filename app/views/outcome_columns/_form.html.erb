@@ -1,3 +1,4 @@
+<h4>Add Custom Column to Data Table</h4><br/>
 <div id="outcome_column_validation_message"></div>
 <% @outcome_column = OutcomeColumn.new %>
 <%= form_for @outcome_column, :action => :create,  :remote => true, :id => "new_outcome_column" do |f| %>
@@ -6,5 +7,10 @@
 	<%= hidden_field_tag "timepoint_id", !@selected_timepoint.nil? ? @selected_timepoint : 0 %>
 	<%= hidden_field_tag "subgroup_id", !@selected_subgroup.nil? ? @selected_subgroup : 0 %>
  
-    Custom Column Title: <%= f.text_field :name %> Description: <%= f.text_field :description %> <%= f.submit "Add Custom Column" %>
+    Custom Column Title: <%= f.text_field :name %> Description: <%= f.text_field :description %> 
+	<div class="actions inline-actions">
+		<button type="submit" class="regular">
+			<%= image_tag "Add-blue.png"%>Add Custom Column
+		</button>
+	</div>
 <% end %>

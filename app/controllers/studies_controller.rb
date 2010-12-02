@@ -101,6 +101,7 @@ class StudiesController < ApplicationController
 	@selected_outcome_object = Outcome.find(@first_outcome.id)
 	@selected_outcome_object_results = OutcomeResult.get_selected_outcome_results(@first_outcome.id, @selected_subgroup, @selected_timepoint)
 	@outcome_column = OutcomeColumn.new
+	@secondary_publications = @study.get_secondary_publications	
 	render :layout => 'outcomesetup'	
 	 end
   
@@ -287,10 +288,7 @@ class StudiesController < ApplicationController
 		
 	@questions = @study.get_question_choices(session[:project_id])
     render :layout => 'studydesign'	
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @study }
-    end
+
   end
 
   # GET /studies/1/edit

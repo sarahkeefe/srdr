@@ -24,7 +24,9 @@
     <%= f.text_field :num_participants %>
   </div>
   <div class="actions">
-    <%= f.submit "Update" %>  
+		<button type="submit" class="positive">
+			<%= image_tag "Add.png"%>Add Arm to Study
+		</button>
     <%= link_to 'Done Editing', new_study_arm_path(session[:study_id]), :remote=>true %>
   </div>
 <% end %>
