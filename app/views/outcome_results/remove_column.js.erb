@@ -1,0 +1,7 @@
+var $j = jQuery.noConflict();
+$j(document).ready(function(){
+$j('.remove_column_link').bind('click', function(event) {
+    alert(this.id);
+	event.preventDefault();
+});
+});

@@ -13,7 +13,6 @@
 		for (i = 0; i < cat_and_subcat_ids.length; i++)
 		{
 			// cat_and_subcat_ids array elements are in the format of  CAT_ID:SUBCAT_ID-SUBCAT-ID-SUBCAT_ID...
-			
 			var cat_and_subcat_ids_arr = cat_and_subcat_ids[i].split(":");	
 			var  the_cat_id = cat_and_subcat_ids_arr[0];
 

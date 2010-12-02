@@ -286,6 +286,3 @@ function changecss(theClass,element,value) {
 	 }
 }
 
-
-
-
