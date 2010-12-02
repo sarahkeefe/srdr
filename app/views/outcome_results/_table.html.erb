@@ -21,7 +21,10 @@
 				<% 	@outcome_columns = OutcomeColumn.where(:outcome_id => @selected_outcome_object.id, :timepoint_id => timepoint_id, :subgroup_id => subgroup_id).all	%>
 				<% if !@outcome_columns.nil? && @outcome_columns.length > 0 %>
 					<% for custom_col in @outcome_columns %>
-						<th><%= custom_col.name %></th>
+						<th>
+							<%= custom_col.name %><br/>
+							<%= link_to "x", {:controller => "outcome_results", :action => "delete_column", :project_id => session[:project_id], :study_id => session["study_id"], :id => custom_col.id.to_s, :outcome_id => @selected_outcome_object.id, :timepoint_id => timepoint_id, :subgroup_id => subgroup_id}, {:title => "delete this column", :class => "remove_column_link", :id => "col_" + custom_col.id.to_s, :remote => true, :confirm => "This will delete the column and all of its data. Are you sure you want to delete this column?", :method => "post"} %>
+						</th>
 					<% end %>
 				<% end %>
 				

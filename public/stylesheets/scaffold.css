@@ -8,7 +8,7 @@ body, p, ol, ul, td {
 
 .container
 {
-	width: 950px;
+	width: 95%;
 	margin: 0 auto;
 	#background-color: #fff;
 	padding-left: 8px;
@@ -19,7 +19,7 @@ body, p, ol, ul, td {
 .header
 {
 	width: 100%;
-	margin-right: 0;
+	margin: 0 auto;
 }
 
 .content{

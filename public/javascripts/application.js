@@ -233,4 +233,3 @@ function toggle_display_by_class(class_name,default_display,element_id){
 	}
 }
 
-
