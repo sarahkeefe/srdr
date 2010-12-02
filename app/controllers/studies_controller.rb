@@ -1,5 +1,6 @@
 class StudiesController < ApplicationController
-  # GET /studies
+  layout "studies"
+	# GET /studies
   # GET /studies.xml
   def index
     @studies = Study.where(:project_id => params[:project_id])
