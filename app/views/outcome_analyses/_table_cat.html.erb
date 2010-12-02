@@ -37,7 +37,7 @@
 </tr>
 <% unless @analyses.empty? %>
 <% row_num = 1%>
-	<% analyses.each do |cat| %>
+	<% @analyses.each do |cat| %>
   	
 	  <tr class="<%= cycle("even", "odd") %>" id=<%= "categorical_row_" + row_num.to_s %> > 
   		<td>

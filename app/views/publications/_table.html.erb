@@ -5,6 +5,7 @@
 	<th>Author</th>
 	<th>Country</th>
 	<th>Year</th>
+	<th>Association</th>
 	<th>Actions</th>
 	<% for pub in @secondary_publications %>
 		<tr class="<%= cycle("even", "odd") %>" id="pub_row_<%=pub.id.to_s %>">
@@ -20,6 +21,8 @@
 		<td><%= pub.author %></td>
 		<td><%= pub.country %></td>
 		<td><%= pub.year %></td>
+		<td><%= pub.association.gsub("_", " ")
+ %></td>
 		<td><%= link_to :Edit, edit_publication_path(pub), :remote=>true, :class => "edit_link" %>
 		<%= link_to :Delete, publication_path(pub), :remote=>true, :confirm => 'Are you sure?', :method=>:delete, :class => "delete_link" %></td>
 		</tr>

@@ -14,12 +14,14 @@
 	  <h4>Recruitment Details:</h4></td></tr><tr><td colspan="2"> <%= @study.recruitment_details %>  </td></tr></table>
 	  <br/>
 	</div>
+	
 	<br/>
+	
 	<!-- KEY QUESTIONS DIV SECTION -->
 	<div class="summary_heading" onclick="toggle_display('key_questions_text','key_questions_link');" >
 	<span id='key_questions_link' class="toggle_hide_link">-</span>
   	&nbsp;Key Questions Addressed
-	</div>
+	</div><br/>
 	<div id="key_questions_text" style="display:inline;">
 	<% unless @study_questions.empty? %>
 	<% @study_questions.each do |q| %>
@@ -30,12 +32,15 @@
 	<% end %>
 	</div>
 	<br/>
+	<br/>
+	
 	<!-- PUBLICATION INFORMATION DIV SECTION -->
 	<div class="summary_heading" onclick="toggle_display('publications_text','publications_link');" >
 	<span id='publications_link' class="toggle_display_link">+</span>
   	&nbsp;Publication Information
 	</div>
 	<div id="publications_text" style="display:none;">
+	<br/>
 	<h4>Primary Publication</h4>
 		<table border="0" cellpadding="2"><tr><td>
 		<b>Title:</b></td><td colspan="3"> <%= @primary_publication.title %> </td></tr><tr><td>
@@ -44,6 +49,7 @@
 		<b>UI: </b></td><td> <%=@primary_publication.ui %> </td><td><b>UI Type: </b></td><td> <%=@primary_publication.ui_type %> </td></tr></table>
 		
 	<br/>
+	
 	<h4>Secondary Publications</h4><br/>
 		<%= render 'publications/completed_table' %>	
 	</div>
@@ -76,7 +82,7 @@
 	<span id='study_arms_link' class="toggle_display_link">+</span>
   	&nbsp;Study Arms
 	</div>
-	<div id="study_arms_text" style="display:none;">		
+	<div id="study_arms_text" style="display:none;">		<br/>
 		<%= render 'arms/completed_table' %>	
 	<br/>
 	</div>
@@ -87,7 +93,7 @@
 		<span id='pop_char_link' class='toggle_display_link'>+</span>
 	  &nbsp;Population Characteristics
 	</div>
-	<div id="pop_char_text" style="display:none;">
+	<div id="pop_char_text" style="display:none;"><br/>
 	<%= render 'population_characteristics/completed_table' %>
 	<br/>
 	</div>

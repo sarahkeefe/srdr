@@ -36,11 +36,13 @@
   	</select>
   </div>
 
-  	<%= f.fields_for :publication_numbers do |t| %>
-Identifier: <%= t.text_field :number %> Identifier type: <%= t.text_field :number_type %>  &nbsp;<%= t.link_to_remove "Remove" %><br/>
+<% @id_types = [["Choose Identifier Type", "Choose Identifier Type"], ["Pubmed", "Pubmed"], ["Cochrane", "Cochrane"], ["NCT", "NCT"], ["ClinicalTrials\.gov", "ClinicalTrials\.gov"], ["Other", "Other"]]%>
+
+	<%= f.fields_for :publication_numbers do |t| %>
+		Identifier: <%= t.text_field :number %> Identifier type:
+		<%= t.select :number_type, @id_types %><%= t.link_to_remove "Remove" %><br/>
   <% end %><br/>
 <%= f.link_to_add "Add an Identifier", :publication_numbers %>
-  <br/><br/>
   
   <%= hidden_field_tag :is_primary, "false" %>
 

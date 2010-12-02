@@ -658,3 +658,8 @@ button.regular, .actions a.regular{
     border:1px solid #6299c5;
     color:#fff;
 }
+
+input, textarea{
+	font-size: 14px;
+	font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+}
