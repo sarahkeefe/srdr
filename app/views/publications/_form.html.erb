@@ -1,5 +1,5 @@
 <div id="secondary_pub_validation_message"></div>
-<%= form_for @publication, :remote => true, :html=>{:id=>'secondary_pub_form'} do |f| %>
+<%= nested_form_for @publication, :remote => true, :html=>{:id=>'secondary_pub_form'} do |f| %>
   <% if @publication.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@publication.errors.count, "error") %> prohibited this publication from being saved:</h2>
@@ -35,13 +35,13 @@
   		<% end %>
   	</select>
   </div>
-  <div class="field">
-    UID:
-    <%= f.text_field :ui, :size => 9 %>
 
-    UID Type:
-    <%= f.text_field :ui_type %>
-  </div>
+  	<%= f.fields_for :publication_numbers do |t| %>
+Identifier: <%= t.text_field :number %> Identifier type: <%= t.text_field :number_type %>  &nbsp;<%= t.link_to_remove "Remove" %><br/>
+  <% end %><br/>
+<%= f.link_to_add "Add an Identifier", :publication_numbers %>
+  <br/><br/>
+  
   <%= hidden_field_tag :is_primary, "false" %>
 
   <div class="actions">

@@ -1,34 +1,29 @@
-<%= form_for @primary_publication, :remote=>true do |f| %>
+<%= nested_form_for @primary_publication, :remote=>true do |f| %>
 
-<table class="form_table"><tr><td>
-
-    <%= f.label :publication_title %>:  </td>
-    <td colspan="6">
-    <%= f.text_field :title %>
-	
-  </td>
-  
-</tr>
-<tr>
-	<td>
-    <%= f.label :author %>: </td><td>
+  <div class="field">
+    <%= f.label :publication_title %>:  <%= f.text_field :title %>
+	</div>
+  <div class="field">
+  <%= f.label :author %>:
     <%= f.text_field :author, :size => 12 %>
-</td><td>
-    <%= f.label :country %>: </td><td>
+
+    <%= f.label :country %>: 
     <%= f.text_field :country, :size => 10 %>
-</td><td>
-    <%= f.label :year %>:</td><td>
+
+    <%= f.label :year %>:
     <%= f.text_field :year, :size => 6 %>
-</td></tr>
-<tr><td>
-    UID: </td><td>
-    <%= f.text_field :ui, :size => 12 %>
-</td>
-<td>UID Type:</td>
-<td><%= f.text_field :ui_type, :size => 12 %></td></tr>
-<tr><td colspan="6">
+</div>
+
+	<%= f.fields_for :publication_numbers do |t| %>
+		Identifier: <%= t.text_field :number %> Identifier type:
+		<%= t.text_field :number_type %><%= t.link_to_remove "Remove" %><br/>
+  <% end %><br/>
+<%= f.link_to_add "Add an Identifier", :publication_numbers %>
+
+
+
 	<div class="actions">
     <%= hidden_field_tag :is_primary, "true" %>
 	<%= f.submit "Save" %></div>
-	</td></tr></table>
+
 <% end %>

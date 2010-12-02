@@ -9,7 +9,14 @@
 	<th>Delete</th>
 	<% for pub in @secondary_publications %>
 		<tr class="<%= cycle("even", "odd") %>" id="pub_row_<%=pub.id.to_s %>">
-		<td><%= pub.ui %></td>
+		<% @ui_list = Publication.get_pub_uis(pub.id) %>
+		<td>
+			<% if !@ui_list.nil? %>
+			<% for i in @ui_list %>
+				<%= i.number %> (<%= i.number_type %>)<br/>
+			<% end %>
+			<% end %>
+		</td>
 		<td><%= pub.title %></td>
 		<td><%= pub.author %></td>
 		<td><%= pub.country %></td>

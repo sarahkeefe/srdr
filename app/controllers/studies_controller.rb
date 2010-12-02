@@ -285,7 +285,7 @@ class StudiesController < ApplicationController
     @secondary_publications = []
 		
 	@questions = @study.get_question_choices(session[:project_id])
-    
+    render :layout => 'studydesign'	
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @study }
@@ -311,6 +311,7 @@ class StudiesController < ApplicationController
 	  
 	# create a new publication represented in the secondary publications form
 	@publication = Publication.new
+	render :layout => 'studydesign'	
   end
 
   # POST /studies

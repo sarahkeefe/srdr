@@ -1,5 +1,7 @@
 Srdr::Application.routes.draw do
 
+  resources :publication_numbers
+
     resources :outcome_subgroup_levels
 	resources :outcome_subgroups
 	resources :outcome_timepoints

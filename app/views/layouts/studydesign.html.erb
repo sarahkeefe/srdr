@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Srdr</title>
+
+  <%= stylesheet_link_tag :all %>
+  <%= javascript_include_tag 'application', 'prototype', 'jquery', 'rails', 'nested_form' %>
+  <script src="/javascripts/scriptaculous/src/scriptaculous.js" type="text/javascript"></script>
+  <%= csrf_meta_tag %>
+
+  </head>
+<body>
+
+	
+	<div class="login-header">
+			<%= render "layouts/login" %>
+	</div>
+
+	<div class="container">
+		<div class="header">
+			<%= render "layouts/header" %>
+		</div>
+		<div class="content">
+					<%= render "layouts/breadcrumbs" %>
+			<%= yield %>
+		</div>
+	</div>
+
+</body>
+</html>

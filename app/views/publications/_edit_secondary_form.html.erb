@@ -1,4 +1,4 @@
-<%= form_for(@publication, :remote => true, :html=>{:id=>'secondary_pub_form'}) do |f| %>
+<%= nested_form_for(@publication, :remote => true, :html=>{:id=>'secondary_pub_form'}) do |f| %>
   <% if @publication.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@publication.errors.count, "error") %> prohibited this publication from being saved:</h2>
@@ -10,13 +10,16 @@
       </ul>
     </div>
   <% end %>
-<table class="form_table">
-    <tr><td> <%= f.label :publication_title %>:<%= f.text_field :title %></td><tr>
-    <tr><td>
+
+  <div class="field">
+<%= f.label :publication_title %>:<%= f.text_field :title %>
+	</div>
+	  <div class="field">
     	<%= f.label :author %>: <%= f.text_field :author, :size => 12 %>
     	<%= f.label :country %>: <%= f.text_field :country, :size => 10 %>
       <%= f.label :year %>:<%= f.text_field :year, :size => 6 %></td></tr>
-    <tr><td>
+</div>
+  <div class="field">
     	Association Type: 
   		<% association_options = ["Contributed to Analysis","Used for Reference","Methods Description"] %>
   		<select id="publication_association" name="publication[association]">
@@ -29,17 +32,17 @@
   			<option value=<%= opt.gsub(" ","_") %> <%= selected %>><%= opt %></option>
   		<% end %>
   		</select>
-  		
-    </td></tr>
-    <tr><td>
-    	<%= f.label :ui %>: <%= f.text_field :ui, :size => 9 %>
-      <%= f.label :ui_type %>:<%= f.text_field :ui_type %>
-    </td></tr>
+</div>
+		<%= f.fields_for :publication_numbers do |t| %>
+		Identifier: <%= t.text_field :number %> Identifier type: <%= t.text_field :number_type %>  <%= t.link_to_remove "Remove" %><br/>
+  <% end %><br/>
+<%= f.link_to_add "Add an Identifier", :publication_numbers %>
+  <br/><br/>
 
   <%= hidden_field_tag :is_primary, "false" %>
-</table>
+
   <div class="actions">
    <%= f.submit "Update" %>  <%= link_to 'Done Editing', new_study_publication_path(session[:study_id]), :remote=>true %>
   </div>
-  </td></tr></table>
+
 <% end %>
