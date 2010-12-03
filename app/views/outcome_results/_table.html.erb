@@ -8,12 +8,13 @@
 	
 			<%= hidden_field_tag "outcome_id", @selected_outcome_object.id.to_s %>
 			
-			<% @measure_types_array = [["Select Measure Type", "Select Measure Type"], ["Number", "Number"], ["Mean", "Mean"], ["Median", "Median"], ["Least Squares Mean", "Least Squares Mean"], ["Geometric Mean", "Geometric Mean"], ["Log Mean", "Log Mean"]]%>			
-			<% @measure_disp_types_array =  [["Select Measure Of Dispersion/Precision", "Select Measure Of Dispersion/Precision"], ["Not Applicable", "Not Applicable"], ["Standard Deviation", "Standard Deviation"], ["Inter-Quartile Range", "Inter-Quartile Range"], ["Full Range", "Full Range"]]%>	
+			<% @measure_types_array = [["Measure Type", "Measure Type"], ["Number", "Number"], ["Mean", "Mean"], ["Median", "Median"], ["Least Squares Mean", "Least Squares Mean"], ["Geometric Mean", "Geometric Mean"], ["Log Mean", "Log Mean"]]%>			
+			<% @measure_disp_types_array =  [["Dispersion/Precision", "Select Measure Of Dispersion/Precision"], ["Not Applicable", "Not Applicable"], ["Standard Deviation", "Standard Deviation"], ["Inter-Quartile Range", "Inter-Quartile Range"], ["Full Range", "Full Range"]]%>	
 			
 			<input type="hidden" name="selected_outcome" id="selected_outcome" value="<%= @selected_outcome_object.id %>">
 			<input type="hidden" name="selected_subgroup" id="selected_subgroup" value="<%= @selected_subgroup %>">
 			<input type="hidden" name="selected_timepoint" id="selected_timepoint" value="<%= @selected_timepoint %>">
+			
 			<table class="list_table non_centered_table">
 			
 				<th>Arm</th>
@@ -42,12 +43,11 @@
 							<td>Arm <%= i %>: <%= one_arm.title %></td>
 							
 							<% val = OutcomeResult.get_data_point(one_arm.id, @selected_outcome_object.id, timepoint_id, subgroup_id) %>
-							<% calc = OutcomeResult.get_data_point_calc(one_arm.id, @selected_outcome_object.id, timepoint_id, subgroup_id) %>								
+							<% calc = OutcomeResult.get_data_point_calc(one_arm.id, @selected_outcome_object.id, timepoint_id, subgroup_id) %>							
 							<td>
 								<%= text_field "arm_nanalyzed", one_arm.id.to_s, :size => 5, :value => val["nanalyzed"], :class => "calculated_checkbox" %>
 								<%= check_box_tag "arm" + one_arm.id.to_s + "_nanalyzed_calculated", "t", calc["nanalyzed"], :class => "styled" %>							
 							</td>
-							
 							
 							<% if !@outcome_columns.nil? && @outcome_columns.length > 0 %>
 							<% for custom_col in @outcome_columns %>
@@ -64,24 +64,30 @@
 								<%= text_field "arm_measurereg", one_arm.id.to_s, :size => 5, :value => val["measurereg"], :class => "calculated_checkbox" %>
 								<%= check_box_tag "arm" + one_arm.id.to_s + "_measurereg_calculated", "t", calc["measurereg"], :class => "styled" %>
 							</td>
+							
 							<td>
 								<%= text_field "arm_measuredisp", one_arm.id.to_s, :size => 5, :value => val["measuredisp"], :class => "calculated_checkbox" %>
 								<%= check_box_tag "arm" + one_arm.id.to_s + "_measuredisp_calculated", "t", calc["measuredisp"], :class => "styled" %>
 							</td>
+							
 							<td>
 								<%= text_field "arm_pvalue", one_arm.id.to_s, :size => 5, :value => val["pvalue"], :class => "calculated_checkbox" %>
 								<%= check_box_tag "arm" + one_arm.id.to_s + "_pvalue_calculated", "t", calc["pvalue"], :class => "styled" %>
 							</td>
+							
 							<% i = i + 1 %>
+							
 					<% end %>
 				<% end %>
 				
 					</tr>
-			</table><br/>
-					<div class="actions">
-		<button type="submit" class="positive"><%= image_tag "Accept.png" %>Save Table Data</button>
-		</div>
-	<% end %>
+				</table>
+				
+				<br/>
+				<div class="actions">
+					<button type="submit" class="positive"><%= image_tag "Accept.png" %>Save Table Data</button>
+				</div>
+			<% end %>
 	
 		<%= form_tag url_for(:controller => 'outcome_results', :action => 'clear_table', :project_id => session[:project_id], :study_id => session["study_id"]), :id => "clear_data_table_link", :remote => true do %>
 		<%= hidden_field_tag "subgroup_id", subgroup_id %>
@@ -89,7 +95,7 @@
 		<%= hidden_field_tag "timepoint_id", timepoint_id %>
 		<div class="actions">
 		<button type="submit" class="negative" data-remote="true" data-method="post" onClick="do_confirm(event, 'This will delete all the information in this table. Are you sure?')">
-			<%= image_tag "Cancel.png"%>Delete Data Table
+			<%= image_tag "Cancel.png" %>Delete Data Table
 		</button>
 		</div>
 		<% end %>
@@ -99,8 +105,7 @@
 <%= render 'outcome_columns/form' %>
 </div>
 
-
-<br/>
+<br/><br/>
 <h4>Add Footnotes for this Table</h4><br/>
 <%= form_for OutcomeResultsNote.get_note_object(@selected_outcome_object.id, timepoint_id, subgroup_id), :remote => true do |f| %>
 <div class="form_content">

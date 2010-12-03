@@ -35,7 +35,7 @@
 	<%= f.fields_for :outcome_timepoints do |t| %>
 	<div class="field">
   <%= t.text_field :number, :class=>"inline-field" %>
-  <%= t.select :time_unit, options_for_select([ "minutes", "hours", "days", "weeks", "months", "years" ]) %>
+  <%= t.select :time_unit, options_for_select([ "minutes", "hours", "days", "weeks", "months", "years", "baseline" ]), :class => "inline-field" %>
   <div class="admin_functions">
   <%= t.link_to_remove "Remove" %>
   </div>
@@ -48,7 +48,7 @@
 
 	<%= f.fields_for :outcome_subgroups do |t| %>
 	<div class="field">
-<label class="inline-label">Subgroup Title:</label>  <%= t.text_field :title, :class=>"inline-field" %>
+<label class="inline-label">Subgroup Title:</label>  <%= t.text_field :title, :class=>"inline-field" %><br/><br/>
 <label class="inline-label">Description:</label>  <%= t.text_field :description, :class => "inline-field" %>
 <div class="admin_functions">
 <%= t.link_to_remove "Remove This Subgroup" %>

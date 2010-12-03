@@ -1,13 +1,11 @@
 <input type="hidden" id="model_name" value=<%= @model_name %> >
 <input type="hidden" id="timepoint_field_id" value=<%= @model_name + "_timepoint_id" %> >
 
-<<<<<<< HEAD
-<b>2. Specify Sub-Group Analysis</b><br/>
-=======
-<div class="form_content no_indent small_form">
+
+<div class="form_content no_indent analysis_form">
 <div class="field">
-<label class="inline-label">Sub-Group Analysis</label>
->>>>>>> dd0d2100ad7603ff5fe656f592cdc5c9d511013a
+<label>Sub-Group Analysis</label>
+
 <% unless @outcome_subgroups.empty? %>
 	
 			<%= select @model_name, "subgroup_id", @outcome_subgroup_comparisons,{:selected=>@selected_subgroup},
@@ -16,7 +14,7 @@
 										'&selected_subgroup='+ this.value +
 										'&selected_timepoint='+$($('timepoint_field_id').value).value +
 										'&updating='+'subgroup' +
-										'&form_type=' + $('model_name').value"), :class => "inline-field"} %>
+										'&form_type=' + $('model_name').value")} %>
 										
 <% else %>
 <em>There are no subgroups defined for this outcome. If you require a subgroup, please edit the <%= link_to "Outcome Setup Page", "/projects/#{session[:project_id]}/studies/#{session[:study_id]}/outcomesetup" %></em>
