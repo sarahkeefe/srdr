@@ -119,7 +119,7 @@ module ApplicationHelper
 		publication = "<option value='"+base_url+"edit'>Publications</option>"
 		arms = "<option value='"+base_url+"design'>Arms</option>"
 		characteristics = "<option value='"+base_url+"attributes'>Baseline Characteristics</option>"
-		outcomes = "<option value='"+base_url+"outcomesetup'>Outcomes</option>"
+		outcomes = "<option value='"+base_url+"outcomesetup'>Outcome Setup</option>"
 		results = "<option value='"+base_url+"outcomedata'>Outcome Results</option>"
 		analysis = "<option value='"+base_url+"outcomeanalysis'>Outcome Analysis</option>"
 		adverse = "<option value='"+base_url+"adverseevents'>Adverse Events</option>"

@@ -71,7 +71,9 @@ class Study < ActiveRecord::Base
 		
 		questions_array = Array.new
 		sql = ActiveRecord::Base.connection()
+		sql.begin_db_transaction
 		question_ids = sql.execute "SELECT key_question_id FROM studies_key_questions WHERE study_id = #{self.id}"
+		sql.commit_db_transaction
 		
 		unless(question_ids.empty?)
 			  question_ids.each do |q_hash|
