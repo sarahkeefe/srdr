@@ -11,19 +11,20 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="form_content">
     <%= f.hidden_field :study_id, :value=> params[:study_id] %>
-  </div>
+
   <div class="field">
-    <%= f.label :quality_guideline_used %>: 
+    <label>Quality Guideline Used:</label>
     <%= f.text_field :guideline_used, :value => @quality_rating.guideline_used %>
   </div>
   <div class="field">
-    <%= f.label :current_overall_rating %>:
-    <%= f.select :current_overall_rating, options_for_select(["A", "B", "C", "D", "E", "F", "10", "9", "8", "7", "6", "5", "4", "3", "2", "1"]), :value => @quality_rating.current_overall_rating %>
+    <label class="inline-label">Select Current Overall Rating:</label>
+    <%= f.select :current_overall_rating, options_for_select(["A", "B", "C", "D", "E", "F", "10", "9", "8", "7", "6", "5", "4", "3", "2", "1"]), :value => @quality_rating.current_overall_rating, :class => "inline-field" %>
   </div>
   <div class="actions">
 		<button type="submit" class="positive">
 			<%= image_tag "Accept.png"%>Save Quality Rating
+  </div>
   </div>
 <% end %>

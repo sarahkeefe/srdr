@@ -11,38 +11,43 @@
       </ul>
     </div>
   <% end %>
+<div class="form_content">
+
+    <%= f.hidden_field :study_id, :value => session[:study_id] %>
 
   <div class="field">
-    <%= f.hidden_field :study_id, :value => session[:study_id] %>
-  </div>
-  <div class="field">
-    <%= f.label :adverse_event_title %>:
+    <label>Adverse Event Title:</label>
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :timeframe_for_adverse_event_reporting %>:
+    <label>Timeframe for Adverse Event Reporting:</label>
     <%= f.text_field :timeframe %>
   </div>
   <div class="field">
-    <%= f.label :adverse_event_description %>:<br />
+    <label>Adverse Event Description:</label>
     <%= f.text_area :description, :rows => 4, :cols => 40 %>
   </div>
   <div class="field">
-    <%= f.label :is_this_event_classified_as_serious %>?
+    <label class="inline-label">Is this event classified as <strong>serious</strong>?</label>
     <% checked = "" %>
     <% if @adverse_event.is_serious == true %>
       <% checked = "checked" %>
     <% end %>
     
-     <%= f.check_box :is_serious, :html=>{:checked => checked}  %>
+     <%= f.check_box :is_serious, :html=>{:checked => checked}, :class => "cbox"  %>
   </div>
   <div class="field">
-    <%= f.label :definition_of_adverse_event_used %>:
+    <label>Definition of Adverse Event Used:</label>
     <%= f.text_field :definition_used %>
+  </div>
+      <div class="field">
+    <label>Adverse Event Notes:</label>
+    <%= f.text_area :notes, :rows => 4, :cols => 40 %>
   </div>
   <div class="actions">
 		<button type="submit" class="positive">
 			<%= image_tag "Add.png"%>Update Adverse Event
 		</button> <%= link_to 'Done Editing', new_adverse_event_path, :remote=>true %>
+  </div>
   </div>
 <% end %>

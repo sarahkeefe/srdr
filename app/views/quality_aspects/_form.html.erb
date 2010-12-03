@@ -11,24 +11,25 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="form_content">
     <%= f.hidden_field :study_id, :value => session[:study_id] %>
-  </div>
+
   <div class="field">
-    <%= f.label :quality_dimension %>:
+    <label>Quality Dimension Title:</label>
     <%= f.text_field :dimension %>
   </div>
   <div class="field">
-    <%= f.label :value %>:
+    <label>Quality Dimension Value:</label>
     <%= f.text_field :value %>
   </div>
   <div class="field">
-    <%= f.label :notes %>:<br />
+    <label>Notes:</label>
     <%= f.text_area :notes, :rows => 4, :cols => 40 %>
   </div>
   <div class="actions">
 		<button type="submit" class="positive">
 			<%= image_tag "Add.png"%>Add New Quality Dimension
 		</button>
+  </div>
   </div>
 <% end %>

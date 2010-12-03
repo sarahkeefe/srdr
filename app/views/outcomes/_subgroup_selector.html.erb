@@ -1,7 +1,8 @@
 <input type="hidden" id="model_name" value=<%= @model_name %> >
 <input type="hidden" id="timepoint_field_id" value=<%= @model_name + "_timepoint_id" %> >
-
-<b>Select a Sub-Group to Analyze</b><br/>
+<div class="form_content no_indent">
+<div class="field">
+<label class="inline-label">Select a Sub-Group:</label>
 <% unless @outcome_subgroups.empty? %>
 	
 			<%= select @model_name, "subgroup_id", @outcome_subgroups.collect{|sg| [sg.title,sg.id]},{},
@@ -9,9 +10,10 @@
 					:with => "'selected_outcome_id='+$('outcome_outcome').value+
 										'&selected_subgroup='+ this.value +
 										'&selected_timepoint='+$($('timepoint_field_id').value).value +
-										'&form_type=' + $('model_name').value",:complete=>"Custom.init()")} %>
+										'&form_type=' + $('model_name').value",:complete=>"Custom.init()"), :class => "inline-field"} %>
 										
 <% else %>
 <em>There are no subgroups defined for this outcome. If you require a subgroup, please edit the <%= link_to "Outcome Setup Page", "/projects/#{session[:project_id]}/studies/#{session[:study_id]}/outcomesetup" %></em>
 <input type="hidden" id="outcome_analysis_subgroup_id" value="0"/>
 <% end %>
+</div></div>

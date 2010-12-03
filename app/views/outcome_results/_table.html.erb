@@ -103,18 +103,19 @@
 <br/>
 <h4>Add Footnotes for this Table</h4><br/>
 <%= form_for OutcomeResultsNote.get_note_object(@selected_outcome_object.id, timepoint_id, subgroup_id), :remote => true do |f| %>
-
-
+<div class="form_content">
+<div class="field">
     <%= f.hidden_field :outcome_id, :value => @selected_outcome_object.id %>
     <%= f.hidden_field :timepoint_id, :value => timepoint_id %>
     <%= f.hidden_field :subgroup_id, :value => subgroup_id %>
 
-    <%= f.label :enter_notes_on_outcome_results %>:<br />
+    <label>Enter Notes on Outcome Results:</label>
     <%= f.text_area :notes, :rows => 4, :columns => 40 %>
-
+</div>
   <div class="actions">
 <button type="submit" class="positive" name="save"><%= image_tag "Accept.png" %>Save Notes</button>
 
+  </div>
   </div>
 <% end %>
 

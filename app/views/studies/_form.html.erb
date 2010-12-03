@@ -10,31 +10,33 @@
       </ul>
     </div>
   <% end %>
-  
+  <div class="form_content">
   <div class="field">
-    <%= f.label :number_of_participants %>:
+    <label>Number of Participants:</label>
     <%= f.text_field :num_participants , :size=>6%>
-
-    <%= f.label :study_type %>:
+</div>
+<div class="field">
+    <label>Study Type:</label>
     <%= f.select(:study_type, options_for_select([['RCT', 'RCT'], ['Blind', 'Blind']])) %>
     
   </div>
   
   <div class="field">
-    <%= f.label :recruitment_details %>:<br />
+    <label>Recruitment Details:</label>
     <%= f.text_area :recruitment_details, :cols => 50, :rows => 4 %>
   </div>
   <div class="field">
-    <%= f.label :inclusion_criteria %>:<br />
+    <label>Inclusion Criteria:</label>
     <%= f.text_area :inclusion_criteria, :cols => 50, :rows => 4 %>
   </div>
   <div class="field">
-    <%= f.label :exclusion_criteria %>:<br />
+    <label>Exclusion Criteria:</label>
     <%= f.text_area :exclusion_criteria, :cols => 50, :rows => 4 %>
   </div>
   <div class="actions">
 		<button type="submit" class="positive">
 			<%= image_tag "Accept.png"%>Save Study Design
 		</button>
+  </div>
   </div>
 <% end %>

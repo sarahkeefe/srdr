@@ -52,12 +52,68 @@ div.field, div.actions {
   margin-bottom: 10px;
 }
 
-.form_content{
-width: 500px;
+.field{
+background-color: #F9F9F9;
+padding: 10px;
+	-moz-border-radius-topright: 4px;
+border-top-right-radius: 4px;
+-moz-border-radius-topleft: 4px;
+border-top-left-radius: 4px;
+	-moz-border-radius-bottomright: 4px;
+border-bottom-right-radius: 4px;
+-moz-border-radius-bottomleft: 4px;
+border-bottom-left-radius: 4px;
 }
 
-label{
+.form_content{
+width: 500px;
+margin-left: 30px;
+}
+
+.no_indent{
+margin-left: 0px;
+}
+
+.small_form{
+width: 400px;
+}
+
+.column_form{
+width: auto;
+}
+
+.form_content input, .form_content textarea{
+	width: 100%;
+	font-size: 14px;
+	font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+}
+
+.column_form input{
+width: auto;
+}
+
+.form_content .inline-label{
 display: inline;
+}
+
+.form_content input.inline-field{
+	width: auto;
+	display: inline;
+}
+
+.form_content input.cbox{
+width: auto;
+}
+
+.form_content textarea{
+	width: 100%;
+	}
+
+label{
+display: block;
+font-size: 13px;
+	font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+margin-bottom: 5px;
 }
 
 #notice {
@@ -170,7 +226,7 @@ table
 padding: 8px;
 }
 
-.listing_item .admin_functions{
+.listing_item .admin_functions, .admin_functions{
 	width: 100%;
 	text-align: right;
 }
@@ -532,7 +588,7 @@ display: inline;
     padding:5px 10px 6px 7px; /* Links */
 }
 
-a.edit_link, a.delete_link{
+a.edit_link, a.delete_link, a.add_nested_fields, a.remove_nested_fields{
     margin:0 auto;
     background-color:#f5f5f5;
     border:1px solid #dedede;
@@ -608,12 +664,12 @@ a.delete_column_link
 
 /* STANDARD */
 
-button:hover, .actions a:hover, #bottom_nav a:hover, a.edit_link:hover{
+button:hover, .actions a:hover, #bottom_nav a:hover, a.edit_link:hover, a.add_nested_fields:hover{
     background-color:#dff4ff;
     border:1px solid #c2e1ef;
     color:#336699;
 }
-.actions a:active, #bottom_nav a:active, a.edit_link:active{
+.actions a:active, #bottom_nav a:active, a.edit_link:active, a.add_nested_fields:active{
     background-color:#6299c5;
     border:1px solid #6299c5;
     color:#fff;
@@ -637,15 +693,15 @@ button.positive, .actions a.positive{
 
 /* NEGATIVE */
 
-.actions a.negative, button.negative, a.delete_link, a.delete_column_link{
+.actions a.negative, button.negative, a.delete_link, a.delete_column_link, a.remove_nested_fields{
     color:#d12f19;
 }
-.actions a.negative:hover, button.negative:hover, a.delete_link:hover, a.delete_column_link:hover{
+.actions a.negative:hover, button.negative:hover, a.delete_link:hover, a.delete_column_link:hover, a.remove_nested_fields:hover{
     background:#fbe3e4;
     border:1px solid #fbc2c4;
     color:#d12f19;
 }
-.actions a.negative:active, a.delete_link:active, a.delete_column_link:active{
+.actions a.negative:active, a.delete_link:active, a.delete_column_link:active, a.remove_nested_fields:active{
     background-color:#d12f19;
     border:1px solid #d12f19;
     color:#fff;
@@ -665,9 +721,4 @@ button.regular, .actions a.regular{
     background-color:#6299c5;
     border:1px solid #6299c5;
     color:#fff;
-}
-
-input, textarea{
-	font-size: 14px;
-	font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
 }

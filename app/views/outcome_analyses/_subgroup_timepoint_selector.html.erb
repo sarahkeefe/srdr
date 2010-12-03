@@ -2,15 +2,19 @@
 	<tr>
 		<td>
 <br/>
-<b>Select the Outcome to Analyze: </b><br/>
+<div class="form_content no_indent small_form">
+<div class="field">
+<label class="inline-label">Select the Outcome to Analyze: </label>
 	<%= select "outcome", "outcome", Outcome.where(:study_id => session[:study_id]).all.collect {|o| [o.title,o.id]}, {},
-					{:onchange =>remote_function(:url => {:action => "show_outcome_subgroups_and_timepoints"}, :with => "'selected_outcome_id=' + this.value + '&form_type=' + $('model_name').value")} %></b>
-	  <br/><br/>
+					{:onchange =>remote_function(:url => {:action => "show_outcome_subgroups_and_timepoints"}, :with => "'selected_outcome_id=' + this.value + '&form_type=' + $('model_name').value"), :class => "inline-field"} %></b>
+</div>
+
 	  <input type="hidden" id="model_name" value=<%= @model_name %> >
 	  <input type="hidden" id="timepoint_field_id" value=<%= @model_name + "_timepoint_id" %> >
 	  <input type="hidden" id="subgroup_field_id" value=<%= @model_name + "_subgroup_id" %> >
 		<div id="subgroup_options">
-		<b>Sub-Group Analysis</b><br/>
+		<div class="field">
+		<label class="inline-label">Sub-Group Analysis</label>
 		<% unless @first_subgroups.empty? %>
 		  
 		  <%= select @model_name, "subgroup_id", @first_subgroup_comparisons,{:selected=>@selected_subgroup},
@@ -19,16 +23,17 @@
 										'&selected_subgroup='+ this.value +
 										'&selected_timepoint='+$($('timepoint_field_id').value).value +
 										'&updating='+'subgroup' +
-										'&form_type=' + $('model_name').value")} %>
+										'&form_type=' + $('model_name').value"), :class=>"inline-field"} %>
 		
 		<% else %>
 		  <em>There are no subgroups defined for this outcome. If you require a subgroup, please edit the <%= link_to "Outcome Setup Page", "/projects/#{session[:project_id]}/studies/#{session[:study_id]}/outcomesetup" %></em>
 		  <input type="hidden" id="outcome_analysis_subgroup_id" value="0"/>
 		<% end %>
 		</div>
-		<br/>
+</div>
 		<div id="timepoint_options">
-		<b>Time Point Analysis</b><br/>
+		<div class="field">
+		<label class="inline-label">Time Point Analysis</label>
 		<% unless @first_timepoints.empty? %>
 		  <%= select @model_name, "timepoint_id", @first_timepoint_comparisons,{:selected=>@selected_timepoint},
 					{:onchange =>remote_function(:url => {:action => "update_partial",:controller=>"studies"}, 
@@ -36,11 +41,13 @@
 										'&selected_subgroup='+ $($('subgroup_field_id').value).value +
 										'&selected_timepoint='+this.value +
 										'&updating='+'timepoint' +
-										'&form_type=' + $('model_name').value")} %>
+										'&form_type=' + $('model_name').value"), :class => "inline-field"} %>
 		<% else %>
 		  <em>There are no time points defined for this outcome. If you require a time point, please edit the <%= link_to "Outcome Setup Page", "/projects/#{session[:project_id]}/studies/#{session[:study_id]}/outcomesetup" %></em>
 		  <input type="hidden" id="outcome_analysis_timepoint_id" value="0"/>
 		<% end %>		
+		</div>
+		</div>
 		</div>
     <br/>
     <b>Adjustment Options</b><br/>

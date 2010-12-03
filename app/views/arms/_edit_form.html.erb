@@ -10,17 +10,17 @@
       </ul>
     </div>
   <% end %>
-
+<div class="form_content">
   <div class="field">
-    <%= f.label :arm_title %>:
+    <label>Arm Title:</label>
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :arm_description %>:<br />
+    <label>Arm Description:</label>
     <%= f.text_area :description, :cols => 50, :rows => 4 %>
   </div>
   <div class="field">
-    <%= f.label :number_of_participants %>: 
+    <label>Number of Participants:</label>
     <%= f.text_field :num_participants %>
   </div>
   <div class="actions">
@@ -28,5 +28,6 @@
 			<%= image_tag "Add.png"%>Add Arm to Study
 		</button>
     <%= link_to 'Done Editing', new_study_arm_path(session[:study_id]), :remote=>true %>
+  </div>
   </div>
 <% end %>

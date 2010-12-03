@@ -2,15 +2,23 @@
 <div id="outcome_column_validation_message"></div>
 <% @outcome_column = OutcomeColumn.new %>
 <%= form_for @outcome_column, :action => :create,  :remote => true, :id => "new_outcome_column" do |f| %>
-	
+	<div class="form_content">
+	<div class="field">
     <%= hidden_field_tag "outcome_id", !@selected_outcome_object.nil? ? @selected_outcome_object.id : nil %>
 	<%= hidden_field_tag "timepoint_id", !@selected_timepoint.nil? ? @selected_timepoint : 0 %>
 	<%= hidden_field_tag "subgroup_id", !@selected_subgroup.nil? ? @selected_subgroup : 0 %>
  
-    Custom Column Title: <%= f.text_field :name %> Description: <%= f.text_field :description %> 
+    <label>Custom Column Title: </label>
+	<%= f.text_field :name %> 
+<br/><br/>
+	<label>Description: </label>
+	<%= f.text_field :description %> 
+	</div>
 	<div class="actions inline-actions">
 		<button type="submit" class="regular">
 			<%= image_tag "Add-blue.png"%>Add Custom Column
 		</button>
+	</div>
+	</div>
 	</div>
 <% end %>

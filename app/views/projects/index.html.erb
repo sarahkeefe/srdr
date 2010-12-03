@@ -12,8 +12,8 @@
 	<br/>
 	</div>
 	<div class="admin_functions">
-	<%= link_to "Edit", edit_project_path(project) %>  &#183;   
-	<%= link_to "Delete", project, :confirm => 'Are you sure?', :method => :delete %>
+	<%= link_to "Edit", edit_project_path(project), :class => "edit_link" %>   
+	<%= link_to "Delete", project, :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %>
 	</div>
  </div>
   <br/>
