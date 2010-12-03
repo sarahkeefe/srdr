@@ -1,9 +1,9 @@
 <% unless @saved_analyses.empty? %>
   <strong>You have saved analyses for the following conditions:</strong><br/><br/>
-  <table width=95% border="1" class='saved_analyses_table'>
-  	<tr>
+  <table class='simple_table'>
+  	<thead>
   		<th>Outcome</th><th>Subgroup</th><th>Time Point</th>
-  	</tr>
+  	</thead>
   	<% @saved_analyses.each do |a| %>
   	  <tr>
   	  	<td><%= a[0] %></td>
