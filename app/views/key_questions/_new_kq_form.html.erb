@@ -11,13 +11,15 @@
     </div>
   <% end %>
 
-  <table class="form_table">
-  <tr><td><%= f.label :question_text %>:</td>
-  	<td><%= f.text_area :question, :cols=>50, :rows=>4 %></td>
-  </tr>
-  <tr><td colspan="2">
-  <div class="actions">
-    <%= f.submit "Add Key Question" %>
-  </div>
-  </td></tr></table>
+ <div class="form_content">
+ <div class="field">
+ <label>Enter Key Question Text:</label>
+<%= f.text_area :question, :cols=>50, :rows=>4 %>
+</div>
+	<div class="actions">
+		<button type="submit" class="regular">
+			<%= image_tag "Add-blue.png"%>Add a Key Question
+		</button>
+	</div>
+
 <% end %>

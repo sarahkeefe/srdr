@@ -18,7 +18,10 @@
   </td></tr>
   <tr><td colspan="2">
     <div class="actions">
-      <%= f.submit "Update" %>  <%= link_to 'Done Editing', 
+		<button type="submit" class="regular">
+			<%= image_tag "Add-blue.png"%>Update Key Question
+		</button>
+  <%= link_to 'Done Editing', 
                    new_project_key_question_path(session[:project_id]), :remote=>true %>
   </div>
  </td></tr></table>

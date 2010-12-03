@@ -4,11 +4,9 @@
   <title>Srdr</title>
 
   <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag 'application', 'prototype', 'jquery', 'rails', 'form_complete', 'custom-form-elements' %>
-  <script src="/javascripts/scriptaculous/src/scriptaculous.js" type="text/javascript"></script>
+  <%= javascript_include_tag 'jquery', 'nested_form' %>
     <script type="text/javascript" src="/javascripts/jquery.selectboxes.js" charset="utf-8"></script>
 	<script type="text/javascript">
-		<!--
 		//on page load
 		// originally saw this script at http://www.encaffeinated.com/articles/view/creating_a_jumpmenu_in_jquery/
 		var $j = jQuery.noConflict();
@@ -20,8 +18,11 @@
 		        }
 		    });
 		});
-		-->
-	</script>  
+	</script>
+	<%= javascript_include_tag 'application', 'rails', 'prototype', 'form_complete' %>
+  <script src="/javascripts/scriptaculous/src/scriptaculous.js" type="text/javascript"></script>
+
+
  <%= csrf_meta_tag %>
  
   </head>

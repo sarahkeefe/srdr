@@ -1,37 +1,40 @@
-<div id="validation_message"><%= flash[:notice] %></div>
-
-  <div id="form_content">
+<div class="form_content">
 <%= form_for(@project, :remote =>true, :before=>"if($('project_title').value < 4){return false;}") do |f| %>
-  <table class="form_table">
-  <tr><td>
-    <%= f.label :choose_a_project_title %>: </td><td><%= f.text_field :title, :size => 40 %></td>
-	</td></tr>
-	<tr>
-		<td colspan="2">
-    <%= f.label :enter_a_project_description %>:
-    </td>
-  </tr>
-  <tr>
-  	<td colspan='2'>
-    	  <%= f.text_area :description, :cols => 50, :rows => 4 %>
-	  </td>
-  </tr>
-  <tr>
-  	<td colspan="2">
-    ISBN: <%= f.text_field :isbn, :size=>20 %>
-    </td>
-  </tr>
-  <tr>
-  	<td colspan='2'>
-  	  <%= f.label :project_notes %>:
-	  </td>
-  </tr>
-  <tr>
-  	<td colspan="2">
-    <%= f.text_area :notes, :cols => 50, :rows => 4 %></td></tr><tr><td colspan="2">
 
-  <div class="actions">
-    <%= f.submit "Save" %>
-  </div></td></tr></table>
+	<div class="field">
+    <label>
+		Choose a Project Title:
+	</label>
+	<%= f.text_field :title, :size => 53 %>
+	</div>
+
+	<div class="field">
+    <label>
+		Enter a Project Description:
+	</label>
+	<%= f.text_area :description, :cols => 50, :rows => 4 %>
+	</div>
+
+	<div class="field">
+    <label>
+		ISBN (If any):
+	</label>
+	<%= f.text_field :isbn, :size=>20 %>
+	</div>
+
+	<div class="field">
+  	<label>
+		Enter Notes on this Project:
+	</label>
+	<%= f.text_area :notes, :cols => 50, :rows => 4 %>
+	</div>
+
+	<div class="actions">
+		<button type="submit" class="positive">
+			<%= image_tag "Accept.png"%>Save Project
+		</button>
+		<div id="validation_message"><%= flash[:notice] %></div>
+  </div>
+
 <% end %>
 </div>

@@ -10,20 +10,23 @@
       </ul>
     </div>
   <% end %>
-
+<div class="form_content">
   <div class="field">
-    <%= f.label :arm_title %>:
+    <label>Arm Title:</label>
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :arm_description %>:<br />
+    <label>Arm Description:</label>
     <%= f.text_area :description, :cols => 50, :rows => 4 %>
   </div>
   <div class="field">
-    <%= f.label :number_of_participants %>: 
+    <label>Number of Participants:</label>
     <%= f.text_field :num_participants %>
   </div>
   <div class="actions">
-    <%= f.submit "Add Arm to Study" %>
+		<button type="submit" class="positive">
+			<%= image_tag "Add.png"%>Add Arm to Study
+		</button>
+  </div>
   </div>
 <% end %>

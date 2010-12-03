@@ -1,7 +1,7 @@
-<% if !@quality_rating.nil? %>
-<h4>Overall Rating of Study:</h4><%= @quality_rating.current_overall_rating %>
+<br/><% if !@quality_rating.nil? %>
+<h5>Overall Rating of Study:</h5><%= @quality_rating.current_overall_rating %>
 <br/>
-<h4>Quality Guideline Used in Assessment:</h4> <%= @quality_rating.guideline_used %>
+<h5>Quality Guideline Used in Assessment:</h5> <%= @quality_rating.guideline_used %>
 <% else %>
 No quality rating assigned has been assigned to this study yet.
 <% end %>

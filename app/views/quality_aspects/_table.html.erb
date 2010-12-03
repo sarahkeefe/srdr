@@ -2,16 +2,15 @@
 <th>Dimension</th>
 <th>Value</th>
 <th>Notes</th>
-<th>Edit</th>
-<th>Delete</th>
+<th>Actions</th>
 <% if @quality_aspects.length > 0 %>
 <% for qa in @quality_aspects %>
 <tr class="<%= cycle("even", "odd") %>" id='<%= 'quality_aspect_' + qa.id.to_s %>'>
 <td><%= qa.dimension %></td>
 <td><%= qa.value %></td>
 <td><%= qa.notes %></td>
-<td><%= link_to "Edit", edit_quality_aspect_path(qa), :remote=>true %></td>
-<td><%= link_to "Delete", quality_aspect_path(qa), :remote=>true, :confirm => 'Are you sure?', :method=>:delete %></td>
+<td><%= link_to "Edit", edit_quality_aspect_path(qa), :remote=>true, :class => "edit_link" %>
+<%= link_to "Delete", quality_aspect_path(qa), :remote=>true, :confirm => 'Are you sure?', :method=>:delete, :class => "delete_link" %></td>
 </tr>
 <% end %>
 <% end %>

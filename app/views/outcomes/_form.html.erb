@@ -10,21 +10,20 @@
       </ul>
     </div>
   <% end %>
+<div class="form_content">
 
-  <div class="field">
     <%= f.hidden_field :study_id, :value => params[:study_id] %>
-  </div>
-  <div class="field">
-    <%= f.label :outcome_title %>:
+	<div class="field">
+    <label>Outcome Title:</label>
     <%= f.text_field :title, :class=>"bp_form_complete-1353-name" %>
   </div>
 
   <div class="field">
-    <%= f.label :is_this_a_primary_outcome %>?
-    <%= f.check_box :is_primary %>
+    <label class="inline-label">Is this a Primary Outcome?</label>
+    <%= f.check_box :is_primary, :class => "cbox" %>
   </div>
   <div class="field">
-    <%= f.label :units %>:
+    <label>Units:</label>
     <%= f.text_field :units %>
   </div>
  
@@ -34,9 +33,13 @@
   <h4>Add Outcome Time Points</h4>
   
 	<%= f.fields_for :outcome_timepoints do |t| %>
-  <%= t.text_field :number %>
+	<div class="field">
+  <%= t.text_field :number, :class=>"inline-field" %>
   <%= t.select :time_unit, options_for_select([ "minutes", "hours", "days", "weeks", "months", "years" ]) %>
-  <%= t.link_to_remove "Remove" %><br/>
+  <div class="admin_functions">
+  <%= t.link_to_remove "Remove" %>
+  </div>
+  </div>
   <% end %><br/>
 <%= f.link_to_add "Add a timepoint", :outcome_timepoints %>
   <br/><br/>
@@ -44,22 +47,29 @@
    <h4>Add Outcome Subgroups </h4>
 
 	<%= f.fields_for :outcome_subgroups do |t| %>
-Subgroup Title: <%= t.text_field :title %>
-Description (Optional): <%= t.text_field :description %>
+	<div class="field">
+<label class="inline-label">Subgroup Title:</label>  <%= t.text_field :title, :class=>"inline-field" %>
+<label class="inline-label">Description:</label>  <%= t.text_field :description, :class => "inline-field" %>
+<div class="admin_functions">
 <%= t.link_to_remove "Remove This Subgroup" %>
+</div>
+</div>
   <% end %><br/>
 <%= f.link_to_add "Add a Subgroup", :outcome_subgroups %>
-
-  <br/><br/><br/><br/>
+  <br/><br/>
   <div class="field">
-    <%= f.label :description %>:<br />
+    <label>Outcome Description:</label>
     <%= f.text_area :description, :rows => 4, :cols => 40 %>
   </div>
   <div class="field">
-    <%= f.label :notes %>:<br />
+    <label>General notes about this outcome
+	(Specific notes about timepoints, subgroups, and data can be entered on the Results page):</label>
     <%= f.text_area :notes, :rows => 4, :cols => 40 %>
   </div>
   <div class="actions">
-    <%= f.submit "Add Outcome to List" %>
+		<button type="submit" class="positive">
+			<%= image_tag "Add.png"%>Add Outcome to List
+		</button>
+  </div>
   </div>
 <% end %>

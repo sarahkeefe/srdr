@@ -22,8 +22,8 @@
 				<% if !@outcome_columns.nil? && @outcome_columns.length > 0 %>
 					<% for custom_col in @outcome_columns %>
 						<th>
-							<%= custom_col.name %><br/>
-							<%= link_to "x", {:controller => "outcome_results", :action => "delete_column", :project_id => session[:project_id], :study_id => session["study_id"], :id => custom_col.id.to_s, :outcome_id => @selected_outcome_object.id, :timepoint_id => timepoint_id, :subgroup_id => subgroup_id}, {:title => "delete this column", :class => "remove_column_link", :id => "col_" + custom_col.id.to_s, :remote => true, :confirm => "This will delete the column and all of its data. Are you sure you want to delete this column?", :method => "post"} %>
+							<%= custom_col.name %>
+							<%= link_to "x", {:controller => "outcome_results", :action => "delete_column", :project_id => session[:project_id], :study_id => session["study_id"], :id => custom_col.id.to_s, :outcome_id => @selected_outcome_object.id, :timepoint_id => timepoint_id, :subgroup_id => subgroup_id}, {:title => "delete this column", :class => "remove_column_link", :id => "col_" + custom_col.id.to_s, :remote => true, :confirm => "This will delete the column and all of its data. Are you sure you want to delete this column?", :method => "post", :class => "delete_column_link"} %>
 						</th>
 					<% end %>
 				<% end %>
@@ -77,21 +77,46 @@
 				<% end %>
 				
 					</tr>
-			</table>
-			
-		<%= submit_tag "Save" %>
-		
+			</table><br/>
+					<div class="actions">
+		<button type="submit" class="positive"><%= image_tag "Accept.png" %>Save Table Data</button>
+		</div>
 	<% end %>
 	
 		<%= form_tag url_for(:controller => 'outcome_results', :action => 'clear_table', :project_id => session[:project_id], :study_id => session["study_id"]), :id => "clear_data_table_link", :remote => true do %>
 		<%= hidden_field_tag "subgroup_id", subgroup_id %>
 		<%= hidden_field_tag "outcome_id", @selected_outcome_object.id %>
 		<%= hidden_field_tag "timepoint_id", timepoint_id %>
-		<%= submit_tag "Clear Table Data from Database", :remote => true, :confirm => 'This will delete all the information in this table. Are you sure?', :id => "clear_data_table_link", :method => :post %>
+		<div class="actions">
+		<button type="submit" class="negative" data-remote="true" data-method="post" onClick="do_confirm(event, 'This will delete all the information in this table. Are you sure?')">
+			<%= image_tag "Cancel.png"%>Delete Data Table
+		</button>
+		</div>
 		<% end %>
+		<br/><br/>
 		
 <div id="new_col_entry">
 <%= render 'outcome_columns/form' %>
 </div>
+
+
+<br/>
+<h4>Add Footnotes for this Table</h4><br/>
+<%= form_for OutcomeResultsNote.get_note_object(@selected_outcome_object.id, timepoint_id, subgroup_id), :remote => true do |f| %>
+<div class="form_content">
+<div class="field">
+    <%= f.hidden_field :outcome_id, :value => @selected_outcome_object.id %>
+    <%= f.hidden_field :timepoint_id, :value => timepoint_id %>
+    <%= f.hidden_field :subgroup_id, :value => subgroup_id %>
+
+    <label>Enter Notes on Outcome Results:</label>
+    <%= f.text_area :notes, :rows => 4, :columns => 40 %>
+</div>
+  <div class="actions">
+<button type="submit" class="positive" name="save"><%= image_tag "Accept.png" %>Save Notes</button>
+
+  </div>
+  </div>
+<% end %>
 
 <% end %>

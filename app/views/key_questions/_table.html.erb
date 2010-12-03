@@ -2,17 +2,15 @@
 <table class="list_table">
 <th>Number</th>
 <th>Question Text</th>
-<th>Edit</th>
-<th>Remove</th>
+<th>Actions</th>
 <% if !@key_questions.nil? && @key_questions.length > 0 %>
 <% for keyq in @key_questions %>
 <tr class="<%= cycle("even", "odd") %>" id=<%= "kq_row_"+keyq.question_number.to_s %>>
 <td><%= keyq.question_number %></td>
 <td><%= keyq.question %></td>
 <td>
-	<%= link_to 'Edit', edit_project_key_question_path(session[:project_id],keyq), :remote=>true %>
-</td>
-<td><%= link_to 'Delete', key_question_path(keyq), :remote=>true, :confirm => 'Are you sure?', :method=>:delete, :class=>"kq_delete_link" %></td>
+	<%= link_to 'Edit', edit_project_key_question_path(session[:project_id],keyq), :remote=>true, :class=>"edit_link" %>
+<%= link_to 'Delete', key_question_path(keyq), :remote=>true, :confirm => 'Are you sure?', :method=>:delete, :class=>"kq_delete_link delete_link" %></td>
 </tr><% end %>
 <% end %>
 </table>

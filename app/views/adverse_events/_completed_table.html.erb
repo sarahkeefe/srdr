@@ -5,6 +5,7 @@
 <th>Description</th>
 <th>Serious?</th>
 <th>Definition Used</th>
+<th>Notes</th>
 </thead>
 <% if @adverse_events.length > 0 %>
 <% for ae in @adverse_events %>
@@ -17,6 +18,7 @@
 		No
 		<% end %></td>
 <td><%= ae.definition_used %></td>
+<td><%= ae.notes %></td>
 </tr>
 <% end %>
 <% end %>

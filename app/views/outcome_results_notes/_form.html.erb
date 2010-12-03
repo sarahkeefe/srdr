@@ -1,0 +1,27 @@
+
+
+<%= form_for OutcomeResultsNote.get_note_object(outcome_id, timepoint_id, subgroup_id), :remote => true do |f| %>
+  <% if @outcome_results_note.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@outcome_results_note.errors.count, "error") %> prohibited this outcome_results_note from being saved:</h2>
+
+      <ul>
+      <% @outcome_results_note.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <%= f.hidden_field :outcome_id, :value => object_id %>
+    <%= f.hidden_field :timepoint_id, :value => timepoint_id %>
+    <%= f.hidden_field :subgroup_id, :value => subgroup_id %>
+
+  <div class="field">
+    <%= f.label :enter_notes_on_outcome_results %>:<br />
+    <%= f.text_area :notes, :rows => 4, :columns => 40 %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Save notes" %>
+  </div>
+<% end %>

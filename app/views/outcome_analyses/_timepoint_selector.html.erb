@@ -1,7 +1,10 @@
 <input type="hidden" id="model_name" value=<%= @model_name %> >
 <input type="hidden" id="subgroup_field_id" value=<%= @model_name + "_subgroup_id" %> >
 
-<b>3. Specify Time Point Analysis</b><br/>
+<div class="form_content no_indent small_form">
+<div class="field">
+<label class="inline-label">Time Point Analysis</label>
+
 <% unless @outcome_timepoints.empty? %>
 			
 			<%= select @model_name, "timepoint_id", @outcome_timepoint_comparisons,{:selected=>@selected_timepoint},
@@ -10,9 +13,10 @@
 										'&selected_subgroup='+ $($('subgroup_field_id').value).value +
 										'&selected_timepoint='+this.value +
 										'&updating='+'timepoint' +
-										'&form_type=' + $('model_name').value")} %>
+										'&form_type=' + $('model_name').value"), :class => "inline-field"} %>
 		  </select>
 <% else %>
 	  <em>There are no time points defined for this outcome. If you require a time point, please edit the <%= link_to "Outcome Setup Page", "/projects/#{session[:project_id]}/studies/#{session[:study_id]}/outcomesetup" %></em>
 	  <input type="hidden" id="outcome_analysis_timepoint_id" value="Time_0"/>
-<% end %>		
+<% end %>	
+</div></div>	
