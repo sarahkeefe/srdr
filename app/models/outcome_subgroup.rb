@@ -6,7 +6,7 @@ class OutcomeSubgroup < ActiveRecord::Base
 	
 	def self.total_subgroup_exists(outcome_id)
 		@exists = OutcomeSubgroup.where(:outcome_id => outcome_id, :title => "Total").first
-		if @exists.nil? || @exists.length == 0
+		if @exists.nil?
 			return false
 		else return true
 		end

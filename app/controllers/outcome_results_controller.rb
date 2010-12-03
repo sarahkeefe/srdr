@@ -83,7 +83,6 @@ class OutcomeResultsController < ApplicationController
  end
  
  def delete_column
-	print "999999999999"
 	@column = OutcomeColumn.where(:id => params[:id]).first
 	@column.destroy
 	

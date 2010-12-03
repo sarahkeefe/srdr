@@ -3,10 +3,15 @@ class OutcomeResult < ActiveRecord::Base
 		def self.clear_table(params)
 			@study_arms = Arm.where(:study_id => params[:study_id]).all
 			for a in @study_arms
-				@to_be_deleted = OutcomeResult.where(:study_id => params[:study_id], :arm_id => a.id, :timepoint_id => params[:tpid], :subgroup_id => params[:sid], :outcome_id => params[:oid]).all
+				@to_be_deleted = OutcomeResult.where(:study_id => params[:study_id], :arm_id => a.id, :timepoint_id => params[:timepoint_id], :subgroup_id => params[:subgroup_id], :outcome_id => params[:outcome_id]).all
+
 				for tbd in @to_be_deleted
 					tbd.destroy
 				end
+			end
+			@custom_cols = OutcomeColumn.where(:timepoint_id => params[:timepoint_id], :subgroup_id => params[:subgroup_id], :outcome_id => params[:outcome_id]).all
+			for col in @custom_cols
+				col.destroy
 			end
 		end
 

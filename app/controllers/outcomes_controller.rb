@@ -93,6 +93,23 @@ class OutcomesController < ApplicationController
 	
     respond_to do |format|
       if @outcome.update_attributes(params[:outcome])
+
+		if !OutcomeSubgroup.total_subgroup_exists(@outcome.id)
+			@outcome_total_subgroup = OutcomeSubgroup.new
+			@outcome_total_subgroup.outcome_id = @outcome.id
+			@outcome_total_subgroup.title = "Total"
+			@outcome_total_subgroup.description = "Total value (added by default)"
+			@outcome_total_subgroup.save
+		end
+
+		if !OutcomeTimepoint.baseline_timepoint_exists(@outcome.id)
+			@outcome_baseline_tp = OutcomeTimepoint.new
+			@outcome_baseline_tp.outcome_id = @outcome.id
+			@outcome_baseline_tp.number = 0
+			@outcome_baseline_tp.time_unit = "baseline"
+			@outcome_baseline_tp.save
+		end			  
+	  
 		    @outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})
 
         format.js{
