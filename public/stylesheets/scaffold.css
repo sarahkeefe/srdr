@@ -52,6 +52,14 @@ div.field, div.actions {
   margin-bottom: 10px;
 }
 
+.form_content{
+width: 500px;
+}
+
+label{
+display: inline;
+}
+
 #notice {
   color: green;
 }

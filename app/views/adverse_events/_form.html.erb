@@ -15,15 +15,15 @@
     <%= f.hidden_field :study_id, :value => session[:study_id] %>
   </div>
   <div class="field">
-    <%= f.label :adverse_event_title %>:
+    <%= f.label :adverse_event_title %>
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :timeframe_for_adverse_event_reporting %>:
+    <%= f.label :timeframe_for_adverse_event_reporting %>
     <%= f.text_field :timeframe %>
   </div>
   <div class="field">
-    <%= f.label :adverse_event_description %>:<br />
+    <%= f.label :adverse_event_description %><br />
     <%= f.text_area :description, :rows => 4, :cols => 40 %>
   </div>
   <div class="field">
@@ -31,8 +31,12 @@
     <%= f.check_box :is_serious %>
   </div>
   <div class="field">
-    <%= f.label :definition_of_adverse_event_used %>:
+    <%= f.label :definition_of_adverse_event_used %>
     <%= f.text_field :definition_used %>
+  </div>
+    <div class="field">
+    <%= f.label :adverse_event_notes %><br />
+    <%= f.text_area :notes, :rows => 4, :cols => 40 %>
   </div>
   <div class="actions">
 		<button type="submit" class="positive">
