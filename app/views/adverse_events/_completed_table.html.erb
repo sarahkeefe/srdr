@@ -1,12 +1,14 @@
-<table class="list_table">
+<table class="simple_table">
+<thead>
 <th>Event Title</th>
 <th>Timeframe</th>
 <th>Description</th>
 <th>Serious?</th>
 <th>Definition Used</th>
+</thead>
 <% if @adverse_events.length > 0 %>
 <% for ae in @adverse_events %>
-<tr class="<%= cycle("even", "odd") %>" id=<%= 'adverse_event_' + ae.id.to_s %>>
+<tr class=""<%# cycle("even", "odd") %> id=<%= 'adverse_event_' + ae.id.to_s %>>
 <td><%= ae.title %></td>
 <td><%= ae.timeframe %></td>
 <td><%= ae.description %></td>

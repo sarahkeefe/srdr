@@ -15,24 +15,27 @@ class StudiesController < ApplicationController
   # GET /studies/1.xml
   def show
     @study = Study.find(params[:id])
-	@project = Project.find(session[:project_id])
-	@study_qs = StudiesKeyQuestion.where(:study_id => @study.id).all
-	@study_questions = []
-	@study_qs.each{|i| @study_questions << KeyQuestion.find(i.key_question_id)}	  
-	@primary_publication = @study.get_primary_publication.nil? ? Publication.new : @study.get_primary_publication
-	@secondary_publications = @study.get_secondary_publications
-	@arms = Arm.where(:study_id => @study.id).all
-	@population_characteristics = PopulationCharacteristic.where(:study_id => @study.id).all
-	@outcomes = Outcome.where(:study_id => @study.id).all
-	@adverse_events = AdverseEvent.where(:study_id => @study.id).all
-	@quality_aspects = QualityAspect.where(:study_id => @study.id).all
-	@quality_rating = QualityRating.where(:study_id => @study.id).first
-	@analyses = OutcomeAnalysis.where(:study_id => @study.id).all
-	@outcomes = Outcome.where(:study_id => @study.id).all
-	  
-	# get the study title, which is the same as the primary publication for the study
-	@study_title = Publication.where(:study_id => @study.id, :is_primary => true).first
-	@study_title = @study_title.nil? ? "" : @study_title.title.to_s
+		@project = Project.find(session[:project_id])
+		@study_qs = StudiesKeyQuestion.where(:study_id => @study.id).all
+		@study_questions = []
+		@study_qs.each{|i| @study_questions << KeyQuestion.find(i.key_question_id)}	  
+		@primary_publication = @study.get_primary_publication.nil? ? Publication.new : @study.get_primary_publication
+		@secondary_publications = @study.get_secondary_publications
+		@arms = Arm.where(:study_id => @study.id).all
+		@population_characteristics = PopulationCharacteristic.where(:study_id => @study.id).all
+		@outcomes = Outcome.where(:study_id => @study.id).all
+		@adverse_events = AdverseEvent.where(:study_id => @study.id).all
+		@quality_aspects = QualityAspect.where(:study_id => @study.id).all
+		@quality_rating = QualityRating.where(:study_id => @study.id).first
+		
+		@analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=?", @study.id], :order=>"outcome_id")
+		@outcomes_analyzed = @analyses.collect{|an| an.outcome_id }
+		@outcomes_analyzed = @outcomes_analyzed.uniq
+		
+		@outcomes = Outcome.where(:study_id => @study.id).all
+		# get the study title, which is the same as the primary publication for the study
+		@study_title = Publication.where(:study_id => @study.id, :is_primary => true).first
+		@study_title = @study_title.nil? ? "" : @study_title.title.to_s
 	  
     respond_to do |format|
       format.html # show.html.erb

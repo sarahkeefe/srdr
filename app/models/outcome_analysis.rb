@@ -11,6 +11,31 @@ class OutcomeAnalysis < ActiveRecord::Base
 		sql.commit_db_transaction
 	end
 	
+	# determine whether an analysis contains data for non-adjusted, adjusted or both types of 
+	# analyses. 
+	# params: analysis - an analysis object
+	# return: adjustment (either adjusted, non-adjusted or both)
+	def self.determine_adjustments(analysis)
+		retVal = ""
+		tmp = []
+		blank = [""," ","/",nil]
+		unless blank.include?(analysis.estimation_parameter_value)
+			print "\n\n\n\n IT's NONADJUSTED BECAUSE THE PARAMETER VALUE IS #{analysis.estimation_parameter_value}\n\n\n\n"
+			tmp << "non-adjusted"
+		end
+		unless blank.include?(analysis.adjusted_estimation_parameter_value)
+			print "\n\n\n\n IT's ADJUSTED BECAUSE THE PARAMETER VALUE IS #{analysis.adjusted_estimation_parameter_value}\n\n\n\n"
+		 	tmp << "adjusted"
+	  end
+	  if tmp.length > 1
+	   	retVal = "both"
+   	else
+   	  retVal = tmp[0]
+		end
+		return retVal
+  end
+	
+	
 	### THE FOLLOWING HAVE BEEN MOVED FROM THE STUDIES CONTROLLER ###
 	######################################################################################
   # format the title of the analysis based on what has been selected.

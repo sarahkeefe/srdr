@@ -1,14 +1,14 @@
 <% unless @saved_analyses.empty? %>
   <strong>You have saved analyses for the following conditions:</strong><br/><br/>
-  <table width=100% border=1 class='saved_analyses_table'>
+  <table width=95% border="1" class='saved_analyses_table'>
   	<tr>
   		<th>Outcome</th><th>Subgroup</th><th>Time Point</th>
   	</tr>
   	<% @saved_analyses.each do |a| %>
   	  <tr>
-  	  	<td><%= shrink_text(a[0],4) %></td>
-  	  	<td><%= shrink_text(a[1].gsub("_"," "),4) %></td>
-  	  	<td><%= shrink_text(a[2].gsub("_"," "),4) %></td>
+  	  	<td><%= a[0] %></td>
+  	  	<td><%= a[1].gsub("_"," ") %></td>
+  	  	<td><%= a[2].gsub("_"," ") %></td>
   	  </tr>
   	<% end %>
 	</table>

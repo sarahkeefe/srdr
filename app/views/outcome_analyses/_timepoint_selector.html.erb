@@ -1,7 +1,7 @@
 <input type="hidden" id="model_name" value=<%= @model_name %> >
 <input type="hidden" id="subgroup_field_id" value=<%= @model_name + "_subgroup_id" %> >
 
-<b>Time Point Analysis</b><br/>
+<b>3. Specify Time Point Analysis</b><br/>
 <% unless @outcome_timepoints.empty? %>
 			
 			<%= select @model_name, "timepoint_id", @outcome_timepoint_comparisons,{:selected=>@selected_timepoint},

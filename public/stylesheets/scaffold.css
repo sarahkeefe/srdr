@@ -492,4 +492,49 @@ table.subgroup_table{
 	font-family: verdana, sans-serif;
 	font-size: 11px;	
 	color: #666;
-}	
+}
+/* PLAYING AROUND WITH TABLE STYLES FOR OUTCOME ANALYSIS SUMMARY */	
+.summary_h3{
+	text-decoration: none;
+	font-weight: bold;
+	color: #660000;
+	font-size: 14px;	
+}
+.summary_h2{
+	text-decoration: none;
+	font-weight: bold;
+	color: #336699;
+	font-size: 16px;	
+}
+.simple_table{
+	border: none;
+	margin-left: 20px;
+	width: 90%;
+}
+.simple_table thead{
+	border-bottom: 3px solid #6699cc;
+	
+}
+.simple_table th{
+  padding: 6px, 6px, 6px, 10px;	
+  margin-left: 10px;
+  color: #333; 
+  font-size: 13px;
+  font-weight: bold;
+}
+.simple_table td{
+	padding: 5px, 5px, 5px, 10px;	
+	border-bottom: 1px solid #6699cc;
+	color: #333;
+	text-align: center;
+}
+.simple_table tr:hover{
+  color: #000;	
+}
+.analysis_summary_title_div{
+	width: 75%;
+	border: solid 1px #ccc;
+	background-color: #eee;
+	padding: 5px;
+	margin-left: 20px;
+}

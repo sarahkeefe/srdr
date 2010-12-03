@@ -1,0 +1,55 @@
+<% unless @analyses.empty? %>
+  <% @outcomes_analyzed.each do |oca| %>
+    <% analysis_subset = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND outcome_id=?",@study.id, oca],:order=>"subgroup_comp ASC, timepoint_comp ASC") %>
+		<% outcome_title = Outcome.get_array_of_titles([oca]) %>
+	
+	  <span class="summary_h2"><%= outcome_title[0] %></span><br/>
+		<% analysis_subset.each do |oa| %>
+				<% adjustment = OutcomeAnalysis.determine_adjustments(oa) %>  <%#will return either adjusted or non-adjusted or both%>
+				<% test = ""%>
+				<% if adjustment == "adjusted" %>
+				  <% test = "(" + oa.statistical_test + " adjusted for " + oa.adjusted_for + ")"%>
+				<% elsif adjustment == "non-adjusted"%>
+					<% test = "(" + oa.statistical_test + " non-adjusted)" %>
+				<% else %>
+					<% test = "(" + oa.statistical_test + ")" %>
+				<% end %>
+				  
+				<div class='analysis_summary_title_div'>Subgroup: <span class='summary_h3'><%= oa.subgroup_comp.gsub("_"," ") %></span>, Timepoint: <span class='summary_h3'><%= oa.timepoint_comp.gsub("_"," ") %> <%= test.gsub("_"," ") %></span></div>
+				<table class='simple_table'>
+					<thead>
+						
+						<th>Arm A</th><th>Arm B</th>
+						<% if ["both","non-adjusted"].include?(adjustment) %>
+					   <th><%= oa.estimation_parameter_type.gsub("_"," ") %></th><th><%= oa.parameter_dispersion_type.gsub("_"," ") %></th>
+							<th>CI (<%= oa.unadjusted_ci_level %>%)</th><th>P-Value</th>
+				    <% end %>
+				    <% if ["both","adjusted"].include?(adjustment) %>
+						  <th><%= oa.adjusted_estimation_parameter_type.gsub("_"," ") %></th><th><%= oa.adjusted_parameter_dispersion_type.gsub("_"," ") %></th>
+							<th>CI (<%= oa.adjusted_ci_level %>%)</th><th>Adj. P-Value</th>
+				    <% end %>
+				   
+				   </thead>
+				   <tbody>
+				   <tr>
+				   	<% arm1title = Arm.get_title(oa.arm1_id.to_i) %>
+				   	<% arm2title = Arm.get_title(oa.arm2_id.to_i) %>
+				   	 <td><%= arm1title %></td><td><%= arm2title %></td>
+				     <% if ["both","non-adjusted"].include?(adjustment) %>
+					     <td><%= oa.estimation_parameter_value %></td>
+					     <td><%= oa.parameter_dispersion_value %></td>
+							 <td>(<%= oa.unadjusted_ci_lower_limit %>, <%= oa.unadjusted_ci_upper_limit %>)</td>
+							 <td><%= oa.p_value %></td>"
+						 <% end %>
+						 <%	if ["both","adjusted"].include?(adjustment) %>
+							<td><%= oa.adjusted_estimation_parameter_value %></td>
+							<td><%= oa.adjusted_parameter_dispersion_value %></td>
+							<td>(<%= oa.adjusted_ci_lower_limit %>, <%= oa.adjusted_ci_upper_limit %>)</td>
+							<td><%= oa.adjusted_p_value %></td>
+						<% end %>
+				   </tr>
+				   </tbody>
+				 </table><br/><br/>
+		<% end %>		
+	<% end %>		
+<% end %>
