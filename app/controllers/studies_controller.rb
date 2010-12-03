@@ -102,7 +102,7 @@ class StudiesController < ApplicationController
 	@selected_outcome_object_results = OutcomeResult.get_selected_outcome_results(@first_outcome.id, @selected_subgroup, @selected_timepoint)
 	@outcome_column = OutcomeColumn.new
 	@secondary_publications = @study.get_secondary_publications	
-	render :layout => 'outcomesetup'	
+	render :layout => 'outcomedata'	
 	 end
   
 	# outcomeanalysis
