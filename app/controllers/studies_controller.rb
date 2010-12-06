@@ -375,6 +375,7 @@ class StudiesController < ApplicationController
   # DELETE /studies/1.xml
   def destroy
     @study = Study.find(params[:id])
+    @study.remove_from_key_question_junction
     @study.destroy
 
     respond_to do |format|

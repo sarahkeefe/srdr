@@ -2,13 +2,21 @@
   <strong>You have saved analyses for the following conditions:</strong><br/><br/>
   <table class='simple_table'>
   	<thead>
-  		<th>Outcome</th><th>Subgroup</th><th>Time Point</th>
+  		<th>Outcome</th><th>Subgroup</th><th>Time Point</th><th>Arm A</th><th>Arm B</th><th>Action</th>
   	</thead>
   	<% @saved_analyses.each do |a| %>
   	  <tr>
   	  	<td><%= a[0] %></td>
   	  	<td><%= a[1].gsub("_"," ") %></td>
   	  	<td><%= a[2].gsub("_"," ") %></td>
+  	  	<% arm1 = Arm.find(a[4].to_i)%>
+  	  	<% arm2 = Arm.find(a[5].to_i)%>
+  	  	<td><%= arm1.title.to_s %></td>
+  	  	<td><%= arm2.title.to_s %></td>
+  	  	<td>
+			   <%= link_to "Delete", {:controller => "outcome_analyses", :action => "destroy", :id => a[3]}, {:title => "Delete This Analysis", :remote => true, :confirm => "This will permanently delete the analysis entry from the database. Are you sure?", :method => "post"} %>
+			   
+  	  	</td>
   	  </tr>
   	<% end %>
 	</table>

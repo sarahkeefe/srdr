@@ -173,6 +173,12 @@ class Study < ActiveRecord::Base
 		return arr
 	end
 	
+	def remove_from_key_question_junction
+	  sql = ActiveRecord::Base.connection()
+		sql.begin_db_transaction
+		sql.delete "DELETE FROM studies_key_questions WHERE studies_key_questions.study_id = #{self.id}"
+		sql.commit_db_transaction	
+	end
 	#############################################################
 	# get_template_setup												                #
 	# Gather information from a previous study to serve as a    #

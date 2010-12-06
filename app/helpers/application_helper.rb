@@ -2,8 +2,10 @@ module ApplicationHelper
 	
 	def get_bread_crumbs(url,sep)
 	begin
-		
+		print url + "\n\n\n\n"
+		retVal = ""
 		url.gsub!(/\?.*$/,"")
+		unless url == "http://localhost:3000/"
 		home_uri = "/projects/"
 		elements = url.split('/')
 		project_id = ""
@@ -14,7 +16,7 @@ module ApplicationHelper
 		is_end_of_trail = false
 		
 		# the string to return 
-		retVal = "<a href='\#'>Home</a> "
+		retVal = "<a href='/'>Home</a> "
 		
 		# remove the http://www.srdr.com bit from the array
 		elements = elements[3..elements.length-1]
@@ -82,6 +84,7 @@ module ApplicationHelper
 			retVal = retVal + " "
 			i = i+1
 		end
+    end #ending the unless statement at the top
 		return  retVal
 		
 		rescue
