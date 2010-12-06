@@ -17,26 +17,27 @@ class OutcomeResultsController < ApplicationController
   def create
     @outcome_result = OutcomeResult.new(params[:outcome_result])
 	@study_arms = Arm.where(:study_id => session[:study_id]).all
-	oid = params[:outcome_id].to_i
-	tp_id = params[:selected_timepoint].to_i
-	subgroup_id = params[:selected_subgroup].to_i
-	@outcome_columns = OutcomeColumn.where(:outcome_id => oid, :timepoint_id => tp_id, :subgroup_id => subgroup_id).all
-		@selected_subgroup = params[:subgroup_id]
-	@selected_timepoint = params[:timepoint_id]
+	
+	outcome_id = params[:outcome_id].to_i
+	@selected_timepoint = params[:selected_timepoint].to_i
+	@selected_subgroup = params[:selected_subgroup].to_i
+	@selected_outcome_object = Outcome.find(outcome_id)	
+	
+	@outcome_columns = OutcomeColumn.where(:outcome_id => outcome_id, :timepoint_id => @selected_timepoint, :subgroup_id => @selected_subgroup).all
+
 	for a in @study_arms
-		OutcomeResult.save_general_results(session[:study_id], a, oid, tp_id, subgroup_id, params)
+		OutcomeResult.save_general_results(session[:study_id], a, outcome_id, @selected_timepoint, @selected_subgroup, params)
 		for i in @outcome_columns
-			OutcomeResult.save_custom_results(session[:study_id], a, oid, tp_id, subgroup_id, i.id, params)
+			OutcomeResult.save_custom_results(session[:study_id], a, outcome_id, @selected_timepoint, @selected_subgroup, i.id, params)
 		end
 	end
-	print "8888888888888888888888888888888888888888888888888888888888888888888888888888888888888"
+
     respond_to do |format|
-		@selected_outcome_object = Outcome.find(oid)
+
 	render :update do |page|
 		format.js{
 
-page.replace_html 'outcome_results_preview', :partial => 'outcome_results/completed_table', :locals => {:selected_outcome_object => Outcome.find(params[:selected_outcome]), :selected_timepoint => params[:selected_timepoint], :selected_subgroup => params[:selected_subgroup]}
-
+page.replace_html 'outcome_results_list', :partial => 'outcome_results/completed_list'
 		}
 		end
 	end
@@ -48,27 +49,27 @@ page.replace_html 'outcome_results_preview', :partial => 'outcome_results/comple
   def update
     @outcome_result = OutcomeResult.find(params[:id])
 	@study_arms = Arm.where(:study_id => session[:study_id]).all
-	oid = params[:outcome_id].to_i
-	tp_id = params[:selected_timepoint].to_i
-	subgroup_id = params[:selected_subgroup].to_i
-	@outcome_columns = OutcomeColumn.where(:outcome_id => oid, :timepoint_id => tp_id, :subgroup_id => subgroup_id).all
-		@selected_subgroup = params[:subgroup_id]
-	@selected_timepoint = params[:timepoint_id]
+	
+	outcome_id = params[:outcome_id].to_i
+	@selected_timepoint = params[:selected_timepoint].to_i
+	@selected_subgroup = params[:selected_subgroup].to_i
+	
+	@outcome_columns = OutcomeColumn.where(:outcome_id => outcome_id, :timepoint_id => @selected_timepoint, :subgroup_id => @selected_subgroup).all
+	@selected_outcome_object = Outcome.find(outcome_id)
+	
 	for a in @study_arms
-		OutcomeResult.save_general_results(session[:study_id], a, oid, tp_id, subgroup_id, params)
+		OutcomeResult.save_general_results(session[:study_id], a, outcome_id, @selected_timepoint, @selected_subgroup, params)
 		for i in @outcome_columns
-			OutcomeResult.save_custom_results(session[:study_id], a, oid, tp_id, subgroup_id, i.id, params)
+			OutcomeResult.save_custom_results(session[:study_id], a, outcome_id, @selected_timepoint, @selected_subgroup, i.id, params)
 		end
 	end
-	print "99999999999999999999999999999999999999999999999999999999999999999999999999999999"
-    respond_to do |format|
-	@selected_outcome_object = Outcome.find(oid)
-	render :update do |page|
 
+    respond_to do |format|
+	render :update do |page|
 		format.js{
-	print "666666666666666666666666666666666"
-		page.replace_html 'outcome_results_preview', :partial => 'outcome_results/completed_table', :locals => {:selected_outcome_object => Outcome.find(params[:selected_outcome]), :selected_timepoint => params[:selected_timepoint], :selected_subgroup => params[:selected_subgroup]}
-		print "555555555555555555555"
+
+	page.replace_html 'outcome_results_list', :partial => 'outcome_results/completed_list'
+
 		}
 		end
 	end
@@ -103,7 +104,7 @@ page.replace_html 'outcome_results_preview', :partial => 'outcome_results/comple
 	
 				render :update do |page|
 					page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
-					page.replace_html 'outcome_results_preview', :partial => 'outcome_results/completed_table', :locals => {:selected_outcome_object => selected_outcome_object, :selected_timepoint => @selected_timepoint, :selected_subgroup => @selected_subgroup}
+					page.replace_html 'outcome_results_list', :partial => 'outcome_results/completed_list'
 					page.call "Custom.init"
 		  		end
 				}
@@ -126,7 +127,7 @@ page.replace_html 'outcome_results_preview', :partial => 'outcome_results/comple
 	format.js {
 		      render :update do |page|
 					page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
-					page.replace_html 'outcome_results_preview', :partial => 'outcome_results/completed_table', :locals => {:selected_outcome_object => selected_outcome_object, :selected_timepoint => @selected_timepoint, :selected_subgroup => @selected_subgroup}
+					page.replace_html 'outcome_results_list', :partial => 'outcome_results/completed_list'
 		  		end
 				}
 		end

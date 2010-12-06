@@ -11,6 +11,10 @@ class Outcome < ActiveRecord::Base
 	attr_accessible :study_id, :title, :is_primary, :units, :description, :notes, :outcome_timepoints_attributes, :outcome_columns_attributes, :outcome_subgroups_attributes, :outcome_subgroup_levels_attributes
 	validates :title, :presence => true, :uniqueness=>true
 	
+	def self.get_title(id)
+		@outcome = Outcome.find(id)
+		return @outcome.title
+	end
 	
 	def self.get_timepoints(outcome_id)
 		@outcome_tps = OutcomeTimepoint.where(:outcome_id => outcome_id).all

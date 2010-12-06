@@ -48,7 +48,6 @@ class OutcomeResultsNotesController < ApplicationController
       if @outcome_results_note.save
 		format.js{
 		render :update do |page|
-			page.replace_html 'outcome_results_preview', :partial => 'outcome_results/completed_table', :locals => {:selected_outcome_object => Outcome.find(params[:selected_outcome]), :selected_timepoint => params[:selected_timepoint], :selected_subgroup => params[:selected_subgroup]}
 			page.replace_html 'outcome_results_table', :partial => 'outcome_results/table', :locals => {:selected_outcome_object => Outcome.find(params[:selected_outcome]), :selected_timepoint => params[:selected_timepoint], :selected_subgroup => params[:selected_subgroup]}
 			end
 		}
@@ -71,7 +70,6 @@ class OutcomeResultsNotesController < ApplicationController
       if @outcome_results_note.update_attributes(params[:outcome_results_note])
 	  format.js{
 			render :update do |page|
-	  page.replace_html 'outcome_results_preview', :partial => 'outcome_results/completed_table', :locals => {:selected_outcome_object => Outcome.find(params[:selected_outcome]), :selected_timepoint => params[:selected_timepoint], :selected_subgroup => params[:selected_subgroup]}
 			page.replace_html 'outcome_results_table', :partial => 'outcome_results/table', :locals => {:selected_outcome_object => Outcome.find(params[:selected_outcome]), :selected_timepoint => params[:selected_timepoint], :selected_subgroup => params[:selected_subgroup]}
 			end
 		}

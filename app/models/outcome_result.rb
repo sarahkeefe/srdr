@@ -1,5 +1,24 @@
 class OutcomeResult < ActiveRecord::Base
 
+		def self.get_existing_outcome_combos(study_id)
+			@results = OutcomeResult.find(:all, :conditions => ['study_id =?', study_id], :group => 'outcome_id, subgroup_id, timepoint_id', )
+			final = []
+			group = Hash.new
+			for r in @results
+				if r.outcome_id != 0 && r.subgroup_id != 0 && r.timepoint_id != 0
+					group["outcome"] = Outcome.get_title(r.outcome_id)
+					group["outcome_id"] = r.outcome_id.to_s
+					group["subgroup"] = OutcomeSubgroup.get_title(r.subgroup_id)
+					group["subgroup_id"] = r.subgroup_id.to_s
+					group["timepoint"] = OutcomeTimepoint.get_title(r.timepoint_id)
+					group["timepoint_id"] = r.timepoint_id.to_s
+					final << group
+					group = Hash.new
+				end
+			end
+			return final
+		end
+
 		def self.get_table_footnotes(outcome, timepoint, subgroup)
 			@footnotes = OutcomeResultsNote.where(:outcome_id => outcome, :timepoint_id => timepoint, :subgroup_id => subgroup).first
 			str = ""

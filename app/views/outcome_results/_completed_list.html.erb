@@ -1,0 +1,27 @@
+<% if !session[:study_id].nil? %>
+
+<h3>You have entered data into the following tables:</h3>
+
+<table class="list_table non_centered_table">
+			
+				<th>Outcome</th>
+				<th>Timepoint</th>
+				<th>Subgroup</th>
+				<th>Actions</th>
+				<% @combos = OutcomeResult.get_existing_outcome_combos(session[:study_id]) %>
+				
+				<% if @combos.length > 0 %>
+				<% for group in @combos %>
+					<tr class="<%= cycle("even", "odd") %>">
+						<td><%= group["outcome"] %></td>
+						<td><%= group["timepoint"] %></td>
+						<td><%= group["subgroup"] %></td>
+						<td><%= link_to "View", {:controller => "studies", :action => "update_partial", :project_id => session[:project_id], :study_id => session["study_id"], :selected_outcome_id => group["outcome_id"], :selected_timepoint => group["timepoint_id"], :selected_subgroup => group["subgroup_id"], :form_type => "outcome_result", :with => {:complete=>"Custom.init()"}}, {:class => "edit_link", :remote => true, :method => "post"} %>
+				
+						</td>
+						</tr>
+						<% end %>
+				<% end %>
+				</table>
+
+<% end %>

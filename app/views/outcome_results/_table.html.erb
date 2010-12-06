@@ -7,7 +7,7 @@
 		<%= render 'outcome_columns/form' %>
 	</div>
 	<br/><br/>
-		<h2>Outcome Title: <%= @selected_outcome_object.title %></h2><br/>
+		<h2>Outcome: <%= @selected_outcome_object.title %>, Subgroup: <%= OutcomeSubgroup.get_title(subgroup_id)%>, Timepoint: <%=OutcomeTimepoint.get_title(timepoint_id) %></h2><br/>
 	<%= form_for @selected_outcome_object_results, :remote => true do |f| %>
 	
 			<%= hidden_field_tag "outcome_id", @selected_outcome_object.id.to_s %>

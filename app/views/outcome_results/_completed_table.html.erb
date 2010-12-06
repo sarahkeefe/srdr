@@ -3,7 +3,7 @@
 	<h2>Outcome Title: <%= selected_outcome_object.title %></h2><br/>
 	<% timepoint_id =  @selected_timepoint.nil? ? selected_timepoint : @selected_timepoint %>
 	<% subgroup_id = @selected_subgroup.nil? ? selected_subgroup : @selected_subgroup %>
-			timepoint: <%=timepoint_id %>; subgroup <%= subgroup_id %>
+			timepoint: <%=timepoint_id %>; subgroup <%= subgroup_id %>, outcome: <%= selected_outcome_object.id %>
 <table class="list_table non_centered_table">
 			
 				<th>Arm</th>

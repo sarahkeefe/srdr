@@ -37,7 +37,6 @@ class OutcomeColumnsController < ApplicationController
 			format.js {
 		      render :update do |page|
 				    page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
-					page.replace_html 'outcome_results_preview', :partial => 'outcome_results/completed_table', :locals => {:selected_outcome_object => @selected_outcome_object, :selected_timepoint => params[:selected_timepoint], :selected_subgroup => params[:selected_subgroup]}
 				    page['new_outcome_column'].reset
 					page.call "Custom.init"
 					page.replace_html 'outcome_column_validation_message', ""
