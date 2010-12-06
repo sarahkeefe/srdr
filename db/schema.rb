@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101203183312) do
+ActiveRecord::Schema.define(:version => 20101206201705) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer  "study_id"
@@ -62,10 +62,8 @@ ActiveRecord::Schema.define(:version => 20101203183312) do
     t.integer  "arm2_id"
     t.string   "estimation_parameter_type"
     t.string   "parameter_dispersion_type"
-    t.string   "parameter_dispersion_value"
     t.float    "p_value"
     t.string   "adjusted_parameter_dispersion_type"
-    t.string   "adjusted_parameter_dispersion_value"
     t.float    "adjusted_p_value"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -77,14 +75,14 @@ ActiveRecord::Schema.define(:version => 20101203183312) do
     t.string   "timepoint_comp"
     t.string   "subgroup_comp"
     t.string   "adjusted_for"
-    t.float    "estimation_parameter_value"
-    t.float    "dispersion_parameter_value"
     t.float    "unadjusted_ci_lower_limit"
     t.float    "adjusted_ci_lower_limit"
     t.float    "adjusted_ci_upper_limit"
     t.float    "unadjusted_ci_upper_limit"
+    t.float    "estimation_parameter_value"
+    t.float    "parameter_dispersion_value"
     t.float    "adjusted_estimation_parameter_value"
-    t.float    "adjusted_dispersion_parameter_value"
+    t.float    "adjusted_parameter_dispersion_value"
   end
 
   create_table "outcome_column_values", :force => true do |t|

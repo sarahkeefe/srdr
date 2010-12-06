@@ -3,7 +3,7 @@
 
 <div class="form_content no_indent analysis_form">
 <div class="field">
-<label>Sub-Group Analysis</label><br/>
+<label class="inline-label">Sub-Group Analysis</label><br/>
 <% unless @outcome_subgroups.empty? %>
 	
 			<%= select @model_name, "subgroup_id", @outcome_subgroup_comparisons,{:selected=>@selected_subgroup},

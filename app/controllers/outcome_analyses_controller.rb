@@ -82,10 +82,16 @@ class OutcomeAnalysesController < ApplicationController
   # DELETE /outcome_analyses/1
   # DELETE /outcome_analyses/1.xml
   def destroy
-    @outcome_analysis = OutcomeAnalysis.find(params[:id])
+    @outcome_analysis = OutcomeAnalysis.find(params[:outcome_analysis_id])
     @outcome_analysis.destroy
 
+		@saved_analyses = OutcomeAnalysis.get_saved_analyses(session[:study_id])
     respond_to do |format|
+    	format.js{ 
+    	  render :update do |page|
+    	  	page.replace_html 'existing_analyses',:partial => 'outcome_analyses/saved_analyses'
+    	  end
+  		}
       format.html { redirect_to(outcome_analyses_url) }
       format.xml  { head :ok }
     end

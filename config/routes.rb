@@ -67,6 +67,7 @@ end
 	match 'projects/:project_id/studies/:study_id/show_outcome' => 'studies#show_outcome'
 	match 'projects/:project_id/studies/:study_id/show_outcome_subgroups_and_timepoints' => 'studies#show_outcome_subgroups_and_timepoints'
 	match 'projects/:project_id/studies/:study_id/update_partial' => 'studies#update_partial'
+	match 'outcome_analyses/:outcome_analysis_id' => 'outcome_analyses#destroy'
 	match 'projects/:project_id/studies/:study_id/clear_table' => 'outcome_results#clear_table'
 	match 'projects/:project_id/studies/:study_id/delete_column' => 'outcome_results#delete_column'
 	match 'projects/:project_id/moveup' => 'projects#moveup'
