@@ -9,26 +9,26 @@
 			<label>Select the Outcome to Analyze: </label>
 	
 			<%= select "outcome", "outcome", Outcome.where(:study_id => session[:study_id]).all.collect {|o| [o.title,o.id]}, {},
-					{:onchange =>remote_function(:url => {:action => "show_outcome_subgroups_and_timepoints"}, :with => "'selected_outcome_id=' + this.value + '&form_type=' + $('model_name').value")} %></b>
+					{:onchange =>remote_function(:url => {:action => "show_outcome_subgroups_and_timepoints"}, :with => "'selected_outcome_id=' + this.value + '&form_type=' + $('model_name').value"),:class=>"inline-field"} %></b>
 	  
 			</div>
 			</div>			
 		</td>
-		
+	
 	<td valign='top' align='left' width='32%'>
 		<div id="subgroup_options">
 		<div class="form_content no_indent analysis_form">
 		<div class="field">
-		<label>Sub-Group Analysis</label>
+
+		<label class="inline-label">Sub-Group Analysis</label><br/>
 		<% unless @first_subgroups.empty? %>
-		  
 		  <%= select @model_name, "subgroup_id", @first_subgroup_comparisons,{:selected=>@selected_subgroup},
 					{:onchange =>remote_function(:url => {:action => "update_partial",:controller=>"studies"}, 
 					:with => "'selected_outcome_id='+$('outcome_outcome').value+
 										'&selected_subgroup='+ this.value +
 										'&selected_timepoint='+$($('timepoint_field_id').value).value +
 										'&updating='+'subgroup' +
-										'&form_type=' + $('model_name').value")} %>
+										'&form_type=' + $('model_name').value"), :class=>"inline-field"} %>
 		
 		<% else %>
 			<em>There are no subgroups defined for this outcome. If you require a subgroup, please edit the <%= link_to "Outcome Setup Page", "/projects/#{session[:project_id]}/studies/#{session[:study_id]}/outcomesetup" %></em>

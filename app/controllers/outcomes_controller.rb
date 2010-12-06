@@ -143,7 +143,9 @@ class OutcomesController < ApplicationController
   # DELETE /outcomes/1.xml
   def destroy
     @outcome = Outcome.find(params[:id])
-	@outcome.destroy 
+	  OutcomeAnalysis.delete_all_analyses_for_outcome(@outcome.id)
+    @outcome.destroy 
+	  
     respond_to do |format|
 	  @outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})
 		@study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})	  

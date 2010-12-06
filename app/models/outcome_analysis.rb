@@ -11,6 +11,13 @@ class OutcomeAnalysis < ActiveRecord::Base
 		sql.commit_db_transaction
 	end
 	
+	def self.delete_all_analyses_for_outcome(ocid)
+	  sql = ActiveRecord::Base.connection()
+	  sql.begin_db_transaction
+	  sql.delete "DELETE FROM outcome_analyses WHERE outcome_id = #{ocid}"
+	  sql.commit_db_transaction
+	end
+	
 	# determine whether an analysis contains data for non-adjusted, adjusted or both types of 
 	# analyses. 
 	# params: analysis - an analysis object

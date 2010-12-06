@@ -70,13 +70,11 @@ class Study < ActiveRecord::Base
 	def get_questions_addressed
 		
 		questions_array = Array.new
-		sql = ActiveRecord::Base.connection()
-		question_ids = sql.execute "SELECT key_question_id FROM studies_key_questions WHERE study_id = #{self.id}"
-		
+		question_ids = StudiesKeyQuestion.where(:study_id=>self.id)
 		unless(question_ids.empty?)
 			  question_ids.each do |q_hash|
-					question_info = sql.execute "SELECT id, question_number, question FROM key_questions WHERE id = #{q_hash["key_question_id"]}"
-				  questions_array.push([ question_info[0]["id"], question_info[0]["question_number"], question_info[0]["question"] ] )
+			  	question_info = KeyQuestion.find(q_hash["key_question_id"], :select=>["id","question_number","question"])
+				  questions_array.push([question_info.id, question_info.question_number, question_info.question])
 				end
 		end
 		return (questions_array)
