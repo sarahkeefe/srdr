@@ -67,7 +67,7 @@ class Outcome < ActiveRecord::Base
 
 	def self.get_subgroups_array(outcome_id)
 		@outcome_cs = OutcomeSubgroup.where(:outcome_id => outcome_id).all
-		return @outcome_cs 
+		return @outcome_cs
 	end
 	
 	def self.get_timepoints_array(outcome_id)

@@ -5,7 +5,7 @@ class OutcomeResult < ActiveRecord::Base
 			final = []
 			group = Hash.new
 			for r in @results
-				if r.outcome_id != 0 && r.subgroup_id != 0 && r.timepoint_id != 0
+				if  !r.outcome_id.nil? && !r.timepoint_id.nil? && !r.subgroup_id.nil? && r.outcome_id != 0 && r.subgroup_id != 0 && r.timepoint_id != 0
 					group["outcome"] = Outcome.get_title(r.outcome_id)
 					group["outcome_id"] = r.outcome_id.to_s
 					group["subgroup"] = OutcomeSubgroup.get_title(r.subgroup_id)

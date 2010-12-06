@@ -96,13 +96,20 @@ class StudiesController < ApplicationController
 	@study_arms = Arm.where(:study_id => params[:study_id]).all
 	@outcomes = Outcome.where(:study_id => params[:study_id]).all
 	@first_outcome = @outcomes[0]
-	@first_subgroups = Outcome.get_subgroups_array(@first_outcome.id)
-	@first_timepoints = Outcome.get_timepoints_array(@first_outcome.id)
-	current_selections = OutcomeResult.get_selected_sg_and_tp(@first_subgroups, @first_timepoints)
-    @selected_subgroup = current_selections[0]
-    @selected_timepoint = current_selections[1]
-	@selected_outcome_object = Outcome.find(@first_outcome.id)
-	@selected_outcome_object_results = OutcomeResult.get_selected_outcome_results(@first_outcome.id, @selected_subgroup, @selected_timepoint)
+	if !@first_outcome.nil?
+		@first_subgroups = Outcome.get_subgroups_array(@first_outcome.id)
+		@first_timepoints = Outcome.get_timepoints_array(@first_outcome.id)
+		current_selections = OutcomeResult.get_selected_sg_and_tp(@first_subgroups, @first_timepoints)
+		@selected_subgroup = current_selections[0]
+		@selected_timepoint = current_selections[1]
+		@selected_outcome_object = Outcome.find(@first_outcome.id)
+		@selected_outcome_object_results = OutcomeResult.get_selected_outcome_results(@first_outcome.id, @selected_subgroup, @selected_timepoint)
+	else
+		@selected_subgroup = nil
+		@selected_timepoint = nil
+		@selected_outcome_object = nil
+		@selected_outcome_object_results = nil
+	end
 	@outcome_column = OutcomeColumn.new
 	@secondary_publications = @study.get_secondary_publications	
 	render :layout => 'outcomedata'	
