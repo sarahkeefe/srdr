@@ -1,77 +1,73 @@
-<% for one_outcome in @outcomes %>
-<div id="outcome_results_table">
+<% if !selected_outcome_object.nil? %>
 
-		<h4>Outcome Title: <%= one_outcome.title %></h4><br/>
+	<h2>Outcome Title: <%= selected_outcome_object.title %></h2><br/>
+	<% timepoint_id =  @selected_timepoint.nil? ? selected_timepoint : @selected_timepoint %>
+	<% subgroup_id = @selected_subgroup.nil? ? selected_subgroup : @selected_subgroup %>
+			timepoint: <%=timepoint_id %>; subgroup <%= subgroup_id %>
+<table class="list_table non_centered_table">
 			
-			<table class="list_table">
 				<th>Arm</th>
-				<% @outcome_timepoints = Outcome.get_timepoints_array(one_outcome.id) %>
-				<% if @outcome_timepoints.length > 0 %>
-						<% for tp in @outcome_timepoints %>
-							<th><%= tp.number.to_s %> <%= tp.time_unit %></th>
-						<% end %>
-					<% end %>
-
-					<% val = OutcomeResult.get_measure_types(one_outcome.id) %>
 				<th>N Analyzed</th>
-				<th>
-					Measure Type:<br/>
-					<%= val["measure_type"].to_s %>
-				</th>
-				<th>
-				Measure of Dispersion Type: <br/>			
-					<%= val["measure_dispersion_type"].to_s %>
-				</th>
-				<th>P-Value</th>
-
-				<% if @arms.length > 0 %>
-					<% i = 1 %>
-					<% for one_arm in @arms %>
-						<tr class="<%= cycle("even", "odd") %>">
-							<td>Arm <%= i %>: <%= one_arm.title %></td>
-							<% @outcome_timepoints = Outcome.get_timepoints_array(one_outcome.id) %>
-							<% if @outcome_timepoints.length > 0 %>
-								<% for tp in @outcome_timepoints %>
-									<% val = OutcomeResult.get_timepoint_data_point(one_arm.id, one_outcome.id, tp.id) %>
-									<% if OutcomeResult.get_timepoint_data_point_calc(one_arm.id, one_outcome.id, tp.id) %>
-										<td class="calculated"><%= val%></td>									
-									<% else %>
-										<td><%= val%></td>
-									<% end %>
-								<% end %>
-							<% end %>
-							<% val = OutcomeResult.get_data_point(one_arm.id, one_outcome.id) %>
-							<% calc = OutcomeResult.get_data_point_calc(one_arm.id, one_outcome.id) %>							
-							
-								<% if calc["nanalyzed"] %>
-									<td class="calculated"><%= val["nanalyzed"] %></td>
-								<% else %>
-									<td><%= val["nanalyzed"] %></td>
-								<% end %>
-								
-								<% if calc["measurereg"] %>
-									<td class="calculated"><%= val["measurereg"] %></td>
-								<% else %>
-									<td><%= val["measurereg"] %></td>
-								<% end %>
-								
-								<% if calc["measuredisp"] %>							
-									<td class="calculated"><%= val["measuredisp"] %></td>
-								<% else %>
-									<td><%= val["measuredisp"] %></td>
-								<% end %>
-								
-								<% if calc["pvalue"] %>
-									<td class="calculated"><%= val["pvalue"] %></td>
-								<% else %>
-									<td><%= val["pvalue"] %></td>
-								<% end %>
-							<% i = i + 1 %>
+				<% 	@outcome_columns = OutcomeColumn.where(:outcome_id => selected_outcome_object.id, :timepoint_id => timepoint_id, :subgroup_id => subgroup_id).all	%>
+				<% if !@outcome_columns.nil? && @outcome_columns.length > 0 %>
+					<% for custom_col in @outcome_columns %>
+						<th>
+							<%= custom_col.name %>
+						</th>
 					<% end %>
 				<% end %>
+				
+				<% val = OutcomeResult.get_measure_types(selected_outcome_object.id, timepoint_id, subgroup_id) %>				
+				
+				<th><%= val["measure_type"].to_s %></th>
+				<th><%= val["measure_dispersion_type"].to_s %></th>
+				<th>P-Value</th>
+				<% @study_arms = Arm.where(:study_id => session[:study_id]) %>
+				<% if @study_arms.length > 0 %>
+				
+					<% i = 1 %>
+					<% for one_arm in Arm.where(:study_id => session[:study_id]).all %>
+						<tr class="<%= cycle("even", "odd") %>">
+							<td>Arm <%= i %>: <%= one_arm.title %></td>
+							
+							<% val = OutcomeResult.get_data_point(one_arm.id, selected_outcome_object.id, timepoint_id, subgroup_id) %>
+							<% calc = OutcomeResult.get_data_point_calc(one_arm.id, selected_outcome_object.id, timepoint_id, subgroup_id) %>							
+							<td <%= calc["nanalyzed"] ? "class='calculated'" : "" %>>
+								<%= val["nanalyzed"] %>						
+							</td>
+							
+							<% if !@outcome_columns.nil? && @outcome_columns.length > 0 %>
+							<% for custom_col in @outcome_columns %>
+									<% custom_val = OutcomeResult.get_custom_col_data_point(one_arm.id, selected_outcome_object.id, timepoint_id, subgroup_id, custom_col.id) %>
+									<% custom_calc = OutcomeResult.get_custom_col_data_point_calc(one_arm.id, selected_outcome_object.id, timepoint_id, subgroup_id, custom_col.id) %>
+									<td <%= custom_calc ? "class='calculated'" : "" %>>
+										<%= custom_val%>
+									</td>
+								<% end %>
+							<% end %>
+							
+							<td <%= calc["measurereg"] ? "class='calculated'" : "" %>>
+								<%= val["measurereg"] %>
+							</td>
+							
+							<td <%= calc["measuredisp"] ? "class='calculated'" : "" %>>
+								<%= val["measuredisp"] %>
+							</td>
+							
+							<td <%= calc["pvalue"] ? "class='calculated'" : "" %>>
+								<%= val["pvalue"] %>
+							</td>
+							
+							<% i = i + 1 %>
+							
+					<% end %>
+				<% end %>
+				
 					</tr>
-			</table>
+				</table>
+				<div class="indented-text">
+				Notes: <%= OutcomeResult.get_table_footnotes(selected_outcome_object.id, timepoint_id, subgroup_id) %>
+				</div>
+				<br/>
 
-</div>
-<br/>
 <% end %>

@@ -41,9 +41,17 @@ class OutcomeResultsNotesController < ApplicationController
   # POST /outcome_results_notes.xml
   def create
     @outcome_results_note = OutcomeResultsNote.new(params[:outcome_results_note])
-
+	@selected_outcome_object = Outcome.find(params[:outcome_results_note][:outcome_id])
+	@selected_outcome_object_results =OutcomeResult.get_selected_outcome_results(params[:outcome_results_note][:outcome_id], params[:outcome_results_note][:subgroup_id], params[:outcome_results_note][:timepoint_id])
+	
     respond_to do |format|
       if @outcome_results_note.save
+		format.js{
+		render :update do |page|
+			page.replace_html 'outcome_results_preview', :partial => 'outcome_results/completed_table', :locals => {:selected_outcome_object => Outcome.find(params[:selected_outcome]), :selected_timepoint => params[:selected_timepoint], :selected_subgroup => params[:selected_subgroup]}
+			page.replace_html 'outcome_results_table', :partial => 'outcome_results/table', :locals => {:selected_outcome_object => Outcome.find(params[:selected_outcome]), :selected_timepoint => params[:selected_timepoint], :selected_subgroup => params[:selected_subgroup]}
+			end
+		}
         format.html { redirect_to(@outcome_results_note, :notice => 'Outcome results note was successfully created.') }
         format.xml  { render :xml => @outcome_results_note, :status => :created, :location => @outcome_results_note }
       else
@@ -57,9 +65,16 @@ class OutcomeResultsNotesController < ApplicationController
   # PUT /outcome_results_notes/1.xml
   def update
     @outcome_results_note = OutcomeResultsNote.find(params[:id])
-
+	@selected_outcome_object = Outcome.find(params[:outcome_results_note][:outcome_id])
+	@selected_outcome_object_results =OutcomeResult.get_selected_outcome_results(params[:outcome_results_note][:outcome_id], params[:outcome_results_note][:subgroup_id], params[:outcome_results_note][:timepoint_id])
     respond_to do |format|
       if @outcome_results_note.update_attributes(params[:outcome_results_note])
+	  format.js{
+			render :update do |page|
+	  page.replace_html 'outcome_results_preview', :partial => 'outcome_results/completed_table', :locals => {:selected_outcome_object => Outcome.find(params[:selected_outcome]), :selected_timepoint => params[:selected_timepoint], :selected_subgroup => params[:selected_subgroup]}
+			page.replace_html 'outcome_results_table', :partial => 'outcome_results/table', :locals => {:selected_outcome_object => Outcome.find(params[:selected_outcome]), :selected_timepoint => params[:selected_timepoint], :selected_subgroup => params[:selected_subgroup]}
+			end
+		}
         format.html { redirect_to(@outcome_results_note, :notice => 'Outcome results note was successfully updated.') }
         format.xml  { head :ok }
       else

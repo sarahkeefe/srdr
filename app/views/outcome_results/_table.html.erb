@@ -1,9 +1,13 @@
 <% if !@selected_outcome_object.nil? %>
 
-	<h2>Outcome Title: <%= @selected_outcome_object.title %></h2><br/>
-	<% timepoint_id = @selected_timepoint %>
-	<% subgroup_id = @selected_subgroup %>
+	<% timepoint_id = @selected_timepoint.nil? ? selected_timepoint : @selected_timepoint %>
+	<% subgroup_id = @selected_subgroup.nil? ? selected_subgroup : @selected_subgroup %>
 	
+	<div id="new_col_entry">
+		<%= render 'outcome_columns/form' %>
+	</div>
+	<br/><br/>
+		<h2>Outcome Title: <%= @selected_outcome_object.title %></h2><br/>
 	<%= form_for @selected_outcome_object_results, :remote => true do |f| %>
 	
 			<%= hidden_field_tag "outcome_id", @selected_outcome_object.id.to_s %>
@@ -12,9 +16,11 @@
 			<% @measure_disp_types_array =  [["Dispersion/Precision", "Select Measure Of Dispersion/Precision"], ["Not Applicable", "Not Applicable"], ["Standard Deviation", "Standard Deviation"], ["Inter-Quartile Range", "Inter-Quartile Range"], ["Full Range", "Full Range"]]%>	
 			
 			<input type="hidden" name="selected_outcome" id="selected_outcome" value="<%= @selected_outcome_object.id %>">
-			<input type="hidden" name="selected_subgroup" id="selected_subgroup" value="<%= @selected_subgroup %>">
-			<input type="hidden" name="selected_timepoint" id="selected_timepoint" value="<%= @selected_timepoint %>">
-			
+			<input type="hidden" name="selected_subgroup" id="selected_subgroup" value="<%= @selected_subgroup.nil? ? selected_subgroup : @selected_subgroup %>">
+			<input type="hidden" name="selected_timepoint" id="selected_timepoint" value="<%= @selected_timepoint.nil? ? selected_timepoint : @selected_timepoint %>">
+			<%= hidden_field_tag "subgroup_id", subgroup_id %>
+			<%= hidden_field_tag "outcome_id", @selected_outcome_object.id %>
+			<%= hidden_field_tag "timepoint_id", timepoint_id %>
 			<table class="list_table non_centered_table">
 			
 				<th>Arm</th>
@@ -82,8 +88,11 @@
 				
 					</tr>
 				</table>
-				
+				<div class="indented-text">
+				Notes: <%= OutcomeResult.get_table_footnotes(@selected_outcome_object.id, timepoint_id, subgroup_id) %>
+				</div>
 				<br/>
+
 				<div class="actions">
 					<button type="submit" class="positive"><%= image_tag "Accept.png" %>Save Table Data</button>
 				</div>
@@ -99,11 +108,6 @@
 		</button>
 		</div>
 		<% end %>
-		<br/><br/>
-		
-<div id="new_col_entry">
-<%= render 'outcome_columns/form' %>
-</div>
 
 <br/><br/>
 <h4>Add Footnotes for this Table</h4><br/>
@@ -113,7 +117,9 @@
     <%= f.hidden_field :outcome_id, :value => @selected_outcome_object.id %>
     <%= f.hidden_field :timepoint_id, :value => timepoint_id %>
     <%= f.hidden_field :subgroup_id, :value => subgroup_id %>
-
+    <%= hidden_field_tag :selected_outcome, @selected_outcome_object.id %>
+    <%= hidden_field_tag :selected_timepoint, timepoint_id %>
+    <%= hidden_field_tag :selected_subgroup, subgroup_id %>
     <label>Enter Notes on Outcome Results:</label>
     <%= f.text_area :notes, :rows => 4, :columns => 40 %>
 </div>
