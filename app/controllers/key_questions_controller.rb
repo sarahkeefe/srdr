@@ -100,6 +100,7 @@ problem_html = "<div class='error_message'>The following errors prevented the qu
 	def destroy
     @key_question = KeyQuestion.find(params[:id])
     @key_question.shift_question_numbers(session[:project_id])
+    @key_question.remove_from_junction
     @key_question.destroy
     @key_question.remove_from_junction
     
@@ -108,6 +109,7 @@ problem_html = "<div class='error_message'>The following errors prevented the qu
     	# the entry form. This handles the event where the user is editing a record
     	# when they click on delete.
     	format.js {
+    	  
 				@key_questions = KeyQuestion.where(:project_id=>session[:project_id]).all
 		  	render :update do |page|
 					page.replace_html 'key_question_table', :partial => 'key_questions/table'	
