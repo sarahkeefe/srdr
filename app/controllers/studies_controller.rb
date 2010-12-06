@@ -185,6 +185,7 @@ class StudiesController < ApplicationController
 					@selected_outcome_object_results = OutcomeResult.where(:subgroup_id => @selected_subgroup, :timepoint_id => @selected_timepoint, :outcome_id => @selected_outcome).first
 				 	@selected_outcome_object_results = @selected_outcome_object_results.nil? ? OutcomeResult.new : @selected_outcome_object_results
 					page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
+					page.replace_html 'outcome_results_preview', :partial => 'outcome_results/completed_table', :locals => {:selected_outcome_object => @selected_outcome_object}
   				end
   			end
   		}
@@ -249,6 +250,7 @@ class StudiesController < ApplicationController
 						@selected_outcome_object = Outcome.find(@selected_outcome)
 						@selected_outcome_object_results = OutcomeResult.new
 						page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
+						page.replace_html 'outcome_results_preview', :partial => 'outcome_results/completed_table', :locals => {:selected_outcome_object => @selected_outcome_object}
     				
 	  			end
   			end
@@ -410,6 +412,7 @@ class StudiesController < ApplicationController
 		  respond_to do |format|
 				format.js{	
 					render :update do |page|
+						page.replace_html 'outcome_results_preview', :partial => 'outcome_results/completed_table', :locals => {:selected_outcome_object => @selected_outcome}					
 						page.replace_html 'entry_form', :partial => 'outcome_results/table'
 					end
 				}

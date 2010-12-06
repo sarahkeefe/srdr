@@ -335,6 +335,9 @@ padding: 8px;
 	color: red;
 }
 
+.indented-text{
+margin-left: 30px;
+}
 
 table.list_table{
 width: 95%;

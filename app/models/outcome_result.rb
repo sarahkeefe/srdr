@@ -1,5 +1,14 @@
 class OutcomeResult < ActiveRecord::Base
 
+		def self.get_table_footnotes(outcome, timepoint, subgroup)
+			@footnotes = OutcomeResultsNote.where(:outcome_id => outcome, :timepoint_id => timepoint, :subgroup_id => subgroup).first
+			str = ""
+			if !@footnotes.nil?
+				str += @footnotes.notes.to_s
+			end
+			return str
+		end
+
 		def self.clear_table(params)
 			@study_arms = Arm.where(:study_id => params[:study_id]).all
 			for a in @study_arms
