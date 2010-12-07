@@ -36,11 +36,32 @@
 	</label>
     <%= f.text_field :year, :size => 6 %>
   </div>
+  
+  <script type="text/javascript">
+		var $j = jQuery.noConflict();
+		$j('.has_other').live('change', function() {
+				var name = $j(this).attr('name');
+
+				//other_element.
+				if ($j(this).val() == 'Other')
+				{
+					var other_element = $j('<div></div>')
+					other_element.addClass('other_custom_text_' + name);
+					other_element.append('<input type=\"text\">');
+					other_element.insertAfter(this);
+				}
+
+				//$j('<div>').appendTo('.has_other');
+				//$j('#other_reason').toggle($(this).val()=='Other');
+		
+		});
+  </script>
+  
   <div class="field">    <label>
 		Association Type:
 	</label>
-  	<% association_options = ["Contributed to Analysis","Used for Reference","Methods Description"] %>
-  	<select id="publication_association" name="publication[association]">
+  	<% association_options = ["Contributed to Analysis","Used for Reference","Methods Description", "Other"] %>
+  	<select id="publication_association" name="publication[association]" class="has_other">
   		  <option value="">Select the type of association</option>
   		<% association_options.each do |opt| %>
   			<option value=<%= opt.gsub(" ","_") %>><%= opt %></option>

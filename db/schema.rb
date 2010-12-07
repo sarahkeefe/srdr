@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101206201705) do
+ActiveRecord::Schema.define(:version => 20101207174807) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer  "study_id"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(:version => 20101206201705) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "notes"
+    t.float    "number"
   end
 
   create_table "arms", :force => true do |t|
@@ -83,6 +84,18 @@ ActiveRecord::Schema.define(:version => 20101206201705) do
     t.float    "parameter_dispersion_value"
     t.float    "adjusted_estimation_parameter_value"
     t.float    "adjusted_parameter_dispersion_value"
+    t.boolean  "est_param_adjusted_calc"
+    t.boolean  "disp_adjusted_calc"
+    t.boolean  "ci_perc_adjusted_calc"
+    t.boolean  "lcl_adjusted_calc"
+    t.boolean  "ucl_adjusted_calc"
+    t.boolean  "pvalue_adjusted_calc"
+    t.boolean  "est_param_nonadjusted_calc"
+    t.boolean  "disp_nonadjusted_calc"
+    t.boolean  "ci_perc_nonadjusted_calc"
+    t.boolean  "lcl_nonadjusted_calc"
+    t.boolean  "ucl_nonadjusted_calc"
+    t.boolean  "pvalue_nonadjusted_calc"
   end
 
   create_table "outcome_column_values", :force => true do |t|

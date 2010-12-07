@@ -33,13 +33,11 @@ class OutcomeResultsController < ApplicationController
 	end
 
     respond_to do |format|
-
-	render :update do |page|
 		format.js{
-
+			render :update do |page|
 page.replace_html 'outcome_results_list', :partial => 'outcome_results/completed_list'
+end
 		}
-		end
 	end
 	
   end
@@ -65,13 +63,13 @@ page.replace_html 'outcome_results_list', :partial => 'outcome_results/completed
 	end
 
     respond_to do |format|
-	render :update do |page|
+
 		format.js{
-
+	render :update do |page|
 	page.replace_html 'outcome_results_list', :partial => 'outcome_results/completed_list'
-
+end
 		}
-		end
+
 	end
 	
   end

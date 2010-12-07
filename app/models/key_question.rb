@@ -1,7 +1,7 @@
 class KeyQuestion < ActiveRecord::Base
 	belongs_to :project
 	#has_and_belongs_to_many :studies
-	validates :question, :presence => true, :length => { :minimum => 10}
+	validates :question, :presence => true
 	
 	def get_question_number(project_id)
 		current_max = KeyQuestion.maximum("question_number",:conditions => ["project_id = ?",project_id])

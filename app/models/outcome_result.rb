@@ -1,7 +1,7 @@
 class OutcomeResult < ActiveRecord::Base
 
 		def self.get_existing_outcome_combos(study_id)
-			@results = OutcomeResult.find(:all, :conditions => ['study_id =?', study_id], :group => 'outcome_id, subgroup_id, timepoint_id', )
+			@results = OutcomeResult.select('DISTINCT outcome_id, subgroup_id, timepoint_id').where('study_id = ?', study_id)
 			final = []
 			group = Hash.new
 			for r in @results
@@ -183,10 +183,10 @@ class OutcomeResult < ActiveRecord::Base
 				arr["measuredisp"] = (o_res.measuredisp_is_calculated.to_s == 't' || o_res.measuredisp_is_calculated.to_s == 'f' ) ? o_res.measuredisp_is_calculated : "f"
 				arr["pvalue"] = (o_res.pvalue_is_calculated.to_s == 't' || o_res.pvalue_is_calculated.to_s == 'f' ) ? o_res.pvalue_is_calculated : "f"
 			else
-				arr["nanalyzed"] = ""
-				arr["measurereg"] = ""
-				arr["measuredisp"] = ""
-				arr["pvalue"] = ""				
+				arr["nanalyzed"] = false
+				arr["measurereg"] = false
+				arr["measuredisp"] = false
+				arr["pvalue"] = false				
 			end
 			return arr
 		end
@@ -196,7 +196,7 @@ class OutcomeResult < ActiveRecord::Base
 			if !o_res.nil?
 				return o_res.is_calculated
 			else
-				return true		
+				return false		
 			end
 		end		
 
