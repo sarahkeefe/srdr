@@ -36,7 +36,7 @@ class OutcomeResultsController < ApplicationController
 
 	render :update do |page|
 		format.js{
-
+	page.call "alert('hi')"
 page.replace_html 'outcome_results_list', :partial => 'outcome_results/completed_list'
 		}
 		end
@@ -67,7 +67,7 @@ page.replace_html 'outcome_results_list', :partial => 'outcome_results/completed
     respond_to do |format|
 	render :update do |page|
 		format.js{
-
+	page.call "alert('hi2')"
 	page.replace_html 'outcome_results_list', :partial => 'outcome_results/completed_list'
 
 		}
