@@ -39,8 +39,8 @@
   <div class="field">    <label>
 		Association Type:
 	</label>
-  	<% association_options = ["Contributed to Analysis","Used for Reference","Methods Description"] %>
-  	<select id="publication_association" name="publication[association]">
+  	<% association_options = ["Contributed to Analysis","Used for Reference","Methods Description", "Other"] %>
+  	<select id="publication_association" name="publication[association]" class="has_other">
   		  <option value="">Select the type of association</option>
   		<% association_options.each do |opt| %>
   			<option value=<%= opt.gsub(" ","_") %>><%= opt %></option>

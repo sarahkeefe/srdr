@@ -27,6 +27,10 @@
     <label>Adverse Event Description:</label>
     <%= f.text_area :description, :rows => 4, :cols => 40 %>
   </div>
+      <div class="field">
+    <label>Number:</label>
+    <%= f.text_field :number %>
+  </div>
   <div class="field">
     <label class="inline-label">Is this event classified as <strong>serious</strong>?</label>
     <% checked = "" %>
