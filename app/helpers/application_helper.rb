@@ -5,7 +5,7 @@ module ApplicationHelper
 		print url + "\n\n\n\n"
 		retVal = ""
 		url.gsub!(/\?.*$/,"")
-		unless url == "http://localhost:3000/"
+		unless url.split(/\//).length <= 3
 		home_uri = "/projects/"
 		elements = url.split('/')
 		project_id = ""
