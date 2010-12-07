@@ -1,7 +1,7 @@
 class OutcomeResult < ActiveRecord::Base
 
 		def self.get_existing_outcome_combos(study_id)
-			@results = OutcomeResult.find(:all, :conditions => ['study_id =?', study_id], :group => 'id, outcome_id, subgroup_id, timepoint_id', )
+			@results = OutcomeResult.find(:all, :conditions => ['study_id =?', study_id], :group => 'id, study_id, outcome_id, subgroup_id, timepoint_id', )
 			final = []
 			group = Hash.new
 			for r in @results
