@@ -1,8 +1,7 @@
 class OutcomeResult < ActiveRecord::Base
 
 		def self.get_existing_outcome_combos(study_id)
-			@results = OutcomeResult.find_by_sql["SELECT outcome_id, subgroup_id, timepoint_id FROM outcome_results r WHERE r.study_id = ?", study_id]
-			@results = @results.uniq
+			@results = OutcomeResult.select('DISTINCT outcome_id, subgroup_id, timepoint_id').where('study_id = ?', study_id)
 			final = []
 			group = Hash.new
 			for r in @results
