@@ -76,10 +76,12 @@ class ArmsController < ApplicationController
       	format.js{
           render :update do |page|
 				    page.replace_html 'arms_table', :partial => 'arms/table'
-					new_row_name = "arm_row_" + @arm.id.to_s					  
-					page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", 
+				    new_row_name = "arm_row_" + @arm.id.to_s					  
+						page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", 
 																						 :restorecolor=>"#ffffff", :duration=>2})
-					page.replace_html 'arm_validation_message', ""					
+						page.replace_html 'arm_validation_message', ""			
+						@arm = Arm.new		
+						page.replace_html 'new_arm_entry', :partial=>'arms/form'
 		      end
         }
       	format.html { redirect_to(@arm, :notice => 'Arm was successfully updated.') }

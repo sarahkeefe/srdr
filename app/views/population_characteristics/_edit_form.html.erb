@@ -34,9 +34,9 @@
 	</div>
   <div class="actions">
 		<button type="submit" class="positive">
-			<%= image_tag "Add.png"%>Update Baseline Characteristic
+			<%= image_tag "Add.png"%>Save Edits
 		</button>
-    <%= link_to 'Done Editing', new_study_population_characteristic_path(session[:study_id]), :remote=>true %>	
+    <%= link_to 'Cancel', new_study_population_characteristic_path(session[:study_id]), :remote=>true %>	
   </div>
   </td></tr></table>
 <% end %>

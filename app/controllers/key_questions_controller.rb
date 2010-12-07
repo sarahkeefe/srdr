@@ -78,7 +78,11 @@ class KeyQuestionsController < ApplicationController
 		  		render :update do |page|
 						page.replace_html 'key_question_validation_message', ""				
 						page.replace_html 'key_question_table', :partial => 'key_questions/table'
-						page.replace_html 'key_question_entry', :partial => 'key_questions/edit_kq_form'
+						#page.replace_html 'key_question_entry', :partial => 'key_questions/edit_kq_form'
+						
+						# reset the entry form
+						@key_question = KeyQuestion.new
+						page.replace_html 'key_question_entry', :partial => 'key_questions/new_kq_form'
 					end
 				}
       	format.html { redirect_to(project_key_question_path(session[:project_id],@key_question), :notice => 'Key question was successfully updated.') }
