@@ -38,23 +38,33 @@
   </div>
   
   <script type="text/javascript">
+ 
 		var $j = jQuery.noConflict();
 		$j('.has_other').live('change', function() {
 				var name = $j(this).attr('name');
-
-				//other_element.
+			  	var parNode =this.parentNode; 
 				if ($j(this).val() == 'Other')
 				{
-					var other_element = $j('<div></div>')
-					other_element.addClass('other_custom_text_' + name);
-					other_element.append('<input type=\"text\">');
-					other_element.insertAfter(this);
+					var other_element = document.createElement("div");
+
+					other_element.setAttribute("class", 'other_custom_text_' + name);
+					other_element.setAttribute("id", 'other_custom_text_' + name);
+					var inp = document.createElement("input");
+					inp.setAttribute("type", "text");
+					other_element.appendChild(inp);
+					parNode.appendChild(other_element);
+				}
+				else
+				{
+					the_obj = document.getElementById('other_custom_text_' + name);
+					if (the_obj != null)
+					{
+						parNode.removeChild(the_obj);
+					}
 				}
 
-				//$j('<div>').appendTo('.has_other');
-				//$j('#other_reason').toggle($(this).val()=='Other');
-		
 		});
+		
   </script>
   
   <div class="field">    <label>

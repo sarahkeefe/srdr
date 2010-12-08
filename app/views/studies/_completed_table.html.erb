@@ -10,6 +10,7 @@
   </tr>
 <% i=0 %>
 <% @studies.each do |study| %>
+<% if !study.nil? %>
 <% study_pub_info = Study.get_primary_pub_info(study.id) %>
  <% if !study_pub_info.nil? %> 
  <tr class="<%= cycle("even", "odd") %>">
@@ -21,6 +22,7 @@
 	<td><%= @kq_formatted_strings[i] %></td>
 	</td>
   </tr>
+  <% end %>
   <% end %>
   <% i += 1%>
 <% end %>
