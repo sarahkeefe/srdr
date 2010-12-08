@@ -88,7 +88,7 @@ class OutcomeAnalysis < ActiveRecord::Base
   # such as [["Option Display","Option Value"], ["Option Display 2","Option Value 2"]]
   def self.get_analysis_subgroup_comparisons(subgroups, selected_timepoint="Time_0")
   	retVal = Array.new
-  	retVal << ['Total','Total']
+  	#retVal << ['Total','Total']
   	subs = subgroups.collect{|sg| sg.title}
   	subs.each do |sub|
   	  retVal << [sub.gsub("_"," "), sub]	
@@ -111,7 +111,7 @@ class OutcomeAnalysis < ActiveRecord::Base
   # such as [["Option Display","Option Value"], ["Option Display 2","Option Value 2"]]
   def self.get_analysis_timepoint_comparisons(timepoints, selected_subgroup="Total")
   	retVal = Array.new
-  	retVal << ['Time 0','Time_0']
+  	#retVal << ['Time 0','Time_0']
   	points = timepoints.collect{|tp| tp.number.to_s + "_" + tp.time_unit.to_s}
   	points.each do |point|
   	  retVal << [point.gsub("_"," "), point]	

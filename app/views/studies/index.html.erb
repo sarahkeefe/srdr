@@ -11,6 +11,7 @@
     <th>Actions</th>
   </tr>
 <% i=0 %>
+<% unless @studies.empty? %>
 <% @studies.each do |study| %>
 <% study_pub_info = Study.get_primary_pub_info(study.id) %>
 <% if !study_pub_info.nil? %> 
@@ -32,6 +33,9 @@
   </tr>
   <% end %>
 <% end %>
+<% else %>
+  <tr><td colspan=7><em>There are currently no studies entered for this review.</em></td></tr>
+<%end%>
 </table>
 
 <br />

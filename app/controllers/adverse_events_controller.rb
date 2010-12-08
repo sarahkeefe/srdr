@@ -79,6 +79,10 @@ class AdverseEventsController < ApplicationController
 						page.replace_html 'adverse_event_validation_message', ""			
           	page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", 
 																						 :restorecolor=>"#ffffff", :duration=>2})
+						
+						#reset the entry form
+						@adverse_event = AdverseEvent.new
+						page.replace_html 'adverse_event_entry', :partial => 'adverse_events/form'
         	end
         }
       	format.html { redirect_to(@adverse_event, :notice => 'Adverse event was successfully updated.') }

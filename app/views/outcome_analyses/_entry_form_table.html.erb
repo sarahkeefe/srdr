@@ -5,9 +5,9 @@
 <input type="hidden" name="selected_timepoint" id="selected_timepoint" value=<%= @selected_timepoint %> >
 <table class="list_table complex_header" id="continuous_analysis_table">
 <tr>
+<th rowspan=2>Analysis Type</th>
 <th rowspan=2>Arm A</th>
 <th rowspan=2>Arm B</th>
-<th rowspan=2>Analysis Type</th>
 <th colspan=6 align='center' class='non_adjusted_analysis'>Non-Adjusted</th>
 <th colspan=7 align='center' class='adjusted_analysis'>Adjusted</th>
 <th></th>
@@ -81,6 +81,23 @@
   
 	  <tr class="<%= cycle("even", "odd") %>" id=<%= "row_" + row_num.to_s %> > 
 			<td>
+				 <%# OPTIONS FOR STATISTICAL TEST %>  
+				 <% analysis_options = ["ANOVA","ANCOVA","Chi-Squared","Chi-Squared_Corrected","Fisher_Exact","Kruskal-Wallis"]%>
+				 <select name= <%="outcome_analysis_"+row_num.to_s+"[statistical_test]" %>  
+					      id = <%="outcome_analysis_"+row_num.to_s+"_statistical_test" %> >
+				 <option value='Analysis Type...'>Analysis Type...</option>
+				 <% i = 0 %>
+				 <% analysis_options.each do |opt| %>
+				 	 <% opt_selected = "" %>
+				   <% if analysis_options[i] == cont.statistical_test %>
+				     <% opt_selected = "selected" %>
+				   <% end %>
+				   <option value=<%= analysis_options[i] %> <%= opt_selected %> ><%= analysis_options[i].gsub("_"," ") %></option>
+				   <% i += 1 %>
+			  <% end %>
+				</select>
+			</td>
+	  	<td>
 				<select id=<%= "outcome_analysis_"+row_num.to_s+"_arm1_id" %> name= <%= "outcome_analysis_"+row_num.to_s+"[arm1_id]" %>>			
 					<% @study_arms.each do |arm| %>
 						<% selected = "" %>
@@ -102,58 +119,54 @@
 					<% end %>
 				</select>
 			</td>
-			<td>
-				 <%# OPTIONS FOR STATISTICAL TEST %>  
-				 <% analysis_options = ["ANOVA","ANCOVA","Chi-Squared","Chi-Squared_Corrected","Fisher_Exact","Kruskal-Wallis"]%>
-				 <select name= <%="outcome_analysis_"+row_num.to_s+"[statistical_test]" %>  
-					      id = <%="outcome_analysis_"+row_num.to_s+"_statistical_test" %> >
-				 <option value='Analysis Type...'>Analysis Type...</option>
-				 <% i = 0 %>
-				 <% analysis_options.each do |opt| %>
-				 	 <% opt_selected = "" %>
-				   <% if analysis_options[i] == cont.statistical_test %>
-				     <% opt_selected = "selected" %>
-				   <% end %>
-				   <option value=<%= analysis_options[i] %> <%= opt_selected %> ><%= analysis_options[i].gsub("_"," ") %></option>
-				   <% i += 1 %>
-			  <% end %>
-				</select>
+			
+			<td class='non_adjusted_analysis'>
+				<input type='text' name= <%= "outcome_analysis_"+row_num.to_s+"[estimation_parameter_value]" %> id= <%= "outcome_analysis_"+row_num.to_s+"_estimation_parameter_value" %> size='30' value=<%= cont.estimation_parameter_value.to_s %> />				
+				
 			</td>
 			<td class='non_adjusted_analysis'>
-				<input type='text' name= <%= "outcome_analysis_"+row_num.to_s+"[estimation_parameter_value]" %> id= <%= "outcome_analysis_"+row_num.to_s+"_estimation_parameter_value" %> size='30' value=<%= cont.estimation_parameter_value.to_s %> />
+				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[parameter_dispersion_value]" %> id=<%= "outcome_analysis_"+row_num.to_s+"_parameter_dispersion_value" %> size='8' value=<%= cont.parameter_dispersion_value.to_s %> />
+				
 			</td>
 			<td class='non_adjusted_analysis'>
-				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[parameter_dispersion_value]" %> id=<%= "outcome_analysis_"+row_num.to_s+"_parameter_dispersion_value" %> size='10' value=<%= cont.parameter_dispersion_value.to_s %> />
-			</td>
-			<td class='non_adjusted_analysis'>
-				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[unadjusted_ci_level]"%> id= <%="outcome_analysis_"+row_num.to_s+"unadjusted_ci_level" %> size='3' value=<%= cont.unadjusted_ci_level.to_s %> />
+				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[unadjusted_ci_level]"%> id= <%="outcome_analysis_"+row_num.to_s+"unadjusted_ci_level" %> size='2' value=<%= cont.unadjusted_ci_level.to_s %> />
+
 			</td>	
 			<td class='non_adjusted_analysis'>
-			<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[unadjusted_ci_lower_limit]"%> id= <%="outcome_analysis_"+row_num.to_s+"unadjusted_ci_lower_limit" %> size='3' value=<%= cont.unadjusted_ci_lower_limit.to_s %> />
-			</td class='non_adjusted_analysis'>
+				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[unadjusted_ci_lower_limit]"%> id= <%="outcome_analysis_"+row_num.to_s+"unadjusted_ci_lower_limit" %> size='2' value=<%= cont.unadjusted_ci_lower_limit.to_s %> />
+			
+			</td>
 			<td class='non_adjusted_analysis'>	
-			<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[unadjusted_ci_upper_limit]"%> id= <%="outcome_analysis_"+row_num.to_s+"unadjusted_ci_upper_limit" %> size='3' value=<%= cont.unadjusted_ci_upper_limit.to_s %> />
+				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[unadjusted_ci_upper_limit]"%> id= <%="outcome_analysis_"+row_num.to_s+"unadjusted_ci_upper_limit" %> size='2' value=<%= cont.unadjusted_ci_upper_limit.to_s %> />
+			
 			</td>		
 			<td class='non_adjusted_analysis'>
 				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[p_value]"%> id= <%="outcome_analysis_"+row_num.to_s+"_p_value" %> size='3' value=<%= cont.p_value.to_s %> />
+				
 			</td>		
 			<td class='adjusted_analysis'>
 				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[adjusted_estimation_parameter_value]" %> id=<%="outcome_analysis_"+row_num.to_s+"_adjusted_estimation_parameter_value" %> size='30' value=<%= cont.adjusted_estimation_parameter_value.to_s %> />
+				
 			</td>	
 			<td class='adjusted_analysis'>
-				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[adjusted_parameter_dispersion_value]" %> id=<%= "outcome_analysis_"+row_num.to_s+"_adjusted_parameter_dispersion_value" %> size='10' value=<%= cont.adjusted_parameter_dispersion_value.to_s %> />
+				<input type='text' name=<%="outcome_analysis_"+row_num.to_s+"[adjusted_parameter_dispersion_value]" %> id=<%= "outcome_analysis_"+row_num.to_s+"_adjusted_parameter_dispersion_value" %> size='8' value=<%= cont.adjusted_parameter_dispersion_value.to_s %> />
+				
 			</td>
 			<td class='adjusted_analysis'>
-				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_ci_level]"%> id= <%="outcome_analysis_"+row_num.to_s+"adjusted_ci_level" %> size='3' value=<%= cont.adjusted_ci_level.to_s %> />
+				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_ci_level]"%> id= <%="outcome_analysis_"+row_num.to_s+"adjusted_ci_level" %> size='2' value=<%= cont.adjusted_ci_level.to_s %> />
+				
 			</td>	
 			<td class='adjusted_analysis'>
-			<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_ci_lower_limit]"%> id= <%="outcome_analysis_"+row_num.to_s+"adjusted_ci_lower_limit" %> size='3' value=<%= cont.adjusted_ci_lower_limit.to_s %> />
+				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_ci_lower_limit]"%> id= <%="outcome_analysis_"+row_num.to_s+"adjusted_ci_lower_limit" %> size='2' value=<%= cont.adjusted_ci_lower_limit.to_s %> />
+				
 			</td>
 			<td class='adjusted_analysis'>	
-			<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_ci_upper_limit]"%> id= <%="outcome_analysis_"+row_num.to_s+"adjusted_ci_upper_limit" %> size='3' value=<%= cont.adjusted_ci_upper_limit.to_s %> />
+			<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_ci_upper_limit]"%> id= <%="outcome_analysis_"+row_num.to_s+"adjusted_ci_upper_limit" %> size='2' value=<%= cont.adjusted_ci_upper_limit.to_s %> />
+			
 			</td>		
 			<td class='adjusted_analysis'>
-				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_p_value]"%> id= <%="outcome_analysis_"+row_num.to_s+"_adjusted_p_value" %> size='3' value=<%= cont.adjusted_p_value.to_s %> />
+				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_p_value]"%> id= <%="outcome_analysis_"+row_num.to_s+"_adjusted_p_value" %> size='2' value=<%= cont.adjusted_p_value.to_s %> />
+				
 			</td>	
 			<td class='adjusted_analysis'>
 				<input type='text' name=<%= "outcome_analysis_"+row_num.to_s+"[adjusted_for]"%> id= <%="outcome_analysis_"+row_num.to_s+"_adjusted_for" %> size='8' value=<%= cont.adjusted_for.to_s %> />

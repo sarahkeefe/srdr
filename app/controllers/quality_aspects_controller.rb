@@ -77,6 +77,10 @@ problem_html = "<div class='error_message'>The following errors prevented the fo
           	new_row_name = 'quality_aspect_' + @quality_aspect.id.to_s
           	page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", 
 																						 :restorecolor=>"#ffffff", :duration=>2})
+																						 
+						# reset the entry form																 
+						@quality_aspect=QualityAspect.new
+						page.replace_html 'quality_aspect_entry', :partial => 'quality_aspects/form'
         	end
         }	  
         format.html { redirect_to(@quality_aspect, :notice => 'Quality aspect was successfully updated.') }

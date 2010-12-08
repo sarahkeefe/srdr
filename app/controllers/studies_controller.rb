@@ -142,6 +142,7 @@ class StudiesController < ApplicationController
       @saved_analyses = OutcomeAnalysis.get_saved_analyses(session[:study_id])
       @analysis_title = OutcomeAnalysis.get_analysis_title(@outcomes[0].title, @selected_subgroup, @selected_timepoint)
  		 end
+ 		#render :layout => 'outcomeanalysis'	 
  	end
   
   # When the outcome type is changed in the outcome analysis or data page, we have to update the 
@@ -212,7 +213,7 @@ class StudiesController < ApplicationController
   	@selected_outcome = params[:selected_outcome_id]  # outcome id
   	@selected_subgroup = params[:selected_subgroup] # subgroup id
   	@selected_timepoint = params[:selected_timepoint]   # timepoint id
-	outcome_title = Outcome.find(@selected_outcome, :select=>"title")
+		outcome_title = Outcome.find(@selected_outcome, :select=>"title")
   	@model_name = params[:form_type]
   	
   	user_selected = ""

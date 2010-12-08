@@ -10,19 +10,17 @@
       </ul>
     </div>
   <% end %>
-
-  <table class="form_table">
-  <tr><td>
-    <%= f.label :question_text %>:</td><td>
-    <%= f.text_area :question, :cols=>50,:rows=>4 %>
-  </td></tr>
-  <tr><td colspan="2">
+ <div class="form_content">
+  <div class="field">
+ <label>Enter Key Question Text:</label>
+<%= f.text_area :question, :cols=>50, :rows=>4 %>
+</div>
     <div class="actions">
-		<button type="submit" class="regular">
-			<%= image_tag "Add-blue.png"%>Update Key Question
+		<button type="submit" class="positive">
+			<%= image_tag "Accept.png"%>Save Edits
 		</button>
-  <%= link_to 'Done Editing', 
+  <%= link_to 'Cancel', 
                    new_project_key_question_path(session[:project_id]), :remote=>true %>
   </div>
- </td></tr></table>
+</div>
 <% end %>

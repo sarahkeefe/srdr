@@ -89,7 +89,7 @@ class OutcomesController < ApplicationController
   # PUT /outcomes/1.xml
   def update
     @outcome = Outcome.find(params[:id])
-	@study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})		
+	  @study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})		
 	
     respond_to do |format|
       if @outcome.update_attributes(params[:outcome])
@@ -117,7 +117,11 @@ class OutcomesController < ApplicationController
 						page.replace_html 'outcomes_table', :partial => 'outcomes/table'
 						updated_row = "outcome_" + @outcome.id.to_s
 						page[updated_row].visual_effect :highlight
-					page.replace_html 'outcome_validation_message', ""						
+					  page.replace_html 'outcome_validation_message', ""		
+					  
+					  # reset the entry form
+					  @outcome=Outcome.new	
+					  page.replace_html 'new_outcome_entry', :partial => 'outcomes/form'				
 		  		end  
         }
       	format.html { redirect_to(@outcome, :notice => 'Outcome was successfully updated.') }

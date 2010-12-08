@@ -145,6 +145,7 @@ class Study < ActiveRecord::Base
 	
 	def self.get_primary_pub_info(study_id)
 			tmp = Publication.where(:study_id => study_id, :is_primary => true).first
+			tmpid = tmp.id
 			if tmp.nil?
 				tmppub = Publication.new
 				tmppub.ui = "Not Entered Yet"
@@ -153,6 +154,7 @@ class Study < ActiveRecord::Base
 				tmppub.year = "-"
 				return tmppub
 			else
+				
 				return tmp
 			end
 	end

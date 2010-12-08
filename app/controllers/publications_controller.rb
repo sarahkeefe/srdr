@@ -108,13 +108,15 @@ class PublicationsController < ApplicationController
 			format.js { 
 			  @secondary_publications = Publication.find(:all, :conditions => {:is_primary => false, :study_id => session[:study_id]})
 			  render :update do |page|
-				if params[:is_primary] == 'true'
-					saved_html = "<div class='success_message'>Saved!</div>"			
-					page.replace_html 'primary_pub_validation_message', saved_html
-				else
-					page.replace_html 'secondary_publication_table', :partial=>'publications/table'			
-				end
-				#page.replace_html 'secondary_publication_entry', :partial=>'publications/form'
+					if params[:is_primary] == 'true'
+						saved_html = "<div class='success_message'>Saved!</div>"			
+						page.replace_html 'primary_pub_validation_message', saved_html
+					else
+						page.replace_html 'secondary_publication_table', :partial=>'publications/table'			
+					end
+					 
+	  			@publication = Publication.new  
+					page.replace_html 'secondary_publication_entry', :partial=>'publications/form'
 			  end
 			}
         format.html { redirect_to(project_study_publication_path(session[:project_id],session[:study_id],@publication), :notice => 'Publication was successfully updated.') }

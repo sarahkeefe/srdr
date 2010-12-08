@@ -81,8 +81,15 @@ class PopulationCharacteristicsController < ApplicationController
 		format.js{
 			render :update do |page|
 			    page.replace_html 'population_characteristics_table', :partial => 'population_characteristics/table'
-				new_row_name = "pop_char_row_" + @population_characteristic.id.to_s					  
-				page.replace_html 'population_characteristic_validation_message', ""						
+					new_row_name = "pop_char_row_" + @population_characteristic.id.to_s					  
+					page.replace_html 'population_characteristic_validation_message', ""		
+					
+					# reset the entry form
+					@population_characteristic = PopulationCharacteristic.new
+					@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
+					@study = Study.find(session[:study_id])
+    	  	page.replace_html 'population_characteristic_entry', :partial => 'population_characteristics/form'
+    	 		
 			end
 		}	  
 		format.html { redirect_to(@population_characteristic, :notice => 'Population characteristic was successfully updated.') }
