@@ -51,7 +51,7 @@
 							<% val = OutcomeResult.get_data_point(one_arm.id, @selected_outcome_object.id, timepoint_id, subgroup_id) %>
 							<% calc = OutcomeResult.get_data_point_calc(one_arm.id, @selected_outcome_object.id, timepoint_id, subgroup_id) %>							
 							<td>
-								<%= text_field "arm_nanalyzed", one_arm.id.to_s, :size => 5, :value => val["nanalyzed"], :class => "calculated_checkbox" %>
+								<%= text_field "arm_nanalyzed", one_arm.id.to_s, :size => 5, :value => val["nanalyzed"] %>
 								<%= check_box_tag "arm" + one_arm.id.to_s + "_nanalyzed_calculated", "f", calc["nanalyzed"], :class => "styled" %>							
 							</td>
 							
