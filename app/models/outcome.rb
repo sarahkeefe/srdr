@@ -67,16 +67,32 @@ class Outcome < ActiveRecord::Base
 		end
 		c_list = c_array.join('; ')
 		return c_list 
-	end	
+	end
 
+    # get the subgroups associated with an outcome id	
 	def self.get_subgroups_array(outcome_id)
-		@outcome_cs = OutcomeSubgroup.where(:outcome_id => outcome_id).all
-		return @outcome_cs
+		outcome_cs = OutcomeSubgroup.where(:outcome_id => outcome_id).all
+		retVal = Array.new
+		
+		# put the total subgroup at the front of the array
+		retVal << outcome_cs[outcome_cs.length - 1]
+		(0..outcome_cs.length-2).each do |i|
+			retVal << outcome_cs[i]
+		end
+		return retVal
 	end
 	
+	# get the timepoints associated with an outcome
 	def self.get_timepoints_array(outcome_id)
-		@outcome_tps = OutcomeTimepoint.where(:outcome_id => outcome_id).all
-		return @outcome_tps 
+		outcome_tps = OutcomeTimepoint.where(:outcome_id => outcome_id).all
+		retVal = Array.new
+		
+		# put the baseline timepoint first
+		retVal << outcome_tps[outcome_tps.length-1]
+		(0..outcome_tps.length-2).each do |i|
+			retVal << outcome_tps[i]
+		end
+		return retVal 
 	end
 	
 	def self.get_array_of_titles(outcome_ids)
