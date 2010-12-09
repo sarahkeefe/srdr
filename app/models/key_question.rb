@@ -31,6 +31,7 @@ class KeyQuestion < ActiveRecord::Base
 	def self.format_for_display(questions)
 		kq_string = ""
 		i = 1
+
 		questions.each do |kq|
 			if(i < (questions.length - 1))
 				kq_string = kq_string + kq.question_number.to_s + ", "
@@ -42,5 +43,6 @@ class KeyQuestion < ActiveRecord::Base
 		i = i+1
 		end
 		return(kq_string)
+
 	end
 end

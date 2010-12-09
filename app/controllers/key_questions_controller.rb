@@ -21,7 +21,7 @@ class KeyQuestionsController < ApplicationController
     respond_to do |format|
       format.js {
 		  	render :update do |page|
-					page.replace_html 'key_question_entry', :partial => 'key_questions/edit_kq_form'
+					page.replace_html 'key_question_entry', :partial => 'key_questions/new_kq_form'
 				end
 			}
 	  end

@@ -35,7 +35,7 @@
 	<%= f.fields_for :outcome_timepoints do |t| %>
 	<div class="field">
   <%= t.text_field :number, :class=>"inline-field" %>
-  <%= t.select :time_unit, options_for_select([ "minutes", "hours", "days", "weeks", "months", "years", "baseline" ]), :class => "inline-field" %>
+  <%= t.select :time_unit, options_for_select([ "minutes", "hours", "days", "weeks", "months", "years", "baseline", "Other" ]), :class => "inline-field has_other" %>
   <div class="admin_functions">
   <%= t.link_to_remove "Remove" %>
   </div>

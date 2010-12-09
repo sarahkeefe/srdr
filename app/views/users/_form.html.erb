@@ -1,0 +1,49 @@
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this arm from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<div class="form_content">
+  <div class="field">
+    <label>Username:</label>
+    <%= f.text_field :login %>
+  </div>
+  <div class="field">
+    <label>First Name:</label>
+    <%= f.text_field :fname %>
+  </div>
+    <div class="field">
+    <label>Last Name:</label>
+    <%= f.text_field :lname %>
+  </div>
+    <div class="field">
+    <label>Organization:</label>
+    <%= f.text_field :organization %>
+  </div>
+  <div class="field">
+    <label>Email:</label>
+    <%= f.text_field :email %>
+  </div>
+  <div class="field">
+    <label>Password:</label>
+    <%= f.password_field :password %>
+  </div>
+  <div class="field">
+    <label>Confirm Password:</label>
+    <%= f.password_field :password_confirmation %>
+  </div>
+  
+  <div class="actions">
+		<button type="submit" class="positive">
+			<%= image_tag "Add.png"%>Log In
+		</button>
+  </div>
+  </div>
+<% end %>

@@ -12,8 +12,12 @@ class Outcome < ActiveRecord::Base
 	validates :title, :presence => true, :uniqueness=>true
 	
 	def self.get_title(id)
+		if id.to_i > 0
 		@outcome = Outcome.find(id)
 		return @outcome.title
+		else
+			return nil
+		end
 	end
 	
 	def self.get_timepoints(outcome_id)

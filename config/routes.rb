@@ -58,7 +58,8 @@ Srdr::Application.routes.draw do
 
   resources :key_questions
 
-
+  resources :users
+  resource :account, :controller => "users"
 
   resources :projects do
 	resources :studies
@@ -92,6 +93,7 @@ end
 
   match 'login' => "user_sessions#new",      :as => :login
   match 'logout' => "user_sessions#destroy", :as => :logout
+  match 'register' => "users#new", :as => :register
   resources :outcome_column_values
 
   	resources :outcome_columns

@@ -17,7 +17,7 @@
 </div>
 <div class="field">
     <label>Study Type:</label>
-    <%= f.select(:study_type, options_for_select([['RCT', 'RCT']])) %>
+    <%= f.select :study_type, options_for_select([['RCT', 'RCT'], ['Other', 'Other']]), {}, :class => "has_other" %>
     
   </div>
   

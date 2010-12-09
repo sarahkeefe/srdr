@@ -36,37 +36,7 @@
 	</label>
     <%= f.text_field :year, :size => 6 %>
   </div>
-  
-  <script type="text/javascript">
  
-		var $j = jQuery.noConflict();
-		$j('.has_other').live('change', function() {
-				var name = $j(this).attr('name');
-			  	var parNode =this.parentNode; 
-				if ($j(this).val() == 'Other')
-				{
-					var other_element = document.createElement("div");
-
-					other_element.setAttribute("class", 'other_custom_text_' + name);
-					other_element.setAttribute("id", 'other_custom_text_' + name);
-					var inp = document.createElement("input");
-					inp.setAttribute("type", "text");
-					other_element.appendChild(inp);
-					parNode.appendChild(other_element);
-				}
-				else
-				{
-					the_obj = document.getElementById('other_custom_text_' + name);
-					if (the_obj != null)
-					{
-						parNode.removeChild(the_obj);
-					}
-				}
-
-		});
-		
-  </script>
-  
   <div class="field">    <label>
 		Association Type:
 	</label>
@@ -80,8 +50,8 @@
   </div>
 
 <% @id_types = [["Choose Identifier Type", "Choose Identifier Type"], ["Pubmed", "Pubmed"], ["Cochrane", "Cochrane"], ["NCT", "NCT"], ["ClinicalTrials\.gov", "ClinicalTrials\.gov"], ["Other", "Other"]]%>
-
-	
+		<%# select(:publication_number, :number_type, @id_types, {}, {:class => "has_other"}) %>
+<div class="has_other_dd">
 	<%= f.fields_for :publication_numbers do |t| %>
 		    <div class="field">
 			<label class="inline-label">
@@ -91,18 +61,20 @@
 	<label class="inline-label">
 		Identifier Type:
 	</label>
-		<%= t.select :number_type, @id_types %>
-		
-		<div class="admin_functions"><%= t.link_to_remove "Remove This Identifier" %></div>
-  </div>   <% end %>
+		<%= t.select :number_type, @id_types, :id => "has_other" %>
 
+		<div class="admin_functions"><%= t.link_to_remove "Remove This Identifier" %></div>
+  </div>  
+  
+  <% end %>
 <%= f.link_to_add "Add an Identifier", :publication_numbers %>
+</div>
 <br/><br/>
   <%= hidden_field_tag :is_primary, "false" %>
 
   <div class="actions">
     		<button type="submit" class="positive">
-			<%= image_tag "Add.png"%>Add Secondary Publication
+			<%= image_tag "Add.png"%>Save Secondary Publication
 		</button>
   </div>
   </div>

@@ -35,7 +35,7 @@
 	<label class="inline-label">
 		Identifier Type:
 	</label>
-		<%= t.select :number_type, @id_types %>
+		<%= t.select :number_type, @id_types, :class => "has_other" %>
 		
 		<div class="admin_functions"><%= t.link_to_remove "Remove This Identifier" %></div>
   </div>   <% end %>

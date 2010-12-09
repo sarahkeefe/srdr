@@ -1,73 +1,83 @@
-<% if !selected_outcome_object.nil? %>
+<% @combos = OutcomeResult.get_existing_outcome_combos(session[:study_id]) %>
+				
+<% if @combos.length > 0 %>
+<% for group in @combos %>
+		<% selected_outcome_object = Outcome.find(group["outcome_id"]) %>
+		<% selected_timepoint = OutcomeTimepoint.find(group["timepoint_id"]) %>
+		<% selected_subgroup = OutcomeSubgroup.find(group["subgroup_id"]) %>
+		<% if !selected_outcome_object.nil? %>
 
-	<h2>Outcome Title: <%= selected_outcome_object.title %></h2><br/>
-	<% timepoint_id =  @selected_timepoint.nil? ? selected_timepoint : @selected_timepoint %>
-	<% subgroup_id = @selected_subgroup.nil? ? selected_subgroup : @selected_subgroup %>
-			timepoint: <%=timepoint_id %>; subgroup <%= subgroup_id %>, outcome: <%= selected_outcome_object.id %>
-<table class="list_table non_centered_table">
-			
-				<th>Arm</th>
-				<th>N Analyzed</th>
-				<% 	@outcome_columns = OutcomeColumn.where(:outcome_id => selected_outcome_object.id, :timepoint_id => timepoint_id, :subgroup_id => subgroup_id).all	%>
-				<% if !@outcome_columns.nil? && @outcome_columns.length > 0 %>
-					<% for custom_col in @outcome_columns %>
-						<th>
-							<%= custom_col.name %>
-						</th>
-					<% end %>
-				<% end %>
-				
-				<% val = OutcomeResult.get_measure_types(selected_outcome_object.id, timepoint_id, subgroup_id) %>				
-				
-				<th><%= val["measure_type"].to_s %></th>
-				<th><%= val["measure_dispersion_type"].to_s %></th>
-				<th>P-Value</th>
-				<% @study_arms = Arm.where(:study_id => session[:study_id]) %>
-				<% if @study_arms.length > 0 %>
-				
-					<% i = 1 %>
-					<% for one_arm in Arm.where(:study_id => session[:study_id]).all %>
-						<tr class="<%= cycle("even", "odd") %>">
-							<td>Arm <%= i %>: <%= one_arm.title %></td>
-							
-							<% val = OutcomeResult.get_data_point(one_arm.id, selected_outcome_object.id, timepoint_id, subgroup_id) %>
-							<% calc = OutcomeResult.get_data_point_calc(one_arm.id, selected_outcome_object.id, timepoint_id, subgroup_id) %>							
-							<td <%= calc["nanalyzed"] ? "class='calculated'" : "" %>>
-								<%= val["nanalyzed"] %>						
-							</td>
-							
-							<% if !@outcome_columns.nil? && @outcome_columns.length > 0 %>
+			<h2>Outcome Title: <%= selected_outcome_object.title %></h2><br/>
+			<% timepoint_id =  @selected_timepoint.nil? ? selected_timepoint : @selected_timepoint %>
+			<% subgroup_id = @selected_subgroup.nil? ? selected_subgroup : @selected_subgroup %>
+
+		<table class="list_table non_centered_table">
+					
+						<th>Arm</th>
+						<th>N Analyzed</th>
+						<% 	@outcome_columns = OutcomeColumn.where(:outcome_id => selected_outcome_object.id, :timepoint_id => timepoint_id, :subgroup_id => subgroup_id).all	%>
+						<% if !@outcome_columns.nil? && @outcome_columns.length > 0 %>
 							<% for custom_col in @outcome_columns %>
-									<% custom_val = OutcomeResult.get_custom_col_data_point(one_arm.id, selected_outcome_object.id, timepoint_id, subgroup_id, custom_col.id) %>
-									<% custom_calc = OutcomeResult.get_custom_col_data_point_calc(one_arm.id, selected_outcome_object.id, timepoint_id, subgroup_id, custom_col.id) %>
-									<td <%= custom_calc ? "class='calculated'" : "" %>>
-										<%= custom_val%>
-									</td>
-								<% end %>
+								<th>
+									<%= custom_col.name %>
+								</th>
 							<% end %>
-							
-							<td <%= calc["measurereg"] ? "class='calculated'" : "" %>>
-								<%= val["measurereg"] %>
-							</td>
-							
-							<td <%= calc["measuredisp"] ? "class='calculated'" : "" %>>
-								<%= val["measuredisp"] %>
-							</td>
-							
-							<td <%= calc["pvalue"] ? "class='calculated'" : "" %>>
-								<%= val["pvalue"] %>
-							</td>
-							
-							<% i = i + 1 %>
-							
-					<% end %>
-				<% end %>
-				
-					</tr>
-				</table>
-				<div class="indented-text">
-				Notes: <%= OutcomeResult.get_table_footnotes(selected_outcome_object.id, timepoint_id, subgroup_id) %>
-				</div>
-				<br/>
+						<% end %>
+						
+						<% val = OutcomeResult.get_measure_types(selected_outcome_object.id, timepoint_id, subgroup_id) %>				
+						
+						<th><%= val["measure_type"].to_s %></th>
+						<th><%= val["measure_dispersion_type"].to_s %></th>
+						<th>P-Value</th>
+						<% @study_arms = Arm.where(:study_id => session[:study_id]) %>
+						<% if @study_arms.length > 0 %>
+						
+							<% i = 1 %>
+							<% for one_arm in Arm.where(:study_id => session[:study_id]).all %>
+								<tr class="<%= cycle("even", "odd") %>">
+									<td>Arm <%= i %>: <%= one_arm.title %></td>
+									
+									<% val = OutcomeResult.get_data_point(one_arm.id, selected_outcome_object.id, timepoint_id, subgroup_id) %>
+									<% calc = OutcomeResult.get_data_point_calc(one_arm.id, selected_outcome_object.id, timepoint_id, subgroup_id) %>							
+									<td <%= calc["nanalyzed"] ? "class='calculated'" : "" %>>
+										<%= val["nanalyzed"] %>						
+									</td>
+									
+									<% if !@outcome_columns.nil? && @outcome_columns.length > 0 %>
+									<% for custom_col in @outcome_columns %>
+											<% custom_val = OutcomeResult.get_custom_col_data_point(one_arm.id, selected_outcome_object.id, timepoint_id, subgroup_id, custom_col.id) %>
+											<% custom_calc = OutcomeResult.get_custom_col_data_point_calc(one_arm.id, selected_outcome_object.id, timepoint_id, subgroup_id, custom_col.id) %>
+											<td <%= custom_calc ? "class='calculated'" : "" %>>
+												<%= custom_val%>
+											</td>
+										<% end %>
+									<% end %>
+									
+									<td <%= calc["measurereg"] ? "class='calculated'" : "" %>>
+										<%= val["measurereg"] %>
+									</td>
+									
+									<td <%= calc["measuredisp"] ? "class='calculated'" : "" %>>
+										<%= val["measuredisp"] %>
+									</td>
+									
+									<td <%= calc["pvalue"] ? "class='calculated'" : "" %>>
+										<%= val["pvalue"] %>
+									</td>
+									
+									<% i = i + 1 %>
+									
+							<% end %>
+						<% end %>
+						
+							</tr>
+						</table>
+						<div class="indented-text">
+						Notes: <%= OutcomeResult.get_table_footnotes(selected_outcome_object.id, timepoint_id, subgroup_id) %>
+						</div>
+						<br/>
 
+		<% end %>
+
+<% end %>
 <% end %>

@@ -23,7 +23,7 @@ class PopulationCharacteristicsController < ApplicationController
     respond_to do |format|
     	format.js{
     		render :update do |page|
-    			page.replace_html 'population_characteristic_entry', :partial=>'population_characteristics/edit_form'
+    			page.replace_html 'population_characteristic_entry', :partial=>'population_characteristics/form'
     		end
   		}
   	end	

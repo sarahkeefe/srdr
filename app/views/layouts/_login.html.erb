@@ -3,5 +3,9 @@
 </div>
 
 <div class="login-link">
-<%= link_to "Login", "#" %> &#183; <%= link_to "Register", "#" %>
+<% if !current_user %>
+<%= link_to "Login", "login" %> &#183; <%= link_to "Register", "register" %>
+<% else %>
+<%= link_to "My Account", "account" %> &#183; <%= link_to "Log Out", "logout" %>
+<% end %>
 </div>

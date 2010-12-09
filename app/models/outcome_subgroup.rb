@@ -5,8 +5,12 @@ class OutcomeSubgroup < ActiveRecord::Base
 	accepts_nested_attributes_for :outcome_subgroup_levels, :allow_destroy => true
 	
 	def self.get_title(id)
-		@subgroup = OutcomeSubgroup.find(id)
-		return @subgroup.title
+		if id.to_i > 0
+			@subgroup = OutcomeSubgroup.find(id)
+			return @subgroup.title
+		else
+		return nil
+		end
 	end
 	
 	def self.total_subgroup_exists(outcome_id)

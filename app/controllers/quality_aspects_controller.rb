@@ -21,7 +21,7 @@ class QualityAspectsController < ApplicationController
     respond_to do |format|	
     	format.js{
     	  render :update do |page| 
-    			page.replace_html 'quality_aspect_entry', :partial => 'quality_aspects/edit_form'    	
+    			page.replace_html 'quality_aspect_entry', :partial => 'quality_aspects/form'    	
     		end
   		}
 	end

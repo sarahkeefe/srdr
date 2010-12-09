@@ -20,7 +20,7 @@ class PublicationsController < ApplicationController
 	  respond_to do |format|
       format.js {
 		  	render :update do |page|
-					page.replace_html 'secondary_publication_entry', :partial => 'publications/edit_secondary_form'
+					page.replace_html 'secondary_publication_entry', :partial => 'publications/form'
 			  end
 		  }
 	  end

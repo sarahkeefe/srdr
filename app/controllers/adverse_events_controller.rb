@@ -21,7 +21,7 @@ class AdverseEventsController < ApplicationController
     respond_to do |format|
     	format.js{
     	  render :update do |page| 
-    			page.replace_html 'adverse_event_entry', :partial => 'adverse_events/edit_form'    	
+    			page.replace_html 'adverse_event_entry', :partial => 'adverse_events/form'    	
     		end
   		}
     end
