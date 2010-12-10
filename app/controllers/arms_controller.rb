@@ -22,7 +22,7 @@ class ArmsController < ApplicationController
     respond_to do |format|
     	format.js{
     		render :update do |page|
-    			page.replace_html 'new_arm_entry', :partial=>'arms/form'
+    			page.replace_html 'new_arm_entry', :partial=>'arms/edit_form'
     		end
   		}
   	end

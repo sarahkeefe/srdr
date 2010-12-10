@@ -24,7 +24,7 @@ class OutcomesController < ApplicationController
    respond_to do |format|
     format.js {
 		    render :update do |page|
-				  page.replace_html 'new_outcome_entry', :partial => 'outcomes/form'
+				  page.replace_html 'new_outcome_entry', :partial => 'outcomes/edit_form'
 		    end
 		  }
 		end

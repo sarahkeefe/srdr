@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101207174807) do
+ActiveRecord::Schema.define(:version => 20101210183453) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer  "study_id"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(:version => 20101207174807) do
     t.integer  "project_id"
     t.integer  "question_number"
     t.string   "question"
+    t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -76,6 +77,7 @@ ActiveRecord::Schema.define(:version => 20101207174807) do
     t.string   "timepoint_comp"
     t.string   "subgroup_comp"
     t.string   "adjusted_for"
+    t.float    "dispersion_parameter_value"
     t.float    "unadjusted_ci_lower_limit"
     t.float    "adjusted_ci_lower_limit"
     t.float    "adjusted_ci_upper_limit"
@@ -126,6 +128,7 @@ ActiveRecord::Schema.define(:version => 20101207174807) do
     t.integer  "num_enrolled"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_total"
   end
 
   create_table "outcome_results", :force => true do |t|
@@ -144,10 +147,10 @@ ActiveRecord::Schema.define(:version => 20101207174807) do
     t.boolean  "measurereg_is_calculated"
     t.boolean  "measuredisp_is_calculated"
     t.boolean  "pvalue_is_calculated"
-    t.integer  "timepoint_id"
-    t.integer  "subgroup_id"
     t.integer  "column_id"
     t.string   "column_type"
+    t.integer  "subgroup_id"
+    t.integer  "timepoint_id"
   end
 
   create_table "outcome_results_notes", :force => true do |t|
@@ -187,6 +190,7 @@ ActiveRecord::Schema.define(:version => 20101207174807) do
   end
 
   create_table "outcome_timepoints", :force => true do |t|
+    t.integer  "study_id"
     t.integer  "outcome_id"
     t.integer  "number"
     t.string   "time_unit"
@@ -220,13 +224,16 @@ ActiveRecord::Schema.define(:version => 20101207174807) do
     t.string   "subcategory"
     t.string   "units"
     t.integer  "population_characteristic_id"
+    t.string   "value"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "population_characteristics", :force => true do |t|
     t.integer  "study_id"
+    t.integer  "arm_id"
     t.string   "category_title"
+    t.string   "subcategory"
     t.string   "units"
     t.datetime "created_at"
     t.datetime "updated_at"
