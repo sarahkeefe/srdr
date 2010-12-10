@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
 	# UNCOMMENT THIS TO REQUIRE LOGIN
-	before_filter :require_user
+	#before_filter :require_user
   
   # GET /projects
   # GET /projects.xml
