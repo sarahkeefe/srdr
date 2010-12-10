@@ -62,25 +62,25 @@ class OutcomeResult < ActiveRecord::Base
 						i.measure_dispersion_type = params["measure_disp_type"]["measure_disp_type"]						
 						i.measure_dispersion_value = params["arm_measuredisp"][a.id.to_s].to_s
 						i.p_value = params["arm_pvalue"][a.id.to_s].to_s
-						if params["arm" + a.id.to_s + "_nanalyzed_calculated"] == "t"
-							i.nanalyzed_is_calculated = true
+						if params["arm" + a.id.to_s + "_nanalyzed_calculated"].nil? || params["arm" + a.id.to_s + "_nanalyzed_calculated"].to_s == ""|| params["arm" + a.id.to_s + "_nanalyzed_calculated"].to_s == "f"
+							i.nanalyzed_is_calculated = false
 						else
-							i.nanalyzed_is_calculated = false						
+							i.nanalyzed_is_calculated = true						
 						end
-						if params["arm" + a.id.to_s + "_measurereg_calculated"] == "t"
-							i.measurereg_is_calculated = true
+						if params["arm" + a.id.to_s + "_measurereg_calculated"].nil? || params["arm" + a.id.to_s + "_measurereg_calculated"].to_s == ""|| params["arm" + a.id.to_s + "_measurereg_calculated"].to_s == "f"
+							i.measurereg_is_calculated = false
 						else
-							i.measurereg_is_calculated = false						
+							i.measurereg_is_calculated = true						
 						end	
-						if params["arm" + a.id.to_s + "_measuredisp_calculated"] == "t"
-							i.measuredisp_is_calculated = true
+						if params["arm" + a.id.to_s + "_measuredisp_calculated"].nil? || params["arm" + a.id.to_s + "_measuredisp_calculated"].to_s == ""|| params["arm" + a.id.to_s + "_measuredisp_calculated"].to_s == "f"
+							i.measuredisp_is_calculated = false
 						else
-							i.measuredisp_is_calculated = false						
+							i.measuredisp_is_calculated = true						
 						end	
-						if params["arm" + a.id.to_s + "_pvalue_calculated"] == "t"
-							i.pvalue_is_calculated = true
+						if params["arm" + a.id.to_s + "_pvalue_calculated"].nil? || params["arm" + a.id.to_s + "_pvalue_calculated"].to_s == "" || params["arm" + a.id.to_s + "_pvalue_calculated"].to_s == "f"
+							i.pvalue_is_calculated = false
 						else
-							i.pvalue_is_calculated = false						
+							i.pvalue_is_calculated = true						
 						end							
 						i.save
 					end
@@ -98,25 +98,25 @@ class OutcomeResult < ActiveRecord::Base
 					@outcome_result_new.measure_dispersion_type = ""						
 					@outcome_result_new.measure_dispersion_value = params["arm_measuredisp"][a.id.to_s]
 					@outcome_result_new.p_value =  params["arm_pvalue"][a.id.to_s]
-						if params["arm" + a.id.to_s + "_nanalyzed_calculated"] == "t"
-							@outcome_result_new.nanalyzed_is_calculated = true
+						if params["arm" + a.id.to_s + "_nanalyzed_calculated"].nil? || params["arm" + a.id.to_s + "_nanalyzed_calculated"].to_s == "" || params["arm" + a.id.to_s + "_nanalyzed_calculated"].to_s == "f"
+							@outcome_result_new.nanalyzed_is_calculated = false
 						else
-							@outcome_result_new.nanalyzed_is_calculated = false						
+							@outcome_result_new.nanalyzed_is_calculated = true						
 						end
-						if params["arm" + a.id.to_s + "_measurereg_calculated"] == "t"
-							@outcome_result_new.measurereg_is_calculated = true
+						if params["arm" + a.id.to_s + "_measurereg_calculated"].nil? || params["arm" + a.id.to_s + "_measurereg_calculated"].to_s == "" || params["arm" + a.id.to_s + "_measurereg_calculated"].to_s == "f"
+							@outcome_result_new.measurereg_is_calculated = false
 						else
-							@outcome_result_new.measurereg_is_calculated = false						
+							@outcome_result_new.measurereg_is_calculated = true						
 						end	
-						if params["arm" + a.id.to_s + "_measuredisp_calculated"] == "t"
-							@outcome_result_new.measuredisp_is_calculated = true
+						if params["arm" + a.id.to_s + "_measuredisp_calculated"].nil? || params["arm" + a.id.to_s + "_measuredisp_calculated"].to_s == "" || params["arm" + a.id.to_s + "_measuredisp_calculated"].to_s == "f"
+							@outcome_result_new.measuredisp_is_calculated = false
 						else
-							@outcome_result_new.measuredisp_is_calculated = false						
+							@outcome_result_new.measuredisp_is_calculated = true						
 						end	
-						if params["arm" + a.id.to_s + "_pvalue_calculated"] == "t"
-							@outcome_result_new.pvalue_is_calculated = true
+						if params["arm" + a.id.to_s + "_pvalue_calculated"].nil? || params["arm" + a.id.to_s + "_pvalue_calculated"].to_s == "" || params["arm" + a.id.to_s + "_pvalue_calculated"].to_s == "f"
+							@outcome_result_new.pvalue_is_calculated = false
 						else
-							@outcome_result_new.pvalue_is_calculated = false						
+							@outcome_result_new.pvalue_is_calculated = true						
 						end							
 					@outcome_result_new.save
 				end
@@ -128,7 +128,7 @@ class OutcomeResult < ActiveRecord::Base
 				if @existing.length > 0
 					for i in @existing
 						i.value = params["arm_custom" + column_id.to_s][a.id.to_s]
-						if params["arm_custom" + a.id.to_s + "_custom" + column_id.to_s + "_calculated"].to_s.eql? "t"
+						if params["arm_custom" + a.id.to_s + "_custom" + column_id.to_s + "_calculated"]
 							i.is_calculated = true
 						else
 							i.is_calculated = false
@@ -178,10 +178,10 @@ class OutcomeResult < ActiveRecord::Base
 			o_res = OutcomeResult.where(:outcome_id => outcome_id, :arm_id => arm_id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id).first
 			arr = Hash.new
 			if !o_res.nil?
-				arr["nanalyzed"] = (o_res.nanalyzed_is_calculated.to_s == 't' || o_res.nanalyzed_is_calculated.to_s == 'f') ? o_res.nanalyzed_is_calculated : "f"
-				arr["measurereg"] = (o_res.measurereg_is_calculated.to_s == 't' || o_res.measurereg_is_calculated.to_s == 'f') ? o_res.measurereg_is_calculated : "f"
-				arr["measuredisp"] = (o_res.measuredisp_is_calculated.to_s == 't' || o_res.measuredisp_is_calculated.to_s == 'f' ) ? o_res.measuredisp_is_calculated : "f"
-				arr["pvalue"] = (o_res.pvalue_is_calculated.to_s == 't' || o_res.pvalue_is_calculated.to_s == 'f' ) ? o_res.pvalue_is_calculated : "f"
+				arr["nanalyzed"] = (o_res.nanalyzed_is_calculated == true) ? true : false
+				arr["measurereg"] = (o_res.measurereg_is_calculated == true)  ? true : false
+				arr["measuredisp"] = (o_res.measuredisp_is_calculated == true)  ? true : false
+				arr["pvalue"] = (o_res.pvalue_is_calculated == true) ? true : false
 			else
 				arr["nanalyzed"] = false
 				arr["measurereg"] = false
@@ -194,7 +194,7 @@ class OutcomeResult < ActiveRecord::Base
 		def self.get_custom_col_data_point_calc(arm_id, outcome_id, timepoint_id, subgroup_id, col_id)
 			o_res = OutcomeColumnValue.where(:outcome_id => outcome_id, :arm_id => arm_id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id, :column_id => col_id).first
 			if !o_res.nil?
-				return o_res.is_calculated
+				return o_res.is_calculated.to_s == 't' ? true : false
 			else
 				return false		
 			end
