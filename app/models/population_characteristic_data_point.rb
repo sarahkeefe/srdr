@@ -18,7 +18,7 @@ class PopulationCharacteristicDataPoint < ActiveRecord::Base
 	
 	
 	def self.save_data_point_info(study_id, params)
-	select setval('population_characteristics_data_points_id_seq', (select max(id) + 1 from population_characteristics_data_points));
+	select setval('population_characteristics_data_points_id_seq', (select max(id) + 1 from population_characteristics_data_points))
 		@study_arms = Study.get_arms(study_id)
 		@study_pop_chars = Study.get_attributes(study_id)
 		for a in @study_arms
