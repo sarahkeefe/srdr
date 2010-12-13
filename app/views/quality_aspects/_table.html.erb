@@ -1,4 +1,5 @@
 <table class="list_table">
+<th>Display</th>
 <th>Dimension</th>
 <th>Value</th>
 <th>Notes</th>
@@ -6,6 +7,7 @@
 <% if @quality_aspects.length > 0 %>
 <% for qa in @quality_aspects %>
 <tr class="<%= cycle("even", "odd") %>" id='<%= 'quality_aspect_' + qa.id.to_s %>'>
+<td><%= qa.display_number %></td>
 <td><%= qa.dimension %></td>
 <td><%= qa.value %></td>
 <td><%= qa.notes %></td>

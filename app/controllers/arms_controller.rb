@@ -33,7 +33,10 @@ class ArmsController < ApplicationController
   def create
     @arm = Arm.new(params[:arm])
 	  @arm.study_id = session[:study_id]
-    
+    display_num = @arm.get_display_number(session[:study_id])
+	@arm.display_number = display_num
+	@arm.save
+				
 	  respond_to do |format|
       if @arm.save
 	    @arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})
@@ -107,6 +110,7 @@ class ArmsController < ApplicationController
   # DELETE /arms/1.xml
   def destroy
     @arm = Arm.find(params[:id])
+	@arm.shift_display_numbers(session[:study_id])	
     @arm.destroy
     respond_to do |format|
       # Update the list of key questions and create a new one to reset

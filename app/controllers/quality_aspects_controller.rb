@@ -31,7 +31,11 @@ class QualityAspectsController < ApplicationController
   # POST /quality_aspects.xml
   def create
     @quality_aspect = QualityAspect.new(params[:quality_aspect])
-
+	@study = Study.find(session[:study_id])
+	 display_num = @quality_aspect.get_display_number(session[:study_id])
+	@quality_aspect.display_number = display_num
+	@quality_aspect.save
+	
     respond_to do |format|
       if @quality_aspect.save
 	@quality_aspects = QualityAspect.where(:study_id => session[:study_id]).all		  
@@ -106,6 +110,7 @@ problem_html = "<div class='error_message'>The following errors prevented the fo
   # DELETE /quality_aspects/1.xml
   def destroy
     @quality_aspect = QualityAspect.find(params[:id])
+	@quality_aspect.shift_display_numbers(session[:study_id])		
     @quality_aspect.destroy
 
     respond_to do |format|

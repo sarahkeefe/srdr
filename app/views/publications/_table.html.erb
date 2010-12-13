@@ -1,5 +1,6 @@
 <% if @secondary_publications.length > 0 %>
 	<table class="list_table">
+	<th>Display</th>
 	<th>UI</th>
 	<th>Title</th>
 	<th>Author</th>
@@ -9,6 +10,7 @@
 	<th>Actions</th>
 	<% for pub in @secondary_publications %>
 		<tr class="<%= cycle("even", "odd") %>" id="pub_row_<%=pub.id.to_s %>">
+		<td><%= pub.display_number %></td>
 		<% @ui_list = Publication.get_pub_uis(pub.id) %>
 		<td>
 			<% if !@ui_list.nil? %>
@@ -22,7 +24,10 @@
 		<td><%= pub.country %></td>
 		<td><%= pub.year %></td>
 		<td><%= pub.association.gsub("_", " ")%></td>
-		<td><%= link_to :Edit, edit_publication_path(pub), :remote=>true, :class => "edit_link" %>
+		<td>
+		<% if pub.display_number > 1 %>
+		<% end %>
+		<%= link_to :Edit, edit_publication_path(pub), :remote=>true, :class => "edit_link" %>
 		<%= link_to :Delete, publication_path(pub), :remote=>true, :confirm => 'Are you sure?', :method=>:delete, :class => "delete_link" %></td>
 		</tr>
 	<% end %>

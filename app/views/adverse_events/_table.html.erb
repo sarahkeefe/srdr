@@ -6,6 +6,7 @@
 <col>
 <col id="contrast_col3">
 <col>
+<th>Display</th>
 <th>Event Title</th>
 <th>Timeframe</th>
 <th>Description</th>
@@ -17,6 +18,7 @@
 <% if @adverse_events.length > 0 %>
 <% for ae in @adverse_events %>
 <tr class="<%= cycle("even", "odd") %>" id=<%= 'adverse_event_' + ae.id.to_s %>>
+<td><%= ae.display_number %></td>
 <td><%= ae.title %></td>
 <td><%= ae.timeframe %></td>
 <td><%= ae.description %></td>

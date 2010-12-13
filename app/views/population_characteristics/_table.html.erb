@@ -4,6 +4,7 @@
 		
 		<%# CREATE TABLE HEADERS %>
 		<tr>
+		<th>Display</th>
 		<th colspan="2">Category</th>
 
 		<%# CYCLE THROUGH ALL ARMS, CREATE TABLE HEADER FOR EACH ARM %>
@@ -14,7 +15,6 @@
 				<% i = i + 1 %>
 			<% end %>
 		<% end %>
-
 		<th>Total</th>
 		<th>Notes</th>
 		<th>Actions</th>
@@ -32,6 +32,7 @@
 				
 				<% if pop_subcategories.length > 0 %>
 					<% first = true %>
+					<td rowspan="<%=pop_subcategories.length%>"><%=popchar.display_number %></td>
 					<td rowspan="<%=pop_subcategories.length%>"><%=popchar.category_title %></td>
 					 <% for subcat in pop_subcategories %>
 						<td><%=subcat.subcategory%> (<%= subcat.units %>)</td>	
@@ -58,7 +59,7 @@
 						</tr>
 					<% end %>
 				<% else %>
-				
+					<td><%=popchar.display_number %></td>
 					<td colspan="2"><%=popchar.category_title %></td>
 					 
 						<% if @study_arms.length > 0 %>

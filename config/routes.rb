@@ -80,6 +80,8 @@ end
 	match 'projects/:project_id/studies/:study_id/adverseevents' => 'studies#adverseevents'
 	match 'projects/:project_id/studies/:study_id/quality' => 'studies#quality'	
 
+	match 'publications/:publication_id/moveup' => 'publications#moveup'	
+	
 	 resources :user_sessions
 
   match 'search' => 'search#index'

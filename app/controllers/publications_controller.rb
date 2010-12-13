@@ -48,6 +48,9 @@ class PublicationsController < ApplicationController
     respond_to do |format|
       if @publication.save
 			if params[:is_primary] == 'false'
+				display_num = @publication.get_display_number(session[:study_id])
+				@publication.display_number = display_num
+				@publication.save
 				@secondary_publications = Publication.find(:all, :conditions => {:is_primary => false, :study_id => session[:study_id]})		  
 				format.js {
 					render :update do |page|
@@ -145,6 +148,7 @@ problem_html = "<div class='error_message'>The following errors prevented the fo
   # DELETE /publications/1.xml
   def destroy
     @publication = Publication.find(params[:id])
+	@publication.shift_display_numbers(session[:study_id])
     @publication.destroy
 
     respond_to do |format|
@@ -166,4 +170,24 @@ problem_html = "<div class='error_message'>The following errors prevented the fo
       format.xml  { head :ok }
     end
   end
+
+def moveup
+	@publication = Publication.find(params[:publication_id].to_i)
+	Publication.move_up_this(params[:publication_id].to_i)
+		respond_to do |format|
+			format.js { 
+			  @secondary_publications = Publication.find(:all, :conditions => {:is_primary => false, :study_id => session[:study_id]})
+			  render :update do |page|
+					page.replace_html 'secondary_publication_table', :partial=>'publications/table'  
+					@publication = Publication.new
+					page.replace_html 'secondary_publication_entry',:partial=>'publications/form'
+			  end
+		}
+		format.html { redirect_to(publications_url) }
+		format.xml  { head :ok }
+    end
+
+
+	
+end
 end
