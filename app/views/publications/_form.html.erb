@@ -40,17 +40,20 @@
   <div class="field">    <label>
 		Association Type:
 	</label>
-  	<% association_options = ["Contributed to Analysis","Used for Reference","Methods Description", "Other"] %>
-  	<select id="publication_association" name="publication[association]" class="has_other">
-  		  <option value="">Select the type of association</option>
-  		<% association_options.each do |opt| %>
-  			<option value=<%= opt.gsub(" ","_") %>><%= opt %></option>
-  		<% end %>
-  	</select>
+
+
+  	<% association_options = [["Contributed to Analysis", "Contributed to Analysis"], ["Used for Reference", "Used for Reference"], ["Methods Description", "Methods Description"], ["Other", "Other"]] %>
+
+<% @compare_val = !@publication.nil? ? @publication.association.to_s : "" %>
+
+<%= hidden_field "has_other_hidden", association_options.to_s, :class => "has_other_hidden", :value => "Hello" %>
+
+  	<%= select "publication", :association, association_options, {}, :class => "has_other", :onload =>  association_options.rassoc(@publication.association.to_s).nil? ? "toggleBox();" : "" %>
+	
   </div>
 
 <% @id_types = [["Choose Identifier Type", "Choose Identifier Type"], ["Pubmed", "Pubmed"], ["Cochrane", "Cochrane"], ["NCT", "NCT"], ["ClinicalTrials\.gov", "ClinicalTrials\.gov"], ["Other", "Other"]]%>
-		<%# select(:publication_number, :number_type, @id_types, {}, {:class => "has_other"}) %>
+
 <div class="has_other_dd">
 	<%= f.fields_for :publication_numbers do |t| %>
 		    <div class="field">
@@ -61,7 +64,11 @@
 	<label class="inline-label">
 		Identifier Type:
 	</label>
-		<%= t.select :number_type, @id_types, :id => "has_other" %>
+
+
+	
+	
+		<%= t.select :number_type, @id_types, :class => "has_other" %>
 
 		<div class="admin_functions"><%= t.link_to_remove "Remove This Identifier" %></div>
   </div>  

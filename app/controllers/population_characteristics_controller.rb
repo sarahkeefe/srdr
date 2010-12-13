@@ -33,7 +33,11 @@ class PopulationCharacteristicsController < ApplicationController
   # POST /population_characteristics.xml
   def create
     @population_characteristic = PopulationCharacteristic.new(params[:population_characteristic])
-	  @study = Study.find(session[:study_id])
+	@study = Study.find(session[:study_id])
+	 display_num = @population_characteristic.get_display_number(session[:study_id])
+	@population_characteristic.display_number = display_num
+	@population_characteristic.save
+	
     respond_to do |format|
 	    if @population_characteristic.save
 			  @population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => session[:study_id]}, :order => :category_title)
@@ -115,6 +119,7 @@ class PopulationCharacteristicsController < ApplicationController
   # DELETE /population_characteristics/1.xml
   def destroy
     @population_characteristic = PopulationCharacteristic.find(params[:id])
+	@population_characteristic.shift_display_numbers(session[:study_id])	
     @population_characteristic.destroy
 	  @population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => session[:study_id]}, :order => :category_title)
 	  @population_characteristics.sort_by(&:category_title)

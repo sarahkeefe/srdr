@@ -33,6 +33,7 @@ class OutcomesController < ApplicationController
   # POST /outcomes
   # POST /outcomes.xml
   def create
+  	Outcome.connection.execute "select setval('outcomes_id_seq', (select max(id) + 1 from outcomes));"
     @outcome = Outcome.new(params[:outcome])
 	@outcome.study_id = session[:study_id]
 	@outcome.save

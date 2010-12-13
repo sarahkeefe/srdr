@@ -31,7 +31,11 @@ class AdverseEventsController < ApplicationController
   # POST /adverse_events.xml
   def create
     @adverse_event = AdverseEvent.new(params[:adverse_event])
-
+	@study = Study.find(session[:study_id])
+	 display_num = @adverse_event.get_display_number(session[:study_id])
+	@adverse_event.display_number = display_num
+	@adverse_event.save
+	
     respond_to do |format|
       if @adverse_event.save
         format.js{
@@ -108,6 +112,7 @@ class AdverseEventsController < ApplicationController
   # DELETE /adverse_events/1.xml
   def destroy
     @adverse_event = AdverseEvent.find(params[:id])
+	@adverse_event.shift_display_numbers(session[:study_id])		
     @adverse_event.destroy
 		
     respond_to do |format|
