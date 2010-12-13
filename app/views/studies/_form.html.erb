@@ -10,16 +10,25 @@
       </ul>
     </div>
   <% end %>
+  
+  
+  <h2>Study Design</h2>  
   <div class="form_content">
-  <div class="field">
-    <label>Number of Participants:</label>
-    <%= f.text_field :num_participants , :size=>6%>
-</div>
+
+
+  
 <div class="field">
     <label>Study Type:</label>
     <%= f.select :study_type, options_for_select([['RCT', 'RCT'], ['Other', 'Other']]), {}, :class => "has_other" %>
     
   </div>
+</div>
+  <h2>Enrollment Information</h2>
+  <div class="form_content">
+  <div class="field">
+    <label>Number of Participants:</label>
+    <%= f.text_field :num_participants , :size=>6%>
+</div>
   
   <div class="field">
     <label>Recruitment Details:</label>

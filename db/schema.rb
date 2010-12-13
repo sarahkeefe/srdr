@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101210201019) do
+ActiveRecord::Schema.define(:version => 20101213173127) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer   "study_id"
@@ -237,12 +237,12 @@ ActiveRecord::Schema.define(:version => 20101210201019) do
   end
 
   create_table "projects", :force => true do |t|
-    t.string    "title"
-    t.text      "description"
-    t.text      "notes"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.string    "isbn"
+    t.string   "title"
+    t.text     "description"
+    t.text     "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "funding_source"
   end
 
   create_table "publication_numbers", :force => true do |t|
