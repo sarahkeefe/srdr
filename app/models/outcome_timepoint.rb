@@ -15,7 +15,7 @@ class OutcomeTimepoint < ActiveRecord::Base
 	
 	def self.baseline_timepoint_exists(outcome_id)
 		@exists = OutcomeTimepoint.where(:outcome_id => outcome_id, :number => 0, :time_unit => "baseline").first
-		if @exists.nil? || @exists.length == 0
+		if @exists.nil?
 			return false
 		else return true
 		end

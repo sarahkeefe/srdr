@@ -34,26 +34,25 @@ class OutcomesController < ApplicationController
   # POST /outcomes.xml
   def create
     @outcome = Outcome.new(params[:outcome])
-	@outcome.study_id = session[:study_id]
-	@outcome.save
+		@outcome.study_id = session[:study_id]
+		@outcome.save
 	
-	if !OutcomeSubgroup.total_subgroup_exists(@outcome.id)
-		@outcome_total_subgroup = OutcomeSubgroup.new
-		@outcome_total_subgroup.outcome_id = @outcome.id
-		@outcome_total_subgroup.title = "Total"
-		@outcome_total_subgroup.description = "Total value (added by default)"
-		@outcome_total_subgroup.save
-	end
+		if !OutcomeSubgroup.total_subgroup_exists(@outcome.id)
+			@outcome_total_subgroup = OutcomeSubgroup.new
+			@outcome_total_subgroup.outcome_id = @outcome.id
+			@outcome_total_subgroup.title = "Total"
+			@outcome_total_subgroup.description = "Total value (added by default)"
+			@outcome_total_subgroup.save
+		end
 
-	if !OutcomeTimepoint.baseline_timepoint_exists(@outcome.id)
-		@outcome_baseline_tp = OutcomeTimepoint.new
-		@outcome_baseline_tp.outcome_id = @outcome.id
-		@outcome_baseline_tp.number = 0
-		@outcome_baseline_tp.time_unit = "baseline"
-		@outcome_baseline_tp.save
-	end	
-	
-	
+		if !OutcomeTimepoint.baseline_timepoint_exists(@outcome.id)
+			@outcome_baseline_tp = OutcomeTimepoint.new
+			@outcome_baseline_tp.outcome_id = @outcome.id
+			@outcome_baseline_tp.number = 0
+			@outcome_baseline_tp.time_unit = "baseline"
+			@outcome_baseline_tp.save
+		end	
+
     respond_to do |format|
       if @outcome.save
 		    @outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})
@@ -68,20 +67,20 @@ class OutcomesController < ApplicationController
 					page.replace_html 'outcome_validation_message', ""						
 		  		end
 				}
-	else
-			problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
-			for i in @outcome.errors
-				problem_html += "<li>" + i.to_s + " " + @outcome.errors[i][0] + "</li>"
-			end
-			problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
-			format.html {
-				render :update do |page| 
-					page.replace_html 'outcome_validation_message', problem_html
+			else
+				problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
+				for i in @outcome.errors
+					problem_html += "<li>" + i.to_s + " " + @outcome.errors[i][0] + "</li>"
 				end
-			}	
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @outcome.errors, :status => :unprocessable_entity }
-      end
+				problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
+				format.html {
+					render :update do |page| 
+						page.replace_html 'outcome_validation_message', problem_html
+					end
+				}	
+	      format.html { render :action => "new" }
+	      format.xml  { render :xml => @outcome.errors, :status => :unprocessable_entity }
+	    end
     end
   end
 

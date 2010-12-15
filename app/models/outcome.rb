@@ -9,7 +9,7 @@ class Outcome < ActiveRecord::Base
 	accepts_nested_attributes_for :outcome_columns, :allow_destroy => true	
 	accepts_nested_attributes_for :outcome_subgroups, :allow_destroy => true, :reject_if => proc { |attributes| attributes['title'].blank? }
 	attr_accessible :study_id, :title, :is_primary, :units, :description, :notes, :outcome_timepoints_attributes, :outcome_columns_attributes, :outcome_subgroups_attributes, :outcome_subgroup_levels_attributes
-	validates :title, :presence => true, :uniqueness=>true
+	validates :title, :presence => true #, :uniqueness=>true
 	
 	def self.get_title(id)
 		if id.to_i > 0

@@ -40,7 +40,10 @@
 				<th><%= select :measure_type, :measure_type, options_for_select(@measure_types_array, val["measure_type"].to_s) %></th>
 				<th><%= select :measure_disp_type, :measure_disp_type, options_for_select(@measure_disp_types_array, val["measure_dispersion_type"].to_s) %></th>
 				<th>P-Value</th>
-
+			  
+				<%# ASSIGNING CURRENT INFORMATION TO A HASH THAT IS PASSED TO THE FUNCTION TO GET FOOTNOTES %>
+				<% current_info = {:study_id=>session[:study_id], :outcome_id=>@selected_outcome_object.id, :subgroup_id=>@selected_subgroup,:timepoint_id=>@selected_timepoint} %>
+				
 				<% if @study_arms.length > 0 %>
 				
 					<% i = 1 %>
@@ -52,7 +55,8 @@
 							<% calc = OutcomeResult.get_data_point_calc(one_arm.id, @selected_outcome_object.id, timepoint_id, subgroup_id) %>			
 						
 							<td>
-								<%= text_field "arm_nanalyzed", one_arm.id.to_s, :size => 5, :value => val["nanalyzed"] %>
+								<% arm_nanalyzed_value = show_footnotes(val["nanalyzed"], "arm_nanalyzed_"+one_arm.id.to_s, current_info) %>
+								<%= text_field "arm_nanalyzed", one_arm.id.to_s, :size => 5, :value=>arm_nanalyzed_value, :onchange=>'check_for_footnote(this.value, this.id)' %>
 								<%= check_box_tag "arm" + one_arm.id.to_s + "_nanalyzed_calculated", true, calc["nanalyzed"], :class => "styled" %>							
 							</td>
 							
@@ -61,24 +65,28 @@
 									<% custom_val = OutcomeResult.get_custom_col_data_point(one_arm.id, @selected_outcome_object.id, timepoint_id, subgroup_id, custom_col.id) %>
 									<% custom_calc = OutcomeResult.get_custom_col_data_point_calc(one_arm.id, @selected_outcome_object.id, timepoint_id, subgroup_id, custom_col.id) %>
 									<td>
-										<%= text_field "arm_custom" + custom_col.id.to_s, one_arm.id.to_s, :size => 5, :value => custom_val, :class => "calculated_checkbox" %>
+										<%= text_field "arm_custom" + custom_col.id.to_s, one_arm.id.to_s, :size => 5, :value => custom_val, :class => "calculated_checkbox", :onchange=>'check_for_footnote(this.value, this.id)'  %>
 										<%= check_box_tag "arm" + one_arm.id.to_s + "_custom" + custom_col.id.to_s + "_calculated", true, custom_calc, :class => "styled" %>
 									</td>
 								<% end %>
 							<% end %>
 							
 							<td>
-								<%= text_field "arm_measurereg", one_arm.id.to_s, :size => 5, :value => val["measurereg"], :class => "calculated_checkbox" %>
+								<% arm_measurereg_value = show_footnotes(val["measurereg"], "arm_measurereg_"+one_arm.id.to_s, current_info) %>
+								<%= text_field "arm_measurereg", one_arm.id.to_s, :size => 5, :value =>arm_measurereg_value, :onchange=>'check_for_footnote(this.value, this.id)', :class => "calculated_checkbox" %>
 								<%= check_box_tag "arm" + one_arm.id.to_s + "_measurereg_calculated", true, calc["measurereg"], :class => "styled" %>
 							</td>
 							
 							<td>
-								<%= text_field "arm_measuredisp", one_arm.id.to_s, :size => 5, :value => val["measuredisp"], :class => "calculated_checkbox" %>
+								<% arm_measuredisp_value = show_footnotes(val["measuredisp"], "arm_measuredisp_"+one_arm.id.to_s, current_info) %>
+								<%= text_field "arm_measuredisp", one_arm.id.to_s, :size => 5, :value =>arm_measuredisp_value, :onchange=>'check_for_footnote(this.value, this.id)', :class => "calculated_checkbox" %>
 								<%= check_box_tag "arm" + one_arm.id.to_s + "_measuredisp_calculated", true, calc["measuredisp"], :class => "styled" %>
 							</td>
 							
 							<td>
-								<%= text_field "arm_pvalue", one_arm.id.to_s, :size => 5, :value => val["pvalue"], :class => "calculated_checkbox" %>
+								<% arm_pvalue_value = show_footnotes(val["pvalue"], "arm_pvalue_"+one_arm.id.to_s, current_info) %>
+								<%= text_field "arm_pvalue", one_arm.id.to_s, :size => 5, :value =>arm_pvalue_value, :onchange=>'check_for_footnote(this.value, this.id)', :class => "calculated_checkbox" %>
+								<%# text_field "arm_pvalue", one_arm.id.to_s, :size => 5, :value => val["pvalue"], :class => "calculated_checkbox", :onchange=>'check_for_footnote(this.value, this.id)'  %>
 								<%= check_box_tag "arm" + one_arm.id.to_s + "_pvalue_calculated", true, calc["pvalue"], :class => "styled" %>
 							</td>
 							
@@ -89,6 +97,23 @@
 				
 					</tr>
 				</table>
+				<div id='footnotes' class="indented-text">
+					<% unless @footnotes.empty? %>
+					<h3>Footnotes</h4>
+					  <% @footnotes.each do |fnote| %>
+					    <span class='footnote' id= <%= "footnote_"+ fnote.note_number.to_s + "_span" %> >
+					    	<span style="font-weight: bold;"><%= fnote.note_number %>. </span>
+					    	<% input_id = "footnote_"+fnote.note_number.to_s+"_"+fnote.outcome_id.to_s+"_"+fnote.subgroup_id.to_s+"_"+fnote.timepoint_id.to_s %>
+					    	<input style="width: 95%;" type="text" value="<%= fnote.note_text %>" name="<%=input_id%>" class="footnote" id="<%=input_id%>" >
+					    	<br/>
+					  	</span>
+					  <% end %>
+					<% else %>
+					  You may enter footnotes by typing a number in brackets next to your value. For example, to enter a value
+					  of 10 and enter two footnotes for that value, type: 10 [1,2]<br/>
+					<% end %>
+					
+				</div>
 				<div class="indented-text">
 				Notes: <%= OutcomeResult.get_table_footnotes(@selected_outcome_object.id, timepoint_id, subgroup_id) %>
 				</div>
