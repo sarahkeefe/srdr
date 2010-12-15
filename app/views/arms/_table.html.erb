@@ -1,12 +1,14 @@
 <div id="arm_validation_message"></div>
 <% unless @arms.length < 1 %>
   <table class="list_table">
-  	<th>Arm Title</th>
+  	<th>Display</th>
+	<th>Arm Title</th>
   	<th>Participants</th>
   	<th>Arm Description</th>
   	<th>Actions</th>
     <% for onearm in @arms %>
       <tr class="<%= cycle("even", "odd") %>" id="arm_row_<%=onearm.id.to_s %>">
+				<td><%= onearm.display_number %></td>
 				<td><%= onearm.title %></td>
 				<td><%= onearm.num_participants %></td>
 				<td><%= onearm.description %></td>

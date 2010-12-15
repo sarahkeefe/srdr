@@ -18,16 +18,15 @@ class PopulationCharacteristicDataPoint < ActiveRecord::Base
 	
 	
 	def self.save_data_point_info(study_id, params)
+	PopulationCharacteristicDataPoint.connection.execute "select setval('population_characteristic_data_points_id_seq', (select max(id) + 1 from population_characteristic_data_points));"
 		@study_arms = Study.get_arms(study_id)
 		@study_pop_chars = Study.get_attributes(study_id)
 		for a in @study_arms
-		print "AAAAAAAAAAAAAAAAAAAAAAAAAAA" + @study_pop_chars.inspect
+		print @study_pop_chars.inspect
 			for p in @study_pop_chars
-		print "BBBBBBBBBBBBBBBBBBBBBBBBBBBB"
 			@study_pop_chars_subcats = Study.get_attribute_subcategories(p.id)
 				if !@study_pop_chars_subcats.nil? && @study_pop_chars_subcats.length > 0
 					for s in @study_pop_chars_subcats
-							print "SUUUUUUUUUUUUUUUUUUBCATGORIES"
 						if !params["arm" + a.id.to_s + "attribute"][p.id.to_s + "_" + s.id.to_s].nil?
 							@existing = PopulationCharacteristicDataPoint.where(:arm_id => a.id, :attribute_id => p.id, :subcategory_id => s.id, :is_total => false).all
 							if @existing.length > 0
@@ -49,7 +48,6 @@ class PopulationCharacteristicDataPoint < ActiveRecord::Base
 						end
 					end
 				else
-						print "NEWWWWWWWWWWWWWWWWWWWWW"	
 					if !params["arm" + a.id.to_s + "attribute"][p.id.to_s + "_-1"].nil?
 						@existing = PopulationCharacteristicDataPoint.where(:arm_id => a.id, :attribute_id => p.id, :subcategory_id => "-1", :is_total => false).all
 						if @existing.length > 0

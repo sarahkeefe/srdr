@@ -9,9 +9,15 @@ $j(".edit_link").live('click', function(event)
 	});
 });
 
+$j('.has_other_hidden').live('load', function(){
+
+alert($j(this).value);
+
+});
+
+
 $j('.has_other').live('change', function() 
 {
-
 	var name = $j(this).attr('name');
 	var parNode =this.parentNode; 
 

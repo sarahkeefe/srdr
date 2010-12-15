@@ -17,9 +17,9 @@
 
 	<div class="field">
     <label>
-		ISBN (If any):
+		Funding Source:
 	</label>
-	<%= f.text_field :isbn, :size=>20 %>
+	<%= f.text_field :funding_source, :size=>20 %>
 	</div>
 
 	<div class="field">
@@ -31,7 +31,7 @@
 
 	<div class="actions">
 		<button type="submit" class="positive">
-			<%= image_tag "Accept.png"%>Save Project
+			<%= image_tag "Accept.png"%>Save
 		</button>
 		<div id="validation_message"><%= flash[:notice] %></div>
   </div>

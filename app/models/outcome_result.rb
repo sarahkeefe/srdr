@@ -95,6 +95,7 @@ class OutcomeResult < ActiveRecord::Base
     end
 		# Save results in outcome_results_table as new OutcomeResult objects. 
 		def self.save_general_results(study_id, a, outcome_id, timepoint_id, subgroup_id, params)
+			OutcomeResult.connection.execute "select setval('outcome_results_id_seq', (select max(id) + 1 from outcome_results));"
 				@existing = self.where(:outcome_id => outcome_id, :study_id => study_id, :arm_id => a.id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id).all
 				info_array = [study_id,outcome_id,subgroup_id,timepoint_id];
 				if @existing.length > 0
