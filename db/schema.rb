@@ -10,9 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-
 ActiveRecord::Schema.define(:version => 20101214163551) do
-
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer   "study_id"
@@ -35,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20101214163551) do
     t.timestamp "updated_at"
     t.text      "notes"
     t.float     "number"
+    t.integer   "display_number"
   end
 
   create_table "arms", :force => true do |t|
@@ -44,6 +43,7 @@ ActiveRecord::Schema.define(:version => 20101214163551) do
     t.integer   "num_participants"
     t.timestamp "created_at"
     t.timestamp "updated_at"
+    t.integer   "display_number"
   end
 
   create_table "footnote_fields", :force => true do |t|
@@ -66,7 +66,6 @@ ActiveRecord::Schema.define(:version => 20101214163551) do
     t.string   "note_text"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "display_number"
   end
 
   create_table "forms", :force => true do |t|
@@ -250,24 +249,22 @@ ActiveRecord::Schema.define(:version => 20101214163551) do
   end
 
   create_table "population_characteristics", :force => true do |t|
-    t.integer  "study_id"
-    t.integer  "arm_id"
-    t.string   "category_title"
-    t.string   "subcategory"
-    t.string   "units"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "notes"
-    t.integer  "display_number"
+    t.integer   "study_id"
+    t.string    "category_title"
+    t.string    "units"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.text      "notes"
+    t.integer   "display_number"
   end
 
   create_table "projects", :force => true do |t|
-    t.string   "title"
-    t.text     "description"
-    t.text     "notes"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "funding_source"
+    t.string    "title"
+    t.text      "description"
+    t.text      "notes"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.text      "funding_source"
   end
 
   create_table "publication_numbers", :force => true do |t|
@@ -279,28 +276,28 @@ ActiveRecord::Schema.define(:version => 20101214163551) do
   end
 
   create_table "publications", :force => true do |t|
-    t.integer  "study_id"
-    t.string   "title"
-    t.string   "author"
-    t.string   "country"
-    t.string   "year"
-    t.string   "ui"
-    t.string   "ui_type"
-    t.boolean  "is_primary"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "association"
-    t.integer  "display_number"
+    t.integer   "study_id"
+    t.string    "title"
+    t.string    "author"
+    t.string    "country"
+    t.string    "year"
+    t.string    "ui"
+    t.string    "ui_type"
+    t.boolean   "is_primary"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.string    "association"
+    t.integer   "display_number"
   end
 
   create_table "quality_aspects", :force => true do |t|
-    t.integer  "study_id"
-    t.string   "dimension"
-    t.string   "value"
-    t.text     "notes"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "display_number"
+    t.integer   "study_id"
+    t.string    "dimension"
+    t.string    "value"
+    t.text      "notes"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "display_number"
   end
 
   create_table "quality_ratings", :force => true do |t|
