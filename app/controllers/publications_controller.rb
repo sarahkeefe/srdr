@@ -51,7 +51,7 @@ class PublicationsController < ApplicationController
 				display_num = @publication.get_display_number(session[:study_id])
 				@publication.display_number = display_num
 				@publication.save
-				@secondary_publications = Publication.find(:all, :conditions => {:is_primary => false, :study_id => session[:study_id]})		  
+				@secondary_publications = Publication.find(:all, :order => 'display_number ASC', :conditions => {:is_primary => false, :study_id => session[:study_id]})		  
 				format.js {
 					render :update do |page|
 					  page.replace_html 'secondary_publication_table', :partial => 'publications/table'
@@ -109,7 +109,7 @@ class PublicationsController < ApplicationController
     respond_to do |format|
       if @publication.update_attributes(params[:publication])
 			format.js { 
-			  @secondary_publications = Publication.find(:all, :conditions => {:is_primary => false, :study_id => session[:study_id]})
+			  @secondary_publications = Publication.find(:all, :order => 'display_number ASC', :conditions => {:is_primary => false, :study_id => session[:study_id]})
 			  render :update do |page|
 					if params[:is_primary] == 'true'
 						saved_html = "<div class='success_message'>Saved!</div>"			
@@ -155,7 +155,7 @@ problem_html = "<div class='error_message'>The following errors prevented the fo
       # The AJAX call in this case is used to refresh the table of secondary publications
 		  # The format.js block below is taking care of this.
     	format.js { 
-      	  @secondary_publications = Publication.find(:all, :conditions => {:is_primary => false, :study_id => session[:study_id]})
+      	  @secondary_publications = Publication.find(:all, :order => 'display_number ASC', :conditions => {:is_primary => false, :study_id => session[:study_id]})
           render :update do |page|
             page.replace_html 'secondary_publication_table', :partial=>'publications/table'
             
@@ -176,7 +176,7 @@ def moveup
 	Publication.move_up_this(params[:publication_id].to_i)
 		respond_to do |format|
 			format.js { 
-			  @secondary_publications = Publication.find(:all, :conditions => {:is_primary => false, :study_id => session[:study_id]})
+			  @secondary_publications = Publication.find(:all, :order => 'display_number ASC', :conditions => {:is_primary => false, :study_id => session[:study_id]})
 			  render :update do |page|
 					page.replace_html 'secondary_publication_table', :partial=>'publications/table'  
 					@publication = Publication.new

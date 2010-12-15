@@ -31,8 +31,8 @@ class Publication < ActiveRecord::Base
 	
 	def self.move_up_this(id)
 		@this = Publication.find(id.to_i)
-		if @this.display_number > 0
-			new_num = @this.display_number + 1
+		if @this.display_number > 1
+			new_num = @this.display_number - 1
 			Publication.decrease_other(new_num)
 			@this.display_number = new_num
 			@this.save
@@ -41,8 +41,10 @@ class Publication < ActiveRecord::Base
 	
 	def self.decrease_other(num)
 		@other = Publication.where(:display_number => num).first
-		@other.display_number = @other.display_number - 1;
-		@other.save
+		if !@other.nil?
+			@other.display_number = @other.display_number + 1;
+			@other.save
+		end
 	end
   
 end

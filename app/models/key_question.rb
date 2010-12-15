@@ -45,4 +45,24 @@ class KeyQuestion < ActiveRecord::Base
 		return(kq_string)
 
 	end
+	
+	def self.move_up_this(id)
+		@this = KeyQuestion.find(id.to_i)
+		if @this.question_number > 1
+			new_num = @this.question_number - 1
+			KeyQuestion.decrease_other(new_num)
+			@this.question_number = new_num
+			@this.save
+		end
+	end
+	
+	def self.decrease_other(num)
+		@other = KeyQuestion.where(:question_number => num).first
+		if !@other.nil?
+			@other.question_number = @other.question_number + 1;
+			@other.save
+		end
+	end
+  	
+	
 end

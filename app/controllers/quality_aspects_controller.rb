@@ -74,7 +74,7 @@ problem_html = "<div class='error_message'>The following errors prevented the fo
 	
     respond_to do |format|
       if @quality_aspect.update_attributes(params[:quality_aspect])
-		@quality_aspects = QualityAspect.find(:all, :conditions=>['study_id=?',session[:study_id]])
+		@quality_aspects = QualityAspect.find(:all, :conditions=>['study_id=?',session[:study_id]], :order => "display_number ASC")
       	format.js { 
         	render :update do |page|
         		page.replace_html 'quality_aspects_table', :partial => 'quality_aspects/table'
@@ -115,7 +115,7 @@ problem_html = "<div class='error_message'>The following errors prevented the fo
 
     respond_to do |format|
     	format.js {
-				@quality_aspects = QualityAspect.find(:all, :conditions=>['study_id=?',session[:study_id]])		
+				@quality_aspects = QualityAspect.find(:all, :conditions=>['study_id=?',session[:study_id]], :order => "display_number ASC")		
 		  	render :update do |page|
 					page.replace_html 'quality_aspects_table', :partial => 'quality_aspects/table'	
 					@quality_aspect = QualityAspect.new
@@ -126,4 +126,23 @@ problem_html = "<div class='error_message'>The following errors prevented the fo
       format.xml  { head :ok }
     end
   end
+  
+  def moveup
+    @quality_aspect = QualityAspect.find(params[:quality_aspect_id])
+	QualityAspect.move_up_this(params[:quality_aspect_id].to_i)
+    respond_to do |format|
+    	format.js {
+				@quality_aspects = QualityAspect.find(:all, :conditions=>['study_id=?',session[:study_id]], :order => "display_number ASC")		
+		  	render :update do |page|
+					page.replace_html 'quality_aspects_table', :partial => 'quality_aspects/table'	
+					@quality_aspect = QualityAspect.new
+					#page.replace_html 'quality_aspect_entry', :partial => 'quality_aspects/form'					
+		  	end
+			}	
+      format.html { redirect_to(quality_aspects_url) }
+      format.xml  { head :ok }
+    end
+  end  
+  
+  
 end

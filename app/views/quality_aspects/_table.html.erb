@@ -11,7 +11,11 @@
 <td><%= qa.dimension %></td>
 <td><%= qa.value %></td>
 <td><%= qa.notes %></td>
-<td><%= link_to "Edit", edit_quality_aspect_path(qa), :remote=>true, :class => "edit_link" %>
+<td>
+		<% if !qa.display_number.nil? && qa.display_number > 1 %>
+		<%= link_to "Move Up", {:controller => :quality_aspects, :action => :moveup, :quality_aspect_id => qa.id}, :remote=>true, :class => "edit_link" %>
+		<% end %>
+<%= link_to "Edit", edit_quality_aspect_path(qa), :remote=>true, :class => "edit_link" %>
 <%= link_to "Delete", quality_aspect_path(qa), :remote=>true, :confirm => 'Are you sure?', :method=>:delete, :class => "delete_link" %></td>
 </tr>
 <% end %>

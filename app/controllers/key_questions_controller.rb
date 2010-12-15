@@ -101,7 +101,8 @@ problem_html = "<div class='error_message'>The following errors prevented the qu
       end
     end
   end
-	def destroy
+
+  def destroy
     @key_question = KeyQuestion.find(params[:id])
     @key_question.shift_question_numbers(session[:project_id])
     @key_question.remove_from_junction
@@ -124,8 +125,26 @@ problem_html = "<div class='error_message'>The following errors prevented the qu
     	format.html { redirect_to( project_key_questions_path(session[:project_id]) )}
       format.xml  { head :ok }
     end
+end
+
+	def moveup
+    @key_question = KeyQuestion.find(params[:id])
+	KeyQuestion.move_up_this(params[:id].to_i)
+    
+    respond_to do |format|
+    	format.js {
+    	  
+				@key_questions = KeyQuestion.where(:project_id=>session[:project_id]).order('key_questions.question_number ASC')
+		  	render :update do |page|
+					page.replace_html 'key_question_table', :partial => 'key_questions/table'	
+					@key_question = KeyQuestion.new
+					page.replace_html 'key_question_entry', :partial => 'key_questions/new_kq_form'					
+		  	end
+			}
+    	format.html { redirect_to( project_key_questions_path(session[:project_id]) )}
+      format.xml  { head :ok }
+    end
   end
-  # DELETE /key_questions/1
-  # DELETE /key_questions/1.xml
- 
+
+  
 end

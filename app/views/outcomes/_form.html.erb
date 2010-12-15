@@ -1,3 +1,6 @@
+<script type="text/javascript">
+bindMyStuff();
+</script>
 <%= nested_form_for(@outcome, :remote => true, :update => "outcomes_table", :html=>{:id=>"new_outcome_form"}) do |f| %>
   <% if @outcome.errors.any? %>
     <div id="error_explanation">
@@ -12,7 +15,7 @@
   <% end %>
 <div class="form_content">
 
-    <%= f.hidden_field :study_id, :value => params[:study_id] %>
+    <%= f.hidden_field :study_id, :value => session[:study_id] %>
 	<div class="field">
     <label>Outcome Title:</label>
     <%= f.text_field :title, :class=>"bp_form_complete-1353-name" %>
@@ -31,19 +34,25 @@
 
 
   <h4>Add Outcome Time Points</h4>
-  
+    <% @time_options = [["seconds","seconds"], ["minutes", "minutes"], ["hours", "hours"], ["days", "days"], ["weeks", "weeks"], ["months", "months"], ["years","years"], ["baseline","baseline"], ["Other", "Other"]]%>
+  <div class="has_other_dd">
 	<%= f.fields_for :outcome_timepoints do |t| %>
 	<div class="field">
   <%= t.text_field :number, :class=>"inline-field" %>
-  <%= t.select :time_unit, options_for_select([ "minutes", "hours", "days", "weeks", "months", "years", "baseline", "Other" ]), :class => "inline-field has_other" %>
+  <%= t.select :time_unit, @time_options, {}, {:class => "inline-field has_other"} %>
+
+  <% the_var = t.get_object :time_units %>		
+	<% testval = Study.is_value_in_array(the_var["time_unit"].to_s, @time_options) %>	
+	<%= hidden_field_tag "has_other_hidden", testval.to_s + "---" + the_var["time_unit"].to_s, :class => "has_other_hidden"  %>
   <div class="admin_functions">
+  
   <%= t.link_to_remove "Remove" %>
   </div>
   </div>
   <% end %><br/>
 <%= f.link_to_add "Add a timepoint", :outcome_timepoints %>
   <br/><br/>
-  
+  </div>
    <h4>Add Outcome Subgroups </h4>
 
 	<%= f.fields_for :outcome_subgroups do |t| %>
@@ -68,7 +77,7 @@
   </div>
   <div class="actions">
 		<button type="submit" class="positive">
-			<%= image_tag "Add.png"%>Add Outcome to List
+			<%= image_tag "Add.png"%>Save Outcome
 		</button>
   </div>
   </div>

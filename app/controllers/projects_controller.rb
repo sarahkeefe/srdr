@@ -77,7 +77,7 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
 	  makeActive(@project)
 	  proj_id = @project.id
-	  @key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
+	  @key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id}, :order => "question_number ASC")
 	  @key_question = KeyQuestion.new	
   end
 

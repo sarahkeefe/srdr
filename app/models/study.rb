@@ -15,6 +15,15 @@ class Study < ActiveRecord::Base
 	has_many :publications, :dependent=>:destroy
 	attr_accessible :study_type, :recruitment_details, :inclusion_criteria, :exclusion_criteria, :num_participants, :outcome_attributes
 
+	def self.is_value_in_array(val, arr)
+		for i in arr
+			if val == i[0].to_s
+				return true
+			end
+		end
+		return false
+	end
+	
 	def self.set_template_id_if_exists(params, study)
 	  template_id = ""
 	  if params.keys.include?("template")
@@ -120,7 +129,7 @@ class Study < ActiveRecord::Base
 	end  
 	
 	def get_secondary_publications
-		secondary = Publication.find(:all, :conditions => ["study_id = ? AND is_primary = ?",self.id, false])
+		secondary = Publication.find(:all, :order => 'display_number ASC', :conditions => ["study_id = ? AND is_primary = ?",self.id, false])
 		return secondary
 	end
 	

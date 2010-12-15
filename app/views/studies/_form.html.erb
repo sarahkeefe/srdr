@@ -1,3 +1,6 @@
+<script type="text/javascript">
+bindMyStuff();
+</script>
 <%= form_for(@study, :remote => true) do |f| %>
   <% if @study.errors.any? %>
     <div id="error_explanation">
@@ -20,7 +23,9 @@
 <div class="field">
     <label>Study Type:</label>
     <%= f.select :study_type, options_for_select([['RCT', 'RCT'], ['Other', 'Other']]), {}, :class => "has_other" %>
-    
+	<% testval = Study.is_value_in_array(@study.study_type, [['RCT', 'RCT'], ['Other', 'Other']]) %>	
+	<%= hidden_field_tag "has_other_hidden", testval.to_s + "---" + @study.study_type.to_s, :class => "has_other_hidden"  %>
+  <div class="admin_functions">
   </div>
 </div>
   <h2>Enrollment Information</h2>
