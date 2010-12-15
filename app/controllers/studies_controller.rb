@@ -4,7 +4,7 @@ class StudiesController < ApplicationController
   # GET /studies.xml
   def index
     @studies = Study.where(:project_id => params[:project_id])
-	@project = Project.find(params[:project_id])	
+	  @project = Project.find(params[:project_id])	
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @studies }
@@ -94,6 +94,8 @@ class StudiesController < ApplicationController
 	@model_name="outcome_result"
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.where(:study_id => params[:study_id]).all
+	@study_arm_ids = @study_arms.collect{|arm| arm.id}
+	@study_arm_ids = @study_arm_ids.to_json
 	@outcomes = Outcome.where(:study_id => params[:study_id]).all
 	@first_outcome = @outcomes[0]
 	if !@first_outcome.nil?
@@ -102,8 +104,14 @@ class StudiesController < ApplicationController
 		current_selections = OutcomeResult.get_selected_sg_and_tp(@first_subgroups, @first_timepoints)
 		@selected_subgroup = current_selections[0]
 		@selected_timepoint = current_selections[1]
+		
+		# ISN'T THIS THE SAME AS @first_outcome???
 		@selected_outcome_object = Outcome.find(@first_outcome.id)
 		@selected_outcome_object_results = OutcomeResult.get_selected_outcome_results(@first_outcome.id, @selected_subgroup, @selected_timepoint)
+		
+		# gather any footnotes for the first selections
+		@footnotes = Footnote.where(:study_id=>session[:study_id], :outcome_id=>@first_outcome.id,
+															  :subgroup_id=>@selected_subgroup, :timepoint_id=>@selected_timepoint).order("note_number ASC")
 	else
 		@selected_subgroup = nil
 		@selected_timepoint = nil
@@ -142,7 +150,7 @@ class StudiesController < ApplicationController
       @saved_analyses = OutcomeAnalysis.get_saved_analyses(session[:study_id])
       @analysis_title = OutcomeAnalysis.get_analysis_title(@outcomes[0].title, @selected_subgroup, @selected_timepoint)
  		 end
- 		#render :layout => 'outcomeanalysis'	 
+ 		render :layout => 'outcomeanalysis'	 
  	end
   
   # When the outcome type is changed in the outcome analysis or data page, we have to update the 
@@ -166,6 +174,7 @@ class StudiesController < ApplicationController
 	  	current_selections = OutcomeResult.get_selected_sg_and_tp(@outcome_subgroups, @outcome_timepoints)
 	  	@selected_subgroup = current_selections[0]
 	  	@selected_timepoint = current_selections[1]
+	  	# gather any footnotes for the first selections
 	end
 
   	respond_to do |format|
@@ -184,16 +193,22 @@ class StudiesController < ApplicationController
     				 page.replace_html 'entry_form',:partial=> 'outcome_analyses/entry_form_table'
 					 
   				 elsif (@model_name == "outcome_result")
-					 print "SELECTED OUTCOME IS " + @selected_outcome.to_s + "-------------------\n"
+					   print "SELECTED OUTCOME IS " + @selected_outcome.to_s + "-------------------\n"
   					 print "SELECTED SUBGROUP IS " + @selected_subgroup.to_s + "-------------------\n"
   					 print "SELECTED TIMEPOINT IS " + @selected_timepoint.to_s + "-------------------\n"
+  					 @study_arm_ids = @study_arms.collect{|arm| arm.id}
+						 @study_arm_ids = @study_arm_ids.to_json
   					 page.replace_html 'timepoint_options',:partial => 'outcomes/timepoint_selector'
   					 page.replace_html 'subgroup_options',:partial => 'outcomes/subgroup_selector'
-					@selected_outcome_object = Outcome.find(@selected_outcome)
-					@selected_outcome_object_results = OutcomeResult.where(:subgroup_id => @selected_subgroup, :timepoint_id => @selected_timepoint, :outcome_id => @selected_outcome).first
-				 	@selected_outcome_object_results = @selected_outcome_object_results.nil? ? OutcomeResult.new : @selected_outcome_object_results
-					page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
-					page.replace_html 'outcome_results_list', :partial => 'outcome_results/completed_list'
+						 @selected_outcome_object = Outcome.find(@selected_outcome)
+						 @selected_outcome_object_results = OutcomeResult.where(:subgroup_id => @selected_subgroup, :timepoint_id => @selected_timepoint, :outcome_id => @selected_outcome).first
+				 		 @selected_outcome_object_results = @selected_outcome_object_results.nil? ? OutcomeResult.new : @selected_outcome_object_results
+				 		
+				 		 @footnotes = Footnote.where(:study_id=>session[:study_id], :outcome_id=>@selected_outcome,
+															  :subgroup_id=>@selected_subgroup, :timepoint_id=>@selected_timepoint).order("note_number ASC")
+
+						 page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
+						 page.replace_html 'outcome_results_list', :partial => 'outcome_results/completed_list'
   				end
   			end
   		}
@@ -257,6 +272,10 @@ class StudiesController < ApplicationController
 						@study_arms = Arm.where(:study_id => session[:study_id]).all
 						@selected_outcome_object = Outcome.find(@selected_outcome)
 						@selected_outcome_object_results = OutcomeResult.new
+						@footnotes = Footnote.where(:study_id=>session[:study_id], :outcome_id=>@selected_outcome,
+															  :subgroup_id=>@selected_subgroup, :timepoint_id=>@selected_timepoint).order("note_number ASC")
+						@study_arm_ids = @study_arms.collect{|arm| arm.id}
+						@study_arm_ids = @study_arm_ids.to_json
 						page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
 						page.replace_html 'outcome_results_list', :partial => 'outcome_results/completed_list'
     				
@@ -417,13 +436,13 @@ class StudiesController < ApplicationController
 		@outcome_result = OutcomeResult.new
 		@study_arms = Arm.where(:study_id => session[:study_id]).all
 		@selected_outcome = Outcome.find(params[:selected_outcome_id])	
-		  respond_to do |format|
-				format.js{	
-					render :update do |page|
-						page.replace_html 'outcome_results_list', :partial => 'outcome_results/completed_list'				
-						page.replace_html 'entry_form', :partial => 'outcome_results/table'
-					end
-				}
+		respond_to do |format|
+			format.js{	
+				render :update do |page|
+					page.replace_html 'outcome_results_list', :partial => 'outcome_results/completed_list'				
+					page.replace_html 'entry_form', :partial => 'outcome_results/table'
+				end
+			}
 		end
   end
 end

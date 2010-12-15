@@ -10,7 +10,7 @@
 					:with => "'selected_outcome_id='+$('outcome_outcome').value+
 										'&selected_subgroup='+ $($('subgroup_field_id').value).value +
 										'&selected_timepoint='+this.value +
-										'&form_type=' + $('model_name').value",:complete=>"Custom.init()")} %>
+										'&form_type=' + $('model_name').value",:complete=>"Custom.init();init_footnote_values('outcome_results','"+@study_arm_ids+"');")} %>
 		  </select>
 <% else %>
 	  <em>There are no time points defined for this outcome. If you require a time point, please edit the <%= link_to "Outcome Setup Page", "/projects/#{session[:project_id]}/studies/#{session[:study_id]}/outcomesetup" %></em>
