@@ -3,8 +3,8 @@ class StudiesController < ApplicationController
 	# GET /studies
   # GET /studies.xml
   def index
-    @studies = Study.where(:project_id => params[:project_id])
-	@project = Project.find(params[:project_id])	
+    @studies = Study.where(:project_id => session[:project_id])
+	  @project = Project.find(session[:project_id])	
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @studies }
