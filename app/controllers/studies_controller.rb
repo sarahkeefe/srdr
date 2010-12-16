@@ -326,23 +326,23 @@ class StudiesController < ApplicationController
   # GET /studies/1/edit
   def edit
     @study = Study.find(params[:id])
-	@project = Project.find(params[:project_id])	
-	makeActive(@study)
+		@project = Project.find(params[:project_id])	
+		makeActive(@study)
 		  
     # get info on questions addressed
     @questions = @study.get_question_choices(session[:project_id])
     @checked_ids = @study.get_addressed_ids
 		
     # get info on primary publication
-	@primary_publication = @study.get_primary_publication
-	@primary_publication = @primary_publication.nil? ? Publication.create() : @primary_publication
+		@primary_publication = @study.get_primary_publication
+		@primary_publication = @primary_publication.nil? ? Publication.create() : @primary_publication
 	  
-	# get info on secondary publications
-	@secondary_publications = @study.get_secondary_publications
+		# get info on secondary publications
+		@secondary_publications = @study.get_secondary_publications
 	  
-	# create a new publication represented in the secondary publications form
-	@publication = Publication.new
-	render :layout => 'studydesign'	
+		# create a new publication represented in the secondary publications form
+		@publication = Publication.new
+		render :layout => 'studydesign'	
   end
 
   # POST /studies
