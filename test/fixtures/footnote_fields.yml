@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  study_id: 1
+  outcome_id: 1
+  subgroup_id: 1
+  timepoint_id: 1
+  footnote_number: 1
+  field_name: MyString
+
+two:
+  study_id: 1
+  outcome_id: 1
+  subgroup_id: 1
+  timepoint_id: 1
+  footnote_number: 1
+  field_name: MyString

@@ -45,5 +45,29 @@ class ApplicationController < ActionController::Base
       redirect_to(default)
       #session[:return_to] = nil
     end
-  
+    
+    # gather footnote information from the parameter and return an an array of footnote hashes
+  def get_footnotes_from_params(form_params)
+  	print "\n\n\n\n Getting Footnotes...."
+  	footnotes = Array.new
+  	form_params.keys.each do |key|
+  		if key =~ /^footnote_/
+  			
+  			# the key being split would be something like:
+  			# footnote_A_B_C_D
+  			# where A = note number, B = Outcome ID, C = Subgroup ID, D = Timepoint ID
+  			note_parts = key.split("_");
+  			
+  			tmp_note = {:note_number=>note_parts[1],
+  									:study_id=>session[:study_id],
+  									:outcome_id=>note_parts[2],
+  									:subgroup_id=>note_parts[3],
+  									:timepoint_id=>note_parts[4],
+  									:note_text=>form_params[key]}							 
+  			footnotes << tmp_note
+  		end
+  	end
+  	print "Done.\n\n\n\n"
+  	return footnotes
+	end
 end

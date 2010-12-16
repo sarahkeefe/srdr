@@ -50,19 +50,62 @@ class OutcomeResult < ActiveRecord::Base
 			end
 			return @selected_outcome_object_results
 		end
-
+		# if footnotes exist, pull them out, return the value and save the 
+		# footnote information to the junction table for outcome_results
+    def self.check_for_footnotes(input,result_inputs,field_name)
+    	retVal = input
+      	
+    	if input =~ /\s*\d+\s*\[\s*\d?.*\]/
+    		
+    		# first, separate the value from the footnotes
+    		open_bracket = input =~ /\[/
+    		data = input[0,open_bracket]
+    		retVal = data.strip  # remove leading or trailing space
+    	  
+    		# now, add the footnote information to a junction table
+    		close_bracket = input =~ /\]/
+    		
+    		# gather the information between the brackets
+    		fnotes = input[open_bracket+1, (close_bracket - open_bracket - 1)]
+    		fnotes = fnotes.split(",")
+    		unless fnotes.empty?
+    			# remove previous junction table information for this field
+    			previous_notes = FootnoteField.where(:study_id=>result_inputs[0], :outcome_id=>result_inputs[1],
+    																	 :subgroup_id=>result_inputs[2], :timepoint_id=>result_inputs[3],
+    																	 :field_name=>field_name)
+    	  	previous_notes.each do |pn|
+    	  		pn.destroy
+    	  	end
+	    		
+					# now, add the info to the footnote junction table    	  
+    	  	fnotes.each do |fn|
+	    			new_note = FootnoteField.new(:study_id=>result_inputs[0], :outcome_id=>result_inputs[1],
+	    													 :subgroup_id=>result_inputs[2], :timepoint_id=>result_inputs[3],
+	    													 :footnote_number=>Integer(fn), :field_name=>field_name.to_s)
+	    		  new_note.save
+	    		  #if new_note.save
+	    		  	#print "\n\n\n Footnote for #{field_name} saved to junction successfully...\n\n\n"
+	    		  #else
+	    		  	#print "\n\n\nSaving footnote to junction was unsuccessful for #{field_name}"
+	  		  	#end
+	    		end
+	    	end
+    	end
+    	return retVal
+    end
 		# Save results in outcome_results_table as new OutcomeResult objects. 
 		def self.save_general_results(study_id, a, outcome_id, timepoint_id, subgroup_id, params)
 			OutcomeResult.connection.execute "select setval('outcome_results_id_seq', (select max(id) + 1 from outcome_results));"
 				@existing = self.where(:outcome_id => outcome_id, :study_id => study_id, :arm_id => a.id, :subgroup_id => subgroup_id, :timepoint_id => timepoint_id).all
+				info_array = [study_id,outcome_id,subgroup_id,timepoint_id];
 				if @existing.length > 0
 					for i in @existing
-						i.n_analyzed = params["arm_nanalyzed"][a.id.to_s]
+						i.n_analyzed = check_for_footnotes(params["arm_nanalyzed"][a.id.to_s],info_array,"arm_nanalyzed_"+a.id.to_s)
 						i.measure_type = params["measure_type"]["measure_type"]					
-						i. measure_value = params["arm_measurereg"][a.id.to_s].to_s
+						i. measure_value = check_for_footnotes(params["arm_measurereg"][a.id.to_s].to_s,info_array,"arm_measurereg_"+a.id.to_s)
 						i.measure_dispersion_type = params["measure_disp_type"]["measure_disp_type"]						
-						i.measure_dispersion_value = params["arm_measuredisp"][a.id.to_s].to_s
-						i.p_value = params["arm_pvalue"][a.id.to_s].to_s
+						i.measure_dispersion_value = check_for_footnotes(params["arm_measuredisp"][a.id.to_s].to_s,info_array,"arm_measuredisp_"+a.id.to_s)
+						i.p_value = check_for_footnotes(params["arm_pvalue"][a.id.to_s].to_s,info_array,"arm_pvalue_"+a.id.to_s)
 						if params["arm" + a.id.to_s + "_nanalyzed_calculated"].nil? || params["arm" + a.id.to_s + "_nanalyzed_calculated"].to_s == ""|| params["arm" + a.id.to_s + "_nanalyzed_calculated"].to_s == "f"
 							i.nanalyzed_is_calculated = false
 						else
@@ -92,13 +135,13 @@ class OutcomeResult < ActiveRecord::Base
 					@outcome_result_new.outcome_id = outcome_id
 					@outcome_result_new.timepoint_id = timepoint_id
 					@outcome_result_new.subgroup_id = subgroup_id
-					@outcome_result_new.n_analyzed = params["arm_nanalyzed"][a.id.to_s]
+					@outcome_result_new.n_analyzed = check_for_footnotes(params["arm_nanalyzed"][a.id.to_s],info_array,"arm_nanalyzed_"+a.id.to_s)
 					@outcome_result_new.measure_type = params["measure_type"]["measure_type"]			
-					@outcome_result_new.measure_value = params["arm_measurereg"][a.id.to_s]
+					@outcome_result_new.measure_value = check_for_footnotes(params["arm_measurereg"][a.id.to_s],info_array,"arm_measurereg_"+a.id.to_s)
 					@outcome_result_new.measure_dispersion_type = params["measure_disp_type"]["measure_disp_type"]
-					@outcome_result_new.measure_dispersion_type = ""						
-					@outcome_result_new.measure_dispersion_value = params["arm_measuredisp"][a.id.to_s]
-					@outcome_result_new.p_value =  params["arm_pvalue"][a.id.to_s]
+					#@outcome_result_new.measure_dispersion_type = ""						
+					@outcome_result_new.measure_dispersion_value = check_for_footnotes(params["arm_measuredisp"][a.id.to_s],info_array,"arm_measuredisp_"+a.id.to_s)
+					@outcome_result_new.p_value =  check_for_footnotes(params["arm_pvalue"][a.id.to_s],info_array,"arm_pvalue_"+a.id.to_s)
 						if params["arm" + a.id.to_s + "_nanalyzed_calculated"].nil? || params["arm" + a.id.to_s + "_nanalyzed_calculated"].to_s == "" || params["arm" + a.id.to_s + "_nanalyzed_calculated"].to_s == "f"
 							@outcome_result_new.nanalyzed_is_calculated = false
 						else

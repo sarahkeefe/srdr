@@ -1,0 +1,18 @@
+[33mcommit d6aa949fc9d51a6eb0ccdd63131070f6ac2dbfd3[m
+Author: unknown <cparkin@.tufts-nemc.org>
+Date:   Fri Dec 10 13:44:28 2010 -0500
+
+    removed the validation thing
+
+[1mdiff --git a/app/controllers/projects_controller.rb b/app/controllers/projects_controller.rb[m
+[1mindex ada85d0..4929061 100644[m
+[1m--- a/app/controllers/projects_controller.rb[m
+[1m+++ b/app/controllers/projects_controller.rb[m
+[36m@@ -1,6 +1,6 @@[m
+ class ProjectsController < ApplicationController[m
+ 	# UNCOMMENT THIS TO REQUIRE LOGIN[m
+[31m-	before_filter :require_user[m
+[32m+[m	[32m#before_filter :require_user[m
+   [m
+   # GET /projects[m
+   # GET /projects.xml[m

@@ -1,4 +1,5 @@
 <div id="arm_validation_message"></div>
+<% if !@arms.nil? %>
 <% unless @arms.length < 1 %>
   <table class="list_table">
   	<th>Display</th>
@@ -12,11 +13,16 @@
 				<td><%= onearm.title %></td>
 				<td><%= onearm.num_participants %></td>
 				<td><%= onearm.description %></td>
-				<td><%= link_to 'Edit', edit_study_arm_path(session[:study_id],onearm), :remote=>true, :class => "edit_link" %>
+				<td>
+						<% if !onearm.display_number.nil? && onearm.display_number > 1 %>
+							<%= link_to "Move Up", {:controller => :arms, :action => :moveup, :arm_id => onearm.id}, :remote=>true, :class => "edit_link" %>
+						<% end %>
+				<%= link_to 'Edit', edit_study_arm_path(session[:study_id],onearm), :remote=>true, :class => "edit_link" %>
 				<%= link_to "Delete", onearm, :remote => true, :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %></td>
 			</tr>
 		<% end %>
 	</table>
 <% else %>
 <em>There are no arms associated with this study. Please use the form below to add a new arm.</em>
+<% end %>
 <% end %>

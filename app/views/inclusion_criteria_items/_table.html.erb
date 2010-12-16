@@ -1,0 +1,24 @@
+<div id="inc_criteria_validation_message"></div>
+<% if !@inclusion_criteria.nil? %>
+<% unless @inclusion_criteria.length < 1 %>
+  <table class="list_table">
+  	<th>Display</th>
+	<th>Criteria</th>
+  	<th>Actions</th>
+    <% for cr in @inclusion_criteria %>
+      <tr class="<%= cycle("even", "odd") %>" id="ic_row_<%=cr.id.to_s %>">
+				<td><%= cr.display_number %></td>
+				<td><%= cr.item_text %></td>
+				<td>
+						<% if !cr.display_number.nil? && cr.display_number > 1 %>
+							<%= link_to "Move Up", {:controller => :inclusion_criteria_items, :action => :moveup, :inclusion_criteria_item_id => cr.id}, :remote=>true, :class => "edit_link" %>
+						<% end %>
+				<%= link_to 'Edit', edit_study_inclusion_criteria_item_path(session[:study_id],cr), :remote=>true, :class => "edit_link" %>
+				<%= link_to "Delete", cr, :remote => true, :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %></td>
+			</tr>
+		<% end %>
+	</table>
+<% else %>
+<em>There are no inclusion criteria associated with this study. Please use the form below to add a new item.</em>
+<% end %>
+<% end %>

@@ -8,7 +8,9 @@
 <tr class="<%= cycle("even", "odd") %>" id=<%= "kq_row_"+keyq.question_number.to_s %>>
 <td><%= keyq.question_number %></td>
 <td><%= keyq.question %></td>
-<td>
+<td>		<% if keyq.question_number > 1 %>
+<%= link_to "Move Up", {:controller => :key_questions, :action => :moveup, :id => keyq.id}, :remote=>true, :class => "edit_link" %>
+<% end %>
 	<%= link_to 'Edit', edit_project_key_question_path(session[:project_id],keyq), :remote=>true, :class=>"edit_link" %>
 <%= link_to 'Delete', key_question_path(keyq), :remote=>true, :confirm => 'Are you sure?', :method=>:delete, :class=>"kq_delete_link delete_link" %></td>
 </tr><% end %>

@@ -1,0 +1,24 @@
+<%= form_for(@inclusion_criteria_item, :remote => true, :html=>{:id=>"new_ic_form"}) do |f| %>
+  <% if @inclusion_criteria_item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@inclusion_criteria_item.errors.count, "error") %> prohibited this inclusion_criteria_item from being saved:</h2>
+
+      <ul>
+      <% @inclusion_criteria_item.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form_content">
+  <div class="field">
+    <label>Inclusion Criterion</label>
+    <%= f.text_field :item_text %>
+  </div>
+  <div class="actions">
+		<button type="submit" class="positive">
+			<%= image_tag "Add.png"%>Save
+		</button>
+  </div>
+  </div>
+<% end %>

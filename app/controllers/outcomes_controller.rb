@@ -22,44 +22,43 @@ class OutcomesController < ApplicationController
     @study_arms = Arm.find(:all, :select=>[:id,:title,:num_participants], :conditions => {:study_id => session[:study_id]})	
 
    respond_to do |format|
-    format.js {
-		    render :update do |page|
-				  page.replace_html 'new_outcome_entry', :partial => 'outcomes/edit_form'
-		    end
-		  }
-		end
-  end
+		format.js {
+				render :update do |page|
+					  page.replace_html 'new_outcome_entry', :partial => 'outcomes/form'
+				end
+			  }
+	end
+ end
 
   # POST /outcomes
   # POST /outcomes.xml
   def create
   	Outcome.connection.execute "select setval('outcomes_id_seq', (select max(id) + 1 from outcomes));"
     @outcome = Outcome.new(params[:outcome])
-	@outcome.study_id = session[:study_id]
-	@outcome.save
+		@outcome.study_id = session[:study_id]
+		@outcome.save
 	
-	if !OutcomeSubgroup.total_subgroup_exists(@outcome.id)
-		@outcome_total_subgroup = OutcomeSubgroup.new
-		@outcome_total_subgroup.outcome_id = @outcome.id
-		@outcome_total_subgroup.title = "Total"
-		@outcome_total_subgroup.description = "Total value (added by default)"
-		@outcome_total_subgroup.save
-	end
+		if !OutcomeSubgroup.total_subgroup_exists(@outcome.id)
+			@outcome_total_subgroup = OutcomeSubgroup.new
+			@outcome_total_subgroup.outcome_id = @outcome.id
+			@outcome_total_subgroup.title = "Total"
+			@outcome_total_subgroup.description = "Total value (added by default)"
+			@outcome_total_subgroup.save
+		end
 
-	if !OutcomeTimepoint.baseline_timepoint_exists(@outcome.id)
-		@outcome_baseline_tp = OutcomeTimepoint.new
-		@outcome_baseline_tp.outcome_id = @outcome.id
-		@outcome_baseline_tp.number = 0
-		@outcome_baseline_tp.time_unit = "baseline"
-		@outcome_baseline_tp.save
-	end	
-	
-	
+		if !OutcomeTimepoint.baseline_timepoint_exists(@outcome.id)
+			@outcome_baseline_tp = OutcomeTimepoint.new
+			@outcome_baseline_tp.outcome_id = @outcome.id
+			@outcome_baseline_tp.number = 0
+			@outcome_baseline_tp.time_unit = "baseline"
+			@outcome_baseline_tp.save
+		end	
+
     respond_to do |format|
       if @outcome.save
 		    @outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})
 		    @outcome_timepoints = OutcomeTimepoint.where(:outcome_id => @outcome.id).all
-		    @study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})	  
+		    @study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]}, :order => :display_number)	  
         format.js {
 		      render :update do |page|
 						page.replace_html 'outcomes_table', :partial => 'outcomes/table'
@@ -69,20 +68,20 @@ class OutcomesController < ApplicationController
 					page.replace_html 'outcome_validation_message', ""						
 		  		end
 				}
-	else
-			problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
-			for i in @outcome.errors
-				problem_html += "<li>" + i.to_s + " " + @outcome.errors[i][0] + "</li>"
-			end
-			problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
-			format.html {
-				render :update do |page| 
-					page.replace_html 'outcome_validation_message', problem_html
+			else
+				problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
+				for i in @outcome.errors
+					problem_html += "<li>" + i.to_s + " " + @outcome.errors[i][0] + "</li>"
 				end
-			}	
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @outcome.errors, :status => :unprocessable_entity }
-      end
+				problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
+				format.html {
+					render :update do |page| 
+						page.replace_html 'outcome_validation_message', problem_html
+					end
+				}	
+	      format.html { render :action => "new" }
+	      format.xml  { render :xml => @outcome.errors, :status => :unprocessable_entity }
+	    end
     end
   end
 
@@ -90,7 +89,7 @@ class OutcomesController < ApplicationController
   # PUT /outcomes/1.xml
   def update
     @outcome = Outcome.find(params[:id])
-	  @study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})		
+	  @study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]}, :order => :display_number)		
 	
     respond_to do |format|
       if @outcome.update_attributes(params[:outcome])
@@ -121,8 +120,9 @@ class OutcomesController < ApplicationController
 					  page.replace_html 'outcome_validation_message', ""		
 					  
 					  # reset the entry form
-					  @outcome=Outcome.new	
-					  page.replace_html 'new_outcome_entry', :partial => 'outcomes/form'				
+					  #@outcome=Outcome.new	
+					  page['new_outcome_form'].reset
+					  #page.replace_html 'new_outcome_entry', :partial => 'outcomes/form'				
 		  		end  
         }
       	format.html { redirect_to(@outcome, :notice => 'Outcome was successfully updated.') }

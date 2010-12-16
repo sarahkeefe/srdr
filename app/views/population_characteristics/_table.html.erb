@@ -51,6 +51,9 @@
 						<% if first %>
 						<td rowspan="<%=pop_subcategories.length%>"><%= popchar.notes %></td>
 						<td rowspan="<%=pop_subcategories.length%>">
+							<% if !popchar.display_number.nil? && popchar.display_number > 1 %>
+								<%= link_to "Move Up", {:controller => :population_characteristics, :action => :moveup, :population_characteristic_id => popchar.id}, :remote=>true, :class => "edit_link" %>
+							<% end %>
 							<%= link_to "Edit", edit_study_population_characteristic_path(session[:study_id], popchar), :remote=>true, :class => "edit_link" %>
 							<%= link_to "Delete", popchar, :remote => true, :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %>
 							</td>
@@ -73,7 +76,11 @@
 						<% val = PopulationCharacteristicDataPoint.get_data_point(-1, popchar, nil, true) %>
 						<td><%= text_field "attribute_total", popchar.id.to_s + "_-1", :size => 5, :value => val %></td>
 						<td><%= popchar.notes %></td>
-						<td><%= link_to "Edit", edit_study_population_characteristic_path(session[:study_id], popchar), :remote=>true, :class => "edit_link" %>
+						<td>
+							<% if !popchar.display_number.nil? && popchar.display_number > 1 %>
+								<%= link_to "Move Up", {:controller => :population_characteristics, :action => :moveup, :population_characteristic_id => popchar.id}, :remote=>true, :class => "edit_link" %>
+							<% end %>
+						<%= link_to "Edit", edit_study_population_characteristic_path(session[:study_id], popchar), :remote=>true, :class => "edit_link" %>
 						<%= link_to "Delete", popchar, :remote => true, :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %></td>
 						</tr>
 				

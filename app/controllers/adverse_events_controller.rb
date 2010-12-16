@@ -39,7 +39,7 @@ class AdverseEventsController < ApplicationController
     respond_to do |format|
       if @adverse_event.save
         format.js{
-          @adverse_events = AdverseEvent.find(:all, :conditions=>['study_id=?',session[:study_id]])
+          @adverse_events = AdverseEvent.find(:all, :conditions=>['study_id=?',session[:study_id]], :order => "display_number ASC")
           render :update do |page|
           	page.replace_html 'adverse_events_table', :partial => 'adverse_events/table'
           	new_row_name = 'adverse_event_' + @adverse_event.id.to_s
@@ -75,7 +75,7 @@ class AdverseEventsController < ApplicationController
 
     respond_to do |format|
       if @adverse_event.update_attributes(params[:adverse_event])
-        @adverse_events = AdverseEvent.find(:all, :conditions=>['study_id=?',session[:study_id]])
+        @adverse_events = AdverseEvent.find(:all, :conditions=>['study_id=?',session[:study_id]], :order => "display_number ASC")
       	format.js { 
         	render :update do |page|
         		page.replace_html 'adverse_events_table', :partial => 'adverse_events/table'
@@ -117,7 +117,7 @@ class AdverseEventsController < ApplicationController
 		
     respond_to do |format|
     	format.js {
-				@adverse_events = AdverseEvent.find(:all, :conditions=>['study_id=?',session[:study_id]])		
+				@adverse_events = AdverseEvent.find(:all, :conditions=>['study_id=?',session[:study_id]], :order => "display_number ASC")		
 		  	render :update do |page|
 					page.replace_html 'adverse_events_table', :partial => 'adverse_events/table'	
 					@adverse_event = AdverseEvent.new
@@ -128,4 +128,25 @@ class AdverseEventsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-end
+
+  def moveup
+    @adverse_event = AdverseEvent.find(params[:adverse_event_id])
+	AdverseEvent.move_up_this(params[:adverse_event_id].to_i)
+    respond_to do |format|
+    	format.js {
+				@adverse_events = AdverseEvent.find(:all, :conditions=>['study_id=?',session[:study_id]], :order => "display_number ASC")		
+		  	render :update do |page|
+					page.replace_html 'adverse_events_table', :partial => 'adverse_events/table'	
+					@adverse_event = AdverseEvent.new
+					page.replace_html 'adverse_event_entry', :partial => 'adverse_events/form'					
+		  	end
+			}
+      format.html { redirect_to(adverse_events_url) }
+      format.xml  { head :ok }
+    end
+  end
+  
+  
+  
+  
+  end

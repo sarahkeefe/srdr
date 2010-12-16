@@ -771,3 +771,7 @@ button.regular, .actions a.regular{
     border:1px solid #6299c5;
     color:#fff;
 }
+.footnote{
+  	font-size: 11px;
+  	color: grey;	
+}
