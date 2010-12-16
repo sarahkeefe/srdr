@@ -43,15 +43,6 @@ class Study < ActiveRecord::Base
 		return Arm.where(:study_id => study_id).all
 	end
 	
-	def self.get_arm_ids(study_id)
-		arr = []
-		@arms = Arm.where(:study_id => study_id).all
-		for a in @arms
-			arr << a.id
-		end
-		return arr
-	end	
-	
 	def self.get_outcomes(study_id)
 		return Outcome.where(:study_id => study_id).all
 	end

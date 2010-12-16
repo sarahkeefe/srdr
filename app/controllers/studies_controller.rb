@@ -98,7 +98,9 @@ class StudiesController < ApplicationController
 	@model_name="outcome_result"
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.where(:study_id => params[:study_id]).all
-	@study_arm_ids = Study.get_arm_ids(@study.id)
+
+	@study_arm_ids = @study_arms.collect{|arm| arm.id}
+	
 	@outcomes = Outcome.where(:study_id => params[:study_id]).all
 	@first_outcome = @outcomes[0]
 	if !@first_outcome.nil?
