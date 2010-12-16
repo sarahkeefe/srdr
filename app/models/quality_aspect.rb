@@ -17,6 +17,25 @@ class QualityAspect < ActiveRecord::Base
 		  thing.display_number = tmpNum - 1
 		  thing.save 
 	  }
-	end  	
+	end 
+	
+		def self.move_up_this(id)
+		@this = QualityAspect.find(id.to_i)
+		if @this.display_number > 1
+			new_num = @this.display_number - 1
+			QualityAspect.decrease_other(new_num)
+			@this.display_number = new_num
+			@this.save
+		end
+	end
+	
+	def self.decrease_other(num)
+		@other = QualityAspect.where(:display_number => num).first
+		if !@other.nil?
+			@other.display_number = @other.display_number + 1;
+			@other.save
+		end
+	end
+  
 	
 end

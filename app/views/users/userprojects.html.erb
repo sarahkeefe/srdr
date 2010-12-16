@@ -1,0 +1,14 @@
+<h1>Listing All Systematic Reviews for User:</h1>
+
+<% @projects.each do |project| %>
+ 
+	<%= link_to project.title, project_path(project) %> <%= link_to "Edit", edit_project_path(project) %>
+	<div class="indent_block">
+	<% @proj_studies = Study.where(:project_id => project.id).all %>
+	<% for ps in @proj_studies %>
+	<%= link_to ps.title, project_study_path(project, ps) %> <%= link_to "Edit", edit_project_study_path(project, ps) %><br/>
+	<% end %>
+	</div>
+  <br/>
+  
+<% end %>

@@ -5,7 +5,10 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-
+def userprojects
+	@projects = Project.all
+end
+  
 def create
     @user = User.new(params[:user])
     if @user.save

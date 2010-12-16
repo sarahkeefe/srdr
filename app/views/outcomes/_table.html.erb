@@ -10,7 +10,7 @@
 <th>Actions</th>
 <% if @outcomes.length > 0 %>
 <% for oneoutcome in @outcomes %>
-	<tr class="<%= cycle("even", "odd") %>" id=<%= "outcome_"+oneoutcome.id.to_s %>>
+	<tr class="<%= cycle("even", "odd") %>" id="<%= "outcome_"+oneoutcome.id.to_s %>">
 	<td><%= oneoutcome.title %></td>
 	<td><% if oneoutcome.is_primary %>
 		Yes
@@ -30,7 +30,7 @@
 	</td>
 	<td><%= oneoutcome.description %></td>
 	<td><%= oneoutcome.notes %></td>
-	<td><%= link_to "Edit", edit_outcome_path(oneoutcome), :remote=>true, :class => "edit_link" %>
+	<td><%= link_to :Edit, edit_outcome_path(oneoutcome), :remote=>true, :class => "edit_link" %>
 	<%= link_to "Delete", oneoutcome, :remote => true, :update => "outcomes_table", :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %></td>
 	</tr>
 	<% end %>

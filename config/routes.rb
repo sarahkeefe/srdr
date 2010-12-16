@@ -1,13 +1,12 @@
 Srdr::Application.routes.draw do
 
+  resources :exclusion_criteria_items
+
+  resources :inclusion_criteria_items
+
   resources :outcome_results_notes
 
   resources :publication_numbers
-
-    resources :outcome_subgroup_levels
-	resources :outcome_subgroups
-	resources :outcome_timepoints
-    resources :outcomes
 
   resources :population_characteristic_subcategories
 
@@ -16,23 +15,11 @@ Srdr::Application.routes.draw do
   get "user_sessions/new"
 
   resources :outcome_timepoint_results
-
+  resources :publications
   resources :population_characteristic_data_points
 
-  	resources :key_questions, :arms, :outcomes, :studies, :population_characteristics
+  resources :key_questions, :arms, :population_characteristics
 	
-  resources :projects do
-  	resources :studies, :key_questions
-  end
-      
-  resources :studies do
-  	resources :arms, :population_characteristics, :publications, :outcomes
-  end
-  
-  resources :arms do
-  	resources :population_characteristics
-  end
- 
  resources :studies_key_questions
 
   resources :outcome_enrolled_numbers
@@ -50,19 +37,28 @@ Srdr::Application.routes.draw do
   resources :outcome_analyses
 
   resources :outcome_results
-
-
-  resources :population_characteristics
-
-  resources :publications
-
+  resources :outcome_subgroups
+  resources :outcome_timepoints
+  resources :outcomes
+  
   resources :key_questions
 
   resources :users
   resource :account, :controller => "users"
 
+  resources :studies do
+  resources :arms, :population_characteristics
+    resources :exclusion_criteria_items
+
+  resources :inclusion_criteria_items
+  end
+  
   resources :projects do
-	resources :studies
+	resources :studies do
+  	resources :arms
+	resources :population_characteristics, :publications
+	end
+	resources :key_questions
 end
 	match 'projects/:id/studies' => 'studies#index'
 	match 'projects/:project_id/studies/:study_id/show_outcome' => 'studies#show_outcome'
@@ -81,6 +77,15 @@ end
 	match 'projects/:project_id/studies/:study_id/quality' => 'studies#quality'	
 
 	match 'publications/:publication_id/moveup' => 'publications#moveup'	
+	match 'population_characteristics/:population_characteristic_id/moveup' => 'population_characteristics#moveup'	
+	match 'inclusion_criteria_items/:inclusion_criteria_item_id/moveup' => 'inclusion_criteria_items#moveup'	
+	match 'exclusion_criteria_items/:exclusion_criteria_item_id/moveup' => 'exclusion_criteria_items#moveup'	
+	match 'arms/:arm_id/moveup' => 'arms#moveup'	
+	match 'key_questions/:id/moveup' => 'key_questions#moveup'	
+	match 'adverse_events/:adverse_event_id/moveup' => 'adverse_events#moveup'	
+	match 'quality_aspects/:quality_aspect_id/moveup' => 'quality_aspects#moveup'	
+	
+	match 'userprojects' => 'users#userprojects'
 	
 	 resources :user_sessions
 

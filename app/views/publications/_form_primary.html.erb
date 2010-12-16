@@ -35,8 +35,12 @@
 	<label class="inline-label">
 		Identifier Type:
 	</label>
-		<%= t.select :number_type, @id_types, :class => "has_other" %>
-		
+		<%= t.select :number_type, @id_types, {}, {:class => "has_other"} %>
+	
+	<% assoc_var = t.get_object :publication_numbers %>		
+	<% testval = Study.is_value_in_array(assoc_var["number_type"].to_s, @id_types) %>	
+	<%= hidden_field_tag "has_other_hidden", testval.to_s + "---" + assoc_var["number_type"].to_s, :class => "has_other_hidden", :runat => "server"  %>
+	
 		<div class="admin_functions"><%= t.link_to_remove "Remove This Identifier" %></div>
   </div>   <% end %>
 

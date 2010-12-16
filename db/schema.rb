@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101214163551) do
+ActiveRecord::Schema.define(:version => 20101215213813) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer   "study_id"
@@ -46,6 +46,14 @@ ActiveRecord::Schema.define(:version => 20101214163551) do
     t.integer   "display_number"
   end
 
+  create_table "exclusion_criteria_items", :force => true do |t|
+    t.integer  "study_id"
+    t.string   "item_text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "display_number"
+  end
+
   create_table "footnote_fields", :force => true do |t|
     t.integer  "study_id"
     t.integer  "outcome_id"
@@ -71,6 +79,14 @@ ActiveRecord::Schema.define(:version => 20101214163551) do
   create_table "forms", :force => true do |t|
     t.timestamp "created_at"
     t.timestamp "updated_at"
+  end
+
+  create_table "inclusion_criteria_items", :force => true do |t|
+    t.integer  "study_id"
+    t.string   "item_text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "display_number"
   end
 
   create_table "key_questions", :force => true do |t|
@@ -259,12 +275,12 @@ ActiveRecord::Schema.define(:version => 20101214163551) do
   end
 
   create_table "projects", :force => true do |t|
-    t.string   "title"
-    t.text     "description"
-    t.text     "notes"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "funding_source"
+    t.string    "title"
+    t.text      "description"
+    t.text      "notes"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.text      "funding_source"
   end
 
   create_table "publication_numbers", :force => true do |t|

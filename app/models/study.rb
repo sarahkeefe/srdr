@@ -15,6 +15,15 @@ class Study < ActiveRecord::Base
 	has_many :publications, :dependent=>:destroy
 	attr_accessible :study_type, :recruitment_details, :inclusion_criteria, :exclusion_criteria, :num_participants, :outcome_attributes
 
+	def self.is_value_in_array(val, arr)
+		for i in arr
+			if val == i[0].to_s
+				return true
+			end
+		end
+		return false
+	end
+	
 	def self.set_template_id_if_exists(params, study)
 	  template_id = ""
 	  if params.keys.include?("template")
@@ -33,6 +42,15 @@ class Study < ActiveRecord::Base
 	def self.get_arms(study_id)
 		return Arm.where(:study_id => study_id).all
 	end
+	
+	def self.get_arm_ids(study_id)
+		arr = []
+		@arms = Arm.where(:study_id => study_id).all
+		for a in @arms
+			arr << a.id
+		end
+		return arr
+	end	
 	
 	def self.get_outcomes(study_id)
 		return Outcome.where(:study_id => study_id).all
@@ -120,7 +138,7 @@ class Study < ActiveRecord::Base
 	end  
 	
 	def get_secondary_publications
-		secondary = Publication.find(:all, :conditions => ["study_id = ? AND is_primary = ?",self.id, false])
+		secondary = Publication.find(:all, :order => 'display_number ASC', :conditions => ["study_id = ? AND is_primary = ?",self.id, false])
 		return secondary
 	end
 	
@@ -145,19 +163,16 @@ class Study < ActiveRecord::Base
 	
 	def self.get_primary_pub_info(study_id)
 			tmp = Publication.where(:study_id => study_id, :is_primary => true).first
-			if !tmp.nil?
-				tmpid = tmp.id
-				if tmp.nil?
-					tmppub = Publication.new
-					tmppub.ui = "Not Entered Yet"
-					tmppub.title = "Not Entered Yet"
-					tmppub.author = "-"
-					tmppub.year = "-"
-					return tmppub
-				else
-					return tmp
-				end
-			end
+			if tmp.nil?
+				tmppub = Publication.new
+				tmppub.ui = "Not Entered Yet"
+				tmppub.title = "Not Entered Yet"
+				tmppub.author = "-"
+				tmppub.year = "-"
+				return tmppub
+			else
+				return tmp
+			end	
 	end
 	
 	def self.get_key_question_output(study_id)

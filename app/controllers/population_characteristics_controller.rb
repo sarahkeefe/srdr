@@ -40,7 +40,7 @@ class PopulationCharacteristicsController < ApplicationController
 	
     respond_to do |format|
 	    if @population_characteristic.save
-			  @population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => session[:study_id]}, :order => :category_title)
+			  @population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => session[:study_id]}, :order => :category_title, :order => "display_number ASC")
 			  @population_characteristics.sort_by(&:category_title)
 			  @population_characteristic_data_point = PopulationCharacteristicDataPoint.new
 			  @population_characteristic.save
@@ -78,7 +78,7 @@ class PopulationCharacteristicsController < ApplicationController
 	@study = Study.find(session[:study_id])
     respond_to do |format|
 	if @population_characteristic.update_attributes(params[:population_characteristic])
-		@population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => session[:study_id]}, :order => :category_title)
+		@population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => session[:study_id]}, :order => :category_title, :order => "display_number ASC")
 		@population_characteristics.sort_by(&:category_title)		
 		@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
 		@study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})	  
@@ -136,6 +136,23 @@ class PopulationCharacteristicsController < ApplicationController
     end
   end
   
- def addtotals 
-end 
+  def moveup
+    @population_characteristic = PopulationCharacteristic.find(params[:population_characteristic_id])
+	PopulationCharacteristic.move_up_this(params[:population_characteristic_id].to_i)
+	@population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => session[:study_id]}, :order => "display_number ASC")
+	@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
+	@study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]}, :order => "display_number ASC")
+    respond_to do |format|
+	    format.js {
+		  render :update do |page|
+				page.replace_html 'population_characteristics_table', :partial => 'population_characteristics/table'
+		  end
+		}
+      format.html { redirect_to(population_characteristics_url) }
+      format.xml  { head :ok }
+    end
+  end
+  
+  
+  
 end

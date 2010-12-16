@@ -22,13 +22,13 @@ class OutcomesController < ApplicationController
     @study_arms = Arm.find(:all, :select=>[:id,:title,:num_participants], :conditions => {:study_id => session[:study_id]})	
 
    respond_to do |format|
-    format.js {
-		    render :update do |page|
-				  page.replace_html 'new_outcome_entry', :partial => 'outcomes/edit_form'
-		    end
-		  }
-		end
-  end
+		format.js {
+				render :update do |page|
+					  page.replace_html 'new_outcome_entry', :partial => 'outcomes/form'
+				end
+			  }
+	end
+ end
 
   # POST /outcomes
   # POST /outcomes.xml
@@ -58,7 +58,7 @@ class OutcomesController < ApplicationController
       if @outcome.save
 		    @outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})
 		    @outcome_timepoints = OutcomeTimepoint.where(:outcome_id => @outcome.id).all
-		    @study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})	  
+		    @study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]}, :order => :display_number)	  
         format.js {
 		      render :update do |page|
 						page.replace_html 'outcomes_table', :partial => 'outcomes/table'
@@ -89,7 +89,7 @@ class OutcomesController < ApplicationController
   # PUT /outcomes/1.xml
   def update
     @outcome = Outcome.find(params[:id])
-	  @study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})		
+	  @study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]}, :order => :display_number)		
 	
     respond_to do |format|
       if @outcome.update_attributes(params[:outcome])
@@ -120,8 +120,9 @@ class OutcomesController < ApplicationController
 					  page.replace_html 'outcome_validation_message', ""		
 					  
 					  # reset the entry form
-					  @outcome=Outcome.new	
-					  page.replace_html 'new_outcome_entry', :partial => 'outcomes/form'				
+					  #@outcome=Outcome.new	
+					  page['new_outcome_form'].reset
+					  #page.replace_html 'new_outcome_entry', :partial => 'outcomes/form'				
 		  		end  
         }
       	format.html { redirect_to(@outcome, :notice => 'Outcome was successfully updated.') }

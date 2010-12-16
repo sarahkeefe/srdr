@@ -29,7 +29,11 @@
 		<% end %></td>
 <td><%= ae.definition_used %></td>
 <td><%= ae.notes %></td>
-<td><%= link_to "Edit", edit_adverse_event_path(ae), :remote=>true, :class => "edit_link" %>
+<td>
+		<% if ae.display_number > 1 %>
+		<%= link_to "Move Up", {:controller => :adverse_events, :action => :moveup, :adverse_event_id => ae.id}, :remote=>true, :class => "edit_link" %>
+		<% end %>
+<%= link_to "Edit", edit_adverse_event_path(ae), :remote=>true, :class => "edit_link" %>
 <%= link_to "Delete", adverse_event_path(ae), :remote=>true, :confirm => 'Are you sure?', :method=>:delete, :class => "delete_link" %> </td>
 </tr>
 <% end %>

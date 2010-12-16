@@ -1,3 +1,4 @@
+<script type="text/javascript">bindMyStuff();</script>
 <div id="secondary_pub_validation_message"></div>
 <%= nested_form_for @publication, :remote => true, :html=>{:id=>'secondary_pub_form'} do |f| %>
   <% if @publication.errors.any? %>
@@ -42,13 +43,12 @@
 	</label>
 
 
-  	<% association_options = [["Contributed to Analysis", "Contributed to Analysis"], ["Used for Reference", "Used for Reference"], ["Methods Description", "Methods Description"], ["Other", "Other"]] %>
-
-<% @compare_val = !@publication.nil? ? @publication.association.to_s : "" %>
-
-<%= hidden_field "has_other_hidden", association_options.to_s, :class => "has_other_hidden", :value => "Hello" %>
+  	<% association_options = [['Contributed to Analysis', 'Contributed to Analysis'], ['Used for Reference', 'Used for Reference'], ['Methods Description', 'Methods Description'], ['Other', 'Other']] %>
+	<% testval = Study.is_value_in_array(@publication.association.to_s, association_options) %>
 
   	<%= select "publication", :association, association_options, {}, :class => "has_other", :onload =>  association_options.rassoc(@publication.association.to_s).nil? ? "toggleBox();" : "" %>
+
+	<%= hidden_field_tag "has_other_hidden", testval.to_s + "---" + @publication.association.to_s, :class => "has_other_hidden", :runat => "server"  %>
 	
   </div>
 
@@ -61,20 +61,23 @@
 		Identifier:
 	</label>
 	<%= t.text_field :number, :class => "inline-field" %>    <br/><br/>
+
 	<label class="inline-label">
 		Identifier Type:
 	</label>
-
-
 	
-	
-		<%= t.select :number_type, @id_types, :class => "has_other" %>
+		<%= t.select :number_type, @id_types, {}, {:class => "has_other"} %>
+	<% assoc_var = t.get_object :publication_numbers %>		
 
+	<% testval = Study.is_value_in_array(assoc_var["number_type"].to_s, @id_types) %>	
+	<%= hidden_field_tag "has_other_hidden", testval.to_s + "---" + assoc_var["number_type"].to_s, :class => "has_other_hidden", :runat => "server"  %>
+		
 		<div class="admin_functions"><%= t.link_to_remove "Remove This Identifier" %></div>
-  </div>  
+
   
   <% end %>
 <%= f.link_to_add "Add an Identifier", :publication_numbers %>
+  </div>  
 </div>
 <br/><br/>
   <%= hidden_field_tag :is_primary, "false" %>
