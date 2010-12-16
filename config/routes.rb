@@ -85,6 +85,8 @@ end
 	match 'adverse_events/:adverse_event_id/moveup' => 'adverse_events#moveup'	
 	match 'quality_aspects/:quality_aspect_id/moveup' => 'quality_aspects#moveup'	
 	
+	match 'userprojects' => 'users#userprojects'
+	
 	 resources :user_sessions
 
   match 'search' => 'search#index'
