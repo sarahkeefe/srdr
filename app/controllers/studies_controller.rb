@@ -50,7 +50,11 @@ class StudiesController < ApplicationController
 	  @study = Study.find(params[:study_id])
 	  makeActive(@study)
 	  @arm = Arm.new
-	  @arms = Arm.where(:study_id => @study.id).all	
+	  @arms = Arm.where(:study_id => @study.id).all
+	  @inclusion_criteria_item = InclusionCriteriaItem.new
+	  @inclusion_criteria = InclusionCriteriaItem.where(:study_id => @study.id).order("display_number ASC")
+	  @exclusion_criteria_item = ExclusionCriteriaItem.new
+	  @exclusion_criteria = ExclusionCriteriaItem.where(:study_id => @study.id).order("display_number ASC")	  
 	end
   
   # attributes
