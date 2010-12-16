@@ -1,0 +1,25 @@
+<h1>Listing inclusion_criteria_items</h1>
+
+<table>
+  <tr>
+    <th>Study</th>
+    <th>Item text</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @inclusion_criteria_items.each do |inclusion_criteria_item| %>
+  <tr>
+    <td><%= inclusion_criteria_item.study_id %></td>
+    <td><%= inclusion_criteria_item.item_text %></td>
+    <td><%= link_to 'Show', inclusion_criteria_item %></td>
+    <td><%= link_to 'Edit', edit_inclusion_criteria_item_path(inclusion_criteria_item) %></td>
+    <td><%= link_to 'Destroy', inclusion_criteria_item, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Inclusion criteria item', new_inclusion_criteria_item_path %>

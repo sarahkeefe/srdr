@@ -17,9 +17,6 @@ bindMyStuff();
   
   <h2>Study Design</h2>  
   <div class="form_content">
-
-
-  
 <div class="field">
     <label>Study Type:</label>
     <%= f.select :study_type, options_for_select([['RCT', 'RCT'], ['Other', 'Other']]), {}, :class => "has_other" %>
@@ -28,24 +25,16 @@ bindMyStuff();
   <div class="admin_functions">
   </div>
 </div>
+</div>
   <h2>Enrollment Information</h2>
   <div class="form_content">
   <div class="field">
     <label>Number of Participants:</label>
     <%= f.text_field :num_participants , :size=>6%>
 </div>
-  
   <div class="field">
     <label>Recruitment Details:</label>
     <%= f.text_area :recruitment_details, :cols => 50, :rows => 4 %>
-  </div>
-  <div class="field">
-    <label>Inclusion Criteria:</label>
-    <%= f.text_area :inclusion_criteria, :cols => 50, :rows => 4 %>
-  </div>
-  <div class="field">
-    <label>Exclusion Criteria:</label>
-    <%= f.text_area :exclusion_criteria, :cols => 50, :rows => 4 %>
   </div>
   <div class="actions">
 		<button type="submit" class="positive">
@@ -54,3 +43,23 @@ bindMyStuff();
   </div>
   </div>
 <% end %>
+
+<h3>Inclusion Criteria</h3>
+<div id="inc_criteria_table">
+<%= render 'inclusion_criteria_items/table' %>
+</div>
+<div id="inc_criteria_validation_message"></div>
+<div id="new_ic_entry">
+<%= render 'inclusion_criteria_items/form' %>
+</div>
+<br/>
+
+<h3>Exclusion Criteria</h3>
+<div id="exc_criteria_table">
+<%= render 'exclusion_criteria_items/table' %>
+</div>
+<div id="exc_criteria_validation_message"></div>
+<div id="new_ec_entry">
+<%= render 'exclusion_criteria_items/form' %>
+</div>
+<br/>

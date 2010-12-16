@@ -1,5 +1,9 @@
 Srdr::Application.routes.draw do
 
+  resources :exclusion_criteria_items
+
+  resources :inclusion_criteria_items
+
   resources :outcome_results_notes
 
   resources :publication_numbers
@@ -44,6 +48,9 @@ Srdr::Application.routes.draw do
 
   resources :studies do
   resources :arms, :population_characteristics
+    resources :exclusion_criteria_items
+
+  resources :inclusion_criteria_items
   end
   
   resources :projects do
@@ -71,6 +78,8 @@ end
 
 	match 'publications/:publication_id/moveup' => 'publications#moveup'	
 	match 'population_characteristics/:population_characteristic_id/moveup' => 'population_characteristics#moveup'	
+	match 'inclusion_criteria_items/:inclusion_criteria_item_id/moveup' => 'inclusion_criteria_items#moveup'	
+	match 'exclusion_criteria_items/:exclusion_criteria_item_id/moveup' => 'exclusion_criteria_items#moveup'	
 	match 'arms/:arm_id/moveup' => 'arms#moveup'	
 	match 'key_questions/:id/moveup' => 'key_questions#moveup'	
 	match 'adverse_events/:adverse_event_id/moveup' => 'adverse_events#moveup'	

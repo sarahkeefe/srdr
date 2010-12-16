@@ -1,0 +1,24 @@
+<%= form_for(@exclusion_criteria_item, :remote => true, :html=>{:id=>"new_ec_form"}) do |f| %>
+  <% if @exclusion_criteria_item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@exclusion_criteria_item.errors.count, "error") %> prohibited this exclusion_criteria_item from being saved:</h2>
+
+      <ul>
+      <% @exclusion_criteria_item.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form_content">
+  <div class="field">
+    <label>Exclusion Criterion</label>
+    <%= f.text_field :item_text %>
+  </div>
+  <div class="actions">
+		<button type="submit" class="positive">
+			<%= image_tag "Add.png"%>Save
+		</button>
+  </div>
+  </div>
+<% end %>

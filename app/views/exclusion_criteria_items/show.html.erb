@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Study:</b>
+  <%= @exclusion_criteria_item.study_id %>
+</p>
+
+<p>
+  <b>Item text:</b>
+  <%= @exclusion_criteria_item.item_text %>
+</p>
+
+
+<%= link_to 'Edit', edit_exclusion_criteria_item_path(@exclusion_criteria_item) %> |
+<%= link_to 'Back', exclusion_criteria_items_path %>

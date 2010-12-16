@@ -113,9 +113,6 @@ class ArmsController < ApplicationController
 	@arm.shift_display_numbers(session[:study_id])	
     @arm.destroy
     respond_to do |format|
-      # Update the list of key questions and create a new one to reset
-    	# the entry form. This handles the event where the user is editing a record
-    	# when they click on delete.
     	format.js {
 				@arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]})
 		  	render :update do |page|
