@@ -82,14 +82,14 @@ function toggle_display_by_class(class_name,default_display,element_id){
 		var mysheet = document.styleSheets[j];		
 		for (var i=0; i < mysheet.cssRules.length; i++){		
 			if (mysheet.cssRules[i].selectorText == class_name){
-				alert(mysheet.cssRules[i].selectorText);
+				//alert(mysheet.cssRules[i].selectorText);
 				
 				if(mysheet.cssRules[i].style['display'] == 'none'){
-					alert ('displaying...');
+					//alert ('displaying...');
 					mysheet.cssRules[i].style['display'] = default_display;
 					$(element_id).innerHTML = "Hide"
 				}else{
-					alert ('hiding...')
+					//alert ('hiding...')
 					mysheet.cssRules[i].style['display'] = 'none'
 					$(element_id).innerHTML = "Show"
 				}
