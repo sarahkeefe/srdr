@@ -71,12 +71,15 @@ class Outcome < ActiveRecord::Base
     # get the subgroups associated with an outcome id	
 	def self.get_subgroups_array(outcome_id)
 		outcome_cs = OutcomeSubgroup.where(:outcome_id => outcome_id).all
+		print "\n\n Got the subgroups array and it has #{outcome_cs.length} items in it.\n\n"
 		retVal = Array.new
-		
-		# put the total subgroup at the front of the array
-		retVal << outcome_cs[outcome_cs.length - 1]
-		(0..outcome_cs.length-2).each do |i|
-			retVal << outcome_cs[i]
+		unless outcome_cs.empty?
+			# put the total subgroup at the front of the array
+			retVal << outcome_cs[outcome_cs.length - 1]
+			(0..outcome_cs.length-2).each do |i|
+				print "subgruop at i is #{outcome_cs[i]}\n"
+				retVal << outcome_cs[i]
+			end
 		end
 		return retVal
 	end
@@ -84,12 +87,16 @@ class Outcome < ActiveRecord::Base
 	# get the timepoints associated with an outcome
 	def self.get_timepoints_array(outcome_id)
 		outcome_tps = OutcomeTimepoint.where(:outcome_id => outcome_id).all
+		print "\n\n Got the timepoints array and it has #{outcome_tps.length} items in it.\n\n"
 		retVal = Array.new
 		
-		# put the baseline timepoint first
-		retVal << outcome_tps[outcome_tps.length-1]
-		(0..outcome_tps.length-2).each do |i|
-			retVal << outcome_tps[i]
+		unless outcome_tps.empty?
+			# put the baseline timepoint first
+			retVal << outcome_tps[outcome_tps.length-1]
+			(0..outcome_tps.length-2).each do |i|
+				print "timepoint at i is #{outcome_tps[i]}\n"
+				retVal << outcome_tps[i]
+			end
 		end
 		return retVal 
 	end

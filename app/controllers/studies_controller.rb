@@ -103,8 +103,12 @@ class StudiesController < ApplicationController
 	@outcomes = Outcome.where(:study_id => params[:study_id]).all
 	@first_outcome = @outcomes[0]
 	if !@first_outcome.nil?
+		print ("\n\n The first outcome is not nil, and the id is #{@first_outcome.id}\n\n\n")
 		@first_subgroups = Outcome.get_subgroups_array(@first_outcome.id)
 		@first_timepoints = Outcome.get_timepoints_array(@first_outcome.id)
+		print ("\n\nFirst subgroups has #{@first_subgroups.length} items in it.\n")
+		print ("\n\nFirst timepoints has #{@first_timepoints.length} items in it.\n\n\n")
+		print "First Subgroups: #{@first_subgroups}\n\n"
 		current_selections = OutcomeResult.get_selected_sg_and_tp(@first_subgroups, @first_timepoints)
 		@selected_subgroup = current_selections[0]
 		@selected_timepoint = current_selections[1]
