@@ -293,6 +293,8 @@ class StudiesController < ApplicationController
 		@project = Project.find(params[:project_id])
 		@adverse_events = AdverseEvent.where(:study_id => params[:study_id]).all
 		@adverse_event = AdverseEvent.new
+		@arms = Arm.find(:all, :conditions => ["study_id = ?", session[:study_id]], :order => "display_number ASC")
+		
   end
   
    def quality

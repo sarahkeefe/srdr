@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101215213813) do
+ActiveRecord::Schema.define(:version => 20101217164049) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer   "study_id"
@@ -34,6 +34,9 @@ ActiveRecord::Schema.define(:version => 20101215213813) do
     t.text      "notes"
     t.float     "number"
     t.integer   "display_number"
+    t.integer   "arm_id"
+    t.integer   "num_affected"
+    t.integer   "num_at_risk"
   end
 
   create_table "arms", :force => true do |t|

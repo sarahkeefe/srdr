@@ -75,7 +75,8 @@ end
 	match 'projects/:project_id/studies/:study_id/outcomeanalysis' => 'studies#outcomeanalysis'
 	match 'projects/:project_id/studies/:study_id/adverseevents' => 'studies#adverseevents'
 	match 'projects/:project_id/studies/:study_id/quality' => 'studies#quality'	
-
+	match 'projects/:project_id/studies/:study_id/adverse_events/savedata' => 'adverse_events#savedata'
+	
 	match 'publications/:publication_id/moveup' => 'publications#moveup'	
 	match 'population_characteristics/:population_characteristic_id/moveup' => 'population_characteristics#moveup'	
 	match 'inclusion_criteria_items/:inclusion_criteria_item_id/moveup' => 'inclusion_criteria_items#moveup'	
