@@ -68,25 +68,31 @@ function check_project_title(){
 
 function toggle_display_by_class(class_name,default_display,element_id){
 	var cssRules;
-	
+	//alert("Toggling display.");
 	if(document.styleSheets[0]['rules']){ //IE
 		cssRules = 'rules';
 	}else if(document.styleSheets[0]['cssRules']){ //FIREFOX, ETC
+		alert ('Found the cssRules.');
 		cssRules = 'cssRules';
 	}else{
 		//browser unknown
 	}
-	var mysheet=document.styleSheets[0]
-	for (var i=0; i < mysheet.cssRules.length; i++){		
-		if (mysheet.cssRules[i].selectorText == class_name){
-			//alert(mysheet.cssRules[i].selectorText);
-			
-			if(mysheet.cssRules[i].style['display'] == 'none'){
-				mysheet.cssRules[i].style['display'] = default_display;
-				$(element_id).innerHTML = "Hide"
-			}else{
-				mysheet.cssRules[i].style['display'] = 'none'
-				$(element_id).innerHTML = "Show"
+	
+	for (var j= 0; j < document.styleSheets.length; j++){
+		var mysheet = document.styleSheets[j];		
+		for (var i=0; i < mysheet.cssRules.length; i++){		
+			if (mysheet.cssRules[i].selectorText == class_name){
+				//alert(mysheet.cssRules[i].selectorText);
+				
+				if(mysheet.cssRules[i].style['display'] == 'none'){
+					//alert ('displaying...');
+					mysheet.cssRules[i].style['display'] = default_display;
+					$(element_id).innerHTML = "Hide"
+				}else{
+					//alert ('hiding...')
+					mysheet.cssRules[i].style['display'] = 'none'
+					$(element_id).innerHTML = "Show"
+				}
 			}
 		}
 	}

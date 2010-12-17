@@ -1,31 +1,39 @@
 <h2>Study Outcome Raw Data</h2>
-<% if !@outcomes.nil? && @outcomes.length > 0 %>
-
-<%= render "outcomes/subgroup_timepoint_selector"%>
+<% unless @outcomes.empty? || @study_arms.empty? %>
+	<% if !@outcomes.nil? && @outcomes.length > 0 %>
+	
+	<%= render "outcomes/subgroup_timepoint_selector"%>
+	<% else %>
+	<b>There are currently no outcomes listed for this study. </b>
+	<% end %>
+	
+	<br/><br/>
+	
+	<div id="outcome_results_table">
+	<%= render 'outcome_results/table', :one_outcome => @selected_outcome_object %>
+	</div>
+	
+	<br/>
+	<div class="icon_explanation">
+		<%= image_tag "/images/paper-icon.gif" %> <b>Directly transcribed</b> data item (directly from scientific literature)<br/>
+		<%= image_tag "/images/calculator-icon.gif" %> <b>Calculated</b> data item<br/><br/>
+		Click the icon in a table cell to toggle between markers. Please mark all numbers that result from your own calculations as <b>calculated data</b>.
+	</div>
+	<br/><br/>
+	
+	
+	<div id="outcome_results_list">
+	<%= render 'outcome_results/completed_list', :selected_outcome_object => @selected_outcome_object %>
+	</div>
+	<br/><br/>
 <% else %>
-<b>There are currently no outcomes listed for this study. </b>
+  To enter raw data you will first need to define <%= link_to 'outcomes','/projects/'+session[:project_id].to_s+'/studies/'+session[:study_id].to_s+'/outcomesetup' %> 
+  and <%= link_to 'arms','/projects/'+session[:project_id].to_s+'/studies/'+session[:study_id].to_s+'/design' %>
+  for this study.  <br/><br/>
 <% end %>
 
-<br/><br/>
-
-<div id="outcome_results_table">
-<%= render 'outcome_results/table', :one_outcome => @selected_outcome_object %>
-</div>
-
-<br/>
-<div class="icon_explanation">
-	<%= image_tag "/images/paper-icon.gif" %> <b>Directly transcribed</b> data item (directly from scientific literature)<br/>
-	<%= image_tag "/images/calculator-icon.gif" %> <b>Calculated</b> data item<br/><br/>
-	Click the icon in a table cell to toggle between markers. Please mark all numbers that result from your own calculations as <b>calculated data</b>.
-</div>
-<br/><br/>
-
-
-<div id="outcome_results_list">
-<%= render 'outcome_results/completed_list', :selected_outcome_object => @selected_outcome_object %>
-</div>
-<br/><br/>
 <table id="bottom_nav"><tr><td align="left">
 <%= link_to "Back", "outcomesetup" %></td><td align="right">
 <%= link_to "Continue", "outcomeanalysis" %>
 </td></tr></table>
+

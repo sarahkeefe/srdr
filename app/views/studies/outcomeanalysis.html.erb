@@ -1,6 +1,6 @@
 <h2>Study Outcome Comparisons</h2>
 
-<% if @study_arms.length > 1 || @outcomes.length > 0 %>
+<% if @study_arms.length > 1 && @outcomes.length > 0 %>
 	
 	<%= render "outcome_analyses/outcome_analysis_options" %>
 	
@@ -15,7 +15,12 @@
 
 	
 <% else %>
-	  This study has insufficient data for analysis. This could mean either no outcomes or not enough arms.
+   
+	  This study has insufficient data for analysis, which could mean either no 
+	  <%= link_to 'outcomes','/projects/'+session[:project_id].to_s+'/studies/'+session[:study_id].to_s+'/outcomesetup' %>
+	  or no 
+	  <%= link_to 'arms','/projects/'+session[:project_id].to_s+'/studies/'+session[:study_id].to_s+'/design' %>.
+	    
 <% end %>
 <br/>
 <table id="bottom_nav"><tr><td align="left"><%= link_to "Back", "outcomedata" %></td><td align="right">
