@@ -68,7 +68,7 @@ function check_project_title(){
 
 function toggle_display_by_class(class_name,default_display,element_id){
 	var cssRules;
-	
+	alert("Toggling display.");
 	if(document.styleSheets[0]['rules']){ //IE
 		cssRules = 'rules';
 	}else if(document.styleSheets[0]['cssRules']){ //FIREFOX, ETC
