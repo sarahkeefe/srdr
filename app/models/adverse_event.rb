@@ -9,4 +9,8 @@ class AdverseEvent < ActiveRecord::Base
 		return Arm.find(:all, :conditions => ["study_id = ?", study_id], :order => "display_number ASC")
 	end
 
+	def self.get_adverse_events_total(study_id)
+		return AdverseEvent.find(:all, :conditions => ["study_id = ? AND arm_id = ? AND is_total = ?", study_id, 0, true])
+	end
+	
 end

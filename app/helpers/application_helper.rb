@@ -100,7 +100,8 @@ module ApplicationHelper
 		retVal = "<br/>&nbsp;&nbsp;Study Links: "
 		base_url = "/projects/#{pid.to_s}/studies/#{sid.to_s}/"
 		publication = "<a href='" + base_url + "edit'>Publications</a> " + sep + " "
-		arms = "<a href='" + base_url + "design'>Arms</a> "  + sep + " "
+		enrollment = "<a href='" + base_url + "enrollment'>Enrollment</a> "  + sep + " "		
+		design = "<a href='" + base_url + "design'>Arms</a> "  + sep + " "
 		characteristics = "<a href='" + base_url + "attributes'>Baseline Characteristics</a> " + sep + " "
 		outcomes = "<a href='" + base_url + "outcomesetup'>Outcomes</a> " + sep + " "
 		results = "<a href='" + base_url + "outcomedata'>Outcome Raw Data</a> " + sep + " "
@@ -109,7 +110,7 @@ module ApplicationHelper
 		quality = "<a href='" + base_url + "quality'>Study Quality</a> " + sep + " " 
 		preview = "<a href='" + base_url + "'>Preview</a>"
 		
-		retVal = retVal + publication + arms + characteristics + outcomes + results + analysis + adverse + quality + preview
+		retVal = retVal + publication + enrollment + design + characteristics + outcomes + results + analysis + adverse + quality + preview
 		return retVal
 	end
 	
@@ -120,6 +121,7 @@ module ApplicationHelper
 		base_url = "/projects/#{pid.to_s}/studies/#{sid.to_s}/"
 		default = "<option value='"+base_url+"edit'>Jump To Study Section...</option>"
 		publication = "<option value='"+base_url+"edit'>Publications</option>"
+		enrollment =  "<option value='"+base_url+"enrollment'>Enrollment</option>"
 		arms = "<option value='"+base_url+"design'>Arms</option>"
 		characteristics = "<option value='"+base_url+"attributes'>Baseline Characteristics</option>"
 		outcomes = "<option value='"+base_url+"outcomesetup'>Outcome Setup</option>"
@@ -128,7 +130,7 @@ module ApplicationHelper
 		adverse = "<option value='"+base_url+"adverseevents'>Adverse Events</option>"
 		quality = "<option value='"+base_url+"quality'>Study Quality</option>"
 		preview = "<option value='"+base_url+"'>Preview/Summary</option>"
-		retVal = retVal + default + publication + arms + characteristics + outcomes + results + analysis + adverse + quality + preview
+		retVal = retVal + default + publication + enrollment + arms + characteristics + outcomes + results + analysis + adverse + quality + preview
 		retVal = retVal + "</select></div>"
 		return retVal
 	end

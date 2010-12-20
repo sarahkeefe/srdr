@@ -138,7 +138,7 @@ class PopulationCharacteristicsController < ApplicationController
   
   def moveup
     @population_characteristic = PopulationCharacteristic.find(params[:population_characteristic_id])
-	PopulationCharacteristic.move_up_this(params[:population_characteristic_id].to_i)
+	PopulationCharacteristic.move_up_this(params[:population_characteristic_id].to_i, session[:study_id])
 	@population_characteristics = PopulationCharacteristic.find(:all, :conditions => {:study_id => session[:study_id]}, :order => "display_number ASC")
 	@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
 	@study_arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]}, :order => "display_number ASC")

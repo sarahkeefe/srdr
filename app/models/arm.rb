@@ -27,18 +27,18 @@ class Arm < ActiveRecord::Base
 	  }
 	end  
 
-	def self.move_up_this(id)
+	def self.move_up_this(id, study_id)
 		@this = Arm.find(id.to_i)
 		if @this.display_number > 1
 			new_num = @this.display_number - 1
-			Arm.decrease_other(new_num)
+			Arm.decrease_other(new_num, study_id)
 			@this.display_number = new_num
 			@this.save
 		end
 	end
 	
-	def self.decrease_other(num)
-		@other = Arm.where(:display_number => num).first
+	def self.decrease_other(num, study_id)
+		@other = Arm.where(:study_id => study_id, :display_number => num).first
 		if !@other.nil?
 			@other.display_number = @other.display_number + 1;
 			@other.save

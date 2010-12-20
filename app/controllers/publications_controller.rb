@@ -173,7 +173,7 @@ problem_html = "<div class='error_message'>The following errors prevented the fo
 
 def moveup
 	@publication = Publication.find(params[:publication_id].to_i)
-	Publication.move_up_this(params[:publication_id].to_i)
+	Publication.move_up_this(params[:publication_id].to_i, session[:study_id])
 		respond_to do |format|
 			format.js { 
 			  @secondary_publications = Publication.find(:all, :order => 'display_number ASC', :conditions => {:is_primary => false, :study_id => session[:study_id]})

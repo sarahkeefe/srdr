@@ -25,18 +25,18 @@ class PopulationCharacteristic < ActiveRecord::Base
 	  }
 	end  
 
-	def self.move_up_this(id)
+	def self.move_up_this(id, study_id)
 		@this = PopulationCharacteristic.find(id.to_i)
 		if @this.display_number > 1
 			new_num = @this.display_number - 1
-			PopulationCharacteristic.decrease_other(new_num)
+			PopulationCharacteristic.decrease_other(new_num, study_id)
 			@this.display_number = new_num
 			@this.save
 		end
 	end
 	
-	def self.decrease_other(num)
-		@other = PopulationCharacteristic.where(:display_number => num).first
+	def self.decrease_other(num, study_id)
+		@other = PopulationCharacteristic.where(:study_id => study_id, :display_number => num).first
 		if !@other.nil?
 			@other.display_number = @other.display_number + 1;
 			@other.save

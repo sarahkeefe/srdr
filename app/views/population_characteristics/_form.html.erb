@@ -16,13 +16,15 @@
     <%= f.hidden_field :study_id, :value => @study.id %>
 
     <label>Category Title:</label>
-    <%= f.text_field :category_title %>
-</div>
+    <%= f.text_field :category_title %><br/><br/>
+  <label class="inline-label">Units:</label>  <%= f.text_field :units, :class => "inline-field" %><br/>
+    <label class="inline-label">Measurement Type:</label>  <%= f.text_field :measurement_type, :class => "inline-field" %>
+	</div>
 
 <%= f.fields_for :population_characteristic_subcategories do |t| %>
 <div class="field">
   <label class="inline-label">Subcategory Title:</label> <%= t.text_field :subcategory, :class => "inline-field" %><br/><br/>
-  <label class="inline-label">Units:</label>  <%= t.text_field :units, :class => "inline-field" %>
+
   <div class="admin_functions">
   <%= t.link_to_remove "Remove This Subcategory" %>
   </div>

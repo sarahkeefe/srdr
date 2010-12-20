@@ -49,13 +49,17 @@ class StudiesController < ApplicationController
   def design
 	  @study = Study.find(params[:study_id])
 	  makeActive(@study)
+	  @arm = Arm.new
+	  @arms = Arm.where(:study_id => @study.id).all	
+	end
+	
+def enrollment
+	  @study = Study.find(params[:study_id])
 	  @inclusion_criteria = InclusionCriteriaItem.where(:study_id => @study.id).order("display_number ASC")
 	  @inclusion_criteria_item = InclusionCriteriaItem.new
 	  @exclusion_criteria = ExclusionCriteriaItem.where(:study_id => @study.id).order("display_number ASC")
 	  @exclusion_criteria_item = ExclusionCriteriaItem.new
-	  @arm = Arm.new
-	  @arms = Arm.where(:study_id => @study.id).all	
-	end
+end
   
   # attributes
   # displays population attributes/characteristics data table

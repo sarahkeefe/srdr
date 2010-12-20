@@ -33,9 +33,16 @@
 				<% if pop_subcategories.length > 0 %>
 					<% first = true %>
 					<td rowspan="<%=pop_subcategories.length%>"><%=popchar.display_number %></td>
-					<td rowspan="<%=pop_subcategories.length%>"><%=popchar.category_title %></td>
+					<td rowspan="<%=pop_subcategories.length%>"><%=popchar.category_title %>
+					<% if !popchar.units.nil? %>
+					(<%= popchar.units %>)<br/>
+					<% end %>
+					<% if !popchar.measurement_type.nil? %>
+					(<%= popchar.measurement_type %>)
+					<% end %>
+					</td>
 					 <% for subcat in pop_subcategories %>
-						<td><%=subcat.subcategory%> (<%= subcat.units %>)</td>	
+						<td><%=subcat.subcategory%></td>	
 						
 						<% if @study_arms.length > 0 %>
 							<% for one_arm in @study_arms %>
@@ -63,7 +70,14 @@
 					<% end %>
 				<% else %>
 					<td><%=popchar.display_number %></td>
-					<td colspan="2"><%=popchar.category_title %></td>
+					<td colspan="2"><%=popchar.category_title %>
+					<% if !popchar.units.nil? %>
+					(<%= popchar.units %>)<br/>
+					<% end %>
+					<% if !popchar.measurement_type.nil? %>
+					(<%= popchar.measurement_type %>)
+					<% end %>
+					</td>
 					 
 						<% if @study_arms.length > 0 %>
 							<% for one_arm in @study_arms %>

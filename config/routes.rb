@@ -70,6 +70,7 @@ end
 	match 'projects/:project_id/moveup' => 'projects#moveup'
 	match 'projects/:project_id/studies/:study_id/design' => 'studies#design'
 	match 'projects/:project_id/studies/:study_id/attributes' => 'studies#attributes'
+	match 'projects/:project_id/studies/:study_id/enrollment' => 'studies#enrollment'
 	match 'projects/:project_id/studies/:study_id/outcomesetup' => 'studies#outcomesetup'
 	match 'projects/:project_id/studies/:study_id/outcomedata' => 'studies#outcomedata'
 	match 'projects/:project_id/studies/:study_id/outcomeanalysis' => 'studies#outcomeanalysis'

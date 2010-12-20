@@ -32,10 +32,20 @@ class AdverseEventsController < ApplicationController
   def create
   	@study = Study.find(session[:study_id])
 	#print "lalalalalalallaallaala  " params
+	if !params[:arm_num].nil?
 	for i in params[:arm_num]
 		@adverse_event = AdverseEvent.new(params[:adverse_event])
 		@adverse_event.arm_id = i.to_i
+		@adverse_event.is_total = false
 		@adverse_event.save
+	end
+	end
+	
+	if !params[:total].nil?
+		@adverse_event = AdverseEvent.new(params[:adverse_event])
+		@adverse_event.arm_id = 0
+		@adverse_event.is_total = true
+		@adverse_event.save	
 	end
 		
     respond_to do |format|
