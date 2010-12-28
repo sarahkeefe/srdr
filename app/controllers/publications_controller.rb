@@ -1,4 +1,5 @@
 class PublicationsController < ApplicationController
+before_filter :require_user
   # GET /publications/new
   # GET /publications/new.xml
   def new

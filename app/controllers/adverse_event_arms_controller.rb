@@ -1,4 +1,5 @@
 class AdverseEventArmsController < ApplicationController
+  before_filter :require_user
   # GET /adverse_event_arms/new
   # GET /adverse_event_arms/new.xml
   def new

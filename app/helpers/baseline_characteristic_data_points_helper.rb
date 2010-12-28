@@ -1,0 +1,2 @@
+module BaselineCharacteristicDataPointsHelper
+end

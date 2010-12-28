@@ -1,5 +1,5 @@
 class KeyQuestionsController < ApplicationController
-
+before_filter :require_user
   # GET /key_questions/new
   # GET /key_questions/new.xml
   def new

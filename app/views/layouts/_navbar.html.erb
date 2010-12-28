@@ -1,5 +1,7 @@
 <ul id="menu">
    <li class="title">Systematic Review Data Repository</li>
-  <li><%= link_to "New Systematic Review", new_project_url, :class=>"menu" %></li>
+   <% if User.current_user_has_new_project_privilege(current_user) %>
+		<li><%= link_to "New Systematic Review", new_project_url, :class=>"menu" %></li>
+  <% end %>
   <li><%= link_to "Systematic Review Listing", projects_path, :class=>"menu" %></li>
 </ul>

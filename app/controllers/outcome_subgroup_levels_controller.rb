@@ -1,4 +1,5 @@
 class OutcomeSubgroupLevelsController < ApplicationController
+  before_filter :require_user
   # GET /outcome_subgroup_levels
   # GET /outcome_subgroup_levels.xml
   def index

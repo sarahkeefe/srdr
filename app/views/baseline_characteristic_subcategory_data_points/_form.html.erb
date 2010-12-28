@@ -1,0 +1,33 @@
+<%= form_for(@baseline_characteristic_subcategory_data_point) do |f| %>
+  <% if @baseline_characteristic_subcategory_data_point.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@baseline_characteristic_subcategory_data_point.errors.count, "error") %> prohibited this baseline_characteristic_subcategory_data_point from being saved:</h2>
+
+      <ul>
+      <% @baseline_characteristic_subcategory_data_point.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :baseline_characteristic_subcategory_field_id %><br />
+    <%= f.text_field :baseline_characteristic_subcategory_field_id %>
+  </div>
+  <div class="field">
+    <%= f.label :arm_id %><br />
+    <%= f.text_field :arm_id %>
+  </div>
+  <div class="field">
+    <%= f.label :is_total %><br />
+    <%= f.check_box :is_total %>
+  </div>
+  <div class="field">
+    <%= f.label :value %><br />
+    <%= f.text_field :value %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

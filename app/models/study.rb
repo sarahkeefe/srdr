@@ -15,6 +15,37 @@ class Study < ActiveRecord::Base
 	has_many :publications, :dependent=>:destroy
 	attr_accessible :study_type, :recruitment_details, :inclusion_criteria, :exclusion_criteria, :num_participants, :outcome_attributes
 
+	has_many :baseline_characteristic_fields
+	
+	def self.get_template_id(study_id)
+		templ = StudyTemplate.where(:study_id => study_id).first
+		if templ.nil?
+			return "0"
+		else
+			return templ.template_id
+		end		
+	end
+	
+	def self.get_template_title(study_id)
+		templ = StudyTemplate.where(:study_id => study_id).first
+		if templ.nil?
+			return "No Template Used"
+		else
+			template = Template.find(templ.template_id)
+			return "Currently Using Template: " + template.title
+		end
+	end
+	
+	def self.get_template_list_array(project_id)
+		arr = []
+		arr << ["No Template", nil]
+		@template_list = Template.all
+		for i in @template_list
+			arr << [i.title, i.id]
+		end
+		return arr
+	end
+	
 	def self.is_value_in_array(val, arr)
 		for i in arr
 			if val == i[0].to_s
@@ -51,9 +82,9 @@ class Study < ActiveRecord::Base
 		return OutcomeEnrolledNumber.where(:outcome_id=>outcome_id, :arm_id=>arm_id).first
 	end
 	
-	def self.get_attributes(study_id)
-		return PopulationCharacteristic.where(:study_id => study_id)
-	end
+	#def self.get_attributes(study_id)
+	#	return PopulationCharacteristic.where(:study_id => study_id)
+	#end
 	
 	def self.get_attribute_subcategories(a_id)
 		return PopulationCharacteristicSubcategory.where(:population_characteristic_id => a_id).all

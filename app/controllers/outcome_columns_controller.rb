@@ -1,4 +1,5 @@
 class OutcomeColumnsController < ApplicationController
+  before_filter :require_user
   def new
     @outcome_column = OutcomeColumn.new
 

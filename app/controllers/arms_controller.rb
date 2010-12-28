@@ -1,4 +1,6 @@
 class ArmsController < ApplicationController
+  	before_filter :require_user
+  
   # GET /arms/new
   # GET /arms/new.xml
   def new

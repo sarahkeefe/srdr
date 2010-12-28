@@ -27,9 +27,14 @@
 		<% arr = Study.get_key_question_output(study.id) %>
 		<%= arr.to_sentence %>
 	</td>
-    <td><%= link_to 'Edit', edit_project_study_path(@project, study), :class => "edit_link" %>
+    <td>
 	<%= link_to 'Copy',new_project_study_path(@project, :template=>study.id), :class => "edit_link" %>
-	<%= link_to 'Delete', project_study_path(@project, study), :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %></td>
+	<% has_privilege = User.current_user_has_study_edit_privilege(@project.id, current_user) %>
+	<% if has_privilege %>
+	<%= link_to 'Edit', edit_project_study_path(@project, study), :class => "edit_link" %>
+	<%= link_to 'Delete', project_study_path(@project, study), :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %>
+	<% end %>
+</td>
   </tr>
   <% end %>
 <% end %>
@@ -41,7 +46,10 @@
 <br />
 
 <table id="bottom_nav"><tr><td align="left"><%= link_to "Back", "/projects/" + session[:project_id].to_s + "/edit/" %></td><td align="right">
+	<% has_privilege = User.current_user_has_study_edit_privilege(@project.id, current_user) %>
+	<% if has_privilege %>
 <%= link_to "New Study", new_project_study_path %><br/>
+<% end %>
 <%= link_to "Project Summary Page", project_path(@project) %>
 </td></tr></table>
 <br/>

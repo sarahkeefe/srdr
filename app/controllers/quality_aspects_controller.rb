@@ -1,4 +1,5 @@
 class QualityAspectsController < ApplicationController
+before_filter :require_user
   # GET /quality_aspects/new
   # GET /quality_aspects/new.xml
   def new

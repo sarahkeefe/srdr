@@ -1,8 +1,90 @@
-<p>Welcome to the Systematic Review Data Repository.</p>
-<ul>
-<li><%= link_to "View All Systematic Reviews",  projects_path %></li>
-<li><%= link_to "Create New Systematic Review",  new_project_path %></li>
-</ul>
+<h1>Welcome to the Systematic Review Data Repository</h1>
+
+<% if !current_user.nil? %>
+
+	<% if current_user.user_type == "admin" %>
+	<div class="indent_block full">
+		<ul>
+		<li><%= link_to "View All Systematic Reviews",  projects_path, :class => "edit_link small_edit_link"  %></li>
+		<li><%= link_to "Create New Systematic Review",  new_project_path, :class => "edit_link small_edit_link"  %></li>
+		</ul>	
+	</div>
+	<% elsif current_user.user_type == "member" %>
+
+		<h3>Systematic Reviews for user <%= current_user.fname %> <%= current_user.lname %> (<%=current_user.login %>)</h3><br/>
+		
+		<div class="indent_block full">
+		<% @lead_roles = User.get_user_lead_roles (current_user) %>
+		<% if !@lead_roles.nil? && @lead_roles.length > 0 %>
+		<h4>Project Lead for: </h4><br/>
+			<ul>
+			<% for role in @lead_roles %>
+				<% @project = Project.find(role.project_id) %>
+				<li>
+					<h5><%= @project.title.nil? ? "Untitled Project " + @project.id.to_s : @project.title %></h5>
+					<%= link_to "View", project_path(@project.id), :class => "edit_link small_edit_link" %>
+					<%= link_to "Edit", edit_project_path(@project.id), :class => "edit_link small_edit_link" %>
+					<%= link_to "Manage", "projects/" + @project.id.to_s + "/manage", :class => "edit_link small_edit_link" %>
+					<%= link_to "Add New Study", new_project_study_path(@project.id), :class => "edit_link small_edit_link" %>
+					<% @studies = Project.get_studies(@project.id) %>
+					<% if !@studies.nil? %>
+						<ul>
+							<% for stud in @studies %>
+								<li><%= stud.title %>
+									<%= link_to "View", project_study_path(@project.id, stud.id), :class => "edit_link small_edit_link" %>
+									<%= link_to "Edit", edit_project_study_path(@project.id, stud.id), :class => "edit_link small_edit_link" %>								
+								</li>
+							<% end %>
+						</ul>
+					<% end %>
+				</li>
+			<% end %>
+			</ul>
+		<% end %>
+
+		<% @editor_roles = User.get_user_editor_roles (current_user) %>
+		<% if !@editor_roles.nil? && @editor_roles.length > 0 %>
+		<h4>Project Editor for: </h4><br/>	
+			<ul>
+			<% for role in @editor_roles %>
+				<% @project = Project.find(role.project_id) %>
+				<li>
+					<h5><%= @project.title.nil? ? "Untitled Project " + @project.id.to_s : @project.title %></h5>
+					<%= link_to "View", project_path(@project.id), :class => "edit_link small_edit_link" %>
+					
+					<% @studies = Project.get_studies(@project.id) %>
+					<% if !@studies.nil? %>
+						<ul>
+							<% for stud in @studies %>
+								<li><%= stud.title %>
+									<%= link_to "View", project_study_path(@project.id, stud.id), :class => "edit_link small_edit_link" %>
+									<%= link_to "Edit", edit_project_study_path(@project.id, stud.id), :class => "edit_link small_edit_link" %>								
+								</li>
+							<% end %>
+						</ul>
+					<% end %>					
+					
+				</li>
+			<% end %>
+			</ul>
+		<% end %>
+
+		<h4>User Actions</h4><br/>	
+			<ul>
+			<li><%= link_to "View All Systematic Reviews",  projects_path, :class => "edit_link small_edit_link"  %></li>
+			<li><%= link_to "Create New Systematic Review",  new_project_path, :class => "edit_link small_edit_link"  %></li>
+			<li><%= link_to "Create New Study Template",  new_template_path, :class => "edit_link small_edit_link"  %></li>
+			</ul>
+		</div>	
+	<% end %>
+	
+<% else %>
+
+	<ul>
+	<li><%= link_to "View All Systematic Reviews",  projects_path, :class => "edit_link small_edit_link"  %></li>
+	</ul>	
+
+<% end %>
 
 
 

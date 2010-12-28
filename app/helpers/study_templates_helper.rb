@@ -1,0 +1,2 @@
+module StudyTemplatesHelper
+end

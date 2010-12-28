@@ -1,6 +1,6 @@
 module ApplicationHelper
 	
-	def get_bread_crumbs(url,sep)
+	def get_bread_crumbs(url,sep,user)
 	begin
 		print url + "\n\n\n\n"
 		retVal = ""
@@ -65,7 +65,9 @@ module ApplicationHelper
 						study_uri = "/projects/#{project_id.to_s}/studies/#{study_id.to_s}"
 						retVal = retVal + create_crumb_link(study_uri, study_title, true)	
 						#retVal = retVal + get_study_level_links(project_id, study_id,"|")
-						retVal = retVal + get_study_level_jump_menu(project_id, study_id)
+						if User.current_user_has_study_edit_privilege(project_id, user)
+							retVal = retVal + get_study_level_jump_menu(project_id, study_id)
+						end
 					else
 						 # fill this in for other types of urls
 					end  

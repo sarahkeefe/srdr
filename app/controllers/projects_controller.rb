@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
-	# UNCOMMENT THIS TO REQUIRE LOGIN
-	#before_filter :require_user
+	before_filter :require_user, :except => :index
+	before_filter :require_user, :except => :show
   
   # GET /projects
   # GET /projects.xml
@@ -18,6 +18,13 @@ class ProjectsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def manage
+	@project = Project.find(params[:project_id])
+	@project_users = User.get_users_for_project(@project.id, current_user)
+	@user_project_roles = UserProjectRole.new
+  end
+
   
   def moveup
 @keyquestion = KeyQuestion.find(params[:kqid])
@@ -85,11 +92,21 @@ class ProjectsController < ApplicationController
   # POST /projects.xml
   def create
     @project = Project.new(params[:project])
+	if !current_user.nil?
+		@project .creator_id = current_user.id
+	end
 		@key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
 		@key_question = KeyQuestion.new	
     respond_to do |format|
       if @project.save
-        #format.html { redirect_to(@project, :notice => 'Project was successfully created.') }
+		# Save user role for this project
+		if !current_user.nil?
+			@user_role = UserProjectRole.new
+			@user_role.user_id = current_user.id
+			@user_role.project_id = @project.id
+			@user_role.role = "lead"
+			@user_role.save
+		end
         format.html {render :update do |page| 
 						page.replace_html 'validation_message', "<div class='success_message'>Saved successfully!</div><br/>"
 					  page.visual_effect(:appear, 'validation_message')	

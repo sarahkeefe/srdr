@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101220162248) do
+ActiveRecord::Schema.define(:version => 20101228180810) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer   "study_id"
@@ -50,6 +50,49 @@ ActiveRecord::Schema.define(:version => 20101220162248) do
     t.integer   "display_number"
   end
 
+  create_table "baseline_characteristic_data_points", :force => true do |t|
+    t.integer  "baseline_characteristic_field_id"
+    t.integer  "arm_id"
+    t.boolean  "is_total"
+    t.string   "value"
+    t.string   "units"
+    t.string   "measurement_type"
+    t.text     "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "study_id"
+  end
+
+  create_table "baseline_characteristic_fields", :force => true do |t|
+    t.string   "category_title"
+    t.string   "units"
+    t.string   "measurement_type"
+    t.boolean  "force_measurements"
+    t.boolean  "display_arms"
+    t.boolean  "display_total"
+    t.text     "field_notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "template_id"
+    t.integer  "study_id"
+  end
+
+  create_table "baseline_characteristic_subcategory_data_points", :force => true do |t|
+    t.integer  "baseline_characteristic_subcategory_field_id"
+    t.integer  "arm_id"
+    t.boolean  "is_total"
+    t.string   "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "baseline_characteristic_subcategory_fields", :force => true do |t|
+    t.string   "subcategory_title"
+    t.integer  "baseline_characteristic_field_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "exclusion_criteria_items", :force => true do |t|
     t.integer  "study_id"
     t.string   "item_text"
@@ -78,11 +121,6 @@ ActiveRecord::Schema.define(:version => 20101220162248) do
     t.string   "note_text"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "forms", :force => true do |t|
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
   end
 
   create_table "inclusion_criteria_items", :force => true do |t|
@@ -203,14 +241,6 @@ ActiveRecord::Schema.define(:version => 20101220162248) do
     t.timestamp "updated_at"
   end
 
-  create_table "outcome_subgroup_levels", :force => true do |t|
-    t.string    "title"
-    t.string    "description"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.integer   "outcome_subgroup_id"
-  end
-
   create_table "outcome_subgroups", :force => true do |t|
     t.integer   "outcome_id"
     t.string    "title"
@@ -249,36 +279,6 @@ ActiveRecord::Schema.define(:version => 20101220162248) do
     t.timestamp "updated_at"
   end
 
-  create_table "population_characteristic_data_points", :force => true do |t|
-    t.integer   "attribute_id"
-    t.string    "value"
-    t.integer   "arm_id"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.boolean   "is_total"
-    t.integer   "subcategory_id"
-    t.integer   "study_id"
-  end
-
-  create_table "population_characteristic_subcategories", :force => true do |t|
-    t.string    "subcategory"
-    t.string    "units"
-    t.integer   "population_characteristic_id"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-  end
-
-  create_table "population_characteristics", :force => true do |t|
-    t.integer   "study_id"
-    t.string    "category_title"
-    t.string    "units"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.text      "notes"
-    t.integer   "display_number"
-    t.string    "measurement_type"
-  end
-
   create_table "projects", :force => true do |t|
     t.string    "title"
     t.text      "description"
@@ -286,6 +286,7 @@ ActiveRecord::Schema.define(:version => 20101220162248) do
     t.timestamp "created_at"
     t.timestamp "updated_at"
     t.text      "funding_source"
+    t.integer   "creator_id"
   end
 
   create_table "publication_numbers", :force => true do |t|
@@ -339,6 +340,7 @@ ActiveRecord::Schema.define(:version => 20101220162248) do
     t.timestamp "updated_at"
     t.integer   "project_id"
     t.string    "study_type"
+    t.integer   "creator_id"
   end
 
   create_table "studies_key_questions", :force => true do |t|
@@ -346,6 +348,29 @@ ActiveRecord::Schema.define(:version => 20101220162248) do
     t.integer   "key_question_id"
     t.timestamp "created_at"
     t.timestamp "updated_at"
+  end
+
+  create_table "study_templates", :force => true do |t|
+    t.integer  "study_id"
+    t.integer  "template_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "templates", :force => true do |t|
+    t.string   "title"
+    t.integer  "creator_id"
+    t.integer  "project_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_project_roles", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "project_id"
+    t.string   "role"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|
@@ -366,6 +391,7 @@ ActiveRecord::Schema.define(:version => 20101220162248) do
     t.string    "last_login_ip"
     t.timestamp "created_at"
     t.timestamp "updated_at"
+    t.string    "user_type"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

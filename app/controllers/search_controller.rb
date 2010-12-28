@@ -1,4 +1,5 @@
 class SearchController < ApplicationController
+
   # GET /studies
   # GET /studies.xml
   def index

@@ -1,0 +1,53 @@
+<p id="notice"><%= notice %></p>
+<h3>Manage Users for Project: <%= @project.title.nil? ? "Untitled Project " + @project.id.to_s : @project.title %></h3>
+<br/>
+<div id="user_project_roles_table">
+<div class="indent_block">
+	<%= form_tag url_for(:controller => 'user_project_roles', :action => 'saveinfo', :project_id => @project.id) do %>
+			<% if @project_users.length > 0 %>
+			<h4>Change or Remove User Roles</h4><br/>
+		<table class="list_table">
+		<th>Name</th>
+		<th>Username</th>
+		<th>Lead</th>
+		<th>Editor</th>
+		<th>Remove</th>
+		<% for role in @project_users %>
+		<% if role.user_id != current_user.id %>
+		<tr><td>
+			<% @user = User.find(role.user_id) %>
+				<%= @user.fname %> <%= @user.lname %> 
+		</td>
+		<td>
+		<%= @user.login %>
+		</td>
+		<td><%= radio_button_tag("roles_" + role.user_id.to_s, "lead", role.role == "lead" ? true : false) %></td>
+		<td><%= radio_button_tag("roles_" + role.user_id.to_s, "editor", role.role == "editor" ? true : false) %></td>
+		<td><%= radio_button_tag("roles_" + role.user_id.to_s, "delete", false) %></td>
+		</tr>
+		<% end %>
+		<% end %>
+
+</td></tr></table>
+<br/><br/>
+				<div class="actions">
+					<button type="submit" class="positive" data-remote="true" data-method="post" onClick="do_confirm(event, 'Are you sure you want to alter user roles?')"><%= image_tag "Accept.png" %>Update User Roles</button>
+				</div>
+						<% else %>
+		There are currently no other users attached to this project.
+		<% end %>
+	<% end %>
+	</div>
+	<br/><br/>
+		<h4>Add New User to Project</h4><br/><br/>
+	<%= form_tag url_for(:controller => 'user_project_roles', :action => 'add_new_user', :project_id => @project.id) do %>
+				Enter email address or SRDR username: <%=text_field_tag "new_user" %><br/>
+				Role to assign: 
+				<%= radio_button_tag("new_role", "lead") %>Lead
+				<%= radio_button_tag("new_role", "editor") %>Editor
+				<br/><br/>
+		<div class="actions">
+			<button type="submit" class="positive" data-remote="true" data-method="post" onClick="do_confirm(event, 'Are you sure you want to add this user?')"><%= image_tag "Accept.png" %>Add User to Project</button>
+		</div>
+	<% end %>
+</div>

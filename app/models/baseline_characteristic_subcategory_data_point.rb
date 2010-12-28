@@ -1,0 +1,3 @@
+class BaselineCharacteristicSubcategoryDataPoint < ActiveRecord::Base
+	belongs_to :baseline_characteristic_data_point
+end

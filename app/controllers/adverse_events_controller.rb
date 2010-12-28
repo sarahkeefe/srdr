@@ -1,6 +1,8 @@
 class AdverseEventsController < ApplicationController
   # GET /adverse_events/new
   # GET /adverse_events/new.xml
+  before_filter :require_user
+  
   def new
     @adverse_event = AdverseEvent.new
 

@@ -1,5 +1,21 @@
 Srdr::Application.routes.draw do
 
+  resources :study_templates
+
+  resources :templates
+
+  resources :baseline_characteristic_subcategory_data_points
+
+  resources :baseline_characteristic_data_points
+
+  resources :study_baseline_characteristic_fields
+
+  resources :baseline_characteristic_subcategory_fields
+
+  resources :baseline_characteristic_fields
+
+  resources :user_project_roles
+
   resources :exclusion_criteria_items
 
   resources :inclusion_criteria_items
@@ -77,6 +93,11 @@ end
 	match 'projects/:project_id/studies/:study_id/adverseevents' => 'studies#adverseevents'
 	match 'projects/:project_id/studies/:study_id/quality' => 'studies#quality'	
 	match 'projects/:project_id/studies/:study_id/adverse_events/savedata' => 'adverse_events#savedata'
+	match 'projects/:project_id/manage/saveinfo' => 'user_project_roles#saveinfo'
+	match 'projects/:project_id/manage/adduser' => 'user_project_roles#add_new_user'
+	match 'projects/:project_id/studies/:study_id/attributes/edit_custom' => 'baseline_characteristic_fields#edit_custom'
+	
+	match 'templates/:template_id/baseline_characteristics' => 'templates#baseline_characteristics'
 	
 	match 'publications/:publication_id/moveup' => 'publications#moveup'	
 	match 'population_characteristics/:population_characteristic_id/moveup' => 'population_characteristics#moveup'	
@@ -88,7 +109,7 @@ end
 	match 'quality_aspects/:quality_aspect_id/moveup' => 'quality_aspects#moveup'	
 	
 	match 'userprojects' => 'users#userprojects'
-	
+	match 'projects/:project_id/manage' => 'projects#manage'
 	 resources :user_sessions
 
   match 'search' => 'search#index'

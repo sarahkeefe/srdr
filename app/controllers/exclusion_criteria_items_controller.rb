@@ -1,4 +1,6 @@
 class ExclusionCriteriaItemsController < ApplicationController
+  before_filter :require_user
+  
   # GET /exclusion_criteria_items
   # GET /exclusion_criteria_items.xml
   def index
