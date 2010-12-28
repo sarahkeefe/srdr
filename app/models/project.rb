@@ -3,7 +3,16 @@ class Project < ActiveRecord::Base
 	has_many :key_questions, :dependent=>:destroy
 	has_many :arms, :through => :studies	
 	accepts_nested_attributes_for :key_questions, :allow_destroy => true
-	#validates :title, :presence => true, :length => { :minimum => 4}
+	has_many :user_project_roles
+	has_many :users, :through => :user_project_roles
+	
+	# info via http://stackoverflow.com/questions/408872/rails-has-many-through-find-by-extra-attributes-in-join-model
+	has_many  :lead_users, :through => :user_project_roles, :class_name => "Project", :source => :project, :conditions => ['user_project_roles.role = ?',"lead"]
+	has_many  :editor_users, :through => :user_project_roles, :class_name => "Project", :source => :project, :conditions => ['user_project_roles.role = ?',"editor"]
+	
+	def self.get_studies(project_id)
+		return Study.where(:project_id => project_id).all
+	end
 	
 	def self.get_num_studies(project)
 		pid = project.id

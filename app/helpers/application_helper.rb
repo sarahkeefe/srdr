@@ -1,6 +1,6 @@
 module ApplicationHelper
 	
-	def get_bread_crumbs(url,sep)
+	def get_bread_crumbs(url,sep,user)
 	begin
 		print url + "\n\n\n\n"
 		retVal = ""
@@ -65,7 +65,9 @@ module ApplicationHelper
 						study_uri = "/projects/#{project_id.to_s}/studies/#{study_id.to_s}"
 						retVal = retVal + create_crumb_link(study_uri, study_title, true)	
 						#retVal = retVal + get_study_level_links(project_id, study_id,"|")
-						retVal = retVal + get_study_level_jump_menu(project_id, study_id)
+						if User.current_user_has_study_edit_privilege(project_id, user)
+							retVal = retVal + get_study_level_jump_menu(project_id, study_id)
+						end
 					else
 						 # fill this in for other types of urls
 					end  
@@ -100,7 +102,8 @@ module ApplicationHelper
 		retVal = "<br/>&nbsp;&nbsp;Study Links: "
 		base_url = "/projects/#{pid.to_s}/studies/#{sid.to_s}/"
 		publication = "<a href='" + base_url + "edit'>Publications</a> " + sep + " "
-		arms = "<a href='" + base_url + "design'>Arms</a> "  + sep + " "
+		enrollment = "<a href='" + base_url + "enrollment'>Enrollment</a> "  + sep + " "		
+		design = "<a href='" + base_url + "design'>Arms</a> "  + sep + " "
 		characteristics = "<a href='" + base_url + "attributes'>Baseline Characteristics</a> " + sep + " "
 		outcomes = "<a href='" + base_url + "outcomesetup'>Outcomes</a> " + sep + " "
 		results = "<a href='" + base_url + "outcomedata'>Outcome Raw Data</a> " + sep + " "
@@ -109,7 +112,7 @@ module ApplicationHelper
 		quality = "<a href='" + base_url + "quality'>Study Quality</a> " + sep + " " 
 		preview = "<a href='" + base_url + "'>Preview</a>"
 		
-		retVal = retVal + publication + arms + characteristics + outcomes + results + analysis + adverse + quality + preview
+		retVal = retVal + publication + enrollment + design + characteristics + outcomes + results + analysis + adverse + quality + preview
 		return retVal
 	end
 	
@@ -120,6 +123,7 @@ module ApplicationHelper
 		base_url = "/projects/#{pid.to_s}/studies/#{sid.to_s}/"
 		default = "<option value='"+base_url+"edit'>Jump To Study Section...</option>"
 		publication = "<option value='"+base_url+"edit'>Publications</option>"
+		enrollment =  "<option value='"+base_url+"enrollment'>Enrollment</option>"
 		arms = "<option value='"+base_url+"design'>Arms</option>"
 		characteristics = "<option value='"+base_url+"attributes'>Baseline Characteristics</option>"
 		outcomes = "<option value='"+base_url+"outcomesetup'>Outcome Setup</option>"
@@ -128,7 +132,7 @@ module ApplicationHelper
 		adverse = "<option value='"+base_url+"adverseevents'>Adverse Events</option>"
 		quality = "<option value='"+base_url+"quality'>Study Quality</option>"
 		preview = "<option value='"+base_url+"'>Preview/Summary</option>"
-		retVal = retVal + default + publication + arms + characteristics + outcomes + results + analysis + adverse + quality + preview
+		retVal = retVal + default + publication + enrollment + arms + characteristics + outcomes + results + analysis + adverse + quality + preview
 		retVal = retVal + "</select></div>"
 		return retVal
 	end

@@ -1,4 +1,5 @@
 class OutcomeSubgroupsController < ApplicationController
+  before_filter :require_user
   # GET /outcome_subgroups/new
   # GET /outcome_subgroups/new.xml
   def new

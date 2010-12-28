@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  baseline_characteristic_field_id: 1
+  arm_id: 1
+  is_total: false
+  value: MyString
+  units: MyString
+  measurement_type: MyString
+  notes: MyText
+
+two:
+  baseline_characteristic_field_id: 1
+  arm_id: 1
+  is_total: false
+  value: MyString
+  units: MyString
+  measurement_type: MyString
+  notes: MyText

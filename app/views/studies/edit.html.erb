@@ -1,4 +1,14 @@
 <h2>Editing Study</h2>
+
+<h3>Study Template</h3><br/>
+ 
+<div class="form_content">
+<div class="field">
+ <%= Study.get_template_title(@study.id) %>
+</div>
+
+</div>
+
 <h3>Key Questions Addressed</h3>
 
 <% unless @questions.empty? %>

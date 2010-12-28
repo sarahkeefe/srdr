@@ -1,0 +1,25 @@
+<%= form_for(@baseline_characteristic_subcategory_field) do |f| %>
+  <% if @baseline_characteristic_subcategory_field.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@baseline_characteristic_subcategory_field.errors.count, "error") %> prohibited this baseline_characteristic_subcategory_field from being saved:</h2>
+
+      <ul>
+      <% @baseline_characteristic_subcategory_field.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :subcategory_title %><br />
+    <%= f.text_field :subcategory_title %>
+  </div>
+  <div class="field">
+    <%= f.label :baseline_characteristic_field_id %><br />
+    <%= f.text_field :baseline_characteristic_field_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

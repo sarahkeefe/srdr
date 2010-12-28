@@ -1,5 +1,5 @@
 class KeyQuestionsController < ApplicationController
-
+before_filter :require_user
   # GET /key_questions/new
   # GET /key_questions/new.xml
   def new
@@ -131,7 +131,7 @@ end
 
 	def moveup
     @key_question = KeyQuestion.find(params[:id])
-	KeyQuestion.move_up_this(params[:id].to_i)
+	KeyQuestion.move_up_this(params[:id].to_i, session[:study_id])
     
     respond_to do |format|
     	format.js {

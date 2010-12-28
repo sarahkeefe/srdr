@@ -12,7 +12,20 @@
   <% end %>
 <div class="form_content">
     <%= f.hidden_field :study_id, :value => session[:study_id] %>
+	<% @arms = AdverseEvent.get_related_study_arms(session[:study_id]) %>
 
+	<div class="field">
+    <label>Choose arms to add this adverse event to:</label>
+	<% if !@arms.nil? %>
+	<% for arm in @arms %>
+<%= check_box_tag  "arm_num[]",  arm.id.to_s, false, :class => "inline-field" %>
+Arm <%= arm.display_number.to_s %>:
+<%= arm.title %><br/>
+<% end %>	
+<% end %>
+<%= check_box_tag  "total",  "total", false, :class => "inline-field" %> Total<br/>
+	</div>
+	
   <div class="field">
     <label>Adverse Event Title:</label>
     <%= f.text_field :title %>
@@ -25,20 +38,16 @@
     <label>Adverse Event Description:</label>
     <%= f.text_area :description, :rows => 4, :cols => 40 %>
   </div>
-    <div class="field">
-    <label>Number:</label>
-    <%= f.text_field :number %>
-  </div>
   <div class="field">
     <label class="inline-label">Is this event classified as <strong>serious</strong>?</label>
-    <%= f.check_box :is_serious, :class => "cbox" %>
+    <%= f.select :is_serious, options_for_select([["Yes", true], ["No", false]]), :class => "inline_field" %>
   </div>
   <div class="field">
-    <label>Definition of Adverse Event Used:</label>
+    <label>Definition of "Serious" Used:</label>
     <%= f.text_field :definition_used %>
   </div>
     <div class="field">
-    <label>Adverse Event Notes:</label>
+    <label>Other Notes:</label>
     <%= f.text_area :notes, :rows => 4, :cols => 40 %>
   </div>
   <div class="actions">

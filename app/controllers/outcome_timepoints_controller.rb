@@ -1,4 +1,5 @@
 class OutcomeTimepointsController < ApplicationController
+  before_filter :require_user
   # GET /outcome_timepoints/new
   # GET /outcome_timepoints/new.xml
   def new

@@ -1,0 +1,2 @@
+module BaselineCharacteristicFieldsHelper
+end

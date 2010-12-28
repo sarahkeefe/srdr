@@ -1,4 +1,6 @@
 class StudiesController < ApplicationController
+before_filter :require_user, :except => :index
+before_filter :require_user, :except => :show
   layout "studies"
 	# GET /studies
   # GET /studies.xml
@@ -49,13 +51,17 @@ class StudiesController < ApplicationController
   def design
 	  @study = Study.find(params[:study_id])
 	  makeActive(@study)
+	  @arm = Arm.new
+	  @arms = Arm.where(:study_id => @study.id).all	
+	end
+	
+def enrollment
+	  @study = Study.find(params[:study_id])
 	  @inclusion_criteria = InclusionCriteriaItem.where(:study_id => @study.id).order("display_number ASC")
 	  @inclusion_criteria_item = InclusionCriteriaItem.new
 	  @exclusion_criteria = ExclusionCriteriaItem.where(:study_id => @study.id).order("display_number ASC")
 	  @exclusion_criteria_item = ExclusionCriteriaItem.new
-	  @arm = Arm.new
-	  @arms = Arm.where(:study_id => @study.id).all	
-	end
+end
   
   # attributes
   # displays population attributes/characteristics data table
@@ -64,13 +70,16 @@ class StudiesController < ApplicationController
 		makeActive(@study)
 		@project = Project.find(params[:project_id])
 		@study_arms = Arm.where(:study_id => @study.id).all
-		@population_characteristics = PopulationCharacteristic.where(:study_id => @study.id).all
-		@population_characteristics.sort_by(&:category_title)
-		@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
-		@population_characteristic = PopulationCharacteristic.new
-		@population_characteristic_data = PopulationCharacteristicDataPoint.where(:study_id => @study.id).all
-		@population_characteristic_subcategories = PopulationCharacteristicSubcategory.where(:population_characteristic_id => @population_characteristic.id).all
+		#@population_characteristics = PopulationCharacteristic.where(:study_id => @study.id).all
+		#@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
+		#@population_characteristic = PopulationCharacteristic.new
+		#@population_characteristic_data = PopulationCharacteristicDataPoint.where(:study_id => @study.id).all
+		#@population_characteristic_subcategories = PopulationCharacteristicSubcategory.where(:population_characteristic_id => #@population_characteristic.id).all
 		@population_characteristic_subcategory = PopulationCharacteristicSubcategory.new
+		@baseline_characteristic_field = BaselineCharacteristicField.new
+		@baseline_characteristic_data_point = BaselineCharacteristicDataPoint.new
+		@baseline_characteristic_template_fields = BaselineCharacteristicField.where(:template_id => Study.get_template_id(@study.id)).all
+		@baseline_characteristic_custom_fields = BaselineCharacteristicField.where(:study_id => @study.id).all
 		render :layout => 'attributes'		
   end
   
@@ -297,6 +306,8 @@ class StudiesController < ApplicationController
 		@project = Project.find(params[:project_id])
 		@adverse_events = AdverseEvent.where(:study_id => params[:study_id]).all
 		@adverse_event = AdverseEvent.new
+		@arms = Arm.find(:all, :conditions => ["study_id = ?", session[:study_id]], :order => "display_number ASC")
+		
   end
   
    def quality
@@ -319,6 +330,7 @@ class StudiesController < ApplicationController
 	@study.save
 	makeActive(@study)
 
+	@study_template = StudyTemplate.new
 	# if there is a template variable set in the new call
 	Study.set_template_id_if_exists(params, @study)
 	    	
@@ -357,6 +369,9 @@ class StudiesController < ApplicationController
   # POST /studies.xml
   def create
     @study = Study.new(params[:study])
+	if !current_user.nil?
+		@study.creator_id = current_user.id
+	end
   	@study.project_id = session[:project_id]
 		@project = Project.find(session[:project_id])
 		Study.set_study_type(params)

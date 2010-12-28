@@ -1,4 +1,5 @@
 class OutcomesController < ApplicationController
+  before_filter :require_user
   # GET /outcomes/new
   # GET /outcomes/new.xml
   def new

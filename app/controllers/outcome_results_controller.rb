@@ -1,4 +1,5 @@
 class OutcomeResultsController < ApplicationController
+  before_filter :require_user
   def new
     @outcome_result = OutcomeResult.new
 

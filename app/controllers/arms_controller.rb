@@ -1,4 +1,6 @@
 class ArmsController < ApplicationController
+  	before_filter :require_user
+  
   # GET /arms/new
   # GET /arms/new.xml
   def new
@@ -129,7 +131,7 @@ class ArmsController < ApplicationController
 
   def moveup
     @arm = Arm.find(params[:arm_id])
-	Arm.move_up_this(params[:arm_id].to_i)
+	Arm.move_up_this(params[:arm_id].to_i, session[:study_id])
     respond_to do |format|
     	format.js {
 				@arms = Arm.find(:all, :conditions => {:study_id => session[:study_id]}, :order => "display_number ASC")

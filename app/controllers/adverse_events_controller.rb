@@ -1,6 +1,8 @@
 class AdverseEventsController < ApplicationController
   # GET /adverse_events/new
   # GET /adverse_events/new.xml
+  before_filter :require_user
+  
   def new
     @adverse_event = AdverseEvent.new
 
@@ -30,15 +32,28 @@ class AdverseEventsController < ApplicationController
   # POST /adverse_events
   # POST /adverse_events.xml
   def create
-    @adverse_event = AdverseEvent.new(params[:adverse_event])
-	@study = Study.find(session[:study_id])
-	 display_num = @adverse_event.get_display_number(session[:study_id])
-	@adverse_event.display_number = display_num
-	@adverse_event.save
+  	@study = Study.find(session[:study_id])
+	#print "lalalalalalallaallaala  " params
+	if !params[:arm_num].nil?
+	for i in params[:arm_num]
+		@adverse_event = AdverseEvent.new(params[:adverse_event])
+		@adverse_event.arm_id = i.to_i
+		@adverse_event.is_total = false
+		@adverse_event.save
+	end
+	end
 	
+	if !params[:total].nil?
+		@adverse_event = AdverseEvent.new(params[:adverse_event])
+		@adverse_event.arm_id = 0
+		@adverse_event.is_total = true
+		@adverse_event.save	
+	end
+		
     respond_to do |format|
       if @adverse_event.save
         format.js{
+		@arms = Arm.find(:all, :conditions => ["study_id = ?", session[:study_id]], :order => "display_number ASC")
           @adverse_events = AdverseEvent.find(:all, :conditions=>['study_id=?',session[:study_id]], :order => "display_number ASC")
           render :update do |page|
           	page.replace_html 'adverse_events_table', :partial => 'adverse_events/table'
@@ -112,11 +127,11 @@ class AdverseEventsController < ApplicationController
   # DELETE /adverse_events/1.xml
   def destroy
     @adverse_event = AdverseEvent.find(params[:id])
-	@adverse_event.shift_display_numbers(session[:study_id])		
     @adverse_event.destroy
 		
     respond_to do |format|
     	format.js {
+				@arms = Arm.find(:all, :conditions => ["study_id = ?", session[:study_id]], :order => "display_number ASC")
 				@adverse_events = AdverseEvent.find(:all, :conditions=>['study_id=?',session[:study_id]], :order => "display_number ASC")		
 		  	render :update do |page|
 					page.replace_html 'adverse_events_table', :partial => 'adverse_events/table'	
@@ -129,11 +144,32 @@ class AdverseEventsController < ApplicationController
     end
   end
 
-  def moveup
-    @adverse_event = AdverseEvent.find(params[:adverse_event_id])
-	AdverseEvent.move_up_this(params[:adverse_event_id].to_i)
-    respond_to do |format|
+  
+  def savedata
+	for i in params
+		if i[0][0,11] == "num_at_risk"
+			data_item_arr = i[0].split("_")
+			ae_id = data_item_arr[3].to_i
+			if !ae_id.nil?
+				@ae = AdverseEvent.find(ae_id)
+				print @ae.inspect + "\n"
+					@ae.num_at_risk = i[1]
+					@ae.save
+			end
+		elsif i[0][0,12] == "num_affected"
+			data_item_arr = i[0].split("_")
+			ae_id = data_item_arr[2].to_i
+			if !ae_id.nil?
+				@ae = AdverseEvent.find(ae_id)
+					@ae.num_affected = i[1]
+					@ae.save
+			end
+		end
+	end
+  
+      respond_to do |format|
     	format.js {
+				@arms = Arm.find(:all, :conditions => ["study_id = ?", session[:study_id]], :order => "display_number ASC")
 				@adverse_events = AdverseEvent.find(:all, :conditions=>['study_id=?',session[:study_id]], :order => "display_number ASC")		
 		  	render :update do |page|
 					page.replace_html 'adverse_events_table', :partial => 'adverse_events/table'	
@@ -145,8 +181,4 @@ class AdverseEventsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
-  
-  
-  
   end

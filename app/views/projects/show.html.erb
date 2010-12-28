@@ -25,7 +25,12 @@ This feature is not implemented yet!
 <div class="summary_heading">Systematic Review Summary</div>
 <br/><br/>
 <table id="bottom_nav"><tr><td align="left"></td><td align="right">
+	<% has_privilege = User.current_user_has_project_edit_privilege(@project.id, current_user) %>
+	<% if has_privilege %>
 <%= link_to 'Edit this Project', edit_project_path(@project) %><br/>
+<%= link_to 'View Study List', project_studies_path(@project) %><br/>
+<%= link_to "Add Study to Project", new_project_study_path(@project.id) %><br/>
+<% end %>
 <%= link_to 'Back to Project List', '../projects' %>
 </td></tr></table>
 

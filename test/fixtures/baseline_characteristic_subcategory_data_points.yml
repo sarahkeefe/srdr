@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  baseline_characteristic_subcategory_field_id: 1
+  arm_id: 1
+  is_total: false
+  value: MyString
+
+two:
+  baseline_characteristic_subcategory_field_id: 1
+  arm_id: 1
+  is_total: false
+  value: MyString

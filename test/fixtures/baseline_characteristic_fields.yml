@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  category_title: MyString
+  units: MyString
+  measurement_type: MyString
+  force_measurements: false
+  display_arms: false
+  display_total: false
+  field_notes: MyText
+
+two:
+  category_title: MyString
+  units: MyString
+  measurement_type: MyString
+  force_measurements: false
+  display_arms: false
+  display_total: false
+  field_notes: MyText

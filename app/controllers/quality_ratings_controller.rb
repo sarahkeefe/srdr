@@ -1,4 +1,5 @@
 class QualityRatingsController < ApplicationController
+before_filter :require_user
   # GET /quality_ratings/new
   # GET /quality_ratings/new.xml
   def new

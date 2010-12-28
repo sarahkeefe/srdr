@@ -1,4 +1,5 @@
 class QualityAspectsController < ApplicationController
+before_filter :require_user
   # GET /quality_aspects/new
   # GET /quality_aspects/new.xml
   def new
@@ -129,7 +130,7 @@ problem_html = "<div class='error_message'>The following errors prevented the fo
   
   def moveup
     @quality_aspect = QualityAspect.find(params[:quality_aspect_id])
-	QualityAspect.move_up_this(params[:quality_aspect_id].to_i)
+	QualityAspect.move_up_this(params[:quality_aspect_id].to_i, session[:study_id])
     respond_to do |format|
     	format.js {
 				@quality_aspects = QualityAspect.find(:all, :conditions=>['study_id=?',session[:study_id]], :order => "display_number ASC")		

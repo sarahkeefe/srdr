@@ -4,8 +4,8 @@
 
 <div class="login-link">
 <% if !current_user %>
-<%= link_to "Login", "/login" %> &#183; <%= link_to "Register", "/register" %>
+<%= link_to "Login", "/login" %> &#183; <%= link_to "Register", new_user_path %>
 <% else %>
-<%= link_to "My Account", "/account" %> &#183; <%= link_to "Log Out", "/logout" %>
+<%= link_to "User Home", "/" %> &#183; <%= link_to "My Account", "/account" %> &#183; <%= link_to "Log Out", "/logout" %>
 <% end %>
 </div>

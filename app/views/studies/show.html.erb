@@ -148,7 +148,10 @@
 	</div>
 	<br/>
 <table id="bottom_nav"><tr><td align="left"></td><td align="right">
+	<% has_privilege = User.current_user_has_study_edit_privilege(@project.id, current_user) %>
+	<% if has_privilege %>
 <%= link_to 'Edit this Study', edit_project_study_path(@project, @study) %>
 <br/>
+<% end %>
 <%= link_to "Back to Project Study List", project_studies_path(@project) %>
 </td></tr></table>

@@ -12,8 +12,11 @@
 	<br/>
 	</div>
 	<div class="admin_functions">
+	<% has_privilege = User.current_user_has_project_edit_privilege(project.id, current_user) %>
+	<% if has_privilege %>
 	<%= link_to "Edit", edit_project_path(project), :class => "edit_link" %>   
 	<%= link_to "Delete", project, :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %>
+	<% end %>
 	</div>
  </div>
   <br/>

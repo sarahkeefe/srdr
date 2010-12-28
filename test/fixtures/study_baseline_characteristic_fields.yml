@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  study_id: 1
+  baseline_characteristic_field_id: 1
+  display_number: 1
+
+two:
+  study_id: 1
+  baseline_characteristic_field_id: 1
+  display_number: 1

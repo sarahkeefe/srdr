@@ -1,4 +1,5 @@
 class OutcomeResultsNotesController < ApplicationController
+  before_filter :require_user
   # GET /outcome_results_notes
   # GET /outcome_results_notes.xml
   def index

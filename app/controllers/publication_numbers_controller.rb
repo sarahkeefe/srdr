@@ -1,4 +1,5 @@
 class PublicationNumbersController < ApplicationController
+	before_filter :require_user
   # GET /publication_numbers
   # GET /publication_numbers.xml
   def index
