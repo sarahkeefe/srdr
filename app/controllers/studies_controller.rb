@@ -24,7 +24,6 @@ before_filter :require_user, :except => :show
 		@primary_publication = @study.get_primary_publication.nil? ? Publication.new : @study.get_primary_publication
 		@secondary_publications = @study.get_secondary_publications
 		@arms = Arm.where(:study_id => @study.id).all
-		@population_characteristics = PopulationCharacteristic.where(:study_id => @study.id).all
 		@outcomes = Outcome.where(:study_id => @study.id).all
 		@adverse_events = AdverseEvent.where(:study_id => @study.id).all
 		@quality_aspects = QualityAspect.where(:study_id => @study.id).all
@@ -70,12 +69,6 @@ end
 		makeActive(@study)
 		@project = Project.find(params[:project_id])
 		@study_arms = Arm.where(:study_id => @study.id).all
-		#@population_characteristics = PopulationCharacteristic.where(:study_id => @study.id).all
-		#@population_characteristic_data_point = PopulationCharacteristicDataPoint.new
-		#@population_characteristic = PopulationCharacteristic.new
-		#@population_characteristic_data = PopulationCharacteristicDataPoint.where(:study_id => @study.id).all
-		#@population_characteristic_subcategories = PopulationCharacteristicSubcategory.where(:population_characteristic_id => #@population_characteristic.id).all
-		@population_characteristic_subcategory = PopulationCharacteristicSubcategory.new
 		@baseline_characteristic_field = BaselineCharacteristicField.new
 		@baseline_characteristic_data_point = BaselineCharacteristicDataPoint.new
 		@baseline_characteristic_template_fields = BaselineCharacteristicField.where(:template_id => Study.get_template_id(@study.id)).all

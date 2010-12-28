@@ -4,10 +4,11 @@
 		
 		<%# CREATE TABLE HEADERS %>
 		<tr>
+		<th></th>
 		<th colspan="2">Category</th>
 
 		<%# CYCLE THROUGH ALL ARMS, CREATE TABLE HEADER FOR EACH ARM %>
-		<% if @study_arms.length > 0 %>
+		<% if !@study_arms.nil? && @study_arms.length > 0 %>
 			<% i = 1 %>
 			<% for one_arm in @study_arms %>
 				<th>Arm <%= i %>: <br/><%= one_arm.title %></th>
@@ -34,6 +35,7 @@
 				<% pop_subcategories = BaselineCharacteristicSubcategoryField.where(:baseline_characteristic_field_id => popchar.id).all %>
 				<% if pop_subcategories.length > 0 %>
 						<% first = true %>
+						<td rowspan="<%=pop_subcategories.length%>"><%= image_tag "Lock.png", :alt => "This is a template field and cannot be removed." %></td>
 						<td rowspan="<%=pop_subcategories.length%>"><%=popchar.category_title %>
 							<% if !popchar.units.nil? %>(<%= popchar.units %>)<br/><% end %>
 							<% if !popchar.measurement_type.nil? %>(<%= popchar.measurement_type %>)<% end %>
@@ -43,13 +45,21 @@
 							<% if @study_arms.length > 0 %>
 								<% for one_arm in @study_arms %>
 									<% val = BaselineCharacteristicDataPoint.get_data_point(one_arm.id, popchar, subcat, false) %>
-									<td><%= text_field "arm" + one_arm.id.to_s + "_tmpl" + Study.get_template_id(session[:study_id]).to_s, popchar.id.to_s + "_" + subcat.id.to_s, :size => 5, :value => val %></td>
+									<td>
+										<% if popchar.display_arms %>
+											<%= text_field "arm" + one_arm.id.to_s + "_tmpl" + Study.get_template_id(session[:study_id]).to_s, popchar.id.to_s + "_" + subcat.id.to_s, :size => 5, :value => val %>
+										<% end %>
+									</td>
 								<% end %>
 							<% end %>
 					
 						<%# GET AND DISPLAY INPUT BOXES / DATA VALUES FOR EACH ATTRIBUTE TOTAL %>
 						<% val = BaselineCharacteristicDataPoint.get_data_point(-1, popchar, subcat, true) %>
-						<td><%= text_field "total_tmpl" + Study.get_template_id(session[:study_id]).to_s, popchar.id.to_s + "_" + subcat.id.to_s, :size => 5, :value => val %></td>
+						<td>
+							<% if popchar.display_arms %>
+								<%= text_field "total_tmpl" + Study.get_template_id(session[:study_id]).to_s, popchar.id.to_s + "_" + subcat.id.to_s, :size => 5, :value => val %>
+							<% end %>
+						</td>
 
 						<% if first %>
 							<td rowspan="<%=pop_subcategories.length%>"><%= popchar.field_notes %></td>
@@ -61,7 +71,7 @@
 					<% end %>
 					
 				<% else %>
-				
+				<td><%= image_tag "Lock.png", :alt => "This is a template field and cannot be removed." %></td>
 					<td colspan="2"><%=popchar.category_title %>
 							<% if !popchar.units.nil? %>(<%= popchar.units %>)<br/><% end %>
 							<% if !popchar.measurement_type.nil? %>(<%= popchar.measurement_type %>)<% end %>
@@ -70,13 +80,21 @@
 						<% if @study_arms.length > 0 %>
 							<% for one_arm in @study_arms %>
 								<% val = BaselineCharacteristicDataPoint.get_data_point(one_arm.id, popchar, nil, false) %>
-								<td><%= text_field "arm" + one_arm.id.to_s + "_tmpl" + Study.get_template_id(session[:study_id]).to_s, popchar.id.to_s + "_-1", :size => 5, :value => val %></td>
+								<td>
+									<% if popchar.display_arms %>
+										<%= text_field "arm" + one_arm.id.to_s + "_tmpl" + Study.get_template_id(session[:study_id]).to_s, popchar.id.to_s + "_-1", :size => 5, :value => val %>
+									<% end %>
+								</td>
 							<% end %>
 						<% end %>
 					
 						<%# GET AND DISPLAY INPUT BOXES / DATA VALUES FOR EACH ATTRIBUTE TOTAL %>
 						<% val = BaselineCharacteristicDataPoint.get_data_point(-1, popchar, nil, true) %>
-						<td><%= text_field "total_" + "tmpl" + Study.get_template_id(session[:study_id]).to_s, popchar.id.to_s + "_-1", :size => 5, :value => val %></td>
+						<td>
+							<% if popchar.display_total %>
+								<%= text_field "total_" + "tmpl" + Study.get_template_id(session[:study_id]).to_s, popchar.id.to_s + "_-1", :size => 5, :value => val %>
+							<% end %>
+						</td>
 						<td><%= popchar.field_notes %></td>
 						<td></td>
 						</tr>
@@ -103,6 +121,7 @@
 				<% pop_subcategories = BaselineCharacteristicSubcategoryField.where(:baseline_characteristic_field_id => popchar.id).all %>
 				<% if pop_subcategories.length > 0 %>
 						<% first = true %>
+						<td rowspan="<%=pop_subcategories.length%>"></td>
 						<td rowspan="<%=pop_subcategories.length%>"><%=popchar.category_title %>
 							<% if !popchar.units.nil? %>(<%= popchar.units %>)<br/><% end %>
 							<% if !popchar.measurement_type.nil? %>(<%= popchar.measurement_type %>)<% end %>
@@ -112,20 +131,28 @@
 							<% if @study_arms.length > 0 %>
 								<% for one_arm in @study_arms %>
 									<% val = BaselineCharacteristicDataPoint.get_data_point(one_arm.id, popchar, subcat, false) %>
-									<td><%= text_field "arm" + one_arm.id.to_s + "_custom", popchar.id.to_s + "_" + subcat.id.to_s, :size => 5, :value => val %></td>
+									<td>
+										<% if popchar.display_arms %>
+											<%= text_field "arm" + one_arm.id.to_s + "_custom", popchar.id.to_s + "_" + subcat.id.to_s, :size => 5, :value => val %>
+										<% end %>
+									</td>
 								<% end %>
 							<% end %>
 					
 						<%# GET AND DISPLAY INPUT BOXES / DATA VALUES FOR EACH ATTRIBUTE TOTAL %>
 						<% val = BaselineCharacteristicDataPoint.get_data_point(-1, popchar, subcat, true) %>
-						<td><%= text_field "total_" + "custom", popchar.id.to_s + "_" + subcat.id.to_s, :size => 5, :value => val %></td>
+						<td>
+								<% if popchar.display_total %>
+									<%= text_field "total_" + "custom", popchar.id.to_s + "_" + subcat.id.to_s, :size => 5, :value => val %>
+								<% end %>
+						</td>
 
 						<% if first %>
 							<td rowspan="<%=pop_subcategories.length%>"><%= popchar.field_notes %></td>
 							<td rowspan="<%=pop_subcategories.length%>">
 							
 							<%= link_to "Edit", {:controller => "baseline_characteristic_fields", :action => "edit_custom", :field_id => popchar.id, :project_id => session[:project_id], :study_id => session[:study_id]}, :remote=>true, :class => "edit_link" %>
-							<%= link_to "Delete", popchar, :remote => true, :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %>
+							<%= link_to "Delete", baseline_characteristic_field_path(popchar.id, :study_id => session[:study_id]), :remote => true, :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %>
 							
 							</td>
 							<% first = false %>
@@ -134,7 +161,7 @@
 					<% end %>
 					
 				<% else %>
-				
+				<td></td>
 					<td colspan="2"><%=popchar.category_title %>
 							<% if !popchar.units.nil? %>(<%= popchar.units %>)<br/><% end %>
 							<% if !popchar.measurement_type.nil? %>(<%= popchar.measurement_type %>)<% end %>
@@ -143,17 +170,25 @@
 						<% if @study_arms.length > 0 %>
 							<% for one_arm in @study_arms %>
 								<% val = BaselineCharacteristicDataPoint.get_data_point(one_arm.id, popchar, nil, false) %>
-								<td><%= text_field "arm" + one_arm.id.to_s + "_custom", popchar.id.to_s + "_-1", :size => 5, :value => val %></td>
+								<td>
+										<% if popchar.display_arms %>				
+												<%= text_field "arm" + one_arm.id.to_s + "_custom", popchar.id.to_s + "_-1", :size => 5, :value => val %>
+										<% end %>
+								</td>
 							<% end %>
 						<% end %>
 					
 						<%# GET AND DISPLAY INPUT BOXES / DATA VALUES FOR EACH ATTRIBUTE TOTAL %>
 						<% val = BaselineCharacteristicDataPoint.get_data_point(-1, popchar, nil, true) %>
-						<td><%= text_field "total_" + "custom", popchar.id.to_s + "_-1", :size => 5, :value => val %></td>
+						<td>
+								<% if popchar.display_total %>
+									<%= text_field "total_" + "custom", popchar.id.to_s + "_-1", :size => 5, :value => val %>
+								<% end %>
+						</td>
 						<td><%= popchar.field_notes %></td>
 						<td>
-							<%= link_to "Edit", {:controller => "baseline_characteristic_fields", :action => "edit_custom", :field_id => popchar.id, :project_id => session[:project_id], :study_id => session[:study_id]}, :remote=>true, :class => "edit_link" %>
-							<%= link_to "Delete", popchar, :remote => true, :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %>
+							<%= link_to "Edit", edit_baseline_characteristic_field_path(popchar, :study_id => session[:study_id]), :remote=>true, :class => "edit_link" %>
+							<%= link_to "Delete", baseline_characteristic_field_path(popchar.id, :study_id => session[:study_id]), :remote => true, :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %>
 						</td>
 						</tr>
 				

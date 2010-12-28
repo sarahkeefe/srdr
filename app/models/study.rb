@@ -6,8 +6,6 @@ class Study < ActiveRecord::Base
 	has_many :outcome_timepoints, :through => :outcomes
 	has_many :outcome_enrolled_numbers, :through => :outcomes
 	has_many :outcomes, :dependent=>:destroy
-	#has_many :key_questions
-	has_many :population_characteristics, :dependent=>:destroy
 	has_many :adverse_event_arms, :through => :adverse_event
 	has_many :adverse_events, :dependent=>:destroy
 	has_many :quality_aspects, :dependent=>:destroy

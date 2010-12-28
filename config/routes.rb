@@ -95,8 +95,6 @@ end
 	match 'projects/:project_id/studies/:study_id/adverse_events/savedata' => 'adverse_events#savedata'
 	match 'projects/:project_id/manage/saveinfo' => 'user_project_roles#saveinfo'
 	match 'projects/:project_id/manage/adduser' => 'user_project_roles#add_new_user'
-	match 'projects/:project_id/studies/:study_id/attributes/edit_custom' => 'baseline_characteristic_fields#edit_custom'
-	
 	match 'templates/:template_id/baseline_characteristics' => 'templates#baseline_characteristics'
 	
 	match 'publications/:publication_id/moveup' => 'publications#moveup'	
