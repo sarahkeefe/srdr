@@ -358,8 +358,8 @@ class StudiesController < ApplicationController
   def create
     @study = Study.new(params[:study])
   	@study.project_id = session[:project_id]
-	@project = Project.find(session[:project_id])
-	Study.set_study_type(params)
+		@project = Project.find(session[:project_id])
+		Study.set_study_type(params)
     
   	makeActive(@study)
 	  
@@ -378,8 +378,8 @@ class StudiesController < ApplicationController
   # PUT /studies/1.xml
   def update
     @study = Study.find(params[:id])
-	@project = Project.find(session[:project_id])
-	@study = Study.set_study_type(params, @study)	
+		@project = Project.find(session[:project_id])
+		@study = Study.set_study_type(params, @study)	
 	
     respond_to do |format|
       if @study.update_attributes(params[:study])
@@ -387,18 +387,19 @@ class StudiesController < ApplicationController
 			questions = get_questions_params(params)
 	      unless questions.empty?
 	  	  	@study.assign_questions(questions)	  
-			format.js{
-				  render :update do |page|
-					success_html = "<div class='success_message' style='vertical-align:text-top; display:inline'>Saved</div>"
-					page.replace_html 'key_question_validation_message', success_html
-					page['key_question_validation_message'].visual_effect(:appear)
-					page['key_question_validation_message'].visual_effect(:fade)
-				  end
-			  }
-		end
+					format.js{
+					  render :update do |page|
+#							success_html = "<div class='success_message' style='vertical-align:text-top; display:inline'>Saved</div>"
+#							page.replace_html 'key_question_validation_message', success_html
+							#$('kq_save_status_div').visual_effect(:show)
+							#page['kq_save_status_div'].visual_effect(:fade)
+							page.call("show_save_indication","kq_save_status_div")
+					  end
+				  }
+				end
 	  	  
-	  	format.html { redirect_to(@study, :notice => 'Study was successfully updated.') }
-        format.xml  { head :ok }
+	  		format.html { redirect_to(@study, :notice => 'Study was successfully updated.') }
+      	format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @study.errors, :status => :unprocessable_entity }

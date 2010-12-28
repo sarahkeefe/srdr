@@ -12,10 +12,18 @@
   <% end %>
 
  <div class="form_content">
+ 	<div style="position:relative">
  <div class="field">
  <label>Enter Key Question Text:</label>
-<%= f.text_area :question, :cols=>50, :rows=>4 %>
-</div>
+	<%= f.text_area :question, :cols=>50, :rows=>4 %>
+</div><br/>
+  <div valign='middle' id="kq_save_status_div" class='form_save_status' style="display:none;">
+	  		<br/>Saved.
+	  	</div>
+  		
+	  	 
+	<!-- END SAVE STATUS DIV -->
+	</div>
 	<div class="actions">
 		<button type="submit" class="positive">
 			<%= image_tag "Add.png"%>Save

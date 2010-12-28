@@ -1,27 +1,40 @@
 <h2>Add Study</h2>
- <h3>Study Key Questions:</h3><br/>
-  <% unless @questions.empty? %>
 
-  <%= form_for(@study, :remote => true) do |f| %>
-<div class="form_content">
-<div class="field">
-  <% @questions.each do |q| %>
-	    <input type="checkbox" class="cbox" name=<%= "question_" + q.id.to_s %> >
-		<%= q.question_number.to_s + ". " + q.question %><br/>
-	  <% end %>
+<% unless @questions.empty? %>
+<!--<div class='form_save_status'>
+	Saved.
+</div>-->
+<%= form_for(@study, :remote => true) do |f| %>
+<div style="position:relative;"><br/>
+	 <% flash.each do |key, msg| %>
+    <%= content_tag :div, msg, :class => [key, " message"], :id => "notice_ #{key}" %>
+    <%= content_tag :script, :type => "text/javascript" do -%>
+        setTimeout("new Effect.Fade('notice_<%= key %>');", 15000);
+ 	 <% end %>
+ <% end %>
+	 <div class="form_content">
+	 <div class="field">
+   <% @questions.each do |q| %>
+	   <input type="checkbox" class="cbox" name=<%= "question_" + q.id.to_s %> >
+		 <%= q.question_number.to_s + ". " + q.question %><br/>
+	 <% end %>
+	 </div>
+ </div>
+	<div id="kq_save_status_div" name="kq_save_status_div" class='form_save_status' style="display:none;">
+		<br/>Saved.
+	</div>
 </div>
 <div class="actions">
-		<button type="submit" class="positive">
-			<%= image_tag "Accept.png"%>Save Questions
-		</button>
-</div></div>
-
+	<button type="submit" class="positive">
+		<%= image_tag "Accept.png"%>Save Questions
+	</button>
+</div>
 <div id="key_question_validation_message">
 </div>
 <% end %>
-  <% else %>
-    There are no key questions associated with this project.
-  <% end %>
+<% else %>
+  There are no key questions associated with this project.
+<% end %>
 
 <br/>
 <hr width="80%" size="1" align="center"><br/>

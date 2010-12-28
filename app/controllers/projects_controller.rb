@@ -91,8 +91,9 @@ class ProjectsController < ApplicationController
       if @project.save
         #format.html { redirect_to(@project, :notice => 'Project was successfully created.') }
         format.html {render :update do |page| 
-						page.replace_html 'validation_message', "<div class='success_message'>Saved successfully!</div><br/>"
-					  page.visual_effect(:appear, 'validation_message')	
+						page.replace_html 'validation_message', "<div class='success_message' style='display:none;'>Saved successfully!</div><br/>"
+						#page.call("show_save_indication","success_message");
+					  #page.visual_effect(:appear, 'validation_message')	
 					end
 			  }		
         format.xml  { render :xml => @project, :status => :created, :location => @project }
@@ -123,8 +124,10 @@ class ProjectsController < ApplicationController
       if @project.update_attributes(params[:project])
         #format.html { redirect_to(@project, :notice => 'Project was successfully updated.') }
         format.html {render :update do |page| 
-						page.replace_html 'validation_message', "<div class='success_message'>Saved successfully!</div><br/>"
-					page.visual_effect(:appear, 'validation_message')	
+        	page.replace_html 'validation_message', "<div class='success_message' id='success_div' style='display:none;'>Saved successfully!</div><br/>"
+					page.call("show_save_indication","success_div");
+					page.call("show_save_indication","project_save_status_div");
+					#page.visual_effect(:appear, 'validation_message')	
 					end
 					}
 		format.xml  { head :ok }
