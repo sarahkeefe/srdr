@@ -1,0 +1,61 @@
+<%= nested_form_for(@baseline_characteristic_field, :remote => true, :update => "population_characteristics_table", :html => {:id => "baseline_characteristic_field_form"}) do |f| %>
+<% if @baseline_characteristic_field.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@baseline_characteristic_field.errors.count, "error") %> 
+	  prohibited this baseline characteristic field from being saved:</h2>
+      <ul>
+      <% @baseline_characteristic_custom_field.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+<% end %>
+  
+<br/>
+
+<div class="form_content">
+	<div class="field">
+		<%= f.hidden_field :study_id, :value => params[:study_id] %>
+		<%= hidden_field_tag :study_id, :value => params[:study_id] %>
+		<label>Category Title:</label> <%= f.text_field :category_title %><br/><br/>
+		<label class="inline-label">Units:</label>  <%= f.text_field :units, :class => "inline-field" %><br/>
+		<label class="inline-label">Measurement Type:</label>  <%= f.text_field :measurement_type, :class => "inline-field" %>
+	</div>
+
+	<div class="field">
+    <label class="inline-label">Would you like to display boxes for <strong>individual arm input data</strong>?</label>
+    <%= f.select :display_arms, options_for_select([["Yes", true], ["No", false]]), :class => "inline_field" %><br/>
+	</div>
+		<div class="field">
+    <label class="inline-label">Would you like to display boxes for <strong>total value input data</strong>?</label>
+    <%= f.select :display_total, options_for_select([["Yes", true], ["No", false]]), :class => "inline_field" %>
+	</div>
+	
+	<%= f.fields_for :baseline_characteristic_subcategory_fields do |t| %>
+		<div class="field">
+			<label class="inline-label">Subcategory Title:</label> 
+				<%= t.text_field :subcategory_title, :class => "inline-field" %><br/><br/>
+			<div class="admin_functions">
+				<%= t.link_to_remove "Remove This Subcategory" %>
+			</div>
+		</div>
+	<% end %>
+
+<br/>
+
+<%= f.link_to_add "Add a Subcategory", :baseline_characteristic_subcategory_fields %>
+
+<br/><br/>
+
+<div class="field">
+    <label>Notes on this template field:</label>
+    <%= f.text_area :field_notes, :rows => 4, :cols => 40 %>
+	</div>
+	<div class="actions">
+		<button type="submit" class="positive">
+			<%= image_tag "Add.png"%>Save
+		</button>
+	
+</div>
+</div>
+<% end %>

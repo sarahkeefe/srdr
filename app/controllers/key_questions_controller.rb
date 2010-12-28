@@ -42,9 +42,11 @@ before_filter :require_user
 				@key_questions = KeyQuestion.where(:project_id => session[:project_id]).all
         format.js {
 		  		render :update do |page|
+		  			
 						page.replace_html 'key_question_validation_message', ""				
 						page.replace_html 'key_question_table', :partial => 'key_questions/table'
 						new_row_name = "kq_row_" + question_number.to_s
+						page.call("show_save_indication","kq_save_status_div");
 						page['new_key_question'].reset
 						page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", 
 																						 :restorecolor=>"#ffffff", :duration=>2})

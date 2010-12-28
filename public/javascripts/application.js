@@ -97,4 +97,8 @@ function toggle_display_by_class(class_name,default_display,element_id){
 		}
 	}
 }
-
+function show_save_indication(div_id){
+	//alert(div_id.toString());
+	$(div_id).show("slow");
+	$(div_id).fade({duration:2});
+}

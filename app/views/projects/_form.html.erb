@@ -1,6 +1,6 @@
 <div class="form_content">
 <%= form_for(@project, :remote =>true, :before=>"if($('project_title').value < 4){return false;}") do |f| %>
-
+  <div style="position:relative;"> 
 	<div class="field">
     <label>
 		Enter a Project Title:
@@ -28,13 +28,16 @@
 	</label>
 	<%= f.text_area :notes, :cols => 50, :rows => 4 %>
 	</div>
-
+	<div valign='middle' id="project_save_status_div" class='form_save_status' style="display:none;">
+	  		<br/>Saved.
+	  	</div>
+  </div>
 	<div class="actions">
 		<button type="submit" class="positive">
 			<%= image_tag "Accept.png"%>Save
 		</button>
-		<div id="validation_message"><%= flash[:notice] %></div>
-  </div>
+	<div id="validation_message"><%= flash[:notice] %></div>
+</div>
 
 <% end %>
 </div>

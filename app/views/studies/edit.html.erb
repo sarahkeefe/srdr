@@ -14,27 +14,31 @@
 <% unless @questions.empty? %>
 <div class="form_content">
 	<%= form_for(@study, :remote => true) do |f| %>
-
-				<div class="field">
-		<% @questions.each do |q| %>
-
-			<% checked_flag = "" %>
-			<%# see if the "checked_ids" array contains the id of the current question %>
-			<% if @checked_ids.include?(q.id) %>
-				<% checked_flag = "checked" %>
-			<% end %>
-			<input type="checkbox" class="cbox" name="<%= "question_" + q.id.to_s %>" <%= checked_flag %> >
-			<%= q.question_number.to_s + ". " + q.question %><br/>
-		<% end %>
-</div>
-			<div class="actions">
-						<button type="submit" class="positive">
-			<%= image_tag "Accept.png"%>Save Questions
-		</button>
+    <div style="position:relative;"><br/>
+			<div class="field">
+				<% @questions.each do |q| %>
+					<% checked_flag = "" %>
+					<%# see if the "checked_ids" array contains the id of the current question %>
+					<% if @checked_ids.include?(q.id) %>
+						<% checked_flag = "checked" %>
+					<% end %>
+					<input type="checkbox" class="cbox" name="<%= "question_" + q.id.to_s %>" <%= checked_flag %> >
+					<%= q.question_number.to_s + ". " + q.question %><br/>
+				<% end %>
 			</div>
+		
+			<div id="kq_save_status_div" class='form_save_status' style="display:none;">
+		  	<br/>Saved.
+	  	</div>
+	  </div>
+		<div class="actions">
+			<button type="submit" class="positive">
+				<%= image_tag "Accept.png"%>Save Questions
+			</button>
+		</div>
+		<div id="key_question_validation_message" valign='center'></div>
+ 	<% end %>
 </div>
-			<div id="key_question_validation_message"></div>
- <% end %>
 <% else %>
   There are no key questions associated with the project. <%= link_to "Add Key Questions", edit_project_path(session[:project_id])%>
 <% end %>
@@ -44,6 +48,7 @@
 <div id="primary_pub_validation_message"></div>
 <h3>Primary Publication Information</h3>
 <%= render 'publications/form_primary' %>
+ 
 <br/>
 <hr width="80%" size="1" align="center"><br/>
 
@@ -52,8 +57,6 @@
 <div id="secondary_publication_table">
 <%= render 'publications/table' %>
 </div>
-
-<b>Add new Publication to Study</b><br/><br/>
 <div id="secondary_publication_entry">
 <%= render 'publications/form' %>
 </div>

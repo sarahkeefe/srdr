@@ -21,7 +21,7 @@ before_filter :require_user
 	  respond_to do |format|
       format.js {
 		  	render :update do |page|
-					page.replace_html 'secondary_publication_entry', :partial => 'publications/form'
+					page.replace_html 'secondary_publication_entry', :partial => 'publications/edit_secondary_form'
 			  end
 		  }
 	  end
@@ -57,18 +57,18 @@ before_filter :require_user
 					render :update do |page|
 					  page.replace_html 'secondary_publication_table', :partial => 'publications/table'
 						page.replace_html 'secondary_pub_validation_message', ""					  
-					  page['secondary_pub_form'].reset
-					 new_row_name = "pub_row_" + @publication.id.to_s					  
+					  new_row_name = "pub_row_" + @publication.id.to_s					  
 						page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", 
-																						 :restorecolor=>"#ffffff", :duration=>2})					  
-					end	  	  	  	
-				  #page['key_question_validation_message'].visual_effect(:appear)
-				  #page['key_question_validation_message'].visual_effect(:fade)
+																						 :restorecolor=>"#ffffff", :duration=>2})			
+						page.call("show_save_indication","sec_pub_save_status_div");		  
+						page['secondary_pub_form'].reset
+					end	  	  	  
 					}
 			elsif params[:is_primary] == 'true'
 				saved_html = "<div class='success_message'>Saved!</div>"
 				format.html {render :update do |page| 
-					page.replace_html 'primary_pub_validation_message', saved_html
+					#page.replace_html 'primary_pub_validation_message', saved_html
+					page.call("show_save_indication","publication_save_status_div");
 					end
 					}       
 				format.xml  { render :xml => @publication, :status => :created, :location => @publication }	  
@@ -113,14 +113,18 @@ before_filter :require_user
 			  @secondary_publications = Publication.find(:all, :order => 'display_number ASC', :conditions => {:is_primary => false, :study_id => session[:study_id]})
 			  render :update do |page|
 					if params[:is_primary] == 'true'
-						saved_html = "<div class='success_message'>Saved!</div>"			
-						page.replace_html 'primary_pub_validation_message', saved_html
+						#saved_html = "<div class='success_message'>Saved!</div>"			
+						#page.replace_html 'primary_pub_validation_message', saved_html
+						page.call("show_save_indication","publication_save_status_div");
 					else
-						page.replace_html 'secondary_publication_table', :partial=>'publications/table'			
+						page.replace_html 'secondary_publication_table', :partial=>'publications/table'		
+						@publication = Publication.new  
+						page.replace_html 'secondary_publication_entry', :partial=>'publications/form'	
+						page.call("show_save_indication","sec_pub_save_status_div");		  
+						page['secondary_pub_form'].reset
 					end
 					 
-	  			@publication = Publication.new  
-					page.replace_html 'secondary_publication_entry', :partial=>'publications/form'
+	  			
 			  end
 			}
         format.html { redirect_to(project_study_publication_path(session[:project_id],session[:study_id],@publication), :notice => 'Publication was successfully updated.') }
