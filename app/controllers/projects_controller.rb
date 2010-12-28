@@ -72,7 +72,13 @@ class ProjectsController < ApplicationController
 		proj_id = @project.id	
 		@key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
 		@key_question = KeyQuestion.new
-	   
+	  		if !current_user.nil?
+			@user_role = UserProjectRole.new
+			@user_role.user_id = current_user.id
+			@user_role.project_id = @project.id
+			@user_role.role = "lead"
+			@user_role.save
+		end
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @project }
@@ -100,13 +106,7 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       if @project.save
 		# Save user role for this project
-		if !current_user.nil?
-			@user_role = UserProjectRole.new
-			@user_role.user_id = current_user.id
-			@user_role.project_id = @project.id
-			@user_role.role = "lead"
-			@user_role.save
-		end
+
         format.html {render :update do |page| 
 						page.replace_html 'validation_message', "<div class='success_message' style='display:none;'>Saved successfully!</div><br/>"
 						#page.call("show_save_indication","success_message");
