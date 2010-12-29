@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Quality dimension field:</b>
+  <%= @quality_dimension_data_point.quality_dimension_field_id %>
+</p>
+
+<p>
+  <b>Value:</b>
+  <%= @quality_dimension_data_point.value %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%= @quality_dimension_data_point.notes %>
+</p>
+
+
+<%= link_to 'Edit', edit_quality_dimension_data_point_path(@quality_dimension_data_point) %> |
+<%= link_to 'Back', quality_dimension_data_points_path %>

@@ -7,6 +7,7 @@
 		<ul>
 		<li><%= link_to "View All Systematic Reviews",  projects_path, :class => "edit_link small_edit_link"  %></li>
 		<li><%= link_to "Create New Systematic Review",  new_project_path, :class => "edit_link small_edit_link"  %></li>
+		<li><%= link_to "Create New Study Template",  new_template_path, :class => "edit_link small_edit_link"  %></li>		
 		</ul>	
 	</div>
 	<% elsif current_user.user_type == "member" %>

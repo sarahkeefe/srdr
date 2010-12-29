@@ -1,9 +1,13 @@
 Srdr::Application.routes.draw do
 
-  resources :study_templates
+ resources :study_templates
 
   resources :templates
 
+  resources :quality_dimension_data_points
+
+  resources :quality_dimension_fields
+  
   resources :baseline_characteristic_subcategory_data_points
 
   resources :baseline_characteristic_data_points
@@ -96,6 +100,7 @@ end
 	match 'projects/:project_id/manage/saveinfo' => 'user_project_roles#saveinfo'
 	match 'projects/:project_id/manage/adduser' => 'user_project_roles#add_new_user'
 	match 'templates/:template_id/baseline_characteristics' => 'templates#baseline_characteristics'
+	match 'templates/:template_id/quality_dimensions' => 'templates#quality_dimensions'
 	
 	match 'publications/:publication_id/moveup' => 'publications#moveup'	
 	match 'population_characteristics/:population_characteristic_id/moveup' => 'population_characteristics#moveup'	

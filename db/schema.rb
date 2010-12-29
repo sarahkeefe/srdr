@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101228180810) do
+ActiveRecord::Schema.define(:version => 20101229210210) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer   "study_id"
@@ -320,6 +320,24 @@ ActiveRecord::Schema.define(:version => 20101228180810) do
     t.timestamp "created_at"
     t.timestamp "updated_at"
     t.integer   "display_number"
+  end
+
+  create_table "quality_dimension_data_points", :force => true do |t|
+    t.integer  "quality_dimension_field_id"
+    t.string   "value"
+    t.text     "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "study_id"
+  end
+
+  create_table "quality_dimension_fields", :force => true do |t|
+    t.string   "title"
+    t.text     "field_notes"
+    t.integer  "template_id"
+    t.integer  "study_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "quality_ratings", :force => true do |t|

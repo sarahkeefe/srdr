@@ -1,0 +1,32 @@
+<%= form_for(@quality_dimension_field, :remote=> true, :update => "quality_dimension_fields_table", :html => {:id => "quality_dimension_field_form"}) do |f| %>
+  <% if @quality_dimension_field.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@quality_dimension_field.errors.count, "error") %> prohibited this quality_dimension_field from being saved:</h2>
+
+      <ul>
+      <% @quality_dimension_field.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+	<div class="form_content">
+  <div class="field">
+  <label>Title:</label>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <label>Field Notes:</label>
+    <%= f.text_area :field_notes, :rows => 4, :cols => 40 %>
+  </div>
+
+  	<%= f.hidden_field :study_id, :value => session[:study_id] %>
+	<%= hidden_field_tag :study_id, session[:study_id] %>
+	
+  <div class="actions">
+		<button type="submit" class="positive">
+			<%= image_tag "Add.png"%>Add
+		</button>
+  </div>
+ </div>
+<% end %>

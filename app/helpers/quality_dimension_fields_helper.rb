@@ -1,0 +1,2 @@
+module QualityDimensionFieldsHelper
+end

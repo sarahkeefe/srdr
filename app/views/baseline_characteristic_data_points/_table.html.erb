@@ -4,7 +4,6 @@
 		
 		<%# CREATE TABLE HEADERS %>
 		<tr>
-		<th></th>
 		<th colspan="2">Category</th>
 
 		<%# CYCLE THROUGH ALL ARMS, CREATE TABLE HEADER FOR EACH ARM %>
@@ -35,7 +34,6 @@
 				<% pop_subcategories = BaselineCharacteristicSubcategoryField.where(:baseline_characteristic_field_id => popchar.id).all %>
 				<% if pop_subcategories.length > 0 %>
 						<% first = true %>
-						<td rowspan="<%=pop_subcategories.length%>"><%= image_tag "Lock.png", :alt => "This is a template field and cannot be removed." %></td>
 						<td rowspan="<%=pop_subcategories.length%>"><%=popchar.category_title %>
 							<% if !popchar.units.nil? %>(<%= popchar.units %>)<br/><% end %>
 							<% if !popchar.measurement_type.nil? %>(<%= popchar.measurement_type %>)<% end %>
@@ -46,6 +44,7 @@
 								<% for one_arm in @study_arms %>
 									<% val = BaselineCharacteristicDataPoint.get_data_point(one_arm.id, popchar, subcat, false) %>
 									<td>
+									
 										<% if popchar.display_arms %>
 											<%= text_field "arm" + one_arm.id.to_s + "_tmpl" + Study.get_template_id(session[:study_id]).to_s, popchar.id.to_s + "_" + subcat.id.to_s, :size => 5, :value => val %>
 										<% end %>
@@ -63,7 +62,7 @@
 
 						<% if first %>
 							<td rowspan="<%=pop_subcategories.length%>"><%= popchar.field_notes %></td>
-							<td rowspan="<%=pop_subcategories.length%>">
+							<td rowspan="<%=pop_subcategories.length%>"><%= image_tag "Lock.png", :alt => "This is a template field and cannot be removed." %>
 							</td>
 							<% first = false %>
 						<% end %>
@@ -71,7 +70,6 @@
 					<% end %>
 					
 				<% else %>
-				<td><%= image_tag "Lock.png", :alt => "This is a template field and cannot be removed." %></td>
 					<td colspan="2"><%=popchar.category_title %>
 							<% if !popchar.units.nil? %>(<%= popchar.units %>)<br/><% end %>
 							<% if !popchar.measurement_type.nil? %>(<%= popchar.measurement_type %>)<% end %>
@@ -96,7 +94,7 @@
 							<% end %>
 						</td>
 						<td><%= popchar.field_notes %></td>
-						<td></td>
+						<td><%= image_tag "Lock.png", :alt => "This is a template field and cannot be removed." %></td>
 						</tr>
 				
 				<% end %>
@@ -121,7 +119,6 @@
 				<% pop_subcategories = BaselineCharacteristicSubcategoryField.where(:baseline_characteristic_field_id => popchar.id).all %>
 				<% if pop_subcategories.length > 0 %>
 						<% first = true %>
-						<td rowspan="<%=pop_subcategories.length%>"></td>
 						<td rowspan="<%=pop_subcategories.length%>"><%=popchar.category_title %>
 							<% if !popchar.units.nil? %>(<%= popchar.units %>)<br/><% end %>
 							<% if !popchar.measurement_type.nil? %>(<%= popchar.measurement_type %>)<% end %>
@@ -161,7 +158,6 @@
 					<% end %>
 					
 				<% else %>
-				<td></td>
 					<td colspan="2"><%=popchar.category_title %>
 							<% if !popchar.units.nil? %>(<%= popchar.units %>)<br/><% end %>
 							<% if !popchar.measurement_type.nil? %>(<%= popchar.measurement_type %>)<% end %>

@@ -1,0 +1,54 @@
+<%= form_for @quality_dimension_data_point, :remote => true, :html=>{:id=>"quality_dimension_data_point_form"} do |f| %>
+
+<table class="list_table">
+<th>Dimension</th>
+<th>Value</th>
+<th>Notes</th>
+<th>Actions</th>
+<%# ------------------- LISTING TEMPLATE FIELDS --------------------- %>
+<% if !@quality_dimension_template_fields.nil? && @quality_dimension_template_fields.length > 0 %>
+<% for qa in @quality_dimension_template_fields %>
+<tr class="<%= cycle("even", "odd") %>" id='<%= 'quality_aspect_' + qa.id.to_s %>'>
+
+<td><%= qa.title %></td>
+
+<% tmpl_id = qa.template_id %>
+<% val = QualityDimensionDataPoint.get_data_point(qa, session[:study_id]) %>
+<td><%= text_field "quality_value_tmpl" + tmpl_id.to_s, qa.id.to_s, :size => 5, :value => val %></td>
+
+<% val = QualityDimensionDataPoint.get_data_point_notes(qa, session[:study_id]) %>
+<td>
+<%= text_field "quality_notes_tmpl" + tmpl_id.to_s, qa.id.to_s, :size => 15, :value => val %>
+<script type="text/javascript">$j('#quality_notes_tmpl' + <%= tmpl_id.to_s %> + "_" + <%=qa.id.to_s %>).popBox({width:500, newlineString: "\n" });</script>
+</td>
+<td><%= image_tag "Lock.png", :alt => "This is a template field and cannot be removed." %></td>
+</tr>
+<% end %>
+<% end %>
+
+<%# ------------------- LISTING CUSTOM FIELDS --------------------- %>
+
+<% if !@quality_dimension_custom_fields.nil? && @quality_dimension_custom_fields.length > 0 %>
+<% for qa in @quality_dimension_custom_fields %>
+<tr class="<%= cycle("even", "odd") %>" id='<%= 'quality_aspect_' + qa.id.to_s %>'>
+<td><%= qa.title %></td>
+<% tmpl_id = qa.template_id %>
+<% val = QualityDimensionDataPoint.get_data_point(qa, session[:study_id]) %>
+<td><%= text_field "quality_value_custom", qa.id.to_s, :size => 5, :value => val %></td>
+
+<% val = QualityDimensionDataPoint.get_data_point_notes(qa, session[:study_id]) %>
+<td>
+<%= text_field "quality_notes_custom", qa.id.to_s, :size => 15, :value => val %>
+<script type="text/javascript">$j('#quality_notes_custom_" + <%=qa.id.to_s %>).popBox({width:500, newlineString: "\n" });</script>
+</td>
+<td>
+<%= link_to "Edit", edit_quality_dimension_field_path(qa, :study_id => session[:study_id]), :remote=>true, :class => "edit_link" %>
+<%= link_to "Delete", quality_dimension_field_path(qa, :study_id => session[:study_id]), :remote=>true, :confirm => 'Are you sure?', :method=>:delete, :class => "delete_link" %></td>
+</tr>
+<% end %>
+<% end %>
+
+</table>
+<% end %>
+<br/><br/>
+<div id="quality_aspect_validation_message"></div>

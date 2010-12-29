@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @quality_dimension_field.title %>
+</p>
+
+<p>
+  <b>Field notes:</b>
+  <%= @quality_dimension_field.field_notes %>
+</p>
+
+<p>
+  <b>Template:</b>
+  <%= @quality_dimension_field.template_id %>
+</p>
+
+<p>
+  <b>Study:</b>
+  <%= @quality_dimension_field.study_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_quality_dimension_field_path(@quality_dimension_field) %> |
+<%= link_to 'Back', quality_dimension_fields_path %>
