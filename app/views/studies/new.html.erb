@@ -3,6 +3,7 @@
  
    <%= form_for(@study_template, :remote => true) do |f| %>
 <div class="form_content">
+	
 <div class="field">
 Choose a template for this study, or select "No Template":
     <%= f.hidden_field :study_id, :value => @study.id %>
@@ -10,6 +11,7 @@ Choose a template for this study, or select "No Template":
     <%= f.select :template_id, options_for_select(@template_list_array), :class => "inline_field" %><br/>
 	Note: this cannot be changed after you leave this page.
 </div>
+  
  <div class="actions">
 		<button type="submit" class="positive">
 			<%= image_tag "Accept.png"%>Assign Template to Study
@@ -22,11 +24,16 @@ Choose a template for this study, or select "No Template":
 
   <%= form_for(@study, :remote => true) do |f| %>
 <div class="form_content">
-<div class="field">
-  <% @questions.each do |q| %>
-	    <input type="checkbox" class="cbox" name=<%= "question_" + q.id.to_s %> >
-		<%= q.question_number.to_s + ". " + q.question %><br/>
-	  <% end %>
+	<div style='position:relative;'>
+		<div class="field">
+		  <% @questions.each do |q| %>
+			    <input type="checkbox" class="cbox" name=<%= "question_" + q.id.to_s %> >
+				<%= q.question_number.to_s + ". " + q.question %><br/>
+			  <% end %>	
+		</div>
+		<div id='kq_save_status_div' class='form_save_status' style='display:none;'>
+			 <br/>Saved.
+		</div>
 </div>
 <div class="actions">
 	<button type="submit" class="positive">
@@ -54,7 +61,7 @@ Choose a template for this study, or select "No Template":
 <%= render 'publications/table' %>
 </div>
 
-<b>Add new Publication to Study</b><br/><br/>
+<br/>
 
 <div id="secondary_publication_entry">
 <%= render 'publications/form' %>

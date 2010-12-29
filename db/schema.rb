@@ -94,41 +94,41 @@ ActiveRecord::Schema.define(:version => 20101228180810) do
   end
 
   create_table "exclusion_criteria_items", :force => true do |t|
-    t.integer  "study_id"
-    t.string   "item_text"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "display_number"
+    t.integer   "study_id"
+    t.string    "item_text"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "display_number"
   end
 
   create_table "footnote_fields", :force => true do |t|
-    t.integer  "study_id"
-    t.integer  "outcome_id"
-    t.integer  "subgroup_id"
-    t.integer  "timepoint_id"
-    t.integer  "footnote_number"
-    t.string   "field_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer   "study_id"
+    t.integer   "outcome_id"
+    t.integer   "subgroup_id"
+    t.integer   "timepoint_id"
+    t.integer   "footnote_number"
+    t.string    "field_name"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
   create_table "footnotes", :force => true do |t|
-    t.integer  "note_number"
-    t.integer  "study_id"
-    t.integer  "outcome_id"
-    t.integer  "subgroup_id"
-    t.integer  "timepoint_id"
-    t.string   "note_text"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer   "note_number"
+    t.integer   "study_id"
+    t.integer   "outcome_id"
+    t.integer   "subgroup_id"
+    t.integer   "timepoint_id"
+    t.string    "note_text"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
   create_table "inclusion_criteria_items", :force => true do |t|
-    t.integer  "study_id"
-    t.string   "item_text"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "display_number"
+    t.integer   "study_id"
+    t.string    "item_text"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "display_number"
   end
 
   create_table "key_questions", :force => true do |t|

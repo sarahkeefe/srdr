@@ -25,8 +25,10 @@
 		<td><%= pub.year %></td>
 		<td><%= pub.association.gsub("_", " ")%></td>
 		<td>
+		<% unless pub.display_number.nil? %>
 		<% if pub.display_number > 1 %>
 		<%= link_to "Move Up", {:controller => :publications, :action => :moveup, :publication_id => pub.id}, :remote=>true, :class => "edit_link" %>
+		<% end %>
 		<% end %>
 		<%= link_to :Edit, edit_publication_path(pub), :remote=>true, :class => "edit_link" %>
 		<%= link_to :Delete, publication_path(pub), :remote=>true, :confirm => 'Are you sure?', :method=>:delete, :class => "delete_link" %></td>
