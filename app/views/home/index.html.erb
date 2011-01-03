@@ -11,7 +11,8 @@
 		<li><%= link_to "Create New Study Template",  new_custom_template_path, :class => "edit_link small_edit_link"  %></li>		
 		</ul>	
 	</div>
-	<% elsif current_user.user_type == "member" %>
+	<% end %>
+	<% if current_user.user_type == "member" %>
 	
 		<h3>Systematic Reviews for user <%= current_user.fname %> <%= current_user.lname %> (<%=current_user.login %>)</h3><br/>
 		
