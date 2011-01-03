@@ -64,6 +64,22 @@ def self.current_user_has_study_edit_privilege(project_id, user)
 	end
 end
 
+def self.current_user_has_template_edit_privilege(template, user)
+	if !user.nil?
+		if user.user_type == "admin"
+			return true
+		else
+			if template.creator_id == user.id
+				return true
+			else
+				return false
+			end
+		end
+	else
+			return false
+	end
+end
+
 def self.current_user_has_new_project_privilege(user)
 	if !user.nil?
 		if user.user_type == "admin"

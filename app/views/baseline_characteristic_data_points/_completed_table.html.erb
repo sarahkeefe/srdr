@@ -1,0 +1,195 @@
+<table class="list_table">
+<table class="list_table">
+		
+		<%# CREATE TABLE HEADERS %>
+		<tr>
+		<th colspan="2">Category</th>
+
+		<%# CYCLE THROUGH ALL ARMS, CREATE TABLE HEADER FOR EACH ARM %>
+		<% if !@study_arms.nil? && @study_arms.length > 0 %>
+			<% i = 1 %>
+			<% for one_arm in @study_arms %>
+				<th>Arm <%= i %>: <br/><%= one_arm.title %></th>
+				<% i = i + 1 %>
+			<% end %>
+		<% end %>
+		<th>Total</th>
+		<th>Notes</th>
+		<th>Actions</th>
+		</tr>
+		
+		
+		<%# ------------------------------------------------------------------------------------ %>
+		<%# GO THROUGH BASELINE CHARACTERISTICS ----- TEMPLATE FIELDS ----- %>
+		<%# ------------------------------------------------------------------------------------ %>
+		
+		
+		<% if @baseline_characteristic_template_fields.length > 0 %>
+
+		<% for popchar in @baseline_characteristic_template_fields %>
+
+				<tr class="<%= cycle("even", "odd") %>" id="pop_char_row_<%=popchar.id.to_s %>">
+				
+				<% pop_subcategories = BaselineCharacteristicSubcategoryField.where(:baseline_characteristic_field_id => popchar.id).all %>
+				<% if pop_subcategories.length > 0 %>
+						<% first = true %>
+						<td rowspan="<%=pop_subcategories.length%>"><%=popchar.category_title %>
+							<% if !popchar.units.nil? %>(<%= popchar.units %>)<br/><% end %>
+							<% if !popchar.measurement_type.nil? %>(<%= popchar.measurement_type %>)<% end %>
+						</td>
+					 <% for subcat in pop_subcategories %>
+							<td><%=subcat.subcategory_title%></td>	
+							<% if @study_arms.length > 0 %>
+								<% for one_arm in @study_arms %>
+									<% val = BaselineCharacteristicDataPoint.get_data_point(one_arm.id, popchar, subcat, false) %>
+									<td>
+									
+										<% if popchar.display_arms %>
+											<%= val %>
+										<% end %>
+									</td>
+								<% end %>
+							<% end %>
+					
+						<%# GET AND DISPLAY INPUT BOXES / DATA VALUES FOR EACH ATTRIBUTE TOTAL %>
+						<% val = BaselineCharacteristicDataPoint.get_data_point(-1, popchar, subcat, true) %>
+						<td>
+							<% if popchar.display_arms %>
+								<%= val %>
+							<% end %>
+						</td>
+
+						<% if first %>
+							<td rowspan="<%=pop_subcategories.length%>"><%= popchar.field_notes %></td>
+							<td rowspan="<%=pop_subcategories.length%>"><%= image_tag "Lock.png", :alt => "This is a template field and cannot be removed." %>
+							</td>
+							<% first = false %>
+						<% end %>
+						</tr>
+					<% end %>
+					
+				<% else %>
+					<td colspan="2"><%=popchar.category_title %>
+							<% if !popchar.units.nil? %>(<%= popchar.units %>)<br/><% end %>
+							<% if !popchar.measurement_type.nil? %>(<%= popchar.measurement_type %>)<% end %>
+					</td>
+					 
+						<% if @study_arms.length > 0 %>
+							<% for one_arm in @study_arms %>
+								<% val = BaselineCharacteristicDataPoint.get_data_point(one_arm.id, popchar, nil, false) %>
+								<td>
+									<% if popchar.display_arms %>
+										<%= val %>
+									<% end %>
+								</td>
+							<% end %>
+						<% end %>
+					
+						<%# GET AND DISPLAY INPUT BOXES / DATA VALUES FOR EACH ATTRIBUTE TOTAL %>
+						<% val = BaselineCharacteristicDataPoint.get_data_point(-1, popchar, nil, true) %>
+						<td>
+							<% if popchar.display_total %>
+								<%= val %>
+							<% end %>
+						</td>
+						<td><%= popchar.field_notes %></td>
+						<td><%= image_tag "Lock.png", :alt => "This is a template field and cannot be removed." %></td>
+						</tr>
+				
+				<% end %>
+				
+			<%# END FOR %>
+			<% end %>
+		
+		<%# END IF - baseline_characteristics_template_fields.length %>
+		<% end %>
+		
+		
+		<%# ------------------------------------------------------------------------------------ %>
+		<%# GO THROUGH BASELINE CHARACTERISTICS ----- CUSTOM FIELDS ------ %>
+		<%# ------------------------------------------------------------------------------------ %>
+
+		
+		<% if !@baseline_characteristic_custom_fields.nil? && @baseline_characteristic_custom_fields.length > 0 %>
+		<% for popchar in @baseline_characteristic_custom_fields %>
+
+				<tr class="<%= cycle("even", "odd") %>" id="pop_char_row_<%=popchar.id.to_s %>">
+				
+				<% pop_subcategories = BaselineCharacteristicSubcategoryField.where(:baseline_characteristic_field_id => popchar.id).all %>
+				<% if pop_subcategories.length > 0 %>
+						<% first = true %>
+						<td rowspan="<%=pop_subcategories.length%>"><%=popchar.category_title %>
+							<% if !popchar.units.nil? %>(<%= popchar.units %>)<br/><% end %>
+							<% if !popchar.measurement_type.nil? %>(<%= popchar.measurement_type %>)<% end %>
+						</td>
+					 <% for subcat in pop_subcategories %>
+							<td><%=subcat.subcategory_title%></td>	
+							<% if @study_arms.length > 0 %>
+								<% for one_arm in @study_arms %>
+									<% val = BaselineCharacteristicDataPoint.get_data_point(one_arm.id, popchar, subcat, false) %>
+									<td>
+										<% if popchar.display_arms %>
+											<%= val %>
+										<% end %>
+									</td>
+								<% end %>
+							<% end %>
+					
+						<%# GET AND DISPLAY INPUT BOXES / DATA VALUES FOR EACH ATTRIBUTE TOTAL %>
+						<% val = BaselineCharacteristicDataPoint.get_data_point(-1, popchar, subcat, true) %>
+						<td>
+								<% if popchar.display_total %>
+									<%= val %>
+								<% end %>
+						</td>
+
+						<% if first %>
+							<td rowspan="<%=pop_subcategories.length%>"><%= popchar.field_notes %></td>
+							<td rowspan="<%=pop_subcategories.length%>">
+							
+							
+							</td>
+							<% first = false %>
+						<% end %>
+						</tr>
+					<% end %>
+					
+				<% else %>
+					<td colspan="2"><%=popchar.category_title %>
+							<% if !popchar.units.nil? %>(<%= popchar.units %>)<br/><% end %>
+							<% if !popchar.measurement_type.nil? %>(<%= popchar.measurement_type %>)<% end %>
+					</td>
+					 
+						<% if @study_arms.length > 0 %>
+							<% for one_arm in @study_arms %>
+								<% val = BaselineCharacteristicDataPoint.get_data_point(one_arm.id, popchar, nil, false) %>
+								<td>
+										<% if popchar.display_arms %>				
+												<%= val %>
+										<% end %>
+								</td>
+							<% end %>
+						<% end %>
+					
+						<%# GET AND DISPLAY INPUT BOXES / DATA VALUES FOR EACH ATTRIBUTE TOTAL %>
+						<% val = BaselineCharacteristicDataPoint.get_data_point(-1, popchar, nil, true) %>
+						<td>
+								<% if popchar.display_total %>
+									<%= val %>
+								<% end %>
+						</td>
+						<td><%= popchar.field_notes %></td>
+						<td>
+
+						</td>
+						</tr>
+				
+				<% end %>
+				
+			<%# END FOR %>
+			<% end %>
+		
+		<%# END IF - baseline_characteristics_custom_fields.length %>
+		<% end %>
+		
+	</table>

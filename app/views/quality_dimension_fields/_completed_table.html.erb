@@ -1,0 +1,17 @@
+<table class="list_table">
+
+<th>Dimension</th>
+<th>Notes</th>
+
+<% if @quality_dimension_fields.length > 0 %>
+<% for qa in @quality_dimension_fields %>
+<tr class="<%= cycle("even", "odd") %>" id='<%= 'quality_dimension_' + qa.id.to_s %>'>
+
+<td><%= qa.title %></td>
+<td><%= qa.field_notes %></td>
+</tr>
+<% end %>
+<% end %>
+</table>
+<br/><br/>
+<div id="quality_dimension_validation_message"></div>

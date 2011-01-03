@@ -29,7 +29,7 @@ class Study < ActiveRecord::Base
 		if templ.nil?
 			return "No Template Used"
 		else
-			template = Template.find(templ.template_id)
+			template = CustomTemplate.find(templ.template_id)
 			return "Currently Using Template: " + template.title
 		end
 	end
@@ -37,7 +37,7 @@ class Study < ActiveRecord::Base
 	def self.get_template_list_array(project_id)
 		arr = []
 		arr << ["No Template", nil]
-		@template_list = Template.all
+		@template_list = CustomTemplate.all
 		for i in @template_list
 			arr << [i.title, i.id]
 		end
@@ -56,7 +56,7 @@ class Study < ActiveRecord::Base
 	def self.set_template_id_if_exists(params, study)
 	  template_id = ""
 	  if params.keys.include?("template")
-			template_id = params[:template]
+			template_id = params[:custom_template]
 			study.get_template_setup(template_id)
 	  end
 	end

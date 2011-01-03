@@ -24,6 +24,7 @@ before_filter :require_user, :except => :show
 		@primary_publication = @study.get_primary_publication.nil? ? Publication.new : @study.get_primary_publication
 		@secondary_publications = @study.get_secondary_publications
 		@arms = Arm.where(:study_id => @study.id).all
+		@study_arms = Arm.where(:study_id => @study.id).all
 		@outcomes = Outcome.where(:study_id => @study.id).all
 		@adverse_events = AdverseEvent.where(:study_id => @study.id).all
 		@quality_aspects = QualityAspect.where(:study_id => @study.id).all
@@ -37,6 +38,9 @@ before_filter :require_user, :except => :show
 		# get the study title, which is the same as the primary publication for the study
 		@study_title = Publication.where(:study_id => @study.id, :is_primary => true).first
 		@study_title = @study_title.nil? ? "" : @study_title.title.to_s
+		
+		@baseline_characteristic_template_fields = BaselineCharacteristicField.where(:template_id => Study.get_template_id(@study.id)).all
+		@baseline_characteristic_custom_fields = BaselineCharacteristicField.where(:study_id => @study.id).all
 	  
     respond_to do |format|
       format.html # show.html.erb
@@ -324,7 +328,7 @@ end
   def new
     
   	@study = Study.new
-    @study.project_id = session[:project_id]
+    @study.project_id = params[:project_id]
 	@study.save
 	makeActive(@study)
 
@@ -370,8 +374,8 @@ end
 	if !current_user.nil?
 		@study.creator_id = current_user.id
 	end
-  	@study.project_id = session[:project_id]
-		@project = Project.find(session[:project_id])
+  	@study.project_id = params[:project_id]
+		@project = Project.find(params[:project_id])
 		Study.set_study_type(params)
     
   	makeActive(@study)

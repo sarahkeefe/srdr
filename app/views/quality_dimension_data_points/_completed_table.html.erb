@@ -1,5 +1,3 @@
-<%= form_for @quality_dimension_data_point, :remote => true, :html=>{:id=>"quality_dimension_data_point_form"} do |f| %>
-
 <table class="list_table">
 <th>Dimension</th>
 <th>Value</th>
@@ -14,12 +12,12 @@
 
 <% tmpl_id = qa.template_id %>
 <% val = QualityDimensionDataPoint.get_data_point(qa, session[:study_id], "value") %>
-<td><%= text_field "quality_value", qa.id.to_s, :size => 5, :value => val %></td>
+<td><%=  val %></td>
 
 <% val = QualityDimensionDataPoint.get_data_point(qa, session[:study_id], "notes") %>
 <td>
-<%= text_field "quality_notes", qa.id.to_s, :size => 15, :value => val %>
-<script type="text/javascript">$j('#quality_notes' + "_" + <%=qa.id.to_s %>).popBox({width:500, newlineString: "\n" });</script>
+<%= val %>
+
 </td>
 <td><%= image_tag "Lock.png", :alt => "This is a template field and cannot be removed." %></td>
 </tr>
@@ -35,26 +33,15 @@
 <% tmpl_id = qa.template_id %>
 <% val = QualityDimensionDataPoint.get_data_point(qa, session[:study_id], "value") %>
 
-<td><%= text_field "quality_value", qa.id.to_s, :size => 5, :value => val %></td>
+<td><%= val %></td>
 
 <% val = QualityDimensionDataPoint.get_data_point(qa, session[:study_id], "notes") %>
 <td>
-<%= text_field "quality_notes", qa.id.to_s, :size => 15, :value => val %>
-<script type="text/javascript">$j('#quality_notes_' + <%=qa.id.to_s %>).popBox({width:500, newlineString: "\n" });</script>
+<%= val %>
 </td>
-<td>
-<%= link_to "Edit", edit_quality_dimension_field_path(qa, :study_id => session[:study_id]), :remote=>true, :class => "edit_link" %>
-<%= link_to "Delete", quality_dimension_field_path(qa, :study_id => session[:study_id]), :remote=>true, :confirm => 'Are you sure?', :method=>:delete, :class => "delete_link" %></td>
+<td></td>
 </tr>
 <% end %>
 <% end %>
 
 </table>
-<br/><br/><div class="actions">
-		<button type="submit" class="positive">
-			<%= image_tag "Accept.png"%>Save Table Data
-		</button>
-		</div>
-<% end %>
-
-<div id="quality_dimension_validation_message"></div>

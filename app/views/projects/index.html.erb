@@ -6,7 +6,11 @@
 	<h3><%= link_to project.title, project_path(project) %></h3>
 	<div class="indent_block">
 	<% num_studies = Project.get_num_studies(project) %>
-	<% num_key_qs = Project.get_num_key_qs(project) %>	
+	<% num_key_qs = Project.get_num_key_qs(project) %>
+	<% has_privilege = User.current_user_has_project_edit_privilege(project.id, current_user) %>
+	<% if has_privilege %>
+	Project Lead: <%= Project.get_project_leads_string(project.id) %><br/>
+	<% end %>
 	<%= num_studies.to_s %> Studies, <%= num_key_qs.to_s %> Key Questions<br/><br/>
 	<%= truncate(project.description, :length => 150) %>
 	<br/>
@@ -14,7 +18,8 @@
 	<div class="admin_functions">
 	<% has_privilege = User.current_user_has_project_edit_privilege(project.id, current_user) %>
 	<% if has_privilege %>
-	<%= link_to "Edit", edit_project_path(project), :class => "edit_link" %>   
+	<%= link_to "Edit Project", edit_project_path(project), :class => "edit_link" %>
+	<%= link_to "Edit Studies", project_studies_path(project), :class => "edit_link" %>   	
 	<%= link_to "Delete", project, :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %>
 	<% end %>
 	</div>
@@ -22,7 +27,3 @@
   <br/>
   
 <% end %>
-
-<br />
-
-<%= link_to 'New Systematic Review Project', new_project_path %>

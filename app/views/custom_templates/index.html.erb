@@ -1,0 +1,19 @@
+<h1>Listing All Existing Templates</h1>
+
+
+<% @templates.each do |template| %>
+ 
+  <div class="listing_item">
+	<h3><%= link_to template.title, custom_template_path(template) %></h3>
+
+ 	<div class="admin_functions">
+	<% has_privilege = User.current_user_has_template_edit_privilege(template, current_user) %>
+	<% if has_privilege %>
+	   <%= link_to 'Edit Template', edit_custom_template_path(template), :class => "edit_link" %>
+   <%= link_to 'Delete Template', template, :confirm => 'Are you sure?', :method => :delete, :remote => true, :class => "delete_link" %>
+	<% end %>
+	</div>
+	</div><br/>
+<% end %>
+
+

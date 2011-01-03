@@ -1,7 +1,9 @@
 <% unless @arms.length < 1 %>
 	<% i = 1 %>
     <% for onearm in @arms %>
-	<h4>Arm <%= i %>. <%= onearm.title %>:</h4><%= onearm.description %> <%=onearm.num_participants.nil? ? "" : "(" + onearm.num_participants.to_s + " participants)" %><br/><br/>
+	<h4><%= i %>) <%= onearm.title %>.</h4> <%=onearm.num_participants.nil? ? "" : onearm.num_participants.to_s + " participants" %>
+	<br/>
+	<%= onearm.description %> <br/><br/>
 	<% i = i + 1 %>
 		<% end %>
 <% else %>

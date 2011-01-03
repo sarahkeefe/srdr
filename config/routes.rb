@@ -1,8 +1,8 @@
 Srdr::Application.routes.draw do
 
- resources :study_templates
+  resources :custom_templates
 
-  resources :templates
+ resources :study_templates
 
   resources :quality_dimension_data_points
 
@@ -99,8 +99,9 @@ end
 	match 'projects/:project_id/studies/:study_id/adverse_events/savedata' => 'adverse_events#savedata'
 	match 'projects/:project_id/manage/saveinfo' => 'user_project_roles#saveinfo'
 	match 'projects/:project_id/manage/adduser' => 'user_project_roles#add_new_user'
-	match 'templates/:template_id/baseline_characteristics' => 'templates#baseline_characteristics'
-	match 'templates/:template_id/quality_dimensions' => 'templates#quality_dimensions'
+	match 'custom_templates/:custom_template_id/baseline_characteristics' => 'custom_templates#baseline_characteristics'
+	match 'custom_templates/:custom_template_id/quality_dimensions' => 'custom_templates#quality_dimensions'
+
 	
 	match 'publications/:publication_id/moveup' => 'publications#moveup'	
 	match 'population_characteristics/:population_characteristic_id/moveup' => 'population_characteristics#moveup'	

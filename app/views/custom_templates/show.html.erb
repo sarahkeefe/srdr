@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Viewing Template Data</h1>
+  
+  <!-- SUMMARY HEADING DIV SECTION -->
+	<div class="summary_heading">
+  	&nbsp;Title
+  </div>
+  <div id="summary_text" style="display:inline;">
+	  <h2><%= @template.title %></h2>
+	</div><br/>
+
+	<!-- BASELINE CHARACTERISTICS DIV SECTION -->
+	<div class="summary_heading" onclick="toggle_display('pop_char_text','pop_char_link');">
+		<span id='pop_char_link' class='toggle_display_link'>+</span>
+	  &nbsp;Baseline Characteristics Fields
+	</div>
+	<div id="pop_char_text" style="display:none;"><br/>
+	<%= render 'baseline_characteristic_fields/completed_table' %>
+	<br/>
+	</div>
+	<br/>
+
+	<!-- QUALITY ASSESSMENT SECTION -->
+	<div class="summary_heading" onclick="toggle_display('qa_text','qa_link');">
+		<span id="qa_link" class='toggle_display_link'>+</span>
+		&nbsp;Quality Dimension Fields
+	</div>
+	<div id="qa_text" style="display:none;">
+	<br/>
+		<%= render 'quality_dimension_fields/completed_table' %>	
+
+	</div>

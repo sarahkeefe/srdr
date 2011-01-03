@@ -27,12 +27,12 @@
 	<% @study_questions.each do |q| %>
 		<%= q.question_number.to_s + ". " + q.question %><br/>
 	<% end %>
+	<br/>
 	<% else %>
-		There are no key questions associated with this study.
+		There are no key questions associated with this study.<br/>
 	<% end %>
 	</div>
-	<br/>
-	<br/>
+
 	
 	<!-- PUBLICATION INFORMATION DIV SECTION -->
 	<div class="summary_heading" onclick="toggle_display('publications_text','publications_link');" >
@@ -46,7 +46,12 @@
 		<b>Title:</b></td><td colspan="3"> <%= @primary_publication.title %> </td></tr><tr><td>
 		<b>Author: </b></td><td width="250"> <%=@primary_publication.author %></td><td> <b>Country: </b></td><td> <%=@primary_publication.country %> </td></tr><tr><td>
 		<b>Year:</b></td><td> <%=@primary_publication.year %></td></tr><tr><td>
-		<b>UI: </b></td><td> <%=@primary_publication.ui %> </td><td><b>UI Type: </b></td><td> <%=@primary_publication.ui_type %> </td></tr></table>
+		<b>Numbers: </b></td><td>
+				<% @pub_uis = PublicationNumber.where(:id => @primary_publication.id).all %>
+				<% for ui in @pub_uis %>
+					<%= ui.number %> (<%= ui.number_type %>)<br/>
+				<% end %>
+		</tr></table>
 		
 	<br/>
 	
@@ -61,8 +66,14 @@
   	&nbsp;Inclusion Criteria
 	</div>		
 	<div id='inclusion_criteria_text' style="display:none;">
-		<%= @study.inclusion_criteria %>
-		<br/>
+	<% @incl_criteria = InclusionCriteriaItem.where(:study_id => @study.id).all %>
+		<% if !@incl_criteria.nil? %>
+			<ul>
+	<% for ic in @incl_criteria %>
+					<li><%= ic.item_text %></li>
+				<% end %>
+			</ul>
+		<% end %>
 	</div>
 	<br/>
 
@@ -70,10 +81,16 @@
 	<div class="summary_heading" onclick="toggle_display('exclusion_criteria_text','exclusion_criteria_link');">
 		<span id='exclusion_criteria_link' class="toggle_display_link">+</span>
   	&nbsp;Exclusion Criteria
-	</div>		
+	</div>
 	<div id="exclusion_criteria_text" style="display:none;">
-	<%= @study.exclusion_criteria %>
-	<br/>
+		<% @excl_criteria = ExclusionCriteriaItem.where(:study_id => @study.id).all %>
+		<% if !@excl_criteria.nil? %>
+			<ul>
+				<% for exc in @excl_criteria %>
+					<li><%= exc.item_text %></li>
+				<% end %>
+			</ul>
+	<% end %>
 	</div>
 	<br/>
 	
@@ -83,8 +100,9 @@
   	&nbsp;Study Arms
 	</div>
 	<div id="study_arms_text" style="display:none;">		<br/>
+		<% if @study_arms.length > 0 %>
 		<%= render 'arms/completed_table' %>	
-	<br/>
+		<% end %>
 	</div>
 	<br/>
 
@@ -94,7 +112,7 @@
 	  &nbsp;Baseline Characteristics
 	</div>
 	<div id="pop_char_text" style="display:none;"><br/>
-	<%# render 'baseline_characteristic_data_points/completed_table' %>
+	<%= render 'baseline_characteristic_data_points/completed_table' %>
 	<br/>
 	</div>
 	<br/>
@@ -142,7 +160,8 @@
 		&nbsp;Quality Assessment
 	</div>
 	<div id="qa_text" style="display:none;">
-		<%= render 'quality_aspects/completed_table' %><br/><br/>
+	<br/>
+		<%= render 'quality_dimension_data_points/completed_table' %><br/><br/>
 		<%= render 'quality_ratings/table' %>		
 		<br/>
 	</div>

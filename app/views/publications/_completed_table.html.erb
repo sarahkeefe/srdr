@@ -7,7 +7,12 @@
 	<th>Year</th>
 	<% for pub in @secondary_publications %>
 		<tr class="<%= cycle("even", "odd") %>">
-		<td><%= pub.ui %></td>
+		<td>
+		<% @pub_uis = PublicationNumber.where(:publication_id => pub.id).all %>
+		<% for ui in @pub_uis %>
+			<%= ui.number %> (<%= ui.number_type %>)<br/>
+		<% end %>
+		</td>
 		<td><%= pub.title %></td>
 		<td><%= pub.author %></td>
 		<td><%= pub.country %></td>

@@ -15,7 +15,7 @@
 
 <div class="form_content">
 	<div class="field">
-		<%= f.hidden_field :template_id, :value => params[:template_id].nil? ? params[:baseline_characteristic_field][:template_id] : params[:template_id] %>
+		<%= f.hidden_field :template_id, :value => params[:custom_template_id].nil? ? params[:baseline_characteristic_field][:template_id] : params[:custom_template_id] %>
 		<label>Category Title:</label> <%= f.text_field :category_title %><br/><br/>
 		<label class="inline-label">Units:</label>  <%= f.text_field :units, :class => "inline-field" %><br/>
 		<label class="inline-label">Measurement Type:</label>  <%= f.text_field :measurement_type, :class => "inline-field" %>

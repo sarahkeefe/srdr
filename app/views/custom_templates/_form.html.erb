@@ -1,0 +1,31 @@
+<%= form_for(@template) do |f| %>
+  <% if @template.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@template.errors.count, "error") %> prohibited this template from being saved:</h2>
+
+      <ul>
+      <% @template.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<div class="form_content">
+	  <div class="field">
+		<label>Enter a title for this template:</label>
+		<%= f.text_field :title %>
+		<%= f.hidden_field :creator_id, :value => current_user.nil? ? -1 : current_user.id %>
+	  </div>
+	  
+	  
+	  
+	  <div class="actions">
+		<button type="submit" class="negative">
+			<%= image_tag "Cancel.png"%>Cancel
+		</button>		
+		<button type="submit" class="positive">
+			<%= image_tag "Note_go.png"%>Save and Continue
+		</button>
+	  </div>
+ </div>
+<% end %>

@@ -40,17 +40,16 @@ class QualityDimensionDataPointsController < ApplicationController
   # POST /quality_dimension_data_points
   # POST /quality_dimension_data_points.xml
   def create
-    @quality_dimension_data_point = QualityDimensionDataPoint.new(params[:quality_dimension_data_point])
+    #@quality_dimension_data_point = QualityDimensionDataPoint.new(params[:quality_dimension_data_point])
 
-    respond_to do |format|
-      if @quality_dimension_data_point.save
-        format.html { redirect_to(@quality_dimension_data_point, :notice => 'Quality dimension data point was successfully created.') }
-        format.xml  { render :xml => @quality_dimension_data_point, :status => :created, :location => @quality_dimension_data_point }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @quality_dimension_data_point.errors, :status => :unprocessable_entity }
-      end
-    end
+	respond_to do |format|
+		QualityDimensionDataPoint.save_data_point_info(session[:study_id], params)
+	      format.js {
+			  	render :update do |page|
+						page.replace_html 'quality_dimension_validation_message', "Data Saved"
+			  	end
+				}		
+	end
   end
 
   # PUT /quality_dimension_data_points/1

@@ -241,6 +241,7 @@ padding: 8px;
 .listing_item .admin_functions, .admin_functions{
 	width: 100%;
 	text-align: right;
+	padding-bottom: 3px;
 }
 
 .listing_item .indent_block{
@@ -647,6 +648,10 @@ display: inline;
     color:#565656;
     cursor:pointer;
     padding:5px 10px 6px 7px; /* Links */
+}
+
+ul.user_actions li{
+	padding: 5px;
 }
 
 a.edit_link, a.delete_link, a.add_nested_fields, a.remove_nested_fields, a.small_edit_link{

@@ -10,6 +10,27 @@ class Project < ActiveRecord::Base
 	has_many  :lead_users, :through => :user_project_roles, :class_name => "Project", :source => :project, :conditions => ['user_project_roles.role = ?',"lead"]
 	has_many  :editor_users, :through => :user_project_roles, :class_name => "Project", :source => :project, :conditions => ['user_project_roles.role = ?',"editor"]
 	
+	def self.get_project_leads_string(p_id)
+		@user_roles = UserProjectRole.where(:project_id =>p_id, :role => "lead").all
+		@user_names = []
+		for u in @user_roles
+			@user = User.find(u.user_id)
+			@user_names << @user.fname + " " + @user.lname
+		end
+		return @user_names.to_sentence
+	end
+	
+	def self.get_project_collabs_string(p_id)
+		@user_roles = UserProjectRole.where(:project_id =>p_id, :role => "editor").all
+		@user_names = []
+		for u in @user_roles
+			@user = User.find(u.user_id)
+			@user_names << @user.fname + " " + @user.lname
+		end
+		return @user_names.to_sentence
+	end
+		
+	
 	def self.get_studies(project_id)
 		return Study.where(:project_id => project_id).all
 	end

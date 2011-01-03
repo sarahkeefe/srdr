@@ -10,7 +10,7 @@ Choose a template for this study, or select "No Template":
     <%= f.hidden_field :study_id, :value => @study.id %>
 	<% @template_list_array = Study.get_template_list_array(params[:project_id]) %>
     <%= f.select :template_id, options_for_select(@template_list_array), :class => "inline_field" %><br/>
-	Note: this cannot be changed after you leave this page.
+	Note: this cannot be changed after the initial creation of a study.
 </div>
   
  <div class="actions">

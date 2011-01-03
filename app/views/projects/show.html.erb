@@ -13,10 +13,16 @@
 <%= render 'key_questions/completed_table' %>	
 </br>
 
-<div class="summary_heading">Project Collaborators</div>
-<br/>
-This feature is not implemented yet!
-<br/><br/>
+<% has_privilege = User.current_user_has_project_edit_privilege(@project.id, current_user) %>
+<% if has_privilege %>
+	<div class="summary_heading">Project Collaborators</div>
+	<br/>
+
+		Project Lead: <%= Project.get_project_leads_string(@project.id) %><br/>
+		Project Collaborators: <%= Project.get_project_collabs_string(@project.id) %><br/>
+
+	<br/><br/>
+<% end %>
 
 <div class="summary_heading">Associated Studies</div>
 <br/>

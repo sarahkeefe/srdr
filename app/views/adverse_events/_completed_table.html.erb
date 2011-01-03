@@ -1,25 +1,81 @@
-<table class="simple_table">
-<thead>
-<th>Event Title</th>
-<th>Timeframe</th>
-<th>Description</th>
-<th>Serious?</th>
-<th>Definition Used</th>
-<th>Notes</th>
-</thead>
-<% if @adverse_events.length > 0 %>
-<% for ae in @adverse_events %>
-<tr class=""<%# cycle("even", "odd") %> id=<%= 'adverse_event_' + ae.id.to_s %>>
-<td><%= ae.title %></td>
-<td><%= ae.timeframe %></td>
-<td><%= ae.description %></td>
-<td><%if ae.is_serious %>		Yes
-		<% else %>
-		No
-		<% end %></td>
-<td><%= ae.definition_used %></td>
-<td><%= ae.notes %></td>
-</tr>
+<br/>
+<% if !@arms.nil? %>
+<% for arm in @arms %>
+		<% @adverse_events = AdverseEvent.get_adverse_events_by_arm(arm.id) %>
+		<% if !@adverse_events.nil? && @adverse_events.length > 0 %>
+		<h3>Arm <%= arm.display_number %>: <%= arm.title %></h3>
+
+				<% hidden_field_tag "study_id", session[:study_id] %>
+				<table class="list_table">
+				<th>Event Title</th>
+				<th>Timeframe</th>
+				<th>Description</th>
+				<th>Number Affected</th>
+				<th>Number at Risk</th>
+				<th>Serious?</th>
+				<th>Definition Used</th>
+				<th>Notes</th>
+
+				<% if @adverse_events.length > 0 %>
+				<% for ae in @adverse_events %>
+
+				<tr class="<%= cycle("even", "odd") %>" id=<%= 'adverse_event_' + ae.id.to_s %>>
+				<td><%= ae.title %></td>
+				<td><%= ae.timeframe %></td>
+				<td><%= ae.description %></td>
+				<td><%= ae.num_affected %></td>
+				<td><%= ae.num_at_risk %></td>
+				<td><% if ae.is_serious %>Yes
+						<% else %>
+						No
+						<% end %></td>
+				<td><%= ae.definition_used %></td>
+				<td><%= ae.notes %></td>
+				</tr>
+				<% end %>
+				<% end %>
+
+				</table>
+				<br/>
+
 <% end %>
 <% end %>
-</table>
+<% end %>
+
+	<% @adverse_events_total = AdverseEvent.get_adverse_events_total(session[:study_id]) %>
+	<% if !@adverse_events_total.nil? && @adverse_events_total.length > 0 %>
+		<h3>Total</h3>
+
+				<% hidden_field_tag "study_id", session[:study_id] %>
+				<table class="list_table">
+				<th>Event Title</th>
+				<th>Timeframe</th>
+				<th>Description</th>
+				<th>Number Affected</th>
+				<th>Number at Risk</th>
+				<th>Serious?</th>
+				<th>Definition Used</th>
+				<th>Notes</th>
+
+				<% if @adverse_events_total.length > 0 %>
+				<% for ae in @adverse_events_total %>
+
+				<tr class="<%= cycle("even", "odd") %>" id=<%= 'adverse_event_' + ae.id.to_s %>>
+				<td><%= ae.title %></td>
+				<td><%= ae.timeframe %></td>
+				<td><%= ae.description %></td>
+				<td><%= ae.num_affected%></td>
+				<td><%= ae.num_at_risk %></td>
+				<td><% if ae.is_serious %>Yes
+						<% else %>
+						No
+						<% end %></td>
+				<td><%= ae.definition_used %></td>
+				<td><%= ae.notes %></td>
+				
+				</tr>
+				<% end %>
+
+				</table>
+				<% end %>
+				<% end %>
