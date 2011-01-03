@@ -1,0 +1,5 @@
+<% types = %w(ANCOVA ANOVA Chi-Squared Chi-Squared_Corrected Cochran-Mantel-Haenszel Fisher_Exact Kruskal-Wallis Log_Rank Mantel_Haenszel McNemar Mixed_Models_Analysis Regression,_Cox Regression,_Linear Regression,_Logistic Sign_Test t-Test,_1-sided t-Test,_2-sided) %>
+
+<label>Analysis Type: </label>
+<%= select "outcome", "analysis_type", types.collect{|t| [t.gsub("_"," "),t.gsub("_"," ")]}, {},
+				{:onchange =>remote_function(:url => {:action => "update_for_analysis_type"}, :with => "'selected_analysis=' + this.value"),:class=>"inline-field"} %>
