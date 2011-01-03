@@ -11,8 +11,7 @@
 		<li><%= link_to "Create New Study Template",  new_custom_template_path, :class => "edit_link small_edit_link"  %></li>		
 		</ul>	
 	</div>
-	<% end %>
-	<% if current_user.user_type == "member" %>
+	<% else %>
 	
 		<h3>Systematic Reviews for user <%= current_user.fname %> <%= current_user.lname %> (<%=current_user.login %>)</h3><br/>
 		
@@ -91,12 +90,12 @@
 			<% end %>
 			</ul>
 	<% end %>
-<% else %>
+<%# else %>
 
 
-	<ul>
-	<li><%= link_to "View All Systematic Reviews",  projects_path, :class => "edit_link small_edit_link"  %></li>
-	</ul>	
+	<%# <ul> %>
+	<%# <li><%# link_to "View All Systematic Reviews",  projects_path, :class => "edit_link small_edit_link"  %></li>
+	<%#</ul>	 %>
 
 <% end %>
 
