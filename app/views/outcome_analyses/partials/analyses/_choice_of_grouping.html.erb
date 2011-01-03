@@ -1,0 +1,7 @@
+<% options = %w(Arms Groups Timepoints) %>
+<% blank = [["Group by...",""]] %>
+<% select_options = options.collect{|opt| [opt,opt]} %>
+<% select_options = blank + select_options %>
+<%= select "outcome", "comparison_groups", select_options, {},
+				{:onchange =>remote_function(:url => {:action => "update_group_selector"}, :with => "'selected_grouping=' + this.value"),:class=>"inline-field"} %>
+

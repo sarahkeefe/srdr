@@ -79,6 +79,11 @@ end
 	match 'projects/:id/studies' => 'studies#index'
 	match 'projects/:project_id/studies/:study_id/show_outcome' => 'studies#show_outcome'
 	match 'projects/:project_id/studies/:study_id/show_outcome_subgroups_and_timepoints' => 'studies#show_outcome_subgroups_and_timepoints'
+	
+	# THESE ARE PART OF TESTING THE COMPARISON SETUP
+	match 'projects/:project_id/studies/:study_id/outcomeanalysis/update_selections' => 'outcome_analyses#update_selections'
+	match 'projects/:project_id/studies/:study_id/outcomeanalysis/update_for_analysis_type' => 'outcome_analyses#update_for_analysis_type'
+	
 	match 'projects/:project_id/studies/:study_id/update_partial' => 'studies#update_partial'
 	match 'outcome_analyses/:outcome_analysis_id' => 'outcome_analyses#destroy'
 	match 'projects/:project_id/studies/:study_id/clear_table' => 'outcome_results#clear_table'
@@ -89,7 +94,9 @@ end
 	match 'projects/:project_id/studies/:study_id/enrollment' => 'studies#enrollment'
 	match 'projects/:project_id/studies/:study_id/outcomesetup' => 'studies#outcomesetup'
 	match 'projects/:project_id/studies/:study_id/outcomedata' => 'studies#outcomedata'
+	#match 'projects/:project_id/studies/:study_id/outcomeanalysis' => 'outcome_analyses#new'
 	match 'projects/:project_id/studies/:study_id/outcomeanalysis' => 'studies#outcomeanalysis'
+	match 'projects/:project_id/studies/:study_id/outcomeanalysis/update_group_selector' => 'outcome_analyses#update_group_selector'
 	match 'projects/:project_id/studies/:study_id/adverseevents' => 'studies#adverseevents'
 	match 'projects/:project_id/studies/:study_id/quality' => 'studies#quality'	
 	match 'projects/:project_id/studies/:study_id/adverse_events/savedata' => 'adverse_events#savedata'

@@ -1,0 +1,27 @@
+<input type="hidden" id="model_name" value=<%= @model_name %> >
+<input type="hidden" id="timepoint_field_id" value=<%= @model_name + "_timepoint_id" %> >
+<input type="hidden" id="subgroup_field_id" value=<%= @model_name + "_subgroup_id" %> >
+<div class="form_content no_indent analysis_form">
+	<div class="field">
+		<label>Select the Outcome to Analyze: </label>
+	
+		<%= select "outcome", "outcome", Outcome.where(:study_id => session[:study_id]).all.collect {|o| [o.title,o.id]}, {},{:onchange =>remote_function(:url => {:action => :update_selections}, :with => "'selected_outcome_id=' + this.value + '&form_type=' + $('model_name').value"),:class=>"inline-field"} %></b>
+	</div>
+</div>			
+
+<div id='analysis_type_selector' class='field'>
+	<%= render 'outcome_analyses/partials/analysis_types' %>
+</div>
+
+<br/>
+
+<div id='comparison_level1' class='field'></div>
+<br/>
+
+<div id='comparison_level2' class='field'></div>
+<br/>
+
+<div id="comparison_level3" class='field'></div>
+<br/>
+
+<div id='comparison_level4' class='field'></div>

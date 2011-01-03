@@ -4,13 +4,49 @@ class OutcomeAnalysesController < ApplicationController
   # GET /outcome_analyses/new.xml
   def new
     @outcome_analysis = OutcomeAnalysis.new
-
+    @model_name = "outcome_analysis"
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @outcome_analysis }
     end
   end
 
+  def update_selections
+  	
+  end
+  
+  # Update the first comparison partial based on the selected analysis type
+  def update_for_analysis_type
+  	@selected_analysis = params[:selected_analysis]
+  	
+  	respond_to do |format|
+      format.js { 
+      	render :update do |page|
+      		partial_used = case @selected_analysis
+    				when "Log Rank" then "log_rank"
+    				when "t-Test, 1-sided" then "choice_of_grouping"
+    				when "t-Test, 2-sided" then "two_sided_t"
+    				else "default"
+    			end
+      	  page.replace_html "comparison_level1", :partial=>"outcome_analyses/partials/analyses/"+partial_used.to_s
+      	end
+      }
+    end
+  end
+  
+  # Based on the selection of how the comparison groups are being formed, provide
+  # grouping options.
+  def update_group_selector
+  	@grouped_by = params[:selected_grouping]
+  	render :update do |page|
+  		partial_used = case @grouped_by
+			when "Arms" then "group_by_arm_options"
+			when "Groups" then "group_by_category_options"
+			when "Timepoints" then "group_by_timepoint_options"
+		  end
+		end
+  end
+  
   # GET /outcome_analyses/1/edit
   def edit
     @outcome_analysis = OutcomeAnalysis.find(params[:id])
