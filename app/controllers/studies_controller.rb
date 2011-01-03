@@ -311,7 +311,12 @@ end
 	@quality_aspect = QualityAspect.new
 	@exists = QualityRating.where(:study_id => session[:study_id]).first
 	@quality_rating = @exists.nil? ? QualityRating.new : @exists
-
+	@quality_dimension_field = QualityDimensionField.new
+	@quality_dimension_data_point = QualityDimensionDataPoint.new
+	@quality_dimension_custom_fields = QualityDimensionField.where(:study_id => params[:study_id]).all
+	@study_template = StudyTemplate.where(:study_id => @study.id).first
+	@quality_dimension_template_fields = QualityDimensionField.where(:template_id => @study_template.template_id).all
+	render :layout => 'quality'
 	end
   
   # GET /studies/new

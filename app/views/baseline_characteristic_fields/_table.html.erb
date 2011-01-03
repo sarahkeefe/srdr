@@ -39,8 +39,8 @@
 						<td><%=bcf.display_total == false ? "No" : "Yes" %></td>
 						<td><%= bcf.field_notes %></td>
 						<td>
-							<%= link_to "Edit", edit_baseline_characteristic_field_path(bcf), :template_id => @baseline_characteristic_field.template_id, :remote=>true, :class => "edit_link" %>
-							<%= link_to "Delete", baseline_characteristic_field_path(bcf.id), :remote => true, :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %>
+							<%= link_to "Edit", edit_baseline_characteristic_field_path(bcf, :template_id => bcf.template_id), :remote=>true, :class => "edit_link" %>
+							<%= link_to "Delete", baseline_characteristic_field_path(bcf.id, :template_id => bcf.template_id), :remote => true, :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %>
 							</td>
 							</tr>
 				

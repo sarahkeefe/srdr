@@ -1,0 +1,21 @@
+<table class="list_table">
+
+<th>Dimension</th>
+<th>Value</th>
+
+<th>Actions</th>
+<% if @quality_dimension_fields.length > 0 %>
+<% for qa in @quality_dimension_fields %>
+<tr class="<%= cycle("even", "odd") %>" id='<%= 'quality_dimension_' + qa.id.to_s %>'>
+
+<td><%= qa.title %></td>
+<td><%= qa.field_notes %></td>
+<td>
+<%= link_to "Edit", edit_quality_dimension_field_path(qa, :template_id => params[:template_id].nil? ? params[:quality_dimension_field][:template_id] : params[:template_id]), :remote=>true, :class => "edit_link" %>
+<%= link_to "Delete", quality_dimension_field_path(qa, :template_id => params[:template_id].nil? ? params[:quality_dimension_field][:template_id] : params[:template_id]), :remote=>true, :confirm => 'Are you sure?', :method=>:delete, :class => "delete_link" %></td>
+</tr>
+<% end %>
+<% end %>
+</table>
+<br/><br/>
+<div id="quality_dimension_validation_message"></div>

@@ -19,6 +19,12 @@ class TemplatesController < ApplicationController
 	@baseline_characteristic_subcategory_fields = BaselineCharacteristicSubcategoryField.where(:baseline_characteristic_field_id => @baseline_characteristic_field.id).all
 	render :layout => "templates"
  end
+ 
+ def quality_dimensions
+	@quality_dimension_field = QualityDimensionField.new
+	@quality_dimension_fields = QualityDimensionField.where(:template_id => params[:template_id]).all
+	render :layout => "templates"
+ end
   
   # GET /templates/1
   # GET /templates/1.xml

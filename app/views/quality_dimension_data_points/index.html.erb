@@ -1,0 +1,27 @@
+<h1>Listing quality_dimension_data_points</h1>
+
+<table>
+  <tr>
+    <th>Quality dimension field</th>
+    <th>Value</th>
+    <th>Notes</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @quality_dimension_data_points.each do |quality_dimension_data_point| %>
+  <tr>
+    <td><%= quality_dimension_data_point.quality_dimension_field_id %></td>
+    <td><%= quality_dimension_data_point.value %></td>
+    <td><%= quality_dimension_data_point.notes %></td>
+    <td><%= link_to 'Show', quality_dimension_data_point %></td>
+    <td><%= link_to 'Edit', edit_quality_dimension_data_point_path(quality_dimension_data_point) %></td>
+    <td><%= link_to 'Destroy', quality_dimension_data_point, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Quality dimension data point', new_quality_dimension_data_point_path %>

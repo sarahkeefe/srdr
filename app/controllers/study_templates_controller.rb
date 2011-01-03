@@ -44,11 +44,17 @@ class StudyTemplatesController < ApplicationController
 
     respond_to do |format|
       if @study_template.save
-        format.html { redirect_to(@study_template, :notice => 'Study template was successfully created.') }
-        format.xml  { render :xml => @study_template, :status => :created, :location => @study_template }
+        format.js { 
+			render :update do |page|
+				page.replace_html 'template_save_validation_message', "Template assigned successfully."
+			end
+		}
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @study_template.errors, :status => :unprocessable_entity }
+        format.js { 
+			render :update do |page|
+				page.replace_html 'template_save_validation_message', "There was a problem assigning the template."
+			end
+		}
       end
     end
   end
@@ -60,11 +66,11 @@ class StudyTemplatesController < ApplicationController
 
     respond_to do |format|
       if @study_template.update_attributes(params[:study_template])
-        format.html { redirect_to(@study_template, :notice => 'Study template was successfully updated.') }
-        format.xml  { head :ok }
+        #format.html { redirect_to(@study_template, :notice => 'Study template was successfully updated.') }
+        #format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @study_template.errors, :status => :unprocessable_entity }
+        #format.html { render :action => "edit" }
+        #format.xml  { render :xml => @study_template.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -76,8 +82,8 @@ class StudyTemplatesController < ApplicationController
     @study_template.destroy
 
     respond_to do |format|
-      format.html { redirect_to(study_templates_url) }
-      format.xml  { head :ok }
+      #format.html { redirect_to(study_templates_url) }
+      #format.xml  { head :ok }
     end
   end
 end

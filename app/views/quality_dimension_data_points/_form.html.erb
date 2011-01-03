@@ -1,0 +1,29 @@
+<%= form_for(@quality_dimension_data_point) do |f| %>
+  <% if @quality_dimension_data_point.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@quality_dimension_data_point.errors.count, "error") %> prohibited this quality_dimension_data_point from being saved:</h2>
+
+      <ul>
+      <% @quality_dimension_data_point.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :quality_dimension_field_id %><br />
+    <%= f.text_field :quality_dimension_field_id %>
+  </div>
+  <div class="field">
+    <%= f.label :value %><br />
+    <%= f.text_field :value %>
+  </div>
+  <div class="field">
+    <%= f.label :notes %><br />
+    <%= f.text_area :notes %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

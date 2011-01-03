@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  title: MyString
+  field_notes: MyText
+  template_id: 1
+  study_id: 1
+
+two:
+  title: MyString
+  field_notes: MyText
+  template_id: 1
+  study_id: 1
