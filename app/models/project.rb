@@ -1,6 +1,6 @@
 class Project < ActiveRecord::Base
 	cattr_reader :per_page
-	@@per_page = 15
+	@@per_page = 10
 	
 	has_many :studies, :dependent=>:destroy
 	has_many :key_questions, :dependent=>:destroy
