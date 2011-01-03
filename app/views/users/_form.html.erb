@@ -14,6 +14,7 @@
   <div class="field">
     <label>Username:</label>
     <%= f.text_field :login %>
+	    <%= f.hidden_field :user_type, :value => "member" %>
   </div>
   <div class="field">
     <label>First Name:</label>
