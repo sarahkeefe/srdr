@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
 acts_as_authentic
 has_many :projects, :through => :user_project_roles
+attr_writer :user_type
 
 def self.username_exists(str)
 print "TESTING-----------------------------------------------------------------------------------------"
