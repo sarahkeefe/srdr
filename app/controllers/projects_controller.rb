@@ -1,11 +1,13 @@
 class ProjectsController < ApplicationController
 	before_filter :require_user, :except => :index
 	before_filter :require_user, :except => :show
-  
+	
   # GET /projects
   # GET /projects.xml
   def index
-    @projects = Project.all
+    #@pages, @projects = paginate_collection Project.all, :page => @params[:page]
+  	#@projects = Project.all
+  	@projects = Project.paginate(:page=>params[:page], :order=>'created_at DESC')
     respond_to do |format|
 	    format.html # index.html.erb
       format.xml  { render :xml => @projects }

@@ -85,6 +85,7 @@ end
 	match 'projects/:project_id/studies/:study_id/show_outcome_subgroups_and_timepoints' => 'studies#show_outcome_subgroups_and_timepoints'
 	
 	# THESE ARE PART OF TESTING THE COMPARISON SETUP
+	# CHANGE THE PARTIAL BELOW FOR OUTCOMEANALYSIS TO USE THE NEW ROUTE
 	match 'projects/:project_id/studies/:study_id/outcomeanalysis/update_selections' => 'outcome_analyses#update_selections'
 	match 'projects/:project_id/studies/:study_id/outcomeanalysis/update_for_analysis_type' => 'outcome_analyses#update_for_analysis_type'
 	
