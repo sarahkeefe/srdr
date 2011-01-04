@@ -12,8 +12,9 @@ end
 def self.save_data_point(param, study_id)
 	#get study template
 	@study_t = StudyTemplate.where(:study_id => study_id).first
+	if !@study_t.nil?
 	@study_template = CustomTemplate.find(@study_t.template_id)
-	
+	end
 	# parse parameter string
 	# gives ["quality"], ["value"|"notes"]
 	@both_arr = param[0].split("_")
