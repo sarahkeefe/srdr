@@ -319,7 +319,9 @@ end
 	@quality_dimension_data_point = QualityDimensionDataPoint.new
 	@quality_dimension_custom_fields = QualityDimensionField.where(:study_id => params[:study_id]).all
 	@study_template = StudyTemplate.where(:study_id => @study.id).first
+	if !@study_template.nil?
 	@quality_dimension_template_fields = QualityDimensionField.where(:template_id => @study_template.template_id).all
+	end
 	render :layout => 'quality'
 	end
   
