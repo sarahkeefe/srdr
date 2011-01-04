@@ -20,7 +20,9 @@ def self.save_data_point(param, study_id, is_total)
 	
 	#get study template
 	@study_t = StudyTemplate.where(:study_id => study_id).first
-	@study_template = Template.find(@study_t.template_id)
+	if !@study_t.nil?
+		@study_template = CustomTemplate.find(@study_t.template_id)
+	end
 	
 	# parse parameter string
 	# gives [armXXX], [tmplYYY]
