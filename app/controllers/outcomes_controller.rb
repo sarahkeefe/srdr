@@ -35,6 +35,8 @@ class OutcomesController < ApplicationController
   # POST /outcomes.xml
   def create
   	Outcome.connection.execute "select setval('outcomes_id_seq', (select max(id) + 1 from outcomes));"
+  	OutcomeTimepoint.connection.execute "select setval('outcome_timepoints_id_seq', (select max(id) + 1 from outcome_timepoints));"
+  	OutcomeSubgroup.connection.execute "select setval('outcome_subgroups_id_seq', (select max(id) + 1 from outcome_subgroups));"
     @outcome = Outcome.new(params[:outcome])
 		@outcome.study_id = session[:study_id]
 		@outcome.save
