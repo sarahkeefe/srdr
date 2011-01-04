@@ -58,15 +58,15 @@ respond_to do |format|
 	      format.js {
 			  	render :update do |page|
 						if !params[:study_id].nil?
-							@curr_tmpl = StudyTemplate.where(:study_id => session[:study_id]).first
+							@curr_tmpl = StudyTemplate.where(:study_id => params[:study_id]).first
 							if !@curr_tmpl.nil?
 								@baseline_characteristic_template_fields = BaselineCharacteristicField.where(:template_id => @curr_tmpl.template_id).all
 							else
 								@baseline_characteristic_template_fields = nil
 							end
-							@baseline_characteristic_custom_fields = BaselineCharacteristicField.where(:study_id => session[:study_id]).all
+							@baseline_characteristic_custom_fields = BaselineCharacteristicField.where(:study_id => params[:study_id]).all
 							@baseline_characteristic_data_point = BaselineCharacteristicDataPoint.new
-							@study_arms = Arm.where(:study_id => session[:study_id]).all
+							@study_arms = Arm.where(:study_id => params[:study_id]).all
 							page.replace_html 'population_characteristics_table', :partial => 'baseline_characteristic_data_points/table'
 							new_row_name = "pop_char_row_" + @baseline_characteristic_field.id.to_s	
 							@baseline_characteristic_field = BaselineCharacteristicField.new					
