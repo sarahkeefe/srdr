@@ -1,0 +1,39 @@
+<table class="list_table">
+<th width="100">Outcome</th>
+<th>Intervention</th>
+<th width="50">Follow-Up</th>
+<% for col in @default_columns %>
+<th><%= OutcomeColumn.find(col.column_id).name %></th>
+<% end %>
+<% for outcome in @outcomes_all %>
+<% @outcome_timepoints_list = OutcomeTimepoint.where(:outcome_id => outcome.id).all %>
+		<tr>
+			<td rowspan="<%= @outcome_timepoints_list.length > 1 ? @study_arms.length*@outcome_timepoints_list.length : @study_arms.length %>">
+				<%= outcome.title %>
+			</td>
+			<% for intervention in @study_arms %>
+			<td rowspan="<%= @outcome_timepoints_list.length %>"><%= intervention.title %></td>
+
+					
+							
+										<% for timepoint in @outcome_timepoints_list %>
+											<td width="50"><%= timepoint.number.to_s + " " + timepoint.time_unit %></td>
+											<% i = 1 %>
+											<% for col in @default_columns %>
+												<td><%= i.to_s %> <% i = i + 1 %></td>
+											<% end %>
+											</tr>
+
+										<% end %>
+								
+
+					</tr>
+				<% end %>
+	<% end %>
+</table>
+
+
+				
+
+				
+	

@@ -2,6 +2,18 @@
 	<%# render 'outcome_columns/custom_form' %>
 </div>
 
+ 	<script type="text/javascript">				
+
+</script>
+
+<div class="bubbleInfo">
+  <div class="popup">
+    lalala
+  </div>
+</div>
+
+
+
 <%= form_for(@outcome_data_points, :remote => true, :html=>{:id=>"outcome_data_form"}) do |f| %>
 
 <%# --------------- CATEGORICAL OUTCOMES ----------------%>
@@ -57,10 +69,62 @@
 											<% for col in @template_categorical_columns %>
 												<% val = OutcomeResult.get_data_point(outcome.id, intervention.id, timepoint.id, col.id) %>
 												<% calc = OutcomeResult.get_data_point_calc(outcome.id, intervention.id, timepoint.id, col.id) %>
-												<td>
+												<td id="<%= "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_col" + col.id.to_s%>">
 												<%= text_field "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s, col.id.to_s, :size => 5, :value=>val, :onchange=>'check_for_footnote(this.value, this.id)' %>
-												<%= check_box_tag "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_col" + col.id.to_s + "_calc", true, calc, :class => "styled" %>
+												<%= check_box_tag "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_col" + col.id.to_s + "_calc", true, calc, :style => "display:none" %>
 												</td>
+
+												<% if calc.nil? %>
+												<% calc = false %>
+												<% end %>
+							
+												<script type="text/javascript">
+												toggleCalculationHighlighting(<%= outcome.id.to_s %>, <%= intervention.id.to_s %>, <%= timepoint.id.to_s %>, <%= col.id.to_s %>, <%= calc %>);
+												
+												$j('#<%= "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_" + col.id.to_s %>').qtip({
+												   content: "<a onclick='toggleCalculation(<%= outcome.id.to_s %>, <%= intervention.id.to_s %>, <%= timepoint.id.to_s %>, <%= col.id.to_s %>)'>Toggle calculation highlighting</a>",
+												   show: 'mouseover',
+												   hide: 'mouseout',
+												   hide: {
+													fixed: true
+													},
+												   position: {
+													  corner: {
+														 target: 'topMiddle',
+														 tooltip: 'bottomLeft'
+													  }
+													  },
+												   style: { 
+														name: 'dark',
+													tip: {
+														corner: 'bottomLeft',
+														 size: {
+															x: 20,
+															y : 8
+														 }
+													}
+													},
+											 });
+											 
+												$j('#<%= "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_" + col.id.to_s %>').mouseover(function(){
+													$j('#<%= "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_col" + col.id.to_s %>').css('background-color', '#ffff99');
+												});
+												
+												$j('#<%= "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_" + col.id.to_s %>').mouseout(function(){
+													var cbox = $j('#<%= "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_col" + col.id.to_s + "_calc" %>');
+													var checked = false;
+													if (cbox.attr('checked'))
+													{
+														checked = true;
+													}
+													else{
+														checked = false;
+													}
+													toggleCalculationHighlighting(<%= outcome.id.to_s %>, <%= intervention.id.to_s %>, <%= timepoint.id.to_s %>, <%= col.id.to_s %>, checked);
+												});
+												</script>
+												
+												
 											<% end %>
 											</tr>
 
@@ -134,10 +198,64 @@
 											<% for col in @template_continuous_columns %>
 												<% val = OutcomeResult.get_data_point(outcome.id, intervention.id, timepoint.id, col.id) %>
 												<% calc = OutcomeResult.get_data_point_calc(outcome.id, intervention.id, timepoint.id, col.id) %>
-												<td>
+												<td id="<%= "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_col" + col.id.to_s%>">
 												<%= text_field "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s, col.id.to_s, :size => 5, :value=>val, :onchange=>'check_for_footnote(this.value, this.id)' %>
-												<%= check_box_tag "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_col" + col.id.to_s + "_calc", true, calc, :class => "styled" %>
+												<%= check_box_tag "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_col" + col.id.to_s + "_calc", true, calc, :style => "display:none" %>
 												</td>
+												
+												<% if calc.nil? %>
+												<% calc = false %>
+												<% end %>
+							
+												<script type="text/javascript">
+												toggleCalculationHighlighting(<%= outcome.id.to_s %>, <%= intervention.id.to_s %>, <%= timepoint.id.to_s %>, <%= col.id.to_s %>, <%= calc %>);
+												
+												$j('#<%= "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_" + col.id.to_s %>').qtip({
+												   content: "<a onclick='toggleCalculation(<%= outcome.id.to_s %>, <%= intervention.id.to_s %>, <%= timepoint.id.to_s %>, <%= col.id.to_s %>)'>Toggle calculation highlighting</a>",
+												   show: 'mouseover',
+												   hide: 'mouseout',
+												   hide: {
+													fixed: true
+													},
+												   position: {
+													  corner: {
+														 target: 'topMiddle',
+														 tooltip: 'bottomLeft'
+													  }
+													  },
+												   style: { 
+														name: 'dark',
+													tip: {
+														corner: 'bottomLeft',
+														 size: {
+															x: 20,
+															y : 8
+														 }
+													}
+													},
+											 });
+											 
+												$j('#<%= "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_" + col.id.to_s %>').mouseover(function(){
+													$j('#<%= "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_col" + col.id.to_s %>').css('background-color', '#ffff99');
+												});
+												
+												$j('#<%= "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_" + col.id.to_s %>').mouseout(function(){
+													var cbox = $j('#<%= "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_col" + col.id.to_s + "_calc" %>');
+													var checked = false;
+													if (cbox.attr('checked'))
+													{
+														checked = true;
+													}
+													else{
+														checked = false;
+													}
+													toggleCalculationHighlighting(<%= outcome.id.to_s %>, <%= intervention.id.to_s %>, <%= timepoint.id.to_s %>, <%= col.id.to_s %>, checked);
+												});
+												</script>
+												
+												
+												
+												
 											<% end %>
 											</tr>
 
