@@ -1,7 +1,7 @@
 <h2>Study Outcome Raw Data</h2>
 <br/>
 <% unless @categorical_outcomes.empty? || @continuous_outcomes.empty? || @study_arms.empty? %>
-	<% if !@categorical_outcomes.nil? && @categorical_outcomes.length > 0 && !@continuous_outcomes.nil? && @continuous_outcomes.length > 0 %>
+	<% if (!@categorical_outcomes.nil? && @categorical_outcomes.length > 0) || (!@continuous_outcomes.nil? && @continuous_outcomes.length > 0) %>
 
 	
 	<div id="outcome_results_table">

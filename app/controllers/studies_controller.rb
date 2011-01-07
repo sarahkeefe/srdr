@@ -104,7 +104,6 @@ end
 	@model_name="outcome_result"
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.where(:study_id => params[:study_id]).all
-	
 	template_id = Study.get_template_id(@study.id)
 	@categorical_outcomes = Outcome.where(:study_id => @study.id, :outcome_type => "Categorical").all
 	@continuous_outcomes = Outcome.where(:study_id => @study.id, :outcome_type => "Continuous").all
