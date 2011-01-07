@@ -417,7 +417,13 @@ end
     @study.destroy
 
     respond_to do |format|
-      format.html { redirect_to(project_studies_path(session[:project_id])) }
+      format.html { 
+    		unless params[:from] == "home"
+	      	redirect_to(project_studies_path(session[:project_id])) 
+	      else
+	      	redirect_to root_url
+	      end
+    	}
       format.xml  { head :ok }
     end
   end
