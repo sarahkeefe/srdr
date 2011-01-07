@@ -36,11 +36,13 @@ class Study < ActiveRecord::Base
 	
 	def self.get_template_list_array(project_id)
 		arr = []
-		#arr << ["No Template", nil]
-		@template_list = CustomTemplate.all
-		for i in @template_list
-			arr << [i.title, i.id]
+		project_lead_id = Project.find(project_id, :select=>"creator_id")
+		templates = CustomTemplate.where(:creator_id=>project_lead_id)
+		
+		templates.each do |template|
+		  arr << [template.title, template.id]
 		end
+		
 		return arr
 	end
 	

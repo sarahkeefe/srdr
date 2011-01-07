@@ -100,9 +100,9 @@ class ProjectsController < ApplicationController
   # POST /projects.xml
   def create
     @project = Project.new(params[:project])
-	if !current_user.nil?
-		@project .creator_id = current_user.id
-	end
+		if !current_user.nil?
+			@project.creator_id = current_user.id
+		end
 		@key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
 		@key_question = KeyQuestion.new	
     respond_to do |format|
@@ -136,41 +136,47 @@ class ProjectsController < ApplicationController
   # PUT /projects/1.xml
   def update
     @project = Project.find(params[:id])
+    unless current_user.nil?
+			@project.creator_id = current_user.id
+	  end
 		makeActive(@project)
     @key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
 		@key_question = KeyQuestion.new	
     respond_to do |format|
       if @project.update_attributes(params[:project])
         #format.html { redirect_to(@project, :notice => 'Project was successfully updated.') }
-        format.html {render :update do |page| 
-        	page.replace_html 'validation_message', "<div class='success_message' id='success_div' style='display:none;'>Saved successfully!</div><br/>"
-					page.call("show_save_indication","success_div");
-					page.call("show_save_indication","project_save_status_div");
-					#page.visual_effect(:appear, 'validation_message')	
-					end
-					}
-		format.xml  { head :ok }
+        format.html {
+          render :update do |page| 
+	        	page.replace_html 'validation_message', "<div class='success_message' id='success_div' style='display:none;'>Saved successfully!</div><br/>"
+						page.call("show_save_indication","success_div");
+						page.call("show_save_indication","project_save_status_div");
+						#page.visual_effect(:appear, 'validation_message')	
+				  end
+				}
+				format.xml  { head :ok }
       else
-        #format.html { render :action => "edit" }
-		problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
-		for i in @project.errors
-			problem_html += "<li>" + i.to_s + " " + @project.errors[i][0] + "</li>"
-		end
-		problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
-        format.html {render :update do |page| 
-			page.replace_html 'validation_message', problem_html
-			end
-			}        
-		format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
-
+				problem_html = "<div class='error_message'>The following errors prevented the form from being submitted:<br/><ul>"
+				for i in @project.errors
+					problem_html += "<li>" + i.to_s + " " + @project.errors[i][0] + "</li>"
+				end
+				problem_html += "</ul>Please correct the form and press 'Save' again.</div><br/>"
+		    
+				format.html {
+					render :update do |page| 
+						page.replace_html 'validation_message', problem_html
+					end
+				}        
+				format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
       end
     end
-end
+  end
   # DELETE /projects/1
   # DELETE /projects/1.xml
   def destroy
     @project = Project.find(params[:id])
+    UserProjectRole.remove_roles_for_project(@project.id)
     @project.destroy
+    
 	  clearSessionProjectInfo()
 	
     respond_to do |format|

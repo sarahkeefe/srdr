@@ -33,7 +33,6 @@ class Project < ActiveRecord::Base
 		return @user_names.to_sentence
 	end
 		
-	
 	def self.get_studies(project_id)
 		return Study.where(:project_id => project_id).all
 	end
@@ -63,13 +62,21 @@ class Project < ActiveRecord::Base
 				end
 			end
 		end
-			if keyq.save  
-				format.js {
-					render :update do |page|
-						page.replace_html 'key_question_table', :partial => 'key_questions/table'
-					end
-				}
-			end
+		if keyq.save  
+			format.js {
+				render :update do |page|
+					page.replace_html 'key_question_table', :partial => 'key_questions/table'
+				end
+			}
+		end
+	end
+	# return the user object for the admin of the given project.
+	# the resulting object only contains id and login information
+	def self.get_project_admin(project_id)
+		admin_id = Project.find(project_id,:select=>"creator_id")
+		admin_id = admin_id.creator_id
+		admin = User.find(admin_id, :select=>[:id,:login])
+		return admin
 	end
 	
 end

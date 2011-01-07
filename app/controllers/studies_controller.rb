@@ -314,20 +314,22 @@ end
     
   	@study = Study.new
     @study.project_id = params[:project_id]
-	@study.save
-	makeActive(@study)
-
-	@study_template = StudyTemplate.new
-	# if there is a template variable set in the new call
-	Study.set_template_id_if_exists(params, @study)
-	    	
-	@primary_publication = Publication.create()
-	@publication=Publication.new
-    @secondary_publications = []
+		@study.save
+		makeActive(@study)
+	  @project_admin = Project.get_project_admin(session[:project_id])
+	  
+		@study_template = StudyTemplate.new
+		# if there is a template variable set in the new call
+		Study.set_template_id_if_exists(params, @study)
+		    	
+		@primary_publication = Publication.create()
+		@publication=Publication.new
+	    @secondary_publications = []
+			
+		@questions = @study.get_question_choices(session[:project_id])
+	    render :layout => 'studydesign'	
 		
-	@questions = @study.get_question_choices(session[:project_id])
-    render :layout => 'studydesign'	
-
+	  
   end
 
   # GET /studies/1/edit

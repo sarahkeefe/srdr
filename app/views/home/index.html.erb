@@ -27,7 +27,7 @@
 			</ul>
 	</div>	
 		
-		<% @lead_roles = User.get_user_lead_roles (current_user) %>
+		<% @lead_roles = User.get_user_lead_roles(current_user) %>
 		<% if !@lead_roles.nil? && @lead_roles.length > 0 %>
 		<h4>Project Lead for: </h4><br/>
 			<ul class="user_actions">
