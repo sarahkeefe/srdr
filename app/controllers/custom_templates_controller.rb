@@ -25,6 +25,11 @@ class CustomTemplatesController < ApplicationController
 	@quality_dimension_fields = QualityDimensionField.where(:template_id => params[:custom_template_id]).all
 	render :layout => "templates"
  end
+ 
+ def outcome_datatable
+	@template_categorical_columns = OutcomeColumn.where(:template_id => params[:custom_template_id], :outcome_type => "Categorical").all
+	@template_continuous_columns = OutcomeColumn.where(:template_id => params[:custom_template_id], :outcome_type => "Continuous").all
+ end
   
   # GET /templates/1
   # GET /templates/1.xml
@@ -32,7 +37,8 @@ class CustomTemplatesController < ApplicationController
     @template = CustomTemplate.find(params[:id])
 	@baseline_characteristic_fields = BaselineCharacteristicField.where(:template_id => @template.id).all
 	@quality_dimension_fields = QualityDimensionField.where(:template_id => @template.id).all
-	
+	@template_categorical_columns = OutcomeColumn.where(:template_id => @template.id, :outcome_type => "Categorical").all
+	@template_continuous_columns = OutcomeColumn.where(:template_id => @template.id, :outcome_type => "Continuous").all		
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @template }
@@ -59,9 +65,10 @@ class CustomTemplatesController < ApplicationController
   # POST /templates.xml
   def create
     @template = CustomTemplate.new(params[:custom_template])
-
+	
     respond_to do |format|
       if @template.save
+	  	CustomTemplate.create_default_outcome_columns(@template.id)
 		format.html { redirect_to("/custom_templates/" + @template.id.to_s + "/baseline_characteristics", :notice => 'CustomTemplate was successfully created.') }
         #format.xml  { render :xml => @template, :status => :created, :location => @template }
       else
@@ -95,6 +102,10 @@ class CustomTemplatesController < ApplicationController
 	for ts in @template_studies
 		ts.destroy
 	end
+	@template_columns = OutcomeColumn.where(:template_id => @template.id).all
+	for tc in @template_columns
+		tc.destroy
+	end
     @template.destroy
 
     respond_to do |format|
@@ -106,4 +117,20 @@ class CustomTemplatesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  
+ def delete_column
+	@column = OutcomeColumn.where(:id => params[:id]).first
+	@column.destroy
+	@template_categorical_columns = OutcomeColumn.where(:template_id => params[:custom_template_id], :outcome_type => "Categorical").all
+	@template_continuous_columns = OutcomeColumn.where(:template_id => params[:custom_template_id], :outcome_type => "Continuous").all		
+   respond_to do |format|
+		format.js {
+		      render :update do |page|
+					page.replace_html 'outcome_data_fields_table', :partial => 'outcome_columns/table'
+		  		end
+				}
+		end
+ end
+ 
 end

@@ -104,36 +104,19 @@ end
 	@model_name="outcome_result"
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.where(:study_id => params[:study_id]).all
-	@study_arm_ids = @study_arms.collect{|arm| arm.id}
-	@study_arm_ids = @study_arm_ids.to_json
-	@outcomes = Outcome.where(:study_id => params[:study_id]).all
-	@first_outcome = @outcomes[0]
-	if !@first_outcome.nil?
-		print ("\n\n The first outcome is not nil, and the id is #{@first_outcome.id}\n\n\n")
-		@first_subgroups = Outcome.get_subgroups_array(@first_outcome.id)
-		@first_timepoints = Outcome.get_timepoints_array(@first_outcome.id)
-		print ("\n\nFirst subgroups has #{@first_subgroups.length} items in it.\n")
-		print ("\n\nFirst timepoints has #{@first_timepoints.length} items in it.\n\n\n")
-		print "First Subgroups: #{@first_subgroups}\n\n"
-		current_selections = OutcomeResult.get_selected_sg_and_tp(@first_subgroups, @first_timepoints)
-		@selected_subgroup = current_selections[0]
-		@selected_timepoint = current_selections[1]
-		
-		# ISN'T THIS THE SAME AS @first_outcome???
-		@selected_outcome_object = Outcome.find(@first_outcome.id)
-		@selected_outcome_object_results = OutcomeResult.get_selected_outcome_results(@first_outcome.id, @selected_subgroup, @selected_timepoint)
-		
-		# gather any footnotes for the first selections
-		@footnotes = Footnote.where(:study_id=>session[:study_id], :outcome_id=>@first_outcome.id,
-															  :subgroup_id=>@selected_subgroup, :timepoint_id=>@selected_timepoint).order("note_number ASC")
-	else
-		@selected_subgroup = nil
-		@selected_timepoint = nil
-		@selected_outcome_object = nil
-		@selected_outcome_object_results = nil
-	end
+	
+	template_id = Study.get_template_id(@study.id)
+	@categorical_outcomes = Outcome.where(:study_id => @study.id, :outcome_type => "Categorical").all
+	@continuous_outcomes = Outcome.where(:study_id => @study.id, :outcome_type => "Continuous").all
+	@template_categorical_columns = OutcomeColumn.where(:template_id => template_id, :outcome_type => "Categorical").all
+	@template_continuous_columns = OutcomeColumn.where(:template_id => template_id, :outcome_type => "Continuous").all
+
+	@outcome_data_points = OutcomeResult.new
+	# gather any footnotes for the first selections
+	# commented out just for now
+	#@footnotes = Footnote.where(:study_id=>session[:study_id], :outcome_id=>@first_outcome.id, :subgroup_id=>@selected_subgroup, :timepoint_id=>@selected_timepoint).order("note_number ASC")
+
 	@outcome_column = OutcomeColumn.new
-	@secondary_publications = @study.get_secondary_publications	
 	render :layout => 'outcomedata'	
 	 end
   

@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Study:</b>
+  <%= @default_outcome_column.study_id %>
+</p>
+
+<p>
+  <b>Column:</b>
+  <%= @default_outcome_column.column_id %>
+</p>
+
+<p>
+  <b>Column name:</b>
+  <%= @default_outcome_column.column_name %>
+</p>
+
+<p>
+  <b>Column description:</b>
+  <%= @default_outcome_column.column_description %>
+</p>
+
+<p>
+  <b>Units:</b>
+  <%= @default_outcome_column.units %>
+</p>
+
+
+<%= link_to 'Edit', edit_default_outcome_column_path(@default_outcome_column) %> |
+<%= link_to 'Back', default_outcome_columns_path %>

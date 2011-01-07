@@ -2,6 +2,7 @@
 <table class="list_table">
 <th>Outcome Title</th>
 <th>Primary?</th>
+<th>Type</th>
 <th>Units</th>
 <th>Follow-Up Time Points</th>
 <th>Subgroups</th>
@@ -17,6 +18,8 @@
 		<% else %>
 		No
 		<% end %>
+	</td>
+	<td><%= oneoutcome.outcome_type %>
 	</td>
 	<td><%= oneoutcome.units %></td>
 	

@@ -1,0 +1,2 @@
+module DefaultOutcomeColumnsHelper
+end

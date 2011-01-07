@@ -3,10 +3,7 @@
 function do_confirm(event, str)
 {
 var answer = confirm(str); 
-if (answer) {
-}
-else
-{
+if (!answer) {
 	event.preventDefault();
 	}
 }

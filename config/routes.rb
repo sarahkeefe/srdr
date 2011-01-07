@@ -1,5 +1,9 @@
 Srdr::Application.routes.draw do
 
+  resources :template_outcome_columns
+
+  resources :default_outcome_columns
+
   resources :custom_templates
 
  resources :study_templates
@@ -99,7 +103,6 @@ end
 	match 'projects/:project_id/studies/:study_id/enrollment' => 'studies#enrollment'
 	match 'projects/:project_id/studies/:study_id/outcomesetup' => 'studies#outcomesetup'
 	match 'projects/:project_id/studies/:study_id/outcomedata' => 'studies#outcomedata'
-	#match 'projects/:project_id/studies/:study_id/outcomeanalysis' => 'outcome_analyses#new'
 	match 'projects/:project_id/studies/:study_id/outcomeanalysis' => 'studies#outcomeanalysis'
 	match 'projects/:project_id/studies/:study_id/outcomeanalysis/update_group_selector' => 'outcome_analyses#update_group_selector'
 	match 'projects/:project_id/studies/:study_id/adverseevents' => 'studies#adverseevents'
@@ -109,6 +112,8 @@ end
 	match 'projects/:project_id/manage/adduser' => 'user_project_roles#add_new_user'
 	match 'custom_templates/:custom_template_id/baseline_characteristics' => 'custom_templates#baseline_characteristics'
 	match 'custom_templates/:custom_template_id/quality_dimensions' => 'custom_templates#quality_dimensions'
+	match 'custom_templates/:custom_template_id/outcome_datatable' => 'custom_templates#outcome_datatable'
+	match 'custom_templates/:custom_template_id/outcome_datatable/delete_column' => 'custom_templates#delete_column'
 
 	
 	match 'publications/:publication_id/moveup' => 'publications#moveup'	

@@ -1,18 +1,13 @@
 <h2>Study Outcome Raw Data</h2>
-<% unless @outcomes.empty? || @study_arms.empty? %>
-	<% if !@outcomes.nil? && @outcomes.length > 0 %>
-	
-	<%= render "outcomes/subgroup_timepoint_selector"%>
-	<% else %>
-	<b>There are currently no outcomes listed for this study. </b>
-	<% end %>
-	
-	<br/><br/>
+<br/>
+<% unless @categorical_outcomes.empty? || @continuous_outcomes.empty? || @study_arms.empty? %>
+	<% if !@categorical_outcomes.nil? && @categorical_outcomes.length > 0 && !@continuous_outcomes.nil? && @continuous_outcomes.length > 0 %>
+
 	
 	<div id="outcome_results_table">
-	<%= render 'outcome_results/table', :one_outcome => @selected_outcome_object %>
+	<%= render 'outcome_results/table' %>
 	</div>
-	
+
 	<br/>
 	<div class="icon_explanation">
 		<%= image_tag "/images/paper-icon.gif" %> <b>Directly transcribed</b> data item (directly from scientific literature)<br/>
@@ -23,9 +18,14 @@
 	
 	
 	<div id="outcome_results_list">
-	<%= render 'outcome_results/completed_list', :selected_outcome_object => @selected_outcome_object %>
+	<%# render 'outcome_results/completed_list', :selected_outcome_object => @selected_outcome_object %>
 	</div>
-	<br/><br/>
+	
+	<br/>
+
+	<% else %>
+	<b>There are currently no outcomes listed for this study. </b>
+	<% end %>
 <% else %>
   To enter raw data you will first need to define <%= link_to 'outcomes','/projects/'+session[:project_id].to_s+'/studies/'+session[:study_id].to_s+'/outcomesetup' %> 
   and <%= link_to 'arms','/projects/'+session[:project_id].to_s+'/studies/'+session[:study_id].to_s+'/design' %>

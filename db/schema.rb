@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101230183249) do
+ActiveRecord::Schema.define(:version => 20110107160108) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer   "study_id"
@@ -51,91 +51,100 @@ ActiveRecord::Schema.define(:version => 20101230183249) do
   end
 
   create_table "baseline_characteristic_data_points", :force => true do |t|
-    t.integer  "baseline_characteristic_field_id"
-    t.integer  "arm_id"
-    t.boolean  "is_total"
-    t.string   "value"
-    t.string   "units"
-    t.string   "measurement_type"
-    t.text     "notes"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "study_id"
+    t.integer   "baseline_characteristic_field_id"
+    t.integer   "arm_id"
+    t.boolean   "is_total"
+    t.string    "value"
+    t.string    "units"
+    t.string    "measurement_type"
+    t.text      "notes"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "study_id"
   end
 
   create_table "baseline_characteristic_fields", :force => true do |t|
-    t.string   "category_title"
-    t.string   "units"
-    t.string   "measurement_type"
-    t.boolean  "force_measurements"
-    t.boolean  "display_arms"
-    t.boolean  "display_total"
-    t.text     "field_notes"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "template_id"
-    t.integer  "study_id"
+    t.string    "category_title"
+    t.string    "units"
+    t.string    "measurement_type"
+    t.boolean   "force_measurements"
+    t.boolean   "display_arms"
+    t.boolean   "display_total"
+    t.text      "field_notes"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "template_id"
+    t.integer   "study_id"
   end
 
   create_table "baseline_characteristic_subcategory_data_points", :force => true do |t|
-    t.integer  "baseline_characteristic_subcategory_field_id"
-    t.integer  "arm_id"
-    t.boolean  "is_total"
-    t.string   "value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer   "baseline_characteristic_subcategory_field_id"
+    t.integer   "arm_id"
+    t.boolean   "is_total"
+    t.string    "value"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
   create_table "baseline_characteristic_subcategory_fields", :force => true do |t|
-    t.string   "subcategory_title"
-    t.integer  "baseline_characteristic_field_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string    "subcategory_title"
+    t.integer   "baseline_characteristic_field_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
   create_table "custom_templates", :force => true do |t|
-    t.string   "title"
-    t.integer  "creator_id"
+    t.string    "title"
+    t.integer   "creator_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+  end
+
+  create_table "default_outcome_columns", :force => true do |t|
+    t.string   "column_name"
+    t.text     "column_description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "column_header"
+    t.string   "outcome_type"
   end
 
   create_table "exclusion_criteria_items", :force => true do |t|
-    t.integer  "study_id"
-    t.string   "item_text"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "display_number"
+    t.integer   "study_id"
+    t.string    "item_text"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "display_number"
   end
 
   create_table "footnote_fields", :force => true do |t|
-    t.integer  "study_id"
-    t.integer  "outcome_id"
-    t.integer  "subgroup_id"
-    t.integer  "timepoint_id"
-    t.integer  "footnote_number"
-    t.string   "field_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer   "study_id"
+    t.integer   "outcome_id"
+    t.integer   "subgroup_id"
+    t.integer   "timepoint_id"
+    t.integer   "footnote_number"
+    t.string    "field_name"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
   create_table "footnotes", :force => true do |t|
-    t.integer  "note_number"
-    t.integer  "study_id"
-    t.integer  "outcome_id"
-    t.integer  "subgroup_id"
-    t.integer  "timepoint_id"
-    t.string   "note_text"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer   "note_number"
+    t.integer   "study_id"
+    t.integer   "outcome_id"
+    t.integer   "subgroup_id"
+    t.integer   "timepoint_id"
+    t.string    "note_text"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
   create_table "inclusion_criteria_items", :force => true do |t|
-    t.integer  "study_id"
-    t.string   "item_text"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "display_number"
+    t.integer   "study_id"
+    t.string    "item_text"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "display_number"
   end
 
   create_table "key_questions", :force => true do |t|
@@ -200,13 +209,14 @@ ActiveRecord::Schema.define(:version => 20101230183249) do
   end
 
   create_table "outcome_columns", :force => true do |t|
-    t.integer   "outcome_id"
-    t.string    "name"
-    t.text      "description"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.integer   "timepoint_id"
-    t.integer   "subgroup_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "column_header"
+    t.string   "outcome_type"
+    t.string   "column_name"
+    t.string   "column_description"
+    t.integer  "template_id"
+    t.integer  "study_id"
   end
 
   create_table "outcome_enrolled_numbers", :force => true do |t|
@@ -218,25 +228,14 @@ ActiveRecord::Schema.define(:version => 20101230183249) do
   end
 
   create_table "outcome_results", :force => true do |t|
-    t.integer   "study_id"
-    t.integer   "arm_id"
-    t.integer   "n_analyzed"
-    t.string    "measure_type"
-    t.string    "measure_value"
-    t.string    "measure_dispersion_type"
-    t.string    "measure_dispersion_value"
-    t.string    "p_value"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.integer   "outcome_id"
-    t.boolean   "nanalyzed_is_calculated"
-    t.boolean   "measurereg_is_calculated"
-    t.boolean   "measuredisp_is_calculated"
-    t.boolean   "pvalue_is_calculated"
-    t.integer   "timepoint_id"
-    t.integer   "subgroup_id"
-    t.integer   "column_id"
-    t.string    "column_type"
+    t.integer  "arm_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "outcome_id"
+    t.integer  "timepoint_id"
+    t.integer  "outcome_column_id"
+    t.boolean  "is_calculated"
+    t.string   "value"
   end
 
   create_table "outcome_results_notes", :force => true do |t|
@@ -284,6 +283,7 @@ ActiveRecord::Schema.define(:version => 20101230183249) do
     t.text      "notes"
     t.timestamp "created_at"
     t.timestamp "updated_at"
+    t.string    "outcome_type"
   end
 
   create_table "projects", :force => true do |t|
@@ -330,22 +330,22 @@ ActiveRecord::Schema.define(:version => 20101230183249) do
   end
 
   create_table "quality_dimension_data_points", :force => true do |t|
-    t.integer  "quality_dimension_field_id"
-    t.string   "value"
-    t.text     "notes"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "study_id"
-    t.string   "field_type"
+    t.integer   "quality_dimension_field_id"
+    t.string    "value"
+    t.text      "notes"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "study_id"
+    t.string    "field_type"
   end
 
   create_table "quality_dimension_fields", :force => true do |t|
-    t.string   "title"
-    t.text     "field_notes"
-    t.integer  "template_id"
-    t.integer  "study_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string    "title"
+    t.text      "field_notes"
+    t.integer   "template_id"
+    t.integer   "study_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
   create_table "quality_ratings", :force => true do |t|
@@ -377,26 +377,33 @@ ActiveRecord::Schema.define(:version => 20101230183249) do
   end
 
   create_table "study_templates", :force => true do |t|
-    t.integer  "study_id"
+    t.integer   "study_id"
+    t.integer   "template_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+  end
+
+  create_table "template_outcome_columns", :force => true do |t|
     t.integer  "template_id"
+    t.integer  "column_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "templates", :force => true do |t|
-    t.string   "title"
-    t.integer  "creator_id"
-    t.integer  "project_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string    "title"
+    t.integer   "creator_id"
+    t.integer   "project_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
   create_table "user_project_roles", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "project_id"
-    t.string   "role"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer   "user_id"
+    t.integer   "project_id"
+    t.string    "role"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
   create_table "users", :force => true do |t|

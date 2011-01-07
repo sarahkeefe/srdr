@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Template:</b>
+  <%= @template_outcome_column.template_id %>
+</p>
+
+<p>
+  <b>Column:</b>
+  <%= @template_outcome_column.column_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_template_outcome_column_path(@template_outcome_column) %> |
+<%= link_to 'Back', template_outcome_columns_path %>

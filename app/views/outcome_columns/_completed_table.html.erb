@@ -1,0 +1,64 @@
+<h3>Preview of Categorical Outcome Table Heading</h3>
+<table class="list_table">
+<tr>
+<th rowspan="2">Outcome</th>
+<th rowspan="2">Intervention</th>
+<th rowspan="2">Follow-Up</th>
+	<% @template_categorical_columns.group_by(&:column_header).each do |header, cols| %>
+		<% if !cols[0].column_header.nil? && cols[0].column_header != "" %>
+			<th colspan="<%= cols.length %>"><%=cols[0].column_header %></th>
+		<% else %>
+			<% for col in cols %>
+			<th rowspan="2">
+				<%= col.column_name %> 
+			</th>
+			<% end %>
+		<% end %>
+	<% end %>
+</tr><tr>
+	<% @template_categorical_columns.group_by(&:column_header).each do |header, cols| %>
+		<% if !cols[0].column_header.nil? && cols[0].column_header != "" %>
+			<% for col in cols %>
+			<th>
+				<%= col.column_name %>
+			</th>
+			<% end %>
+		<% end %>
+	<% end %>
+</tr>
+</table>
+
+<br/>
+<h3>Preview of Continuous Outcome Table Heading</h3>
+
+
+<table class="list_table">
+<tr>
+<th rowspan="2">Outcome</th>
+<th rowspan="2">Intervention</th>
+<th rowspan="2">Follow-Up</th>
+	<% @template_continuous_columns.group_by(&:column_header).each do |header, cols| %>
+		<% if !cols[0].column_header.nil? %>
+			<th colspan="<%= cols.length %>"><%=cols[0].column_header %></th>
+		<% else %>
+			<% for col in cols %>
+			<th rowspan="2">
+				<%= col.column_name %>
+			</th>
+			<% end %>
+		<% end %>
+	<% end %>
+</tr><tr>
+	<% @template_continuous_columns.group_by(&:column_header).each do |header, cols| %>
+		<% if !cols[0].column_header.nil? %>
+			<% for col in cols %>
+			<th>
+				<%= col.column_name %>
+			</th>
+			<% end %>
+		<% end %>
+	<% end %>
+</tr>
+</table>
+
+<br/><br/>

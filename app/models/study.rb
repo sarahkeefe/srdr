@@ -36,7 +36,7 @@ class Study < ActiveRecord::Base
 	
 	def self.get_template_list_array(project_id)
 		arr = []
-		arr << ["No Template", nil]
+		#arr << ["No Template", nil]
 		@template_list = CustomTemplate.all
 		for i in @template_list
 			arr << [i.title, i.id]

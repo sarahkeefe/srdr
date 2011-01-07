@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  study_id: 
+  column_id: 
+  column_name: 
+  column_description: 
+  units: MyString
+
+two:
+  study_id: 
+  column_id: 
+  column_name: 
+  column_description: 
+  units: MyString

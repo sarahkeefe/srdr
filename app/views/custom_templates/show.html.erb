@@ -31,3 +31,26 @@
 		<%= render 'quality_dimension_fields/completed_table' %>	
 
 	</div>
+<br/>
+
+	<!-- OUTCOME DATA SECTION -->
+	<div class="summary_heading" onclick="toggle_display('datafields_text','datafields_link');">
+		<span id="datafields_link" class='toggle_display_link'>+</span>
+		&nbsp;Outcome Data Fields
+	</div>
+	<div id="datafields_text" style="display:none;">
+	<br/>
+		<%= render 'outcome_columns/completed_table' %>	
+
+	</div>
+<br/>
+
+<table id="bottom_nav"><tr><td align="left"></td><td align="right">
+<% has_privilege = User.current_user_has_template_edit_privilege(@template, current_user) %>
+
+	<% if has_privilege %>
+<%= link_to "Edit This Template",  edit_custom_template_path(@template) %>
+<br/>
+<% end %>
+<%= link_to "Back to User Home", root_path %>
+</td></tr></table>

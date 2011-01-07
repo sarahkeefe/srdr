@@ -20,11 +20,14 @@ bindMyStuff();
     <label>Outcome Title:</label>
     <%= f.text_field :title, :class=>"bp_form_complete-1353-name" %>
   </div>
-
   <div class="field">
     <label class="inline-label">Is this a Primary Outcome?</label>
     <%= f.check_box :is_primary, :class => "cbox" %>
   </div>
+  <div class="field">
+    <label class="inline-label">Is this outcome Categorical or Continuous?</label>
+  <%= f.select :outcome_type, [["Categorical", "Categorical"], ["Continuous", "Continuous"]] %>
+  </div>  
   <div class="field">
     <label>Units:</label>
     <%= f.text_field :units %>
