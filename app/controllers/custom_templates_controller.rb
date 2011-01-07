@@ -98,22 +98,26 @@ class CustomTemplatesController < ApplicationController
   # DELETE /templates/1.xml
   def destroy
     @template = CustomTemplate.find(params[:id])
-	@template_studies = StudyTemplate.where(:template_id => @template.id).all
-	for ts in @template_studies
-		ts.destroy
-	end
-	@template_columns = OutcomeColumn.where(:template_id => @template.id).all
-	for tc in @template_columns
-		tc.destroy
-	end
+	  @template_studies = StudyTemplate.where(:template_id => @template.id).all
+	  for ts in @template_studies
+	  	ts.destroy
+	  end
+		@template_columns = OutcomeColumn.where(:template_id => @template.id).all
+		for tc in @template_columns
+			tc.destroy
+		end
     @template.destroy
 
     respond_to do |format|
       format.html { 
-		render :update do |page|
-			page.reload
-		end
-	  }
+				unless params[:from] == 'home'	
+      		render :update do |page|
+						page.reload
+					end
+				else
+					redirect_to root_url
+				end
+	  	}
       format.xml  { head :ok }
     end
   end

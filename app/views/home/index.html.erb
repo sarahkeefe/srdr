@@ -44,7 +44,7 @@
 							<% for stud in @studies %>
 								<li><%= link_to stud.title, project_study_path(@project.id, stud.id) %>
 									<%= link_to "Edit", edit_project_study_path(@project.id, stud.id), :class => "edit_link small_edit_link" %>
-									<%= link_to "Delete", project_study_path(@project.id, stud.id), :method => "delete", :class => "delete_link small_edit_link", :remote => true %>									
+									<%= link_to "Delete", project_study_path(@project.id, stud.id, :from=>'home'), :method => "delete", :class => "delete_link small_edit_link" %>									
 								</li>
 							<% end %>
 						</ul>
@@ -86,7 +86,7 @@
 		<h4>Templates</h4><br/>	
 			<ul class="user_actions">
 			<% for tmpl in @user_templates %>
-			<li><h5><%= link_to tmpl.title, tmpl %></h5> <%= link_to "Edit",  edit_custom_template_path(tmpl), :class => "edit_link small_edit_link"  %>  <%= link_to "Delete",  custom_template_path(tmpl), :method => :delete, :remote => true, :confirm => "Are you sure?", :class => "delete_link small_edit_link"  %></li>
+			<li><h5><%= link_to tmpl.title, tmpl %></h5> <%= link_to "Edit",  edit_custom_template_path(tmpl), :class => "edit_link small_edit_link"  %>  <%= link_to "Delete",  custom_template_path(tmpl, :from=>'home'), :method => :delete, :confirm => "Are you sure?", :class => "delete_link small_edit_link"  %></li>
 			<% end %>
 			</ul>
 	<% end %>
