@@ -1,7 +1,12 @@
 class User < ActiveRecord::Base
 acts_as_authentic
 has_many :projects, :through => :user_project_roles
-attr_writer :user_type
+
+def deliver_password_reset_instructions!  
+	reset_perishable_token!  
+	Notifier.deliver_password_reset_instructions(self)  
+end  
+
 
 def self.username_exists(str)
 print "TESTING-----------------------------------------------------------------------------------------"
@@ -65,22 +70,6 @@ def self.current_user_has_study_edit_privilege(project_id, user)
 	end
 end
 
-def self.current_user_has_template_edit_privilege(template, user)
-	if !user.nil?
-		if user.user_type == "admin"
-			return true
-		else
-			if template.creator_id == user.id
-				return true
-			else
-				return false
-			end
-		end
-	else
-			return false
-	end
-end
-
 def self.current_user_has_new_project_privilege(user)
 	if !user.nil?
 		if user.user_type == "admin"
@@ -126,5 +115,4 @@ end
 		end
 		return new_list
 	end
-	
 end

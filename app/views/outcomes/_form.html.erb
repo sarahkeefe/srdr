@@ -79,9 +79,16 @@ bindMyStuff();
     <%= f.text_area :notes, :rows => 4, :cols => 40 %>
   </div>
   <div class="actions">
-		<button type="submit" class="positive">
-			<%= image_tag "Add.png"%>Save
-		</button>
+		<% unless @editing %>
+  		<button type="submit" class="positive">
+				<%= image_tag "Add.png"%>Save
+			</button>
+		<% else %>
+			<button type="submit" class="positive">
+				<%= image_tag "Add.png"%>Save Edits
+			</button>
+			<%= link_to 'Cancel', {:controller=>"outcomes", :action=>:new}, :remote=>true %>
+		<% end %>
   </div>
   </div>
 <% end %>
