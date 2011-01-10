@@ -13,7 +13,7 @@
 		    	<%= f.select :template_id, options_for_select(@template_list_array), :class => "inline_field" %><br/>
 					Note: this cannot be changed after the initial creation of a study.
 				<% else %>
-				  There are no templates defined for this project. <strong>Please contact the project admin (<%= @project_admin.login %>) before proceeding.</strong>
+				  There are no templates defined for this project. <strong>Please contact the project administrator before proceeding.</strong>
 				<% end %>
 		</div>
 		  

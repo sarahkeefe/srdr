@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  column_name: MyString
+  column_description: MyString
+  column_header: MyString
+  outcome_type: MyString
+
+two:
+  column_name: MyString
+  column_description: MyString
+  column_header: MyString
+  outcome_type: MyString

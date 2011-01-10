@@ -1,8 +1,13 @@
 Srdr::Application.routes.draw do
 
+  resources :outcome_comparisons
+
+  resources :default_outcome_comparison_columns
+
   resources :template_outcome_columns
 
   resources :default_outcome_columns
+    resources :outcome_comparison_columns
 
   resources :custom_templates
 
@@ -114,7 +119,8 @@ end
 	match 'custom_templates/:custom_template_id/quality_dimensions' => 'custom_templates#quality_dimensions'
 	match 'custom_templates/:custom_template_id/outcome_datatable' => 'custom_templates#outcome_datatable'
 	match 'custom_templates/:custom_template_id/outcome_datatable/delete_column' => 'custom_templates#delete_column'
-
+	match 'custom_templates/:custom_template_id/outcome_comparisons' => 'custom_templates#outcome_comparisons'
+	match 'custom_templates/:custom_template_id/outcome_comparisons/delete_comparison_column' => 'custom_templates#delete_comparison_column'
 	
 	match 'publications/:publication_id/moveup' => 'publications#moveup'	
 	match 'population_characteristics/:population_characteristic_id/moveup' => 'population_characteristics#moveup'	

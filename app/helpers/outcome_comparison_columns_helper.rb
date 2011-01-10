@@ -1,0 +1,2 @@
+module OutcomeComparisonColumnsHelper
+end

@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Arm:</b>
+  <%= @outcome_comparison.arm_id %>
+</p>
+
+<p>
+  <b>Outcome:</b>
+  <%= @outcome_comparison.outcome_id %>
+</p>
+
+<p>
+  <b>Timepoint:</b>
+  <%= @outcome_comparison.timepoint_id %>
+</p>
+
+<p>
+  <b>Outcome comparison column:</b>
+  <%= @outcome_comparison.outcome_comparison_column_id %>
+</p>
+
+<p>
+  <b>Is calculated:</b>
+  <%= @outcome_comparison.is_calculated %>
+</p>
+
+<p>
+  <b>Value:</b>
+  <%= @outcome_comparison.value %>
+</p>
+
+
+<%= link_to 'Edit', edit_outcome_comparison_path(@outcome_comparison) %> |
+<%= link_to 'Back', outcome_comparisons_path %>

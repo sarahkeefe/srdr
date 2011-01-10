@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  column_header: MyString
+  outcome_type: MyString
+  column_name: MyString
+  column_description: MyString
+  template_id: 1
+  study_id: 1
+
+two:
+  column_header: MyString
+  outcome_type: MyString
+  column_name: MyString
+  column_description: MyString
+  template_id: 1
+  study_id: 1

@@ -1,0 +1,33 @@
+<h1>Listing outcome_comparison_columns</h1>
+
+<table>
+  <tr>
+    <th>Column header</th>
+    <th>Outcome type</th>
+    <th>Column name</th>
+    <th>Column description</th>
+    <th>Template</th>
+    <th>Study</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @outcome_comparison_columns.each do |outcome_comparison_column| %>
+  <tr>
+    <td><%= outcome_comparison_column.column_header %></td>
+    <td><%= outcome_comparison_column.outcome_type %></td>
+    <td><%= outcome_comparison_column.column_name %></td>
+    <td><%= outcome_comparison_column.column_description %></td>
+    <td><%= outcome_comparison_column.template_id %></td>
+    <td><%= outcome_comparison_column.study_id %></td>
+    <td><%= link_to 'Show', outcome_comparison_column %></td>
+    <td><%= link_to 'Edit', edit_outcome_comparison_column_path(outcome_comparison_column) %></td>
+    <td><%= link_to 'Destroy', outcome_comparison_column, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Outcome comparison column', new_outcome_comparison_column_path %>

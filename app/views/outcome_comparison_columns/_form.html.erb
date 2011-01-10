@@ -1,0 +1,41 @@
+<%= form_for(@outcome_comparison_column) do |f| %>
+  <% if @outcome_comparison_column.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@outcome_comparison_column.errors.count, "error") %> prohibited this outcome_comparison_column from being saved:</h2>
+
+      <ul>
+      <% @outcome_comparison_column.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :column_header %><br />
+    <%= f.text_field :column_header %>
+  </div>
+  <div class="field">
+    <%= f.label :outcome_type %><br />
+    <%= f.text_field :outcome_type %>
+  </div>
+  <div class="field">
+    <%= f.label :column_name %><br />
+    <%= f.text_field :column_name %>
+  </div>
+  <div class="field">
+    <%= f.label :column_description %><br />
+    <%= f.text_field :column_description %>
+  </div>
+  <div class="field">
+    <%= f.label :template_id %><br />
+    <%= f.text_field :template_id %>
+  </div>
+  <div class="field">
+    <%= f.label :study_id %><br />
+    <%= f.text_field :study_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

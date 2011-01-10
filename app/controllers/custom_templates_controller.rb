@@ -30,7 +30,13 @@ class CustomTemplatesController < ApplicationController
 	@template_categorical_columns = OutcomeColumn.where(:template_id => params[:custom_template_id], :outcome_type => "Categorical").all
 	@template_continuous_columns = OutcomeColumn.where(:template_id => params[:custom_template_id], :outcome_type => "Continuous").all
  end
-  
+
+ def outcome_comparisons
+	@template_categorical_columns = OutcomeComparisonColumn.where(:template_id => params[:custom_template_id], :outcome_type => "Categorical").all
+	@template_continuous_columns = OutcomeComparisonColumn.where(:template_id => params[:custom_template_id], :outcome_type => "Continuous").all
+ end
+
+ 
   # GET /templates/1
   # GET /templates/1.xml
   def show
@@ -69,6 +75,7 @@ class CustomTemplatesController < ApplicationController
     respond_to do |format|
       if @template.save
 	  	CustomTemplate.create_default_outcome_columns(@template.id)
+		CustomTemplate.create_default_outcome_comparison_columns(@template.id)
 		format.html { redirect_to("/custom_templates/" + @template.id.to_s + "/baseline_characteristics", :notice => 'CustomTemplate was successfully created.') }
         #format.xml  { render :xml => @template, :status => :created, :location => @template }
       else
@@ -132,6 +139,20 @@ class CustomTemplatesController < ApplicationController
 		format.js {
 		      render :update do |page|
 					page.replace_html 'outcome_data_fields_table', :partial => 'outcome_columns/table'
+		  		end
+				}
+		end
+ end
+ 
+  def delete_comparison_column
+	@column = OutcomeComparisonColumn.where(:id => params[:id]).first
+	@column.destroy
+	@template_categorical_columns = OutcomeComparisonColumn.where(:template_id => params[:custom_template_id], :outcome_type => "Categorical").all
+	@template_continuous_columns = OutcomeComparisonColumn.where(:template_id => params[:custom_template_id], :outcome_type => "Continuous").all		
+   respond_to do |format|
+		format.js {
+		      render :update do |page|
+					page.replace_html 'outcome_comparisons_table', :partial => 'outcome_comparison_columns/table'
 		  		end
 				}
 		end

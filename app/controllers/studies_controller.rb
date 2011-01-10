@@ -124,29 +124,35 @@ end
 	# displays a table for (both?) categorical and continuous outcomes
 	# enables data entry into that table (and saving)
   def outcomeanalysis
-		@model_name = "outcome_analysis"    
-		@study_arms = Arm.find(:all, :conditions=>["study_id=?",session[:study_id]], :select=>["id","title"])
+		@study = Study.find(params[:study_id])
+		makeActive(@study)
+		@model_name = "outcome_analysis" 
+		@project = Project.find(params[:project_id])
+		@study_arms = Arm.where(:study_id => params[:study_id]).all
+		template_id = Study.get_template_id(@study.id)
 		@outcomes = Outcome.find(:all, :conditions=>["study_id=?",session[:study_id]],:select=>["id","title","description"])
-		@new_continuous_analysis = OutcomeAnalysis.new
-	 	unless @outcomes.empty?
 	  	
-      @selected_outcome = @outcomes[0].id
-      @first_subgroups = Outcome.get_subgroups_array(@selected_outcome)
-      @first_subgroup_comparisons = OutcomeAnalysis.get_analysis_subgroup_comparisons(@first_subgroups)
+		@categorical_outcomes = Outcome.where(:study_id => @study.id, :outcome_type => "Categorical").all
+		@continuous_outcomes = Outcome.where(:study_id => @study.id, :outcome_type => "Continuous").all
+		@template_categorical_columns = OutcomeComparisonColumn.where(:template_id => template_id, :outcome_type => "Categorical").all
+		@template_continuous_columns = OutcomeComparisonColumn.where(:template_id => template_id, :outcome_type => "Continuous").all
+		@outcome_comparisons = OutcomeComparison.new
+      #@selected_outcome = @outcomes[0].id
+      #@first_subgroups = Outcome.get_subgroups_array(@selected_outcome)
+      #@first_subgroup_comparisons = OutcomeAnalysis.get_analysis_subgroup_comparisons(@first_subgroups)
       
-      @first_timepoints = Outcome.get_timepoints_array(@selected_outcome)
-    	@first_timepoint_comparisons = OutcomeAnalysis.get_analysis_timepoint_comparisons(@first_timepoints)
+      #@first_timepoints = Outcome.get_timepoints_array(@selected_outcome)
+		#@first_timepoint_comparisons = OutcomeAnalysis.get_analysis_timepoint_comparisons(@first_timepoints)
       
-      current_selections = OutcomeAnalysis.get_selected_analysis_sg_and_tp(@first_subgroup_comparisons, @first_timepoint_comparisons)
-      @selected_subgroup = current_selections[0]
-      @selected_timepoint = current_selections[1]
+      #current_selections = OutcomeAnalysis.get_selected_analysis_sg_and_tp(@first_subgroup_comparisons, @first_timepoint_comparisons)
+      #@selected_subgroup = current_selections[0]
+      #@selected_timepoint = current_selections[1]
       
-      @continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND outcome_id=? AND subgroup_comp=? AND timepoint_comp=?",
-      														session[:study_id], @selected_outcome, @selected_subgroup.to_s, @selected_timepoint])
+      #@continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND outcome_id=? AND subgroup_comp=? AND timepoint_comp=?", session[:study_id], @selected_outcome, @selected_subgroup.to_s, @selected_timepoint])
       
-      @saved_analyses = OutcomeAnalysis.get_saved_analyses(session[:study_id])
-      @analysis_title = OutcomeAnalysis.get_analysis_title(@outcomes[0].title, @selected_subgroup, @selected_timepoint)
- 		 end
+      #@saved_analyses = OutcomeAnalysis.get_saved_analyses(session[:study_id])
+      #@analysis_title = OutcomeAnalysis.get_analysis_title(@outcomes[0].title, @selected_subgroup, @selected_timepoint)
+ 	#	 end
  		render :layout => 'outcomeanalysis'	 
  	end
   
@@ -316,9 +322,8 @@ end
   	session[:project_id] = params[:project_id] #added this line in case the user is coming from Home
 		@study.save
 		makeActive(@study)
-		
-	  @project_admin = Project.get_project_admin(params[:project_id])
-	  
+	  #@project_admin = Project.get_project_admin(params[:project_id])
+
 		@study_template = StudyTemplate.new
 		# if there is a template variable set in the new call
 		Study.set_template_id_if_exists(params, @study)
