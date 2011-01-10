@@ -1,26 +1,4 @@
 class OutcomeComparisonsController < ApplicationController
-  # GET /outcome_comparisons
-  # GET /outcome_comparisons.xml
-  def index
-    @outcome_comparisons = OutcomeComparison.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @outcome_comparisons }
-    end
-  end
-
-  # GET /outcome_comparisons/1
-  # GET /outcome_comparisons/1.xml
-  def show
-    @outcome_comparison = OutcomeComparison.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @outcome_comparison }
-    end
-  end
-
   # GET /outcome_comparisons/new
   # GET /outcome_comparisons/new.xml
   def new
@@ -40,33 +18,32 @@ class OutcomeComparisonsController < ApplicationController
   # POST /outcome_comparisons
   # POST /outcome_comparisons.xml
   def create
-    @outcome_comparison = OutcomeComparison.new(params[:outcome_comparison])
+    OutcomeComparison.save_data_points(params, session[:study_id])
 
     respond_to do |format|
-      if @outcome_comparison.save
-        format.html { redirect_to(@outcome_comparison, :notice => 'Outcome comparison was successfully created.') }
-        format.xml  { render :xml => @outcome_comparison, :status => :created, :location => @outcome_comparison }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @outcome_comparison.errors, :status => :unprocessable_entity }
-      end
-    end
+			format.js{
+				render :update do |page|
+				# do something here to show that it is saved correctly
+				#	page.replace_html 'outcome_results_list', :partial => 'outcome_results/completed_list'
+				end
+			}
+		end	
   end
 
   # PUT /outcome_comparisons/1
   # PUT /outcome_comparisons/1.xml
   def update
-    @outcome_comparison = OutcomeComparison.find(params[:id])
+    OutcomeComparison.save_data_points(params, session[:study_id])
 
-    respond_to do |format|
-      if @outcome_comparison.update_attributes(params[:outcome_comparison])
-        format.html { redirect_to(@outcome_comparison, :notice => 'Outcome comparison was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @outcome_comparison.errors, :status => :unprocessable_entity }
-      end
-    end
+	  respond_to do |format|
+	
+			format.js{
+				render :update do |page|
+					# do something here to show that it is saved correctly
+					#page.replace_html 'outcome_results_list', :partial => 'outcome_results/completed_list'
+				end
+			}
+		end
   end
 
   # DELETE /outcome_comparisons/1
@@ -80,4 +57,28 @@ class OutcomeComparisonsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def clear_table
+	OutcomeComparison.clear_table(params)
+
+	@study = Study.find(params[:study_id])
+	@study_arms = Arm.where(:study_id => params[:study_id]).all
+  	template_id = Study.get_template_id(@study.id)
+	@categorical_outcomes = Outcome.where(:study_id => @study.id, :outcome_type => "Categorical").all
+	@continuous_outcomes = Outcome.where(:study_id => @study.id, :outcome_type => "Continuous").all
+	@template_categorical_columns = OutcomeComparisonColumn.where(:template_id => template_id, :outcome_type => "Categorical").all
+	@template_continuous_columns = OutcomeComparisonColumn.where(:template_id => template_id, :outcome_type => "Continuous").all
+	@outcome_comparisons = OutcomeComparison.new
+
+    respond_to do |format|
+		format.js {
+				render :update do |page|
+					page.replace_html 'outcome_results_table', :partial => 'outcome_results/table'
+					#page.replace_html 'outcome_results_list', :partial => 'outcome_results/completed_list'
+					#page.call "Custom.init"
+		  		end
+				}
+		end
+ end
+  
 end

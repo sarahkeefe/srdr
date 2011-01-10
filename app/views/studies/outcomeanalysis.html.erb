@@ -9,7 +9,7 @@
 	</div>
 	
 	
-	<div id="outcome_results_list">
+	<div id="outcome_comparisons_list">
 	<%# render 'outcome_results/completed_list', :selected_outcome_object => @selected_outcome_object %>
 	</div>
 	
@@ -19,7 +19,7 @@
 	<b>There are currently no outcomes listed for this study. </b>
 	<% end %>
 <% else %>
-  To enter raw data you will first need to define <%= link_to 'outcomes','/projects/'+session[:project_id].to_s+'/studies/'+session[:study_id].to_s+'/outcomesetup' %> 
+  To enter comparison data you will first need to define <%= link_to 'outcomes','/projects/'+session[:project_id].to_s+'/studies/'+session[:study_id].to_s+'/outcomesetup' %> 
   and <%= link_to 'arms','/projects/'+session[:project_id].to_s+'/studies/'+session[:study_id].to_s+'/design' %>
   for this study.  <br/><br/>
 <% end %>

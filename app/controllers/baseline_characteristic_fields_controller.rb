@@ -66,28 +66,17 @@ respond_to do |format|
 	tmpl_id = @baseline_characteristic_field.template_id
 	      format.js {
 			  	render :update do |page|
-<<<<<<< HEAD
+
 						if !study_id.nil?
 							@curr_tmpl = StudyTemplate.where(:study_id => study_id).first
-=======
-						#if !params[:study_id].nil?
-						unless session[:study_id].nil?
-							@curr_tmpl = StudyTemplate.where(:study_id => session[:study_id]).first
->>>>>>> 7cdc21b1bf1b8aaa04da785a2b2e0b089d87348d
 							if !@curr_tmpl.nil?
 								@baseline_characteristic_template_fields = BaselineCharacteristicField.where(:template_id => @curr_tmpl.template_id).all
 							else
 								@baseline_characteristic_template_fields = nil
 							end
-<<<<<<< HEAD
 							@baseline_characteristic_custom_fields = BaselineCharacteristicField.where(:study_id => study_id).all
 							@baseline_characteristic_data_point = BaselineCharacteristicDataPoint.new
 							@study_arms = Arm.where(:study_id => study_id).all
-=======
-							@baseline_characteristic_custom_fields = BaselineCharacteristicField.where(:study_id => session[:study_id]).all
-							@baseline_characteristic_data_point = BaselineCharacteristicDataPoint.new
-							@study_arms = Arm.where(:study_id => session[:study_id]).all
->>>>>>> 7cdc21b1bf1b8aaa04da785a2b2e0b089d87348d
 							page.replace_html 'population_characteristics_table', :partial => 'baseline_characteristic_data_points/table'
 							new_row_name = "pop_char_row_" + @baseline_characteristic_field.id.to_s	
 							@baseline_characteristic_field = BaselineCharacteristicField.new					
@@ -124,12 +113,8 @@ respond_to do |format|
   # PUT /baseline_characteristic_fields/1.xml
   def update
     @baseline_characteristic_field = BaselineCharacteristicField.find(params[:id])
-<<<<<<< HEAD
 	tmpl_id = @baseline_characteristic_field.template_id
 	study_id = params[:baseline_characteristic_field][:study_id]
-=======
-	  tmpl_id = @baseline_characteristic_field.template_id
->>>>>>> 7cdc21b1bf1b8aaa04da785a2b2e0b089d87348d
     respond_to do |format|
 	if @baseline_characteristic_field.update_attributes(params[:baseline_characteristic_field])
 		format.js{
