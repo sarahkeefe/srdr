@@ -34,11 +34,20 @@ class Study < ActiveRecord::Base
 		end
 	end
 	
+	# get_template_list_array
+	# Return an array of available templates for a particular study. This is based on the project id
+	# and is obtained from the creator of the project.
+	#
+	# @params project_id    the id of the project containing the study
+	# @returns arr          an array containing title and id of the template
 	def self.get_template_list_array(project_id)
 		arr = []
 		project_lead_id = Project.find(project_id, :select=>"creator_id")
+		project_lead_id = project_lead_id.creator_id
+	
+		#print "Project lead id is " + project_lead_id.to_s + "\n\n"
 		templates = CustomTemplate.where(:creator_id=>project_lead_id)
-		
+		#print "There are " + templates.length.to_s + " templates from that creator."
 		templates.each do |template|
 		  arr << [template.title, template.id]
 		end
