@@ -1,20 +1,12 @@
 <h2>Study Outcome Raw Data</h2>
 <br/>
-<% unless @categorical_outcomes.empty? || @continuous_outcomes.empty? || @study_arms.empty? %>
+<% unless (@categorical_outcomes.empty? && @continuous_outcomes.empty?) || @study_arms.empty? %>
 	<% if (!@categorical_outcomes.nil? && @categorical_outcomes.length > 0) || (!@continuous_outcomes.nil? && @continuous_outcomes.length > 0) %>
 
 	
 	<div id="outcome_results_table">
 	<%= render 'outcome_results/table' %>
 	</div>
-
-	<br/>
-	<div class="icon_explanation">
-		<%= image_tag "/images/paper-icon.gif" %> <b>Directly transcribed</b> data item (directly from scientific literature)<br/>
-		<%= image_tag "/images/calculator-icon.gif" %> <b>Calculated</b> data item<br/><br/>
-		Click the icon in a table cell to toggle between markers. Please mark all numbers that result from your own calculations as <b>calculated data</b>.
-	</div>
-	<br/><br/>
 	
 	
 	<div id="outcome_results_list">

@@ -17,7 +17,7 @@
 <%= form_for(@outcome_data_points, :remote => true, :html=>{:id=>"outcome_data_form"}) do |f| %>
 
 <%# --------------- CATEGORICAL OUTCOMES ----------------%>
-
+<% if @categorical_outcomes.length > 0 %>
 <h2>Categorical Outcomes</h2>
 <table class="list_table">
 
@@ -134,8 +134,7 @@
 					</tr>
 				<% end %>
 	<% end %>
-
-
+<% end %> <%# END CATEGORICAL OUTCOMES.LENGTH %>
 
 </table>
 
@@ -144,6 +143,7 @@
 <%# --------------- CONTINUOUS OUTCOMES ----------------%>
 
 <br/>
+<% if @continuous_outcomes.length > 0 %>
 <h2>Continuous Outcomes </h2>
 <table class="list_table">
 
@@ -265,7 +265,7 @@
 					</tr>
 				<% end %>
 	<% end %>
-
+<% end %> <%# END CONTINUOUS OUTCOMES.LENGTH %>
 </table>
 <br/>
   <div class="indent_block actions">

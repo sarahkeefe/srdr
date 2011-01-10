@@ -2,11 +2,11 @@ class Outcome < ActiveRecord::Base
 	has_many :outcome_analyses
 	has_many :outcome_results, :dependent=>:destroy
 	has_many :outcome_timepoints, :dependent=>:destroy
-	has_many :outcome_columns, :dependent=>:destroy
+	#has_many :outcome_columns, :dependent=>:destroy
 	has_many :outcome_subgroups, :dependent=>:destroy
 	belongs_to :study
 	accepts_nested_attributes_for :outcome_timepoints, :allow_destroy => true
-	accepts_nested_attributes_for :outcome_columns, :allow_destroy => true	
+	#accepts_nested_attributes_for :outcome_columns, :allow_destroy => true	
 	accepts_nested_attributes_for :outcome_subgroups, :allow_destroy => true, :reject_if => proc { |attributes| attributes['title'].blank? }
 	attr_accessible :study_id, :title, :is_primary, :units, :description, :notes, :outcome_timepoints_attributes, :outcome_columns_attributes, :outcome_subgroups_attributes, :outcome_subgroup_levels_attributes
 	

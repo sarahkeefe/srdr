@@ -66,10 +66,11 @@ class OutcomesController < ApplicationController
         format.js {
 		      render :update do |page|
 						page.replace_html 'outcomes_table', :partial => 'outcomes/table'
-						page['new_outcome_form'].reset
 						new_outcome_row = "outcome_" + @outcome.id.to_s
+						@outcome = Outcome.new		
+						page['new_outcome_form'].reset
 						page[new_outcome_row].visual_effect :highlight
-					page.replace_html 'outcome_validation_message', ""						
+						page.replace_html 'outcome_validation_message', ""						
 		  		end
 				}
 			else
@@ -122,7 +123,7 @@ class OutcomesController < ApplicationController
 						updated_row = "outcome_" + @outcome.id.to_s
 						page[updated_row].visual_effect :highlight
 					  page.replace_html 'outcome_validation_message', ""		
-					  
+					   @outcome = Outcome.new
 					  # reset the entry form
 					  #@outcome=Outcome.new	
 					  page['new_outcome_form'].reset
@@ -152,8 +153,9 @@ class OutcomesController < ApplicationController
   # DELETE /outcomes/1.xml
   def destroy
     @outcome = Outcome.find(params[:id])
-	  OutcomeAnalysis.delete_all_analyses_for_outcome(@outcome.id)
+	#OutcomeAnalysis.delete_all_analyses_for_outcome(@outcome.id)
     @outcome.destroy 
+	@outcome = Outcome.new
 	  
     respond_to do |format|
 	  @outcomes = Outcome.find(:all, :conditions => {:study_id => session[:study_id]})
