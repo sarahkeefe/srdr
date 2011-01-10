@@ -148,7 +148,7 @@
 							<td rowspan="<%=pop_subcategories.length%>"><%= popchar.field_notes %></td>
 							<td rowspan="<%=pop_subcategories.length%>">
 							
-						<%= link_to "Edit", edit_baseline_characteristic_field_path(popchar), :remote=>true, :class => "edit_link" %>
+						<%= link_to "Edit", edit_baseline_characteristic_field_path(popchar,:study_id=>session[:study_id]), :remote=>true, :class => "edit_link" %>
 						<%= link_to "Delete", baseline_characteristic_field_path(popchar.id), :remote => true, :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %>
 							
 							</td>

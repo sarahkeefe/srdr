@@ -29,9 +29,12 @@ class BaselineCharacteristicFieldsController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @baseline_characteristic_field }
+      
+      # If a user has added custom fields and is clearing an edit form, this will set 
+      # the form back to its original state.
       format.js {  
         render :update do |page|
-       		page.replace_html 'population_characteristic_fields_entry', :partial=>'baseline_characteristic_fields/form' 	
+       		page.replace_html 'population_characteristic_entry', :partial=>'baseline_characteristic_fields/custom_field_form' 	
         end
       }
     end
