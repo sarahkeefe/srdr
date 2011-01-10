@@ -35,8 +35,8 @@ class Study < ActiveRecord::Base
 	end
 	
 	# get_template_list_array
-	# Return an array of available templates for a particular study. This is based on the project id
-	# and is obtained from the creator of the project.
+	# Return an array of available templates for a particular study. This is obtained based on
+	# the project lead for the project containing the study.
 	#
 	# @params project_id    the id of the project containing the study
 	# @returns arr          an array containing title and id of the template
@@ -51,7 +51,6 @@ class Study < ActiveRecord::Base
 		templates.each do |template|
 		  arr << [template.title, template.id]
 		end
-		
 		return arr
 	end
 	

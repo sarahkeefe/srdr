@@ -309,12 +309,13 @@ end
   
   # GET /studies/new
   # GET /studies/new.xml
-  def new
-    
+  def new    
   	@study = Study.new
-    @study.project_id = params[:project_id]
+  	@study.project_id = params[:project_id]
+  	session[:project_id] = params[:project_id] #added this line in case the user is coming from Home
 		@study.save
 		makeActive(@study)
+		
 	  @project_admin = Project.get_project_admin(params[:project_id])
 	  
 		@study_template = StudyTemplate.new
@@ -327,8 +328,6 @@ end
 			
 		@questions = @study.get_question_choices(session[:project_id])
 	    render :layout => 'studydesign'	
-		
-	  
   end
 
   # GET /studies/1/edit

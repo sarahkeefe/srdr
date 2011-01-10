@@ -42,9 +42,10 @@ class ProjectsController < ApplicationController
   end
   
   def studies
-	@project = Project.find(params[:id])
-	@studies = Study.where(:project_id => @project.id).all
-	@key_question = KeyQuestion.new
+		@project = Project.find(params[:id])
+		makeActive(@project)
+		@studies = Study.where(:project_id => @project.id).all
+		@key_question = KeyQuestion.new
   end
   
   # GET /projects/1

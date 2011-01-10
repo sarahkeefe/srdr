@@ -29,6 +29,11 @@ class BaselineCharacteristicFieldsController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @baseline_characteristic_field }
+      format.js {  
+        render :update do |page|
+       		page.replace_html 'population_characteristic_fields_entry', :partial=>'baseline_characteristic_fields/form' 	
+        end
+      }
     end
   end
 
@@ -38,11 +43,11 @@ class BaselineCharacteristicFieldsController < ApplicationController
 	    respond_to do |format|
     	format.js{
     		render :update do |page|
-				if !params[:study_id].nil?
-					page.replace_html 'population_characteristic_entry', :partial=>'baseline_characteristic_fields/custom_field_form'
-				else
-				    page.replace_html 'baseline_characteristic_fields_entry', :partial=>'baseline_characteristic_fields/edit_form'
-				end
+					if !params[:study_id].nil?
+						page.replace_html 'population_characteristic_entry', :partial=>'baseline_characteristic_fields/custom_field_edit_form'
+					else
+					  page.replace_html 'baseline_characteristic_fields_entry', :partial=>'baseline_characteristic_fields/edit_form'
+					end
     		end
   		}
   	end	
@@ -57,16 +62,17 @@ respond_to do |format|
 	tmpl_id = @baseline_characteristic_field.template_id
 	      format.js {
 			  	render :update do |page|
-						if !params[:study_id].nil?
-							@curr_tmpl = StudyTemplate.where(:study_id => params[:study_id]).first
+						#if !params[:study_id].nil?
+						unless session[:study_id].nil?
+							@curr_tmpl = StudyTemplate.where(:study_id => session[:study_id]).first
 							if !@curr_tmpl.nil?
 								@baseline_characteristic_template_fields = BaselineCharacteristicField.where(:template_id => @curr_tmpl.template_id).all
 							else
 								@baseline_characteristic_template_fields = nil
 							end
-							@baseline_characteristic_custom_fields = BaselineCharacteristicField.where(:study_id => params[:study_id]).all
+							@baseline_characteristic_custom_fields = BaselineCharacteristicField.where(:study_id => session[:study_id]).all
 							@baseline_characteristic_data_point = BaselineCharacteristicDataPoint.new
-							@study_arms = Arm.where(:study_id => params[:study_id]).all
+							@study_arms = Arm.where(:study_id => session[:study_id]).all
 							page.replace_html 'population_characteristics_table', :partial => 'baseline_characteristic_data_points/table'
 							new_row_name = "pop_char_row_" + @baseline_characteristic_field.id.to_s	
 							@baseline_characteristic_field = BaselineCharacteristicField.new					
@@ -103,11 +109,9 @@ respond_to do |format|
   # PUT /baseline_characteristic_fields/1.xml
   def update
     @baseline_characteristic_field = BaselineCharacteristicField.find(params[:id])
-	tmpl_id = @baseline_characteristic_field.template_id
+	  tmpl_id = @baseline_characteristic_field.template_id
     respond_to do |format|
 	if @baseline_characteristic_field.update_attributes(params[:baseline_characteristic_field])
-		#@baseline_characteristic_custom_fields = BaselineCharacteristicField.where(:study_id => session[:study_id]).all
-		#@baseline_characteristic_template_fields = BaselineCharacteristicField.where(:template_id => tmpl_id).all
 		format.js{
 			render :update do |page| 
 				if !params[:study_id].nil?
@@ -154,19 +158,22 @@ respond_to do |format|
   # DELETE /baseline_characteristic_fields/1.xml
   def destroy
     @baseline_characteristic_field = BaselineCharacteristicField.find(params[:id])
-	tmpl_id = @baseline_characteristic_field.template_id
+	  tmpl_id = @baseline_characteristic_field.template_id
     @baseline_characteristic_field.destroy
-	@baseline_characteristic_fields = BaselineCharacteristicField.find(:all, :conditions => {:template_id => tmpl_id})
+	  @baseline_characteristic_fields = BaselineCharacteristicField.find(:all, :conditions => {:template_id => tmpl_id})
 
     respond_to do |format|
 	    format.js {
 		  render :update do |page|
 				if !params[:study_id].nil?
-					@curr_tmpl = StudyTemplate.where(:study_id => params[:study_id]).first
-					@baseline_characteristic_template_fields = BaselineCharacteristicField.where(:template_id => @curr_tmpl.template_id).all
-					@baseline_characteristic_custom_fields = BaselineCharacteristicField.where(:study_id => params[:study_id]).all
+					@curr_tmpl = StudyTemplate.where(:study_id => session[:study_id]).first
+					@baseline_characteristic_template_fields = []
+					unless @curr_tmpl.nil?
+						@baseline_characteristic_template_fields = BaselineCharacteristicField.where(:template_id => @curr_tmpl.template_id).all
+					end
+					@baseline_characteristic_custom_fields = BaselineCharacteristicField.where(:study_id => session[:study_id]).all
 					@baseline_characteristic_data_point = BaselineCharacteristicDataPoint.new
-					@study_arms = Arm.where(:study_id => params[:study_id]).all				
+					@study_arms = Arm.where(:study_id => session[:study_id]).all				
 					page.replace_html 'population_characteristics_table', :partial => 'baseline_characteristic_data_points/table'	
 					@baseline_characteristic_field = BaselineCharacteristicField.new
 					page.replace_html 'population_characteristic_entry', :partial=>'baseline_characteristic_fields/custom_field_form'

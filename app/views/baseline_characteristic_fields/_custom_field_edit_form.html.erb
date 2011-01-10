@@ -53,8 +53,10 @@
 	</div>
 	<div class="actions">
 		<button type="submit" class="positive">
-			<%= image_tag "Add.png"%>Save
+			<%= image_tag "Add.png"%>Save Edits
 		</button>
+		<%= link_to 'Cancel', {:controller=>"baseline_characteristic_fields", :action=>:new}, :remote=>true %>
+		
 	
 </div>
 </div>

@@ -37,7 +37,7 @@
 					<h5><%= link_to @project.title.nil? ? "Untitled Project " + @project.id.to_s : @project.title, project_path(@project.id) %></h5>
 					<%= link_to "Edit", edit_project_path(@project.id), :class => "edit_link small_edit_link" %>
 					<%= link_to "Manage", "projects/" + @project.id.to_s + "/manage", :class => "edit_link small_edit_link" %>
-					<%= link_to "Add New Study", new_project_study_path(@project.id), :class => "edit_link small_edit_link" %>
+					<%= link_to "Add New Study", new_project_study_path(@project), :class => "edit_link small_edit_link" %>
 					<% @studies = Project.get_studies(@project.id) %>
 					<% if !@studies.nil? %>
 						<ul class="user_actions">
