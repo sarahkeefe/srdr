@@ -10,6 +10,8 @@
 <br/>
   <b>Last seen:</b>
   <%=h (Time.now - @user.last_request_at).to_i %> seconds ago
+<br/>
+  <b>Level:</b> <%= @user.user_type %>
 
 
 <br/><br/>
