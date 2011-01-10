@@ -92,6 +92,7 @@ end
 	@outcomes = Outcome.where(:study_id => params[:study_id]).all
 	@outcome_timepoints = OutcomeTimepoint.where(:outcome_id => @outcome.id).all	
 	@outcome_timepoint = OutcomeTimepoint.new
+	@editing = params[:editing]
 	render :layout => 'outcomesetup'	
   end
 

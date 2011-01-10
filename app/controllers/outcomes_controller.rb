@@ -4,7 +4,7 @@ class OutcomesController < ApplicationController
   # GET /outcomes/new.xml
   def new
     @outcome = Outcome.new
-	#@outcome_timepoint = OutcomeTimepoint.new
+	  #@outcome_timepoint = OutcomeTimepoint.new
 	
     respond_to do |format|
       format.js{
@@ -21,8 +21,8 @@ class OutcomesController < ApplicationController
   def edit
     @outcome = Outcome.find(params[:id])
     @study_arms = Arm.find(:all, :select=>[:id,:title,:num_participants], :conditions => {:study_id => session[:study_id]})	
-
-   respond_to do |format|
+    @editing = true
+    respond_to do |format|
 		format.js {
 				render :update do |page|
 					  page.replace_html 'new_outcome_entry', :partial => 'outcomes/form'
@@ -126,8 +126,8 @@ class OutcomesController < ApplicationController
 					   @outcome = Outcome.new
 					  # reset the entry form
 					  #@outcome=Outcome.new	
-					  page['new_outcome_form'].reset
-					  #page.replace_html 'new_outcome_entry', :partial => 'outcomes/form'				
+					  #page['new_outcome_form'].reset
+					  page.replace_html 'new_outcome_entry', :partial => 'outcomes/form'				
 		  		end  
         }
       	format.html { redirect_to(@outcome, :notice => 'Outcome was successfully updated.') }
