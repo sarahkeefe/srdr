@@ -7,6 +7,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string    :lname,               :null => false	  
       t.string    :organization,               :null => false
       t.string    :crypted_password,    :null => false
+	  t.string    :user_type,   :null => false
       t.string    :password_salt,       :null => false
       t.string    :persistence_token,   :null => false
       #t.string    :single_access_token, :null => false                # optional, see Authlogic::Session::Params

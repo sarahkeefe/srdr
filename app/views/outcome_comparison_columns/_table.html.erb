@@ -1,0 +1,68 @@
+<h3>Preview of Categorical Outcome Comparisons Table Heading</h3>
+<table class="list_table">
+<tr>
+<th rowspan="2">Outcome</th>
+<th rowspan="2">Intervention</th>
+<th rowspan="2">Follow-Up</th>
+	<% @template_categorical_columns.group_by(&:column_header).each do |header, cols| %>
+		<% if !cols[0].column_header.nil? && cols[0].column_header != "" %>
+			<th colspan="<%= cols.length %>"><%=cols[0].column_header %></th>
+		<% else %>
+			<% for col in cols %>
+			<th rowspan="2">
+				<%= col.column_name %> 
+				<%= link_to "x", {:controller => "custom_templates", :action => "delete_comparison_column", :custom_template_id => params[:custom_template_id].nil? ? params[:outcome_comparison_column][:template_id] : params[:custom_template_id], :id => col.id.to_s}, {:title => "delete this column", :class => "remove_column_link", :id => "col_" + col.id.to_s, :remote => true, :confirm => "This will delete the column from this template. Are you sure you want to delete this column?", :method => "post", :class => "delete_column_link"} %>
+			</th>
+			<% end %>
+		<% end %>
+	<% end %>
+</tr><tr>
+	<% @template_categorical_columns.group_by(&:column_header).each do |header, cols| %>
+		<% if !cols[0].column_header.nil? && cols[0].column_header != "" %>
+			<% for col in cols %>
+			<th>
+				<%= col.column_name %>
+				<%= link_to "x", {:controller => "custom_templates", :action => "delete_comparison_column", :custom_template_id => params[:custom_template_id].nil? ? params[:outcome_comparison_column][:template_id] : params[:custom_template_id], :id => col.id.to_s}, {:title => "delete this column", :class => "remove_column_link", :id => "col_" + col.id.to_s, :remote => true, :confirm => "This will delete the column from this template. Are you sure you want to delete this column?", :method => "post", :class => "delete_column_link"} %>
+			</th>
+			<% end %>
+		<% end %>
+	<% end %>
+</tr>
+</table>
+
+<br/>
+<h3>Preview of Continuous Outcome Comparisons Table Heading</h3>
+
+
+<table class="list_table">
+<tr>
+<th rowspan="2">Outcome</th>
+<th rowspan="2">Intervention</th>
+<th rowspan="2">Follow-Up</th>
+	<% @template_continuous_columns.group_by(&:column_header).each do |header, cols| %>
+		<% if !cols[0].column_header.nil? %>
+			<th colspan="<%= cols.length %>"><%=cols[0].column_header %></th>
+		<% else %>
+			<% for col in cols %>
+			<th rowspan="2">
+				<%= col.column_name %>
+				<%= link_to "x", {:controller => "custom_templates", :action => "delete_comparison_column", :custom_template_id => params[:custom_template_id].nil? ? params[:outcome_comparison_column][:template_id] : params[:custom_template_id], :id => col.id.to_s}, {:title => "delete this column", :class => "remove_column_link", :id => "col_" + col.id.to_s, :remote => true, :confirm => "This will delete the column from this template. Are you sure you want to delete this column?", :method => "post", :class => "delete_column_link"} %>
+			</th>
+			<% end %>
+		<% end %>
+	<% end %>
+</tr><tr>
+	<% @template_continuous_columns.group_by(&:column_header).each do |header, cols| %>
+		<% if !cols[0].column_header.nil? %>
+			<% for col in cols %>
+			<th>
+				<%= col.column_name %>
+				<%= link_to "x", {:controller => "custom_templates", :action => "delete_comparison_column", :custom_template_id => params[:custom_template_id].nil? ? params[:outcome_comparison_column][:template_id] : params[:custom_template_id], :id => col.id.to_s}, {:title => "delete this column", :class => "remove_column_link", :id => "col_" + col.id.to_s, :remote => true, :confirm => "This will delete the column from this template. Are you sure you want to delete this column?", :method => "post", :class => "delete_column_link"} %>
+			</th>
+			<% end %>
+		<% end %>
+	<% end %>
+</tr>
+</table>
+
+<br/><br/>

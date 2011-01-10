@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  arm_id: 1
+  outcome_id: 1
+  timepoint_id: 1
+  outcome_comparison_column_id: 1
+  is_calculated: false
+  value: MyString
+
+two:
+  arm_id: 1
+  outcome_id: 1
+  timepoint_id: 1
+  outcome_comparison_column_id: 1
+  is_calculated: false
+  value: MyString

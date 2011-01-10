@@ -71,7 +71,8 @@ class ProjectsController < ApplicationController
     @project = Project.create
 		
 		makeActive(@project)
-		proj_id = @project.id	
+		proj_id = @project.id
+		@project.creator_id = current_user.nil? ? 0 : current_user.id
 		@key_questions = KeyQuestion.find(:all, :conditions => {:project_id => @project.id})
 		@key_question = KeyQuestion.new
 	  		if !current_user.nil?

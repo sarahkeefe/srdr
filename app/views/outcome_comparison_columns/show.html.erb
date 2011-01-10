@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Column header:</b>
+  <%= @outcome_comparison_column.column_header %>
+</p>
+
+<p>
+  <b>Outcome type:</b>
+  <%= @outcome_comparison_column.outcome_type %>
+</p>
+
+<p>
+  <b>Column name:</b>
+  <%= @outcome_comparison_column.column_name %>
+</p>
+
+<p>
+  <b>Column description:</b>
+  <%= @outcome_comparison_column.column_description %>
+</p>
+
+<p>
+  <b>Template:</b>
+  <%= @outcome_comparison_column.template_id %>
+</p>
+
+<p>
+  <b>Study:</b>
+  <%= @outcome_comparison_column.study_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_outcome_comparison_column_path(@outcome_comparison_column) %> |
+<%= link_to 'Back', outcome_comparison_columns_path %>

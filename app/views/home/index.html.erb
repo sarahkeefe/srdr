@@ -25,8 +25,8 @@
 			<li><%= link_to "View All Study Templates",  custom_templates_path, :class => "edit_link small_edit_link"  %></li>	
 			<li><%= link_to "Create New Study Template",  new_custom_template_path, :class => "edit_link small_edit_link"  %></li>
 			</ul>
-	</div>	
-		
+
+		<br/>
 		<% @lead_roles = User.get_user_lead_roles(current_user) %>
 		<% if !@lead_roles.nil? && @lead_roles.length > 0 %>
 		<h4>Project Lead for: </h4><br/>
@@ -56,6 +56,7 @@
 
 		<% @editor_roles = User.get_user_editor_roles (current_user) %>
 		<% if !@editor_roles.nil? && @editor_roles.length > 0 %>
+		<br/>
 		<h4>Project Editor for: </h4><br/>	
 			<ul class="user_actions">
 			<% for role in @editor_roles %>
@@ -80,7 +81,7 @@
 			</ul>
 		<% end %>
 	<% end %>
-	
+	<br/>
 	<% @user_templates = CustomTemplate.where(:creator_id => current_user.id).all %>
 	<% if @user_templates.length > 0 %>
 		<h4>Templates</h4><br/>	
@@ -89,6 +90,7 @@
 			<li><h5><%= link_to tmpl.title, tmpl %></h5> <%= link_to "Edit",  edit_custom_template_path(tmpl), :class => "edit_link small_edit_link"  %>  <%= link_to "Delete",  custom_template_path(tmpl, :from=>'home'), :method => :delete, :confirm => "Are you sure?", :class => "delete_link small_edit_link"  %></li>
 			<% end %>
 			</ul>
+		</div>	
 	<% end %>
 <%# else %>
 

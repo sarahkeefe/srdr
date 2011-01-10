@@ -1,0 +1,33 @@
+<h1>Listing outcome_comparisons</h1>
+
+<table>
+  <tr>
+    <th>Arm</th>
+    <th>Outcome</th>
+    <th>Timepoint</th>
+    <th>Outcome comparison column</th>
+    <th>Is calculated</th>
+    <th>Value</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @outcome_comparisons.each do |outcome_comparison| %>
+  <tr>
+    <td><%= outcome_comparison.arm_id %></td>
+    <td><%= outcome_comparison.outcome_id %></td>
+    <td><%= outcome_comparison.timepoint_id %></td>
+    <td><%= outcome_comparison.outcome_comparison_column_id %></td>
+    <td><%= outcome_comparison.is_calculated %></td>
+    <td><%= outcome_comparison.value %></td>
+    <td><%= link_to 'Show', outcome_comparison %></td>
+    <td><%= link_to 'Edit', edit_outcome_comparison_path(outcome_comparison) %></td>
+    <td><%= link_to 'Destroy', outcome_comparison, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Outcome comparison', new_outcome_comparison_path %>

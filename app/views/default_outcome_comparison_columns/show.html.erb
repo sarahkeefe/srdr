@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Column name:</b>
+  <%= @default_outcome_comparison_column.column_name %>
+</p>
+
+<p>
+  <b>Column description:</b>
+  <%= @default_outcome_comparison_column.column_description %>
+</p>
+
+<p>
+  <b>Column header:</b>
+  <%= @default_outcome_comparison_column.column_header %>
+</p>
+
+<p>
+  <b>Outcome type:</b>
+  <%= @default_outcome_comparison_column.outcome_type %>
+</p>
+
+
+<%= link_to 'Edit', edit_default_outcome_comparison_column_path(@default_outcome_comparison_column) %> |
+<%= link_to 'Back', default_outcome_comparison_columns_path %>

@@ -1,0 +1,29 @@
+<h1>Listing default_outcome_comparison_columns</h1>
+
+<table>
+  <tr>
+    <th>Column name</th>
+    <th>Column description</th>
+    <th>Column header</th>
+    <th>Outcome type</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @default_outcome_comparison_columns.each do |default_outcome_comparison_column| %>
+  <tr>
+    <td><%= default_outcome_comparison_column.column_name %></td>
+    <td><%= default_outcome_comparison_column.column_description %></td>
+    <td><%= default_outcome_comparison_column.column_header %></td>
+    <td><%= default_outcome_comparison_column.outcome_type %></td>
+    <td><%= link_to 'Show', default_outcome_comparison_column %></td>
+    <td><%= link_to 'Edit', edit_default_outcome_comparison_column_path(default_outcome_comparison_column) %></td>
+    <td><%= link_to 'Destroy', default_outcome_comparison_column, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Default outcome comparison column', new_default_outcome_comparison_column_path %>

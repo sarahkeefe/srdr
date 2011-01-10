@@ -315,7 +315,7 @@ end
     @study.project_id = params[:project_id]
 		@study.save
 		makeActive(@study)
-	  @project_admin = Project.get_project_admin(params[:project_id])
+	  #@project_admin = Project.get_project_admin(params[:project_id])
 	  
 		@study_template = StudyTemplate.new
 		# if there is a template variable set in the new call
