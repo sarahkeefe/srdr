@@ -132,7 +132,7 @@ module ApplicationHelper
 		adverse = "<option value='"+base_url+"adverseevents'>Adverse Events</option>"
 		quality = "<option value='"+base_url+"quality'>Study Quality</option>"
 		preview = "<option value='"+base_url+"'>Preview/Summary</option>"
-		retVal = retVal + default + publication + enrollment + arms + characteristics + outcomes + results + analysis + adverse + quality + preview
+		retVal = retVal + default + publication + arms + enrollment + characteristics + outcomes + results + analysis + adverse + quality + preview
 		retVal = retVal + "</select></div>"
 		return retVal
 	end
