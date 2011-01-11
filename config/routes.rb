@@ -1,5 +1,9 @@
 Srdr::Application.routes.draw do
 
+  resources :primary_publication_numbers
+
+  resources :primary_publications
+
   resources :outcome_comparisons
 
   resources :default_outcome_comparison_columns

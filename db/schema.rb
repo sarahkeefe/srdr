@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110110183115) do
+ActiveRecord::Schema.define(:version => 20110111204039) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer  "study_id"
@@ -317,6 +317,24 @@ ActiveRecord::Schema.define(:version => 20110110183115) do
     t.string   "outcome_type"
   end
 
+  create_table "primary_publication_numbers", :force => true do |t|
+    t.integer  "primary_publication_id"
+    t.string   "number"
+    t.string   "number_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "primary_publications", :force => true do |t|
+    t.integer  "study_id"
+    t.string   "title"
+    t.string   "author"
+    t.string   "country"
+    t.string   "year"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "projects", :force => true do |t|
     t.string   "title"
     t.text     "description"
@@ -341,9 +359,6 @@ ActiveRecord::Schema.define(:version => 20110110183115) do
     t.string   "author"
     t.string   "country"
     t.string   "year"
-    t.string   "ui"
-    t.string   "ui_type"
-    t.boolean  "is_primary"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "association"

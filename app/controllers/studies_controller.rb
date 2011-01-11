@@ -320,18 +320,17 @@ end
   	@study = Study.new
   	@study.project_id = params[:project_id]
   	session[:project_id] = params[:project_id] #added this line in case the user is coming from Home
-		@study.save
-		makeActive(@study)
+	@study.save
+	makeActive(@study)
 	  #@project_admin = Project.get_project_admin(params[:project_id])
 
 		@study_template = StudyTemplate.new
 		# if there is a template variable set in the new call
 		Study.set_template_id_if_exists(params, @study)
 		    	
-		@primary_publication = Publication.create()
-		@publication=Publication.new
+		@primary_publication = PrimaryPublication.new
 	    @secondary_publications = []
-			
+		@publication = Publication.new
 		@questions = @study.get_question_choices(session[:project_id])
 	    render :layout => 'studydesign'	
   end

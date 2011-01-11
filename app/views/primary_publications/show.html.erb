@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Study:</b>
+  <%= @primary_publication.study_id %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%= @primary_publication.title %>
+</p>
+
+<p>
+  <b>Author:</b>
+  <%= @primary_publication.author %>
+</p>
+
+<p>
+  <b>Country:</b>
+  <%= @primary_publication.country %>
+</p>
+
+<p>
+  <b>Year:</b>
+  <%= @primary_publication.year %>
+</p>
+
+
+<%= link_to 'Edit', edit_primary_publication_path(@primary_publication) %> |
+<%= link_to 'Back', primary_publications_path %>

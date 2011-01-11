@@ -1,0 +1,27 @@
+<h1>Listing primary_publication_numbers</h1>
+
+<table>
+  <tr>
+    <th>Primary publication</th>
+    <th>Number</th>
+    <th>Number type</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @primary_publication_numbers.each do |primary_publication_number| %>
+  <tr>
+    <td><%= primary_publication_number.primary_publication_id %></td>
+    <td><%= primary_publication_number.number %></td>
+    <td><%= primary_publication_number.number_type %></td>
+    <td><%= link_to 'Show', primary_publication_number %></td>
+    <td><%= link_to 'Edit', edit_primary_publication_number_path(primary_publication_number) %></td>
+    <td><%= link_to 'Destroy', primary_publication_number, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Primary publication number', new_primary_publication_number_path %>

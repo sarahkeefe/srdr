@@ -1,0 +1,31 @@
+<h1>Listing primary_publications</h1>
+
+<table>
+  <tr>
+    <th>Study</th>
+    <th>Title</th>
+    <th>Author</th>
+    <th>Country</th>
+    <th>Year</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @primary_publications.each do |primary_publication| %>
+  <tr>
+    <td><%= primary_publication.study_id %></td>
+    <td><%= primary_publication.title %></td>
+    <td><%= primary_publication.author %></td>
+    <td><%= primary_publication.country %></td>
+    <td><%= primary_publication.year %></td>
+    <td><%= link_to 'Show', primary_publication %></td>
+    <td><%= link_to 'Edit', edit_primary_publication_path(primary_publication) %></td>
+    <td><%= link_to 'Destroy', primary_publication, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Primary publication', new_primary_publication_path %>

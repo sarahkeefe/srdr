@@ -1,0 +1,2 @@
+module PrimaryPublicationsHelper
+end

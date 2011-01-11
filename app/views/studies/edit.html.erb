@@ -40,14 +40,14 @@
  	<% end %>
 </div>
 <% else %>
-  There are no key questions associated with the project. <%= link_to "Add Key Questions", edit_project_path(session[:project_id])%>
+  There are no key questions associated with the project. <%= link_to "Add Key Questions", edit_project_path(params[:project_id])%>
 <% end %>
 
 <br/>
 <hr width="80%" size="1" align="center"><br/>
 <div id="primary_pub_validation_message"></div>
 <h3>Primary Publication Information</h3>
-<%= render 'publications/form_primary' %>
+<%= render 'primary_publications/form' %>
  
 <br/>
 <hr width="80%" size="1" align="center"><br/>

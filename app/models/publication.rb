@@ -12,7 +12,7 @@ class Publication < ActiveRecord::Base
   
 	
 	def get_display_number(study_id)
-	  current_max = Publication.maximum("display_number",:conditions => ["study_id = ? AND is_primary = ?", study_id, false])
+	  current_max = Publication.maximum("display_number",:conditions => ["study_id = ?", study_id])
 	  if (current_max.nil?)
 	  	current_max = 0
 	  end
