@@ -163,7 +163,7 @@ class Study < ActiveRecord::Base
 	end
 	
 	def get_primary_publication
-	  primary = Publication.find(:first, :conditions => ["study_id = ? AND is_primary = ?", self.id, true])
+	  primary = PrimaryPublication.find(:first, :conditions => ["study_id = ?", self.id])
 	  return primary
 	end  
 	
@@ -192,10 +192,9 @@ class Study < ActiveRecord::Base
 	end
 	
 	def self.get_primary_pub_info(study_id)
-			tmp = Publication.where(:study_id => study_id, :is_primary => true).first
+			tmp = PrimaryPublication.where(:study_id => study_id).first
 			if tmp.nil?
-				tmppub = Publication.new
-				tmppub.ui = "Not Entered Yet"
+				tmppub = PrimaryPublication.new
 				tmppub.title = "Not Entered Yet"
 				tmppub.author = "-"
 				tmppub.year = "-"

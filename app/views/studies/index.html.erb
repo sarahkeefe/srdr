@@ -2,8 +2,6 @@
 
 <table class="list_table">
   <tr>
-  	<th>UI</th>
-    <th>Type</th>
     <th>Title</th>
     <th>Author</th>
     <th>Year</th>
@@ -16,10 +14,6 @@
 <% study_pub_info = Study.get_primary_pub_info(study.id) %>
 <% if !study_pub_info.nil? %> 
  <tr class="<%= cycle("even", "odd") %>">
-  	<td>
-	<%= study_pub_info.ui %>
-	</td>
-    <td><%= study.study_type %></td>	
     <td><%= link_to study_pub_info.title, project_study_path(@project, study) %></td>
     <td><%= study_pub_info.author %></td>
     <td><%= study_pub_info.year %></td>
