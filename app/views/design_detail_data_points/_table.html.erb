@@ -1,0 +1,148 @@
+<%= form_for @design_detail_data_point, :remote => true, :html=>{:id=>"popchar_data_point_form"} do |f| %>
+
+	<table class="list_table">
+		
+		<%# CREATE TABLE HEADERS %>
+		<tr>
+		<th colspan="2">Category</th>
+
+		<th>Value</th>
+		<th>Notes</th>
+		<th>Actions</th>
+		</tr>
+		
+		
+		<%# ------------------------------------------------------------------------------------ %>
+		<%# GO THROUGH BASELINE CHARACTERISTICS ----- TEMPLATE FIELDS ----- %>
+		<%# ------------------------------------------------------------------------------------ %>
+		
+		
+		<% if !@design_detail_template_fields.nil? && @design_detail_template_fields.length > 0 %>
+
+		<% for popchar in @design_detail_template_fields %>
+
+				<tr class="<%= cycle("even", "odd") %>" id="pop_char_row_<%=popchar.id.to_s %>">
+				
+				<% pop_subcategories = DesignDetailSubcategoryField.where(:design_detail_field_id => popchar.id).all %>
+				<% if pop_subcategories.length > 0 %>
+						<% first = true %>
+						<td rowspan="<%=pop_subcategories.length%>"><%=popchar.title %>
+						</td>
+					 <% for subcat in pop_subcategories %>
+							<td><%=subcat.subcategory_title%></td>	
+							
+					
+						<%# GET AND DISPLAY INPUT BOXES / DATA VALUES FOR EACH ATTRIBUTE TOTAL %>
+						<% val = DesignDetailDataPoint.get_data_point(popchar, subcat) %>
+						<td>
+								<%= text_field "value_tmpl" + Study.get_template_id(session[:study_id]).to_s, popchar.id.to_s + "_" + subcat.id.to_s, :size => 5, :value => val %>
+						</td>
+
+						<% if first %>
+							<td rowspan="<%=pop_subcategories.length%>"><%= popchar.field_notes %></td>
+							<td rowspan="<%=pop_subcategories.length%>"><%= image_tag "Lock.png", :alt => "This is a template field and cannot be removed." %>
+							</td>
+							<% first = false %>
+						<% end %>
+						</tr>
+					<% end %>
+					
+				<% else %>
+					<td colspan="2"><%=popchar.title %>
+					</td>
+					
+						<%# GET AND DISPLAY INPUT BOXES / DATA VALUES FOR EACH ATTRIBUTE TOTAL %>
+						<% val = DesignDetailDataPoint.get_data_point(popchar, nil) %>
+						<td>
+								<%= text_field "value_tmpl" + Study.get_template_id(session[:study_id]).to_s, popchar.id.to_s + "_-1", :size => 5, :value => val %>
+						</td>
+						<td><%= popchar.field_notes %></td>
+						<td><%= image_tag "Lock.png", :alt => "This is a template field and cannot be removed." %></td>
+						</tr>
+				
+				<% end %>
+				
+			<%# END FOR %>
+			<% end %>
+		
+		<%# END IF - design_details_template_fields.length %>
+		<% end %>
+		
+		
+		<%# ------------------------------------------------------------------------------------ %>
+		<%# GO THROUGH BASELINE CHARACTERISTICS ----- CUSTOM FIELDS ------ %>
+		<%# ------------------------------------------------------------------------------------ %>
+
+		
+		<% if !@design_detail_custom_fields.nil? && @design_detail_custom_fields.length > 0 %>
+		<% for popchar in @design_detail_custom_fields %>
+
+				<tr class="<%= cycle("even", "odd") %>" id="pop_char_row_<%=popchar.id.to_s %>">
+				
+				<% pop_subcategories = DesignDetailSubcategoryField.where(:design_detail_field_id => popchar.id).all %>
+				<% if pop_subcategories.length > 0 %>
+						<% first = true %>
+						<td rowspan="<%=pop_subcategories.length%>"><%=popchar.title %>
+						</td>
+					 <% for subcat in pop_subcategories %>
+							<td><%=subcat.subcategory_title%></td>	
+							
+					
+						<%# GET AND DISPLAY INPUT BOXES / DATA VALUES FOR EACH ATTRIBUTE TOTAL %>
+						<% val = DesignDetailDataPoint.get_data_point(popchar, subcat) %>
+						<td>
+									<%= text_field "value_" + "custom", popchar.id.to_s + "_" + subcat.id.to_s, :size => 5, :value => val %>
+						</td>
+
+						<% if first %>
+							<td rowspan="<%=pop_subcategories.length%>"><%= popchar.field_notes %></td>
+							<td rowspan="<%=pop_subcategories.length%>">
+							
+						<%= link_to "Edit", edit_design_detail_field_path(popchar,:study_id=>session[:study_id]), :remote=>true, :class => "edit_link" %>
+						<%= link_to "Delete", design_detail_field_path(popchar.id), :remote => true, :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %>
+							
+							</td>
+							<% first = false %>
+						<% end %>
+						</tr>
+					<% end %>
+					
+				<% else %>
+					<td colspan="2"><%=popchar.title %>
+					</td>
+					
+						<%# GET AND DISPLAY INPUT BOXES / DATA VALUES FOR EACH ATTRIBUTE TOTAL %>
+						<% val = DesignDetailDataPoint.get_data_point(popchar, nil) %>
+						<td>
+								<%= text_field "value_" + "custom", popchar.id.to_s + "_-1", :size => 5, :value => val %>
+						</td>
+						<td><%= popchar.field_notes %></td>
+						<td>
+							<%= link_to "Edit", edit_design_detail_field_path(popchar, :study_id => session[:study_id]), :remote=>true, :class => "edit_link" %>
+							<%= link_to "Delete", design_detail_field_path(popchar.id, :study_id => session[:study_id]), :remote => true, :confirm => 'Are you sure?', :method => :delete, :class => "delete_link" %>
+						</td>
+						</tr>
+				
+				<% end %>
+				
+			<%# END FOR %>
+			<% end %>
+		
+		<%# END IF - design_details_custom_fields.length %>
+		<% end %>
+		
+		
+		
+	</table>
+		<input type="hidden" id="category_ids" style="display:none" value="<%= DesignDetailField.get_category_ids_string(session[:study_id]) %>">
+	<br/><div class="actions">
+		<button type="submit" class="positive">
+			<%= image_tag "Accept.png"%>Save Table Data
+		</button>
+		</div>
+	
+<%# END FORM %>
+<% end %>
+
+<br/>
+<br/>

@@ -1,0 +1,25 @@
+<h1>Listing default_design_details</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Notes</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @default_design_details.each do |default_design_detail| %>
+  <tr>
+    <td><%= default_design_detail.title %></td>
+    <td><%= default_design_detail.notes %></td>
+    <td><%= link_to 'Show', default_design_detail %></td>
+    <td><%= link_to 'Edit', edit_default_design_detail_path(default_design_detail) %></td>
+    <td><%= link_to 'Destroy', default_design_detail, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Default design detail', new_default_design_detail_path %>

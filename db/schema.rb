@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110111204039) do
+ActiveRecord::Schema.define(:version => 20110112190909) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer   "study_id"
@@ -100,6 +100,13 @@ ActiveRecord::Schema.define(:version => 20110111204039) do
     t.timestamp "updated_at"
   end
 
+  create_table "default_design_details", :force => true do |t|
+    t.string   "title"
+    t.string   "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "default_outcome_columns", :force => true do |t|
     t.string    "column_name"
     t.text      "column_description"
@@ -116,6 +123,40 @@ ActiveRecord::Schema.define(:version => 20110111204039) do
     t.string    "outcome_type"
     t.timestamp "created_at"
     t.timestamp "updated_at"
+  end
+
+  create_table "design_detail_data_points", :force => true do |t|
+    t.integer  "design_detail_field_id"
+    t.string   "value"
+    t.string   "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "study_id"
+  end
+
+  create_table "design_detail_fields", :force => true do |t|
+    t.string   "title"
+    t.text     "field_notes"
+    t.integer  "template_id"
+    t.integer  "study_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "design_detail_subcategory_data_points", :force => true do |t|
+    t.integer  "design_detail_subcategory_field_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "value"
+    t.string   "notes"
+    t.integer  "study_id"
+  end
+
+  create_table "design_detail_subcategory_fields", :force => true do |t|
+    t.string   "subcategory_title"
+    t.integer  "design_detail_field_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "exclusion_criteria_items", :force => true do |t|

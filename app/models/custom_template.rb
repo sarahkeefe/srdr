@@ -28,4 +28,15 @@ class CustomTemplate < ActiveRecord::Base
 		end
 	end	
 	
+	def self.create_default_design_details(template_id)
+		@default_design_details = DefaultDesignDetail.all
+		for i in @default_design_details
+			@new_category = DesignDetailField.new
+			@new_category.title = i.title
+			@new_category.field_notes = i.notes
+			@new_category.template_id = template_id
+			@new_category.save
+		end
+	end
+	
 end

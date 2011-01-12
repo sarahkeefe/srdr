@@ -1,0 +1,7 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  design_detail_subcategory_field_id: 1
+
+two:
+  design_detail_subcategory_field_id: 1

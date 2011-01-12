@@ -1,0 +1,47 @@
+<table class="list_table">
+		
+		<tr>
+		<th colspan="2">Category</th>
+
+		<th>Field Notes</th>
+		</tr>
+
+		<% if @design_detail_fields.length > 0 %>
+		
+			<% for bcf in @design_detail_fields %>
+				<tr class="<%= cycle("even", "odd") %>" id="bcf_row_<%=bcf.id.to_s %>">
+					<% bcf_subcategories = DesignDetailSubcategoryField.where(:design_detail_field_id => bcf.id).all %>
+						
+						<% if bcf_subcategories.length > 0 %>
+							<% length = bcf_subcategories.length %>
+							<td><%=bcf.category_title %>
+								<% if !bcf.units.nil? %>(<%= bcf.units %>)<br/><% end %>
+								<% if !bcf.measurement_type.nil? %>(<%= bcf.measurement_type %>)<% end %>
+							</td>
+<td>							
+							<% for subcat in bcf_subcategories %>
+								<%=subcat.subcategory_title%><br/>
+							<% end %>
+							</td>
+
+						<% else %>
+						<% length = 1 %>
+							<td colspan="2">
+								<%=bcf.category_title %>
+								<% if !bcf.units.nil? && !bcf.units == "" %>(<%= bcf.units %>)<br/><% end %>
+								<% if !bcf.measurement_type.nil? && !bcf.measurement_type == "" %>(<%= bcf.measurement_type %>)
+								<% end %>
+							</td>
+						<% end %>
+						<td><%= bcf.field_notes %></td>
+							</tr>
+				
+			<%# END FOR %>
+			<% end %>
+		
+		<%# END IF - bcf.length %>
+		<% end %>
+
+	</table>
+<br/>
+<br/>

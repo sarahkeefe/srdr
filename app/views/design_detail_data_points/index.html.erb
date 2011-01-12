@@ -1,0 +1,27 @@
+<h1>Listing design_detail_data_points</h1>
+
+<table>
+  <tr>
+    <th>Design detail field</th>
+    <th>Value</th>
+    <th>Notes</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @design_detail_data_points.each do |design_detail_data_point| %>
+  <tr>
+    <td><%= design_detail_data_point.design_detail_field_id %></td>
+    <td><%= design_detail_data_point.value %></td>
+    <td><%= design_detail_data_point.notes %></td>
+    <td><%= link_to 'Show', design_detail_data_point %></td>
+    <td><%= link_to 'Edit', edit_design_detail_data_point_path(design_detail_data_point) %></td>
+    <td><%= link_to 'Destroy', design_detail_data_point, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Design detail data point', new_design_detail_data_point_path %>

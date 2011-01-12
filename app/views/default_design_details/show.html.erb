@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @default_design_detail.title %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%= @default_design_detail.notes %>
+</p>
+
+
+<%= link_to 'Edit', edit_default_design_detail_path(@default_design_detail) %> |
+<%= link_to 'Back', default_design_details_path %>

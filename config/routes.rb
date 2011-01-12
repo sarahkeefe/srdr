@@ -1,5 +1,15 @@
 Srdr::Application.routes.draw do
 
+  resources :default_design_details
+
+  resources :design_detail_subcategory_data_points
+
+  resources :design_detail_subcategory_fields
+
+  resources :design_detail_data_points
+
+  resources :design_detail_fields
+
   resources :primary_publication_numbers
 
   resources :primary_publications
@@ -120,6 +130,7 @@ end
 	match 'projects/:project_id/studies/:study_id/adverse_events/savedata' => 'adverse_events#savedata'
 	match 'projects/:project_id/manage/saveinfo' => 'user_project_roles#saveinfo'
 	match 'projects/:project_id/manage/adduser' => 'user_project_roles#add_new_user'
+	match 'custom_templates/:custom_template_id/design_details' => 'custom_templates#design_details'
 	match 'custom_templates/:custom_template_id/baseline_characteristics' => 'custom_templates#baseline_characteristics'
 	match 'custom_templates/:custom_template_id/quality_dimensions' => 'custom_templates#quality_dimensions'
 	match 'custom_templates/:custom_template_id/outcome_datatable' => 'custom_templates#outcome_datatable'

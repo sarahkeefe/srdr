@@ -1,0 +1,29 @@
+<h1>Listing design_detail_fields</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Field notes</th>
+    <th>Template</th>
+    <th>Study</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @design_detail_fields.each do |design_detail_field| %>
+  <tr>
+    <td><%= design_detail_field.title %></td>
+    <td><%= design_detail_field.field_notes %></td>
+    <td><%= design_detail_field.template_id %></td>
+    <td><%= design_detail_field.study_id %></td>
+    <td><%= link_to 'Show', design_detail_field %></td>
+    <td><%= link_to 'Edit', edit_design_detail_field_path(design_detail_field) %></td>
+    <td><%= link_to 'Destroy', design_detail_field, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Design detail field', new_design_detail_field_path %>

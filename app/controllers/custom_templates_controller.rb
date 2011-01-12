@@ -12,6 +12,14 @@ class CustomTemplatesController < ApplicationController
     end
   end
 
+ def design_details
+	@design_detail_field = DesignDetailField.new
+	@design_detail_fields = DesignDetailField.where(:template_id => params[:custom_template_id]).all
+	@design_detail_subcategory_field = DesignDetailSubcategoryField.new
+	@design_detail_subcategory_fields = DesignDetailSubcategoryField.where(:design_detail_field_id => @design_detail_field.id).all
+	render :layout => "templates"
+ end  
+  
  def baseline_characteristics
 	@baseline_characteristic_field = BaselineCharacteristicField.new
 	@baseline_characteristic_fields = BaselineCharacteristicField.where(:template_id => params[:custom_template_id]).all
@@ -76,7 +84,8 @@ class CustomTemplatesController < ApplicationController
       if @template.save
 	  	CustomTemplate.create_default_outcome_columns(@template.id)
 		CustomTemplate.create_default_outcome_comparison_columns(@template.id)
-		format.html { redirect_to("/custom_templates/" + @template.id.to_s + "/baseline_characteristics", :notice => 'CustomTemplate was successfully created.') }
+		CustomTemplate.create_default_design_details(@template.id)
+		format.html { redirect_to("/custom_templates/" + @template.id.to_s + "/design_details", :notice => 'CustomTemplate was successfully created.') }
         #format.xml  { render :xml => @template, :status => :created, :location => @template }
       else
         format.html { render :action => "new" }
@@ -92,7 +101,7 @@ class CustomTemplatesController < ApplicationController
 
     respond_to do |format|
       if @template.update_attributes(params[:template])
-		format.html { redirect_to("/custom_templates/" + @template.id.to_s + "/baseline_characteristics", :notice => 'CustomTemplate was successfully updated.') }
+		format.html { redirect_to("/custom_templates/" + @template.id.to_s + "/design_details", :notice => 'CustomTemplate was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

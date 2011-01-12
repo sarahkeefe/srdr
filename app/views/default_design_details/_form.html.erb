@@ -1,0 +1,25 @@
+<%= form_for(@default_design_detail) do |f| %>
+  <% if @default_design_detail.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@default_design_detail.errors.count, "error") %> prohibited this default_design_detail from being saved:</h2>
+
+      <ul>
+      <% @default_design_detail.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :notes %><br />
+    <%= f.text_field :notes %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
