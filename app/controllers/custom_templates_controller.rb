@@ -85,7 +85,7 @@ class CustomTemplatesController < ApplicationController
 	  	CustomTemplate.create_default_outcome_columns(@template.id)
 		CustomTemplate.create_default_outcome_comparison_columns(@template.id)
 		CustomTemplate.create_default_design_details(@template.id)
-		format.html { redirect_to("/custom_templates/" + @template.id.to_s + "/design_details", :notice => 'CustomTemplate was successfully created.') }
+		format.html { redirect_to("/custom_templates/" + @template.id.to_s + "/edit", :notice => 'CustomTemplate was successfully created.') }
         #format.xml  { render :xml => @template, :status => :created, :location => @template }
       else
         format.html { render :action => "new" }
@@ -101,7 +101,7 @@ class CustomTemplatesController < ApplicationController
 
     respond_to do |format|
       if @template.update_attributes(params[:template])
-		format.html { redirect_to("/custom_templates/" + @template.id.to_s + "/design_details", :notice => 'CustomTemplate was successfully updated.') }
+		format.html { redirect_to("/custom_templates/" + @template.id.to_s + "/edit", :notice => 'CustomTemplate was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
