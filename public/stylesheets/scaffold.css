@@ -78,10 +78,39 @@ margin-left: 30px;
 display:inline;
 font-size: 10px;
 }
+
+.template_map_small{
+height: 50px;
+width: 100%;
+margin: 0px auto;
+text-align: center;
+}
+
+
 .template_map{
 width: 90%;
 min-height: 100px;
 margin: 0px auto;
+}
+
+.template_cell_number_small{
+height: 100%;
+width: 100%;
+color: #ddd;
+font-size: 50px;
+position: absolute;
+bottom: 0px;
+}
+
+.template_cell_small{
+width: 8%;
+height: 60px;
+display: inline-block;
+overflow:auto;
+border: 1px solid #ccc;
+font-size: 11px;
+text-align: left;
+padding: 3px;
 }
 
 .template_cell{
@@ -95,12 +124,12 @@ overflow: auto;
 margin-bottom: 15px;
 }
 
-.template_cell:hover{
+.template_cell:hover, .template_cell_small:hover{
 	background-color: #ddd;
 }
 
-.template_cell.custom_template{
-	border: 1px dotted red;
+.template_cell.custom_template, .template_cell_small.custom_template{
+	#border: 1px solid #ff9999;
 }
 
 .template_cell_number{
@@ -108,6 +137,13 @@ margin-bottom: 15px;
 font-size: 18px;
 font-weight: bold;
 }
+
+.template_map_current_page{
+	border: 1px solid #aaa;
+	background-color: #ccc;
+
+}
+
 
 .no_indent{
 margin-left: 0px;
@@ -194,28 +230,31 @@ margin-bottom: 5px;
 h1{
 font-size: 20px;
 font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+	margin: 0px;
+	padding: 3px;	
 padding-bottom: 10px;
 color: #3479BF;
 }
 
 h2{
 font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
-margin: 10px;
+	margin: 0px;
+	padding: 3px;	
 font-size: 18px;
 }
 
 h3{
 font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
 	font-size: 16px;
-	padding: 3px;
 	margin: 0px;
+	padding: 3px;	
 }
 
 h4{
   font-family: Georgia, Serif;
 	font-size: 14px;
-	padding: 0px;
-	margin: 3px;
+	margin: 0px;
+	padding: 3px;	
 	display: inline;
 }
 
@@ -223,8 +262,8 @@ h5{
 font-weight: bold;
   font-family: Georgia, Serif;
 	font-size: 12px;
-	padding: 0px;
-	margin: 3px;
+	margin: 0px;
+	padding: 3px;	
 	display: inline;
 }
 

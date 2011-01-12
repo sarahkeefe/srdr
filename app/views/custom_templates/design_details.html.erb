@@ -1,10 +1,12 @@
-<h1>Add Design Detail Template Fields</h1>
+<h1>Editing Template Section: Design Details</h1>
+
+<%= render "map" %>
+
+<h2>Add Fields to Design Details Table</h2><br/>
 <div id="design_detail_fields_table"><%= render 'design_detail_fields/table' %></div>
 <div id="design_detail_fields_entry">
 <%= render 'design_detail_fields/form' %>
 </div>
-
-
 
 <table id="bottom_nav"><tr><td align="left"><%= link_to "Back", "edit" %></td><td align="right">
 <%= link_to "Continue", "baseline_characteristics" %>

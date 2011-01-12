@@ -1,19 +1,22 @@
-<h2>Editing Template "<%= @template.title %>" <div class="small_title"><%= link_to "change template name" %></div></h2> 
+<h1>Editing Template "<%= @template.title %>" <div class="small_title"><%= link_to "change template name" %></div></h1> 
 <br/>
 <div class="indent_block">
-Template sections with a red border are customizable. All other sections are consistent across all templates.
+Template sections with a red border are customizable. All other sections are consistent across all templates and can be viewed but not altered.
 </div>
 <br/><br/>
+
+
+
 <div class="template_map">
 
-	<div class="template_cell" onclick="location.href='keyquestions';" style="cursor:pointer;">
+	<div class="template_cell" onclick="location.href='key_questions';" style="cursor:pointer;">
 		<div class="template_cell_number">
 			1
 		</div>
 		Key Questions
 	</div>
 
-	<div class="template_cell" onclick="location.href='publications';" style="cursor:pointer;">
+	<div class="template_cell" onclick="location.href='publication_info';" style="cursor:pointer;">
 		<div class="template_cell_number">
 			2
 		</div>

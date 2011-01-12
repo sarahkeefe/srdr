@@ -130,6 +130,12 @@ end
 	match 'projects/:project_id/studies/:study_id/adverse_events/savedata' => 'adverse_events#savedata'
 	match 'projects/:project_id/manage/saveinfo' => 'user_project_roles#saveinfo'
 	match 'projects/:project_id/manage/adduser' => 'user_project_roles#add_new_user'
+
+	match 'custom_templates/:custom_template_id/key_questions' => 'custom_templates#key_questions'	
+	match 'custom_templates/:custom_template_id/publication_info' => 'custom_templates#publication_info'	
+	match 'custom_templates/:custom_template_id/arms' => 'custom_templates#arms'	
+	match 'custom_templates/:custom_template_id/outcome_setup' => 'custom_templates#outcome_setup'	
+	match 'custom_templates/:custom_template_id/adverse_events' => 'custom_templates#adverse_events'	
 	match 'custom_templates/:custom_template_id/design_details' => 'custom_templates#design_details'
 	match 'custom_templates/:custom_template_id/baseline_characteristics' => 'custom_templates#baseline_characteristics'
 	match 'custom_templates/:custom_template_id/quality_dimensions' => 'custom_templates#quality_dimensions'

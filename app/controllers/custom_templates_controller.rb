@@ -12,6 +12,22 @@ class CustomTemplatesController < ApplicationController
     end
   end
 
+  def key_questions
+  end
+  
+  def publication_info
+  end
+  
+  def arms
+  end
+  
+  def outcome_setup
+  end
+  
+  def adverse_events
+  end
+  
+  
  def design_details
 	@design_detail_field = DesignDetailField.new
 	@design_detail_fields = DesignDetailField.where(:template_id => params[:custom_template_id]).all
