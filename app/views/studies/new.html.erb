@@ -11,7 +11,7 @@
 			<% @template_list_array = Study.get_template_list_array(params[:project_id]) %>
 		    <% unless @template_list_array.empty? %>
 		    	<%= f.select :template_id, options_for_select(@template_list_array), :class => "inline_field" %><br/>
-					Note: this cannot be changed after the initial creation of a study.
+
 				<% else %>
 				  There are no templates defined for this project. <strong>Please contact the project administrator before proceeding.</strong>
 				<% end %>
@@ -24,57 +24,9 @@
 		</div></div>
 	<% end %>
  
- <h3>Study Key Questions:</h3><br/>
-  <% unless @questions.empty? %>
-
-  <%= form_for(@study, :remote => true) do |f| %>
-<div class="form_content">
-	<div style='position:relative;'>
-		<div class="field">
-		  <% @questions.each do |q| %>
-			    <input type="checkbox" class="cbox" name=<%= "question_" + q.id.to_s %> >
-				<%= q.question_number.to_s + ". " + q.question %><br/>
-			  <% end %>	
-		</div>
-		<div id='kq_save_status_div' class='form_save_status' style='display:none;'>
-			 <br/>Saved.
-		</div>
-</div>
-<div class="actions">
-	<button type="submit" class="positive">
-		<%= image_tag "Accept.png"%>Save Questions
-	</button>
-</div>
-<div id="key_question_validation_message">
-</div>
-<% end %>
-<% else %>
-  There are no key questions associated with this project.
-<% end %>
-
-<br/>
-<hr width="80%" size="1" align="center"><br/>
-<div id="primary_pub_validation_message"></div>
-<h3>Primary Publication Information</h3>
-<%= render 'primary_publications/form' %>
-<br/>
-<hr width="80%" size="1" align="center"><br/>
-
-
-<h3>Associated Publications:</h3>
-<div id="secondary_publication_table">
-<%= render 'publications/table' %>
-</div>
-
-<br/>
-
-<div id="secondary_publication_entry">
-<%= render 'publications/form' %>
-</div>
-<br/>
 
 <table id="bottom_nav"><tr><td align="left"><%= link_to "Back", "../studies" %></td><td align="right">
-<%= link_to "Continue", "../studies/" + @study.id.to_s + "/design" %>
+<%= link_to "Continue", "../studies/" + @study.id.to_s + "/keyquestions" %>
 </td></tr></table>
 
 

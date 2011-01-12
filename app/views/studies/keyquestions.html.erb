@@ -1,0 +1,33 @@
+
+ <h2>Study Key Questions</h2><br/>
+  <% unless @questions.empty? %>
+
+  <%= form_for(@study, :remote => true) do |f| %>
+<div class="form_content">
+	<div style='position:relative;'>
+		<div class="field">
+		  <% @questions.each do |q| %>
+			    <input type="checkbox" class="cbox" name=<%= "question_" + q.id.to_s %> 
+				<% if @checked_ids.include?(q.id) %> checked <% end %>>
+				<%= q.question_number.to_s + ". " + q.question %><br/>
+			  <% end %>	
+		</div>
+		<div id='kq_save_status_div' class='form_save_status' style='display:none;'>
+			 <br/>Saved.
+		</div>
+</div>
+<div class="actions">
+	<button type="submit" class="positive">
+		<%= image_tag "Accept.png"%>Save Questions
+	</button>
+</div>
+<div id="key_question_validation_message">
+</div>
+<% end %>
+<% else %>
+  There are no key questions associated with this project.
+<% end %>
+
+<table id="bottom_nav"><tr><td align="left"><%= link_to "Back", "edit" %></td><td align="right">
+<%= link_to "Continue", "publicationinfo" %>
+</td></tr></table>

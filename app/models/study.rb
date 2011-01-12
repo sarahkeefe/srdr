@@ -168,7 +168,7 @@ class Study < ActiveRecord::Base
 	end  
 	
 	def get_secondary_publications
-		secondary = Publication.find(:all, :order => 'display_number ASC', :conditions => ["study_id = ? AND is_primary = ?",self.id, false])
+		secondary = Publication.find(:all, :order => 'display_number ASC', :conditions => ["study_id = ?",self.id])
 		return secondary
 	end
 	
@@ -179,7 +179,7 @@ class Study < ActiveRecord::Base
 		titles = []
 		if !studies.nil?
 			studies.each do |study|
-				tmp = Publication.where(:study_id => study.id, :is_primary => true).first
+				tmp = PrimaryPublication.where(:study_id => study.id).first
 			 	tmp0 = []
 				tmp0 << tmp.ui
 				tmp0 << tmp.title

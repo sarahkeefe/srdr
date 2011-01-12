@@ -17,7 +17,7 @@ before_filter :require_user, :except => :show
   # GET /studies/1.xml
   def show
     @study = Study.find(params[:id])
-		@project = Project.find(session[:project_id])
+		@project = Project.find(params[:project_id])
 		@study_qs = StudiesKeyQuestion.where(:study_id => @study.id).all
 		@study_questions = []
 		@study_qs.each{|i| @study_questions << KeyQuestion.find(i.key_question_id)}	  
@@ -36,7 +36,7 @@ before_filter :require_user, :except => :show
 		
 		@outcomes = Outcome.where(:study_id => @study.id).all
 		# get the study title, which is the same as the primary publication for the study
-		@study_title = Publication.where(:study_id => @study.id, :is_primary => true).first
+		@study_title = PrimaryPublication.where(:study_id => @study.id).first
 		@study_title = @study_title.nil? ? "" : @study_title.title.to_s
 		
 		@baseline_characteristic_template_fields = BaselineCharacteristicField.where(:template_id => Study.get_template_id(@study.id)).all
@@ -48,6 +48,49 @@ before_filter :require_user, :except => :show
     end
   end
 
+   
+  # GET /studies/new
+  # GET /studies/new.xml
+  def new    
+  	@study = Study.new
+  	@study.project_id = params[:project_id]
+  	session[:project_id] = params[:project_id] #added this line in case the user is coming from Home
+	@study.save
+	makeActive(@study)
+	@study_template = StudyTemplate.new
+	# if there is a template variable set in the new call
+	Study.set_template_id_if_exists(params, @study)
+	render :layout => 'studydesign'	
+  end
+
+  # GET /studies/1/edit
+  def edit
+    @study = Study.find(params[:id])
+	@project = Project.find(params[:project_id])	
+	makeActive(@study)
+	@study_template = StudyTemplate.where(:study_id => @study.id).first
+	@study_template = @study_template.nil? ? StudyTemplate.new : @study_template
+	render :layout => 'studydesign'	
+  end
+ 
+ def keyquestions
+    @study = Study.find(params[:study_id])
+    # get info on questions addressed
+    @questions = @study.get_question_choices(params[:project_id])
+    @checked_ids = @study.get_addressed_ids
+ end
+ 
+ def publicationinfo
+    @study = Study.find(params[:study_id]) 
+    # get info on primary publication
+	@primary_publication = @study.get_primary_publication
+	@primary_publication = @primary_publication.nil? ? PrimaryPublication.create() : @primary_publication
+	  
+	# get info on secondary publications
+	@secondary_publications = @study.get_secondary_publications
+	@publication = Publication.new
+ end
+  
   # design
   # displays "study design" page
   # contains inclusion/exclusion criteria, notes, and arm information
@@ -137,22 +180,7 @@ end
 		@template_categorical_columns = OutcomeComparisonColumn.where(:template_id => template_id, :outcome_type => "Categorical").all
 		@template_continuous_columns = OutcomeComparisonColumn.where(:template_id => template_id, :outcome_type => "Continuous").all
 		@outcome_comparisons = OutcomeComparison.new
-      #@selected_outcome = @outcomes[0].id
-      #@first_subgroups = Outcome.get_subgroups_array(@selected_outcome)
-      #@first_subgroup_comparisons = OutcomeAnalysis.get_analysis_subgroup_comparisons(@first_subgroups)
-      
-      #@first_timepoints = Outcome.get_timepoints_array(@selected_outcome)
-		#@first_timepoint_comparisons = OutcomeAnalysis.get_analysis_timepoint_comparisons(@first_timepoints)
-      
-      #current_selections = OutcomeAnalysis.get_selected_analysis_sg_and_tp(@first_subgroup_comparisons, @first_timepoint_comparisons)
-      #@selected_subgroup = current_selections[0]
-      #@selected_timepoint = current_selections[1]
-      
-      #@continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND outcome_id=? AND subgroup_comp=? AND timepoint_comp=?", session[:study_id], @selected_outcome, @selected_subgroup.to_s, @selected_timepoint])
-      
-      #@saved_analyses = OutcomeAnalysis.get_saved_analyses(session[:study_id])
-      #@analysis_title = OutcomeAnalysis.get_analysis_title(@outcomes[0].title, @selected_subgroup, @selected_timepoint)
- 	#	 end
+
  		render :layout => 'outcomeanalysis'	 
  	end
   
@@ -313,49 +341,6 @@ end
 	end
 	render :layout => 'quality'
 	end
-  
-  # GET /studies/new
-  # GET /studies/new.xml
-  def new    
-  	@study = Study.new
-  	@study.project_id = params[:project_id]
-  	session[:project_id] = params[:project_id] #added this line in case the user is coming from Home
-	@study.save
-	makeActive(@study)
-	  #@project_admin = Project.get_project_admin(params[:project_id])
-
-		@study_template = StudyTemplate.new
-		# if there is a template variable set in the new call
-		Study.set_template_id_if_exists(params, @study)
-		    	
-		@primary_publication = PrimaryPublication.new
-	    @secondary_publications = []
-		@publication = Publication.new
-		@questions = @study.get_question_choices(session[:project_id])
-	    render :layout => 'studydesign'	
-  end
-
-  # GET /studies/1/edit
-  def edit
-    @study = Study.find(params[:id])
-		@project = Project.find(params[:project_id])	
-		makeActive(@study)
-		  
-    # get info on questions addressed
-    @questions = @study.get_question_choices(session[:project_id])
-    @checked_ids = @study.get_addressed_ids
-		
-    # get info on primary publication
-		@primary_publication = @study.get_primary_publication
-		@primary_publication = @primary_publication.nil? ? Publication.create() : @primary_publication
-	  
-		# get info on secondary publications
-		@secondary_publications = @study.get_secondary_publications
-	  
-		# create a new publication represented in the secondary publications form
-		@publication = Publication.new
-		render :layout => 'studydesign'	
-  end
 
   # POST /studies
   # POST /studies.xml

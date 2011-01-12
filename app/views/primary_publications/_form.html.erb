@@ -1,6 +1,7 @@
 <%= nested_form_for @primary_publication, :remote=>true do |f| %>
 <!-- START FORM CONTENT DIV -->
 <div class="form_content">
+	<%= f.hidden_field :study_id, :value => params[:study_id] %>
 	<!-- START SAVE STATUS DIV -->
 	<div style='position:relative;'>
 	  <div class="field">

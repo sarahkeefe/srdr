@@ -1,5 +1,5 @@
 class PrimaryPublicationsController < ApplicationController
-respond_to :html, :js
+respond_to :js, :html
 
   # GET /primary_publications/new
   # GET /primary_publications/new.xml
@@ -21,10 +21,10 @@ respond_to :html, :js
   # POST /primary_publications.xml
   def create
     @primary_publication = PrimaryPublication.new(params[:primary_publication])
-	@primary_publication.study_id = session[:study_id]
+	@primary_publication.study_id = params[:study_id]
     respond_to do |format|
-	format.html { render :action => "new" }
-        format.xml  { render :xml => @primary_publication.errors, :status => :unprocessable_entity }
+	#format.html { render :action => "new" }
+    #   format.xml  { render :xml => @primary_publication.errors, :status => :unprocessable_entity }
       if @primary_publication.save
 		format.js{
 			render :update do |page|

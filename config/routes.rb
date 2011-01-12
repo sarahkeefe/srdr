@@ -80,16 +80,15 @@ Srdr::Application.routes.draw do
   resource :account, :controller => "users"
 
   resources :studies do
-  resources :arms, :population_characteristics
-    resources :exclusion_criteria_items
-
-  resources :inclusion_criteria_items
+	  resources :arms, :population_characteristics
+	  resources :exclusion_criteria_items
+	  resources :inclusion_criteria_items
   end
   
   resources :projects do
 	resources :studies do
   	resources :arms
-	resources :population_characteristics, :publications
+	resources :population_characteristics, :publications, :primary_publications
 	end
 	resources :key_questions
 end
@@ -107,6 +106,8 @@ end
 	match 'projects/:project_id/studies/:study_id/clear_table' => 'outcome_results#clear_table'
 	match 'projects/:project_id/studies/:study_id/delete_column' => 'outcome_results#delete_column'
 	match 'projects/:project_id/moveup' => 'projects#moveup'
+	match 'projects/:project_id/studies/:study_id/keyquestions' => 'studies#keyquestions'
+	match 'projects/:project_id/studies/:study_id/publicationinfo' => 'studies#publicationinfo'
 	match 'projects/:project_id/studies/:study_id/design' => 'studies#design'
 	match 'projects/:project_id/studies/:study_id/attributes' => 'studies#attributes'
 	match 'projects/:project_id/studies/:study_id/enrollment' => 'studies#enrollment'
