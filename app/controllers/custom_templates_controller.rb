@@ -13,18 +13,23 @@ class CustomTemplatesController < ApplicationController
   end
 
   def key_questions
+  	render :layout => "templates"
   end
   
   def publication_info
+  	render :layout => "templates"
   end
   
   def arms
+  	render :layout => "templates"
   end
   
   def outcome_setup
+  	render :layout => "templates"
   end
   
   def adverse_events
+  	render :layout => "templates"
   end
   
   
@@ -53,11 +58,13 @@ class CustomTemplatesController < ApplicationController
  def outcome_datatable
 	@template_categorical_columns = OutcomeColumn.where(:template_id => params[:custom_template_id], :outcome_type => "Categorical").all
 	@template_continuous_columns = OutcomeColumn.where(:template_id => params[:custom_template_id], :outcome_type => "Continuous").all
+	render :layout => "templates"
  end
 
  def outcome_comparisons
 	@template_categorical_columns = OutcomeComparisonColumn.where(:template_id => params[:custom_template_id], :outcome_type => "Categorical").all
 	@template_continuous_columns = OutcomeComparisonColumn.where(:template_id => params[:custom_template_id], :outcome_type => "Continuous").all
+  	render :layout => "templates"	
  end
 
  
