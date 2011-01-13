@@ -196,7 +196,9 @@ end
 		@adverse_events = AdverseEvent.where(:study_id => params[:study_id]).all
 		@adverse_event = AdverseEvent.new
 		@arms = Arm.find(:all, :conditions => ["study_id = ?", session[:study_id]], :order => "display_number ASC")
-		
+		template_id = Study.get_template_id(@study.id)
+		@template_adverse_event_columns = AdverseEventColumn.where(:template_id => template_id).all
+		@adverse_event_result = AdverseEventResult.new
   end
   
    def quality

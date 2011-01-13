@@ -1,5 +1,11 @@
 Srdr::Application.routes.draw do
 
+  resources :default_adverse_event_columns
+
+  resources :adverse_event_results
+
+  resources :adverse_event_columns
+
   resources :default_design_details
 
   resources :design_detail_subcategory_data_points
@@ -141,6 +147,7 @@ end
 	match 'custom_templates/:custom_template_id/quality_dimensions' => 'custom_templates#quality_dimensions'
 	match 'custom_templates/:custom_template_id/outcome_datatable' => 'custom_templates#outcome_datatable'
 	match 'custom_templates/:custom_template_id/outcome_datatable/delete_column' => 'custom_templates#delete_column'
+	match 'custom_templates/:custom_template_id/outcome_datatable/delete_adverse_event_column' => 'custom_templates#delete_adverse_event_column'
 	match 'custom_templates/:custom_template_id/outcome_comparisons' => 'custom_templates#outcome_comparisons'
 	match 'custom_templates/:custom_template_id/outcome_comparisons/delete_comparison_column' => 'custom_templates#delete_comparison_column'
 	

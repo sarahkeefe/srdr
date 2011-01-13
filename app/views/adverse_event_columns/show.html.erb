@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Header:</b>
+  <%= @adverse_event_column.header %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @adverse_event_column.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @adverse_event_column.description %>
+</p>
+
+<p>
+  <b>Template:</b>
+  <%= @adverse_event_column.template_id %>
+</p>
+
+<p>
+  <b>Study:</b>
+  <%= @adverse_event_column.study_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_adverse_event_column_path(@adverse_event_column) %> |
+<%= link_to 'Back', adverse_event_columns_path %>

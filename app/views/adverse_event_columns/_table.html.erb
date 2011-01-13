@@ -1,0 +1,32 @@
+<h3>Preview of Adverse Events Table Heading</h3>
+<table class="list_table">
+<tr>
+<% if !@template_adverse_event_columns.nil? && @template_adverse_event_columns.length > 0 %>
+	<% @template_adverse_event_columns.group_by(&:header).each do |header, cols| %>
+		<% if !cols[0].header.nil? && cols[0].header != "" %>
+			<th colspan="<%= cols.length %>"><%=cols[0].header %></th>
+		<% else %>
+			<% for col in cols %>
+			<th rowspan="2">
+				<%= col.name %> 
+				<%= link_to "x", {:controller => "custom_templates", :action => "delete_adverse_event_column", :custom_template_id => params[:custom_template_id].nil? ? params[:adverse_event_column][:template_id] : params[:custom_template_id], :id => col.id.to_s}, {:title => "delete this column", :class => "remove_column_link", :id => "col_" + col.id.to_s, :remote => true, :confirm => "This will delete the column from this template. Are you sure you want to delete this column?", :method => "post", :class => "delete_column_link"} %>
+			</th>
+			<% end %>
+		<% end %>
+	<% end %>
+</tr><tr>
+	<% @template_adverse_event_columns.group_by(&:header).each do |header, cols| %>
+		<% if !cols[0].header.nil? && cols[0].header != "" %>
+			<% for col in cols %>
+			<th>
+				<%= col.name %>
+				<%= link_to "x", {:controller => "custom_templates", :action => "delete_adverse_event_column", :custom_template_id => params[:custom_template_id].nil? ? params[:adverse_event_column][:template_id] : params[:custom_template_id], :id => col.id.to_s}, {:title => "delete this column", :class => "remove_column_link", :id => "col_" + col.id.to_s, :remote => true, :confirm => "This will delete the column from this template. Are you sure you want to delete this column?", :method => "post", :class => "delete_column_link"} %>
+			</th>
+			<% end %>
+		<% end %>
+	<% end %>
+</tr>
+</table>
+
+<% end %>
+<br/><br/>

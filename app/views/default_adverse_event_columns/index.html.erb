@@ -1,0 +1,27 @@
+<h1>Listing default_adverse_event_columns</h1>
+
+<table>
+  <tr>
+    <th>Header</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @default_adverse_event_columns.each do |default_adverse_event_column| %>
+  <tr>
+    <td><%= default_adverse_event_column.header %></td>
+    <td><%= default_adverse_event_column.name %></td>
+    <td><%= default_adverse_event_column.description %></td>
+    <td><%= link_to 'Show', default_adverse_event_column %></td>
+    <td><%= link_to 'Edit', edit_default_adverse_event_column_path(default_adverse_event_column) %></td>
+    <td><%= link_to 'Destroy', default_adverse_event_column, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Default adverse event column', new_default_adverse_event_column_path %>

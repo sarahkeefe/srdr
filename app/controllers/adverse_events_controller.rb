@@ -32,33 +32,21 @@ class AdverseEventsController < ApplicationController
   # POST /adverse_events
   # POST /adverse_events.xml
   def create
-  	@study = Study.find(session[:study_id])
-	#print "lalalalalalallaallaala  " params
-	if !params[:arm_num].nil?
-	for i in params[:arm_num]
-		@adverse_event = AdverseEvent.new(params[:adverse_event])
-		@adverse_event.arm_id = i.to_i
-		@adverse_event.is_total = false
-		@adverse_event.save
-	end
-	end
-	
-	if !params[:total].nil?
-		@adverse_event = AdverseEvent.new(params[:adverse_event])
-		@adverse_event.arm_id = 0
-		@adverse_event.is_total = true
-		@adverse_event.save	
-	end
+  	@study = Study.find(params[:study_id])
+	@adverse_event = AdverseEvent.new(params[:adverse_event])
+	@adverse_event.study_id = @study.id
+	@adverse_event.save
 		
     respond_to do |format|
       if @adverse_event.save
         format.js{
-		@arms = Arm.find(:all, :conditions => ["study_id = ?", session[:study_id]], :order => "display_number ASC")
-          @adverse_events = AdverseEvent.find(:all, :conditions=>['study_id=?',session[:study_id]], :order => "display_number ASC")
+			template_id = Study.get_template_id(@study.id)
+		@template_adverse_event_columns = AdverseEventColumn.where(:template_id => template_id).all
+          @adverse_events = AdverseEvent.find(:all, :conditions=>['study_id=?',@study.id])
+		  @adverse_event_result = AdverseEventResult.new
           render :update do |page|
           	page.replace_html 'adverse_events_table', :partial => 'adverse_events/table'
-          	new_row_name = 'adverse_event_' + @adverse_event.id.to_s
-          	page['new_adverse_event_form'].reset
+          	new_row_name = 'ae_' + @adverse_event.id.to_s
 			page.replace_html 'adverse_event_validation_message', ""			
           	page[new_row_name].visual_effect(:highlight, {:startcolor => "#00ee00",:endcolor => "#ffffff", 
 																						 :restorecolor=>"#ffffff", :duration=>2})					

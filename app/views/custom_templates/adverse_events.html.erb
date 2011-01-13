@@ -3,9 +3,13 @@
 </div>
 <%= render "map" %>
 
-Placeholder Page for Now
-
-
+<h2>Add Columns to Adverse Event Data Table</h2>
+<br/>
+<div id="adverse_event_fields_table"><%= render 'adverse_event_columns/table' %></div>
+<div id="adverse_event_fields_entry">
+<%= render 'adverse_event_columns/template_form' %>
+</div>
+<br/><br/>
 <table id="bottom_nav"><tr><td align="left"><%= link_to "Back", "outcome_comparisons" %></td><td align="right">
 <%= link_to "Continue", "quality_dimensions" %>
 </td></tr></table>

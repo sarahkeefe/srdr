@@ -1,0 +1,2 @@
+module DefaultAdverseEventColumnsHelper
+end

@@ -32,29 +32,10 @@ before_filter :require_user
   # POST /publications.xml
   def create
 	@publication = Publication.new(params[:publication])
-	#@publication.study_id = session[:study_id]
-	#is_primary = params[:publication][:is_primary]
-	#if is_primary == "true"
-	#	@existing_pub = Publication.where(:study_id => session[:study_id], :is_primary => true).all
-	#	if !@existing_pub.nil? && @existing_pub.length > 0
-	#		@existing_pub.each do |i|
-	#			i.destroy
-	#		end
-	#	end
-	#	@study = Study.find(session[:study_id])
-	#	@study.title = @publication.title
-	#	@study.save
-	#else
-	#	@publication.is_primary = false
-	#	@publication.display_number = @publication.get_display_number(session[:study_id])
-	#	@publication.save
-	#	@secondary_publications = Publication.find(:all, :order => 'display_number ASC', :conditions => {:is_primary => false, :study_id => session[:study_id]})			
-	#end
- 
- 		@publication.display_number = @publication.get_display_number(session[:study_id])
-		@publication.study_id = session[:study_id]
-		@publication.save
-		@secondary_publications = Publication.find(:all, :order => 'display_number ASC', :conditions => {:study_id => session[:study_id]})	
+ 	@publication.display_number = @publication.get_display_number(session[:study_id])
+	@publication.study_id = session[:study_id]
+	@publication.save
+	@secondary_publications = Publication.find(:all, :order => 'display_number ASC', :conditions => {:study_id => session[:study_id]})	
  
  
      respond_to do |format|
@@ -80,27 +61,13 @@ before_filter :require_user
   def update
     @publication = Publication.find(params[:id])
     @publication.study_id = session[:study_id]
-    
-    if(params[:is_primary] == "true")
-    	@publication.is_primary = TRUE
-			@study = Study.find(session[:study_id])
-			@study.title = @publication.title
-			@study.save		
-    else
-    	@publication.is_primary = FALSE
-    end
     respond_to do |format|
       if @publication.update_attributes(params[:publication])
 			format.js { 
 			  @secondary_publications = Publication.find(:all, :order => 'display_number ASC', :conditions => {:study_id => session[:study_id]})
 			  render :update do |page|
-					if params[:is_primary] == 'true'
-						saved_html = "<div class='success_message' id='primary_success_div' style='display:none;'>Saved Successfully!</div><br/>"
-						page.replace_html 'primary_pub_save_message', saved_html
-						page.call("show_save_indication","primary_success_div");
-						page.call("show_save_indication","publication_save_status_div");
-					else
-						saved_html = "<div class='success_message' id='secondary_success_div' style='display:none;'>Saved Successfully!</div><br/>"
+
+						saved_html = "<div class='success_message' id='secondary_success_div'>Saved Successfully!</div><br/>"
 						page.replace_html 'secondary_publication_table', :partial=>'publications/table'		
 						page.replace_html 'secondary_pub_save_message',saved_html
 						page.call("show_save_indication","secondary_success_div");
@@ -108,9 +75,8 @@ before_filter :require_user
 						page.delay(2) do
 							page['secondary_pub_form'].reset
 							@publication = Publication.new  
-							page.replace_html 'secondary_publication_entry', :partial=>'publications/form'	
-						end		  
-					end
+							page.replace_html 'secondary_publication_entry', :partial=>'publications/form'		  
+						end
 			  end
 			}
         format.html { redirect_to(project_study_publication_path(session[:project_id],session[:study_id],@publication), :notice => 'Publication was successfully updated.') }

@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Column:</b>
+  <%= @adverse_event_result.column_id %>
+</p>
+
+<p>
+  <b>Value:</b>
+  <%= @adverse_event_result.value %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%= @adverse_event_result.notes %>
+</p>
+
+
+<%= link_to 'Edit', edit_adverse_event_result_path(@adverse_event_result) %> |
+<%= link_to 'Back', adverse_event_results_path %>

@@ -39,4 +39,16 @@ class CustomTemplate < ActiveRecord::Base
 		end
 	end
 	
+	def self.create_default_adverse_event_columns(template_id)
+		@default_adverse_event_columns = DefaultAdverseEventColumn.all
+		for i in @default_adverse_event_columns
+			@new_col = AdverseEventColumn.new
+			@new_col.header = i.header
+			@new_col.name = i.name
+			@new_col.description = i.description
+			@new_col.template_id = template_id
+			@new_col.save
+		end
+	end		
+	
 end
