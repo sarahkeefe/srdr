@@ -46,28 +46,26 @@ class ApplicationController < ActionController::Base
       #session[:return_to] = nil
     end
     
-    # gather footnote information from the parameter and return an an array of footnote hashes
+  # gather footnote information from the parameter and return an an array of footnote hashes
   def get_footnotes_from_params(form_params)
-  	print "\n\n\n\n Getting Footnotes...."
+  	#print "\n\n\n\n Getting Footnotes...."
   	footnotes = Array.new
   	form_params.keys.each do |key|
-  		if key =~ /^footnote_/
+  		if key =~ /_footnote_/
   			
   			# the key being split would be something like:
-  			# footnote_A_B_C_D
-  			# where A = note number, B = Outcome ID, C = Subgroup ID, D = Timepoint ID
+  			# categorical_footnote_1  or continuous_footnote_1
   			note_parts = key.split("_");
   			
-  			tmp_note = {:note_number=>note_parts[1],
+  			tmp_note = {:note_number=>note_parts[2],
   									:study_id=>session[:study_id],
-  									:outcome_id=>note_parts[2],
-  									:subgroup_id=>note_parts[3],
-  									:timepoint_id=>note_parts[4],
-  									:note_text=>form_params[key]}							 
+  									:note_text=>form_params[key],
+  									:page_name=>"results",
+  									:data_type => note_parts[0]}							 
   			footnotes << tmp_note
   		end
   	end
-  	print "Done.\n\n\n\n"
+  	#print "Done.\n\n\n\n"
   	return footnotes
 	end
 end

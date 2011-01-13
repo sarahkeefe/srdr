@@ -34,6 +34,7 @@ before_filter :require_user
 	@publication = Publication.new(params[:publication])
  	@publication.display_number = @publication.get_display_number(session[:study_id])
 	@publication.study_id = session[:study_id]
+
 	@publication.save
 	@secondary_publications = Publication.find(:all, :order => 'display_number ASC', :conditions => {:study_id => session[:study_id]})	
  

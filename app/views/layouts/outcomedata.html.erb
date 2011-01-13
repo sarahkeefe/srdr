@@ -22,13 +22,13 @@
 	-->
 	</script>  
 	
-  <%= javascript_include_tag 'application', 'jquery.qtip-1.0.0-rc3.min', 'toggleCalculation', 'prototype', 'rails', 'form_complete' %>
+  <%= javascript_include_tag 'application', 'footnote_generator','jquery.qtip-1.0.0-rc3.min', 'toggleCalculation', 'prototype', 'rails', 'form_complete' %>
   <script src="/javascripts/scriptaculous/src/scriptaculous.js" type="text/javascript"></script>
 
  <%= csrf_meta_tag %>
  
   </head>
-<body>
+<body onload="init_footnote_values('outcome_results','<%= @cat_field_ids %>','<%= @cont_field_ids %>');">
 
 	
 	<div class="login-header">

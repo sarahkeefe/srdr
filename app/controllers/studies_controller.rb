@@ -160,15 +160,40 @@ end
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.where(:study_id => params[:study_id]).all
 	template_id = Study.get_template_id(@study.id)
+	# GATHER OUTCOMES
 	@categorical_outcomes = Outcome.where(:study_id => @study.id, :outcome_type => "Categorical").all
 	@continuous_outcomes = Outcome.where(:study_id => @study.id, :outcome_type => "Continuous").all
+	# GATHER TIMEPOINTS
+	@categorical_timepoints = Outcome.get_timepoints_for_outcomes_array(@categorical_outcomes);
+	@continuous_timepoints = Outcome.get_timepoints_for_outcomes_array(@continuous_outcomes);
+	# GATHER TEMPLATE COLUMNS
 	@template_categorical_columns = OutcomeColumn.where(:template_id => template_id, :outcome_type => "Categorical").all
 	@template_continuous_columns = OutcomeColumn.where(:template_id => template_id, :outcome_type => "Continuous").all
-
+	
 	@outcome_data_points = OutcomeResult.new
+	
+	# WHEN THE PAGE LOADS, FOOTNOTES ARRAYS ARE INITIALIZED AND NEED TO KNOW WHAT FIELDS
+	# HAVE FOOTNOTES PREVIOUSLY DEFINED. SETTING THESE VARIABLES BELOW
+	@cat_outcome_ids = @categorical_outcomes.collect{|catOut| catOut.id}
+	@cont_outcome_ids = @continuous_outcomes.collect{|contOut| contOut.id}
+	
+	@study_arm_ids = @study_arms.collect{|arm| arm.id}
+	
+	@cat_cols = @template_categorical_columns.collect{|catCols| catCols.id}
+	@cont_cols = @template_continuous_columns.collect{|contCols| contCols.id}
+	
+	categorical_fields = OutcomeResult.get_list_of_field_ids(@cat_outcome_ids, @study_arm_ids, @categorical_timepoints, @cat_cols)
+	continuous_fields = OutcomeResult.get_list_of_field_ids(@cont_outcome_ids, @study_arm_ids, @continuous_timepoints, @cont_cols)
+	
+	# THESE ARRAYS ARE ULTIMATELY THE ONES USED BY OUR JAVASCRIPT FUNCTION TO INITIALIZE
+	@cat_field_ids = categorical_fields.to_json
+	@cont_field_ids = continuous_fields.to_json
+	@cat_field_ids.gsub!(/[\"\[\]]/,"")
+	@cont_field_ids.gsub!(/[\"\[\]]/,"")
+		
 	# gather any footnotes for the first selections
-	# commented out just for now
-	#@footnotes = Footnote.where(:study_id=>session[:study_id], :outcome_id=>@first_outcome.id, :subgroup_id=>@selected_subgroup, :timepoint_id=>@selected_timepoint).order("note_number ASC")
+	@cat_footnotes = Footnote.where(:study_id=>session[:study_id], :page_name=>"results",:data_type=>"categorical").order("note_number ASC")
+	@cont_footnotes = Footnote.where(:study_id=>session[:study_id],:page_name=>"results",:data_type=>"continuous").order("note_number ASC")
 
 	@outcome_column = OutcomeColumn.new
 	render :layout => 'outcomedata'	
@@ -356,6 +381,54 @@ end
   	end
   end
 
+  def adverseevents
+		@study = Study.find(params[:study_id])
+		@project = Project.find(params[:project_id])
+		@adverse_events = AdverseEvent.where(:study_id => params[:study_id]).all
+		@adverse_event = AdverseEvent.new
+		@arms = Arm.find(:all, :conditions => ["study_id = ?", session[:study_id]], :order => "display_number ASC")
+		
+  end
+  
+   def quality
+	@study = Study.find(params[:study_id])
+	session[:study_id] = @study.id
+	@project = Project.find(params[:project_id])
+	@quality_aspects = QualityAspect.where(:study_id => params[:study_id]).all	
+	@quality_aspect = QualityAspect.new
+	@exists = QualityRating.where(:study_id => session[:study_id]).first
+	@quality_rating = @exists.nil? ? QualityRating.new : @exists
+	@quality_dimension_field = QualityDimensionField.new
+	@quality_dimension_data_point = QualityDimensionDataPoint.new
+	@quality_dimension_custom_fields = QualityDimensionField.where(:study_id => params[:study_id]).all
+	@study_template = StudyTemplate.where(:study_id => @study.id).first
+	if !@study_template.nil?
+	@quality_dimension_template_fields = QualityDimensionField.where(:template_id => @study_template.template_id).all
+	end
+	render :layout => 'quality'
+	end
+  
+  # GET /studies/new
+  # GET /studies/new.xml
+  def new    
+  	@study = Study.new
+  	@study.project_id = params[:project_id]
+  	session[:project_id] = params[:project_id] #added this line in case the user is coming from Home
+		@study.save
+		makeActive(@study)
+	  @project_admin = Project.get_project_admin(params[:project_id])
+
+		@study_template = StudyTemplate.new
+		# if there is a template variable set in the new call
+		Study.set_template_id_if_exists(params, @study)
+		    	
+		@primary_publication = Publication.create()
+		@publication=Publication.new
+	  @secondary_publications = []
+			
+		@questions = @study.get_question_choices(session[:project_id])
+	    render :layout => 'studydesign'	
+  end
 
   # POST /studies
   # POST /studies.xml

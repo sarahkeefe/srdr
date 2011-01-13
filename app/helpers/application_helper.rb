@@ -153,21 +153,16 @@ module ApplicationHelper
   	
 	# find out if any footnotes exist for this field, and if so, attach them to the 
 	# value that is passed back to the form field
-	def show_footnotes(val, field_name, info_hash)
+	def show_footnotes(val, field_name, study_id)
 		retVal = val.to_s
-		notes_for_field = FootnoteField.where(:study_id=>info_hash[:study_id], :outcome_id=>info_hash[:outcome_id],
-																					:subgroup_id=>info_hash[:subgroup_id],:timepoint_id=>info_hash[:timepoint_id],
-																					:field_name=>field_name)
-		#print "\n\n\n\n\nShowing footnotes and retVal starts off as being: #{retVal}\n\n\n"
+		notes_for_field = FootnoteField.where(:study_id=>study_id, :field_id=>field_name).order(":footnote_id ASC")
+		
   	unless notes_for_field.empty?
   		retVal += " ["
   		i = 0
   		notes_for_field.each do |note|   				
-  			#fnote = Footnote.where(:study_id=>info_hash[:study_id],:outcome_id=>info_hash[:outcome_id],
-  			#											 :subgroup_id=>info_hash[:subgroup_id],:timepoint_id=>info_hash[:timepoint_id],
-  			#											 :note_number=>note.note_number);
-  			
-  			retVal = retVal + note.footnote_number.to_s
+  			note_num = note.footnote_id
+  			retVal = retVal + note_num.to_s
   			#print "\n\n\nNow I'm inside the loop and retVal is now equal to: #{retVal}\n\n\n"
   			unless(i >= (notes_for_field.length - 1))
   				retVal = retVal + ","
