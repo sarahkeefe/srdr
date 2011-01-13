@@ -19,6 +19,8 @@ class OutcomeResult < ActiveRecord::Base
 					for elem in item[1]
 						column_id = elem[0].to_i
 						column_value = elem[1]
+						field_name = "out#{outcome_id.to_s}_arm#{arm_id.to_s}_tp#{timepoint_id.to_s}_#{column_id.to_s}"
+						column_value = check_for_footnotes(column_value,field_name,study_id)
 						existing = OutcomeResult.where(:outcome_id => outcome_id, :arm_id => arm_id, :timepoint_id => timepoint_id, :outcome_column_id => column_id).first
 						if !existing.nil?
 							#column value exists, update value
@@ -41,7 +43,47 @@ class OutcomeResult < ActiveRecord::Base
 				end
 			end
 		end
-			
+		# if footnotes exist, pull them out, return the value and save the 
+		# footnote information to the junction table for outcome_results
+    def self.check_for_footnotes(input,field_id,study_id)
+    	retVal = input
+      fid = field_id
+      sid = study_id.to_i
+      	
+    	if input =~ /\s*\d+\s*\[\s*\d?.*\]/
+    		
+    		# first, separate the value from the footnotes
+    		open_bracket = input =~ /\[/
+    		data = input[0,open_bracket]
+    		retVal = data.strip  # remove leading or trailing space
+    		close_bracket = input =~ /\]/
+    		
+    		# gather the information between the brackets
+    		fnotes = input[open_bracket+1, (close_bracket - open_bracket - 1)]
+    		fnotes = fnotes.split(",")
+    		
+    		unless fnotes.empty?
+    			# remove previous junction table information for this field
+    			previous_notes = FootnoteField.where(:study_id=>sid, :field_id=>fid)
+    	  	previous_notes.each do |pn|
+    	  		pn.destroy
+    	  	end
+	    		
+					# now, add the info to the footnote junction table    	  
+    	  	fnotes.each do |fn|
+	    			new_note = FootnoteField.new(:study_id=>sid,:field_id=>fid,:footnote_id=>fn.to_i)
+	    		  new_note.save
+	    		  if new_note.save
+	    		  	#print "\n\n\n Footnote for #{fid} saved to junction successfully...\n\n\n"
+	    		  else
+	    		  	#print "\n\n\nSaving footnote to junction was unsuccessful for #{fid}"
+	  		  	end
+	    		end
+	    	end
+    	end
+    	return retVal
+    end		
+    	
 		def self.get_data_point(outcome_id, arm_id, timepoint_id, column_id)
 			result = OutcomeResult.where(:outcome_id => outcome_id, :arm_id => arm_id, :timepoint_id => timepoint_id, :outcome_column_id => column_id).first
 			if result.nil?
@@ -83,49 +125,34 @@ class OutcomeResult < ActiveRecord::Base
 			end
 		end
 
-		# if footnotes exist, pull them out, return the value and save the 
-		# footnote information to the junction table for outcome_results
-    def self.check_for_footnotes(input,result_inputs,field_name)
-    	retVal = input
-      	
-    	if input =~ /\s*\d+\s*\[\s*\d?.*\]/
-    		
-    		# first, separate the value from the footnotes
-    		open_bracket = input =~ /\[/
-    		data = input[0,open_bracket]
-    		retVal = data.strip  # remove leading or trailing space
-    	  
-    		# now, add the footnote information to a junction table
-    		close_bracket = input =~ /\]/
-    		
-    		# gather the information between the brackets
-    		fnotes = input[open_bracket+1, (close_bracket - open_bracket - 1)]
-    		fnotes = fnotes.split(",")
-    		unless fnotes.empty?
-    			# remove previous junction table information for this field
-    			previous_notes = FootnoteField.where(:study_id=>result_inputs[0], :outcome_id=>result_inputs[1],
-    																	 :subgroup_id=>result_inputs[2], :timepoint_id=>result_inputs[3],
-    																	 :field_name=>field_name)
-    	  	previous_notes.each do |pn|
-    	  		pn.destroy
-    	  	end
-	    		
-					# now, add the info to the footnote junction table    	  
-    	  	fnotes.each do |fn|
-	    			new_note = FootnoteField.new(:study_id=>result_inputs[0], :outcome_id=>result_inputs[1],
-	    													 :subgroup_id=>result_inputs[2], :timepoint_id=>result_inputs[3],
-	    													 :footnote_number=>Integer(fn), :field_name=>field_name.to_s)
-	    		  new_note.save
-	    		  #if new_note.save
-	    		  	#print "\n\n\n Footnote for #{field_name} saved to junction successfully...\n\n\n"
-	    		  #else
-	    		  	#print "\n\n\nSaving footnote to junction was unsuccessful for #{field_name}"
-	  		  	#end
-	    		end
-	    	end
-    	end
-    	return retVal
-    end
-
-		
+		# return a list of field ids based on a list of outcomes, arms and timepoints
+		# field ids are structure such as:
+		# outA_armB_tpC_D
+		# where A = outcome id
+		# where B = arm id
+		# where C = timepoint id
+		# where D = column id
+		def self.get_list_of_field_ids(outcome_ids, arm_ids, timepoints_arrays, column_ids)
+			fields = []
+			unless outcome_ids.empty?
+				i = 0
+				for ocid in outcome_ids
+					outcome = "out#{ocid.to_s}_"
+					unless arm_ids.empty?
+						for armid in arm_ids
+							arm = outcome + "arm#{armid.to_s}_"
+							for tp in timepoints_arrays[i]	
+								timepoint = arm + "tp#{tp.id.to_s}_"
+								for colid in column_ids
+									full_id = timepoint + "#{colid.to_s}"
+									fields << full_id
+								end
+							end
+						end
+					end
+					i += 1
+				end
+			end
+			return fields
+		end
 end

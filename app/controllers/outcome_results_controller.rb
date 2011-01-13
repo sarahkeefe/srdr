@@ -16,26 +16,27 @@ class OutcomeResultsController < ApplicationController
   # POST /outcome_results 
   # POST /outcome_results.xml
   def create
-    OutcomeResult.save_data_points(params, session[:study_id])
-	
-	# save any footnotes associated with the data
-	footnotes = get_footnotes_from_params(params)
-	
-    # move this to model?	
-	unless footnotes.empty?
-    	Footnote.remove_entries(session[:study_id],params[:selected_outcome],params[:selected_subgroup],params[:selected_timepoint])
-    	FootnoteField.remove_entries(session[:study_id],params[:selected_outcome],params[:selected_subgroup],params[:selected_timepoint])
-    	footnotes.each do |fnote|
-    		mynote = Footnote.new(fnote)
-    		mynote.save
-    	end
-	  end    
-
-    respond_to do |format|
+    # save any footnotes associated with the data.
+		footnotes = get_footnotes_from_params(params)
+		
+	  # move this to model?	This has to come before the saving process so that we don't
+	  # delete footnote entries that we had just saved.
+		unless footnotes.empty?
+	  	Footnote.remove_entries(session[:study_id])
+	  	FootnoteField.remove_entries(session[:study_id])
+	  	footnotes.each do |fnote|
+	  		mynote = Footnote.new(fnote)
+	  		mynote.save
+	  	end
+		end    
+  	
+  	OutcomeResult.save_data_points(params, session[:study_id])
+		
+	  respond_to do |format|
 			format.js{
 				render :update do |page|
 				#	page.replace_html 'outcome_results_list', :partial => 'outcome_results/completed_list'
-				end
+	 		  end
 			}
 		end	
   end

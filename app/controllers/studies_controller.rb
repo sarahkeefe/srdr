@@ -106,15 +106,40 @@ end
 	@project = Project.find(params[:project_id])
 	@study_arms = Arm.where(:study_id => params[:study_id]).all
 	template_id = Study.get_template_id(@study.id)
+	# GATHER OUTCOMES
 	@categorical_outcomes = Outcome.where(:study_id => @study.id, :outcome_type => "Categorical").all
 	@continuous_outcomes = Outcome.where(:study_id => @study.id, :outcome_type => "Continuous").all
+	# GATHER TIMEPOINTS
+	@categorical_timepoints = Outcome.get_timepoints_for_outcomes_array(@categorical_outcomes);
+	@continuous_timepoints = Outcome.get_timepoints_for_outcomes_array(@continuous_outcomes);
+	# GATHER TEMPLATE COLUMNS
 	@template_categorical_columns = OutcomeColumn.where(:template_id => template_id, :outcome_type => "Categorical").all
 	@template_continuous_columns = OutcomeColumn.where(:template_id => template_id, :outcome_type => "Continuous").all
-
+	
 	@outcome_data_points = OutcomeResult.new
+	
+	# WHEN THE PAGE LOADS, FOOTNOTES ARRAYS ARE INITIALIZED AND NEED TO KNOW WHAT FIELDS
+	# HAVE FOOTNOTES PREVIOUSLY DEFINED. SETTING THESE VARIABLES BELOW
+	@cat_outcome_ids = @categorical_outcomes.collect{|catOut| catOut.id}
+	@cont_outcome_ids = @continuous_outcomes.collect{|contOut| contOut.id}
+	
+	@study_arm_ids = @study_arms.collect{|arm| arm.id}
+	
+	@cat_cols = @template_categorical_columns.collect{|catCols| catCols.id}
+	@cont_cols = @template_continuous_columns.collect{|contCols| contCols.id}
+	
+	categorical_fields = OutcomeResult.get_list_of_field_ids(@cat_outcome_ids, @study_arm_ids, @categorical_timepoints, @cat_cols)
+	continuous_fields = OutcomeResult.get_list_of_field_ids(@cont_outcome_ids, @study_arm_ids, @continuous_timepoints, @cont_cols)
+	
+	# THESE ARRAYS ARE ULTIMATELY THE ONES USED BY OUR JAVASCRIPT FUNCTION TO INITIALIZE
+	@cat_field_ids = categorical_fields.to_json
+	@cont_field_ids = continuous_fields.to_json
+	@cat_field_ids.gsub!(/[\"\[\]]/,"")
+	@cont_field_ids.gsub!(/[\"\[\]]/,"")
+		
 	# gather any footnotes for the first selections
-	# commented out just for now
-	#@footnotes = Footnote.where(:study_id=>session[:study_id], :outcome_id=>@first_outcome.id, :subgroup_id=>@selected_subgroup, :timepoint_id=>@selected_timepoint).order("note_number ASC")
+	@cat_footnotes = Footnote.where(:study_id=>session[:study_id], :page_name=>"results",:data_type=>"categorical").order("note_number ASC")
+	@cont_footnotes = Footnote.where(:study_id=>session[:study_id],:page_name=>"results",:data_type=>"continuous").order("note_number ASC")
 
 	@outcome_column = OutcomeColumn.new
 	render :layout => 'outcomedata'	
@@ -322,7 +347,7 @@ end
   	session[:project_id] = params[:project_id] #added this line in case the user is coming from Home
 		@study.save
 		makeActive(@study)
-	  #@project_admin = Project.get_project_admin(params[:project_id])
+	  @project_admin = Project.get_project_admin(params[:project_id])
 
 		@study_template = StudyTemplate.new
 		# if there is a template variable set in the new call
@@ -330,7 +355,7 @@ end
 		    	
 		@primary_publication = Publication.create()
 		@publication=Publication.new
-	    @secondary_publications = []
+	  @secondary_publications = []
 			
 		@questions = @study.get_question_choices(session[:project_id])
 	    render :layout => 'studydesign'	

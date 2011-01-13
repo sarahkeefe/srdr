@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110110183115) do
+ActiveRecord::Schema.define(:version => 20110112171222) do
 
   create_table "adverse_event_arms", :force => true do |t|
     t.integer  "study_id"
@@ -128,24 +128,20 @@ ActiveRecord::Schema.define(:version => 20110110183115) do
 
   create_table "footnote_fields", :force => true do |t|
     t.integer  "study_id"
-    t.integer  "outcome_id"
-    t.integer  "subgroup_id"
-    t.integer  "timepoint_id"
-    t.integer  "footnote_number"
-    t.string   "field_name"
+    t.string   "field_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "footnote_id"
   end
 
   create_table "footnotes", :force => true do |t|
     t.integer  "note_number"
     t.integer  "study_id"
-    t.integer  "outcome_id"
-    t.integer  "subgroup_id"
-    t.integer  "timepoint_id"
     t.string   "note_text"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "page_name"
+    t.string   "data_type"
   end
 
   create_table "inclusion_criteria_items", :force => true do |t|

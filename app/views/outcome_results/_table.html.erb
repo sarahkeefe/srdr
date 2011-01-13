@@ -2,10 +2,6 @@
 	<%# render 'outcome_columns/custom_form' %>
 </div>
 
- 	<script type="text/javascript">				
-
-</script>
-
 <div class="bubbleInfo">
   <div class="popup">
     lalala
@@ -51,9 +47,10 @@
 </tr>
 
 <%# --------------- Table Meat ----------------%>
-
+<% i = 0 %>
 <% for outcome in @categorical_outcomes %>
-<% @outcome_timepoints_list = OutcomeTimepoint.where(:outcome_id => outcome.id).all %>
+  <% @outcome_timepoints_list = @categorical_timepoints[i] %>
+  <% i += 1 %>
 		<tr>
 			<td rowspan="<%= @outcome_timepoints_list.length > 1 ? @study_arms.length*@outcome_timepoints_list.length : @study_arms.length %>">
 				<%= outcome.title %>
@@ -67,10 +64,16 @@
 											<td width="50"><%= timepoint.number.to_s + " " + timepoint.time_unit %></td>
 											
 											<% for col in @template_categorical_columns %>
+											  <% print "\n\n\n\noutcome_id: #{outcome.id.to_s}\narm id: #{intervention.id.to_s}\ntimepoint id: #{timepoint.id.to_s}\ncol id: #{col.id.to_s}\n\n\n\n" %>
 												<% val = OutcomeResult.get_data_point(outcome.id, intervention.id, timepoint.id, col.id) %>
 												<% calc = OutcomeResult.get_data_point_calc(outcome.id, intervention.id, timepoint.id, col.id) %>
+
+												<% text_field_id = "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_" + col.id.to_s %>								      
+												
+												<%# the show footnotes function requires the original value, the id of the field and the study id %>
+												<% entry_value = show_footnotes(val, text_field_id, session[:study_id]) %>
 												<td id="<%= "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_col" + col.id.to_s%>">
-												<%= text_field "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s, col.id.to_s, :size => 5, :value=>val, :onchange=>'check_for_footnote(this.value, this.id)' %>
+												<%= text_field "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s, col.id.to_s, :size => 5, :value=>entry_value, :onchange=>'check_for_footnote(this.value, this.id,"categorical")' %>
 												<%= check_box_tag "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_col" + col.id.to_s + "_calc", true, calc, :style => "display:none" %>
 												</td>
 
@@ -137,6 +140,23 @@
 <% end %> <%# END CATEGORICAL OUTCOMES.LENGTH %>
 
 </table>
+<div id='categorical_footnotes' class="indented-text">
+					<% unless @cat_footnotes.empty? %>
+					<h3>Footnotes</h4>
+					  <% @cat_footnotes.each do |fnote| %>
+					    <span class='footnote' id= <%= "categorical_footnote_"+ fnote.note_number.to_s + "_span" %> >
+					    	<span style="font-weight: bold;"><%= fnote.note_number %>. </span>
+					    	<% input_id = "categorical_footnote_"+fnote.note_number.to_s %>
+					    	<input style="width: 95%;" type="text" value="<%= fnote.note_text %>" name="<%=input_id%>" class="footnote" id="<%=input_id%>" >
+					    	<br/>
+					  	</span>
+					  <% end %>
+					<% else %>
+					  You may enter footnotes by typing a number in brackets next to your value. For example, to enter a value
+					  of 10 and enter two footnotes for that value, type: 10 [1,2]<br/>
+					<% end %>
+					
+				</div>
 
 
 
@@ -180,26 +200,28 @@
 </tr>
 
 <%# --------------- Table Meat ----------------%>
-
+<% j = 0 %>
 <% for outcome in @continuous_outcomes %>
-<% @outcome_timepoints_list = OutcomeTimepoint.where(:outcome_id => outcome.id).all %>
+  <% @outcome_timepoints_list = @continuous_timepoints[j] %>
+  <% j += 1 %>    
 		<tr>
 			<td rowspan="<%= @outcome_timepoints_list.length > 1 ? @study_arms.length*@outcome_timepoints_list.length : @study_arms.length %>">
 				<%= outcome.title %>
 			</td>
 			<% for intervention in @study_arms %>
-			<td rowspan="<%= @outcome_timepoints_list.length %>"><%= intervention.title %></td>
-
-					
+			<td rowspan="<%= @outcome_timepoints_list.length %>"><%= intervention.title %></td>			
 							
 										<% for timepoint in @outcome_timepoints_list %>
 											<td width="50"><%= timepoint.number.to_s + " " + timepoint.time_unit %></td>
 											
 											<% for col in @template_continuous_columns %>
-												<% val = OutcomeResult.get_data_point(outcome.id, intervention.id, timepoint.id, col.id) %>
+											  <% val = OutcomeResult.get_data_point(outcome.id, intervention.id, timepoint.id, col.id) %>
 												<% calc = OutcomeResult.get_data_point_calc(outcome.id, intervention.id, timepoint.id, col.id) %>
 												<td id="<%= "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_col" + col.id.to_s%>">
-												<%= text_field "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s, col.id.to_s, :size => 5, :value=>val, :onchange=>'check_for_footnote(this.value, this.id)' %>
+												<% cont_text_field_id = "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_" + col.id.to_s %>		
+											  <% cont_entry_value = show_footnotes(val, cont_text_field_id, session[:study_id]) %>
+											  
+												<%= text_field "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s, col.id.to_s, :size => 5, :value=>cont_entry_value, :onchange=>'check_for_footnote(this.value, this.id,"continuous")' %>
 												<%= check_box_tag "out" + outcome.id.to_s + "_arm" + intervention.id.to_s + "_tp" + timepoint.id.to_s + "_col" + col.id.to_s + "_calc", true, calc, :style => "display:none" %>
 												</td>
 												
@@ -267,6 +289,24 @@
 	<% end %>
 <% end %> <%# END CONTINUOUS OUTCOMES.LENGTH %>
 </table>
+<div id='continuous_footnotes' class="indented-text">
+					<% unless @cont_footnotes.empty? %>
+					<h3>Footnotes</h4>
+					  <% @cont_footnotes.each do |fnote| %>
+					    <span class='footnote' id= <%= "continuous_footnote_"+ fnote.note_number.to_s + "_span" %> >
+					    	<span style="font-weight: bold;"><%= fnote.note_number %>. </span>
+					    	<% input_id = "continuous_footnote_"+fnote.note_number.to_s %>
+					    	<input style="width: 95%;" type="text" value="<%= fnote.note_text %>" name="<%=input_id%>" class="footnote" id="<%=input_id%>" >
+					    	<br/>
+					  	</span>
+					  <% end %>
+					<% else %>
+					  You may enter footnotes by typing a number in brackets next to your value. For example, to enter a value
+					  of 10 and enter two footnotes for that value, type: 10 [1,2]<br/>
+					<% end %>
+					
+				</div>
+
 <br/>
   <div class="indent_block actions">
 		<button type="submit" class="positive">

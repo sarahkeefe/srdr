@@ -10,6 +10,20 @@ class Outcome < ActiveRecord::Base
 	accepts_nested_attributes_for :outcome_subgroups, :allow_destroy => true, :reject_if => proc { |attributes| attributes['title'].blank? }
 	attr_accessible :study_id, :title, :is_primary, :units, :description, :notes, :outcome_timepoints_attributes, :outcome_columns_attributes, :outcome_subgroups_attributes, :outcome_subgroup_levels_attributes
 	
+	# get an array of timepoint arrays for a collection of outcome objects
+	def self.get_timepoints_for_outcomes_array(outcomes)
+		retVal = [];
+		unless outcomes.empty?
+			i = 0;
+			for oc in outcomes
+				  timepoints = get_timepoints_array(oc.id)
+			  	retVal[i] = timepoints
+			  	i += 1
+			end
+		end
+		return retVal
+	end
+	
 	def self.get_title(id)
 		if id.to_i > 0
 		@outcome = Outcome.find(id)
@@ -87,14 +101,14 @@ class Outcome < ActiveRecord::Base
 	# get the timepoints associated with an outcome
 	def self.get_timepoints_array(outcome_id)
 		outcome_tps = OutcomeTimepoint.where(:outcome_id => outcome_id).all
-		print "\n\n Got the timepoints array and it has #{outcome_tps.length} items in it.\n\n"
+		#print "\n\n Got the timepoints array and it has #{outcome_tps.length} items in it.\n\n"
 		retVal = Array.new
 		
 		unless outcome_tps.empty?
 			# put the baseline timepoint first
 			retVal << outcome_tps[outcome_tps.length-1]
 			(0..outcome_tps.length-2).each do |i|
-				print "timepoint at i is #{outcome_tps[i]}\n"
+				#print "timepoint at i is #{outcome_tps[i]}\n"
 				retVal << outcome_tps[i]
 			end
 		end

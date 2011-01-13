@@ -32,6 +32,7 @@ before_filter :require_user
   def create
   @publication = Publication.new(params[:publication])
 	@publication.study_id = session[:study_id]
+	
 	if params[:publication][:is_primary] == true
 		@existing_pub = Publication.where(:study_id => session[:study_id], :is_primary => true)
 		if !@existing_pub.nil?
