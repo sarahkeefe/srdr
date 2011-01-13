@@ -17,7 +17,7 @@ before_filter :require_user, :except => :show
   # GET /studies/1.xml
   def show
     @study = Study.find(params[:id])
-		@project = Project.find(session[:project_id])
+		@project = Project.find(params[:project_id])
 		@study_qs = StudiesKeyQuestion.where(:study_id => @study.id).all
 		@study_questions = []
 		@study_qs.each{|i| @study_questions << KeyQuestion.find(i.key_question_id)}	  
@@ -36,7 +36,7 @@ before_filter :require_user, :except => :show
 		
 		@outcomes = Outcome.where(:study_id => @study.id).all
 		# get the study title, which is the same as the primary publication for the study
-		@study_title = Publication.where(:study_id => @study.id, :is_primary => true).first
+		@study_title = PrimaryPublication.where(:study_id => @study.id).first
 		@study_title = @study_title.nil? ? "" : @study_title.title.to_s
 		
 		@baseline_characteristic_template_fields = BaselineCharacteristicField.where(:template_id => Study.get_template_id(@study.id)).all
@@ -48,6 +48,54 @@ before_filter :require_user, :except => :show
     end
   end
 
+   
+  # GET /studies/new
+  # GET /studies/new.xml
+  def new    
+  	@study = Study.new
+  	@study.project_id = params[:project_id]
+  	session[:project_id] = params[:project_id] #added this line in case the user is coming from Home
+	@study.save
+	makeActive(@study)
+	@study_template = StudyTemplate.new
+	# if there is a template variable set in the new call
+	Study.set_template_id_if_exists(params, @study)
+	@primary_publication = @study.get_primary_publication
+	@primary_publication = @primary_publication.nil? ? PrimaryPublication.create() : @primary_publication
+	render :layout => 'studydesign'	
+  end
+
+  # GET /studies/1/edit
+  def edit
+    @study = Study.find(params[:id])
+	@project = Project.find(params[:project_id])	
+	makeActive(@study)
+	@study_template = StudyTemplate.where(:study_id => @study.id).first
+	@study_template = @study_template.nil? ? StudyTemplate.new : @study_template
+	# get the study title, which is the same as the primary publication for the study
+	@study_title = PrimaryPublication.where(:study_id => @study.id).first
+	@study_title = @study_title.nil? ? "" : @study_title.title.to_s
+	render :layout => 'studydesign'
+  end
+ 
+ def keyquestions
+    @study = Study.find(params[:study_id])
+    # get info on questions addressed
+    @questions = @study.get_question_choices(params[:project_id])
+    @checked_ids = @study.get_addressed_ids
+ end
+ 
+ def publicationinfo
+    @study = Study.find(params[:study_id]) 
+    # get info on primary publication
+	@primary_publication = @study.get_primary_publication
+	@primary_publication = @primary_publication.nil? ? PrimaryPublication.create() : @primary_publication
+	  
+	# get info on secondary publications
+	@secondary_publications = @study.get_secondary_publications
+	@publication = Publication.new
+ end
+  
   # design
   # displays "study design" page
   # contains inclusion/exclusion criteria, notes, and arm information
@@ -55,15 +103,21 @@ before_filter :require_user, :except => :show
 	  @study = Study.find(params[:study_id])
 	  makeActive(@study)
 	  @arm = Arm.new
-	  @arms = Arm.where(:study_id => @study.id).all	
+	  @arms = Arm.where(:study_id => @study.id).all
 	end
 	
 def enrollment
+	  @study = Study.find(params[:study_id])
+	  @design_detail_field = DesignDetailField.new
+	  @design_detail_data_point = DesignDetailDataPoint.new
+	  @design_detail_template_fields = DesignDetailField.where(:template_id => Study.get_template_id(@study.id)).all
+	  @design_detail_custom_fields = DesignDetailField.where(:study_id => @study.id).all
 	  @study = Study.find(params[:study_id])
 	  @inclusion_criteria = InclusionCriteriaItem.where(:study_id => @study.id).order("display_number ASC")
 	  @inclusion_criteria_item = InclusionCriteriaItem.new
 	  @exclusion_criteria = ExclusionCriteriaItem.where(:study_id => @study.id).order("display_number ASC")
 	  @exclusion_criteria_item = ExclusionCriteriaItem.new
+		render :layout => 'enrollment'		  
 end
   
   # attributes
@@ -162,24 +216,38 @@ end
 		@template_categorical_columns = OutcomeComparisonColumn.where(:template_id => template_id, :outcome_type => "Categorical").all
 		@template_continuous_columns = OutcomeComparisonColumn.where(:template_id => template_id, :outcome_type => "Continuous").all
 		@outcome_comparisons = OutcomeComparison.new
-      #@selected_outcome = @outcomes[0].id
-      #@first_subgroups = Outcome.get_subgroups_array(@selected_outcome)
-      #@first_subgroup_comparisons = OutcomeAnalysis.get_analysis_subgroup_comparisons(@first_subgroups)
-      
-      #@first_timepoints = Outcome.get_timepoints_array(@selected_outcome)
-		#@first_timepoint_comparisons = OutcomeAnalysis.get_analysis_timepoint_comparisons(@first_timepoints)
-      
-      #current_selections = OutcomeAnalysis.get_selected_analysis_sg_and_tp(@first_subgroup_comparisons, @first_timepoint_comparisons)
-      #@selected_subgroup = current_selections[0]
-      #@selected_timepoint = current_selections[1]
-      
-      #@continuous_analyses = OutcomeAnalysis.find(:all, :conditions=>["study_id=? AND outcome_id=? AND subgroup_comp=? AND timepoint_comp=?", session[:study_id], @selected_outcome, @selected_subgroup.to_s, @selected_timepoint])
-      
-      #@saved_analyses = OutcomeAnalysis.get_saved_analyses(session[:study_id])
-      #@analysis_title = OutcomeAnalysis.get_analysis_title(@outcomes[0].title, @selected_subgroup, @selected_timepoint)
- 	#	 end
+
  		render :layout => 'outcomeanalysis'	 
  	end
+  
+    def adverseevents
+		@study = Study.find(params[:study_id])
+		@project = Project.find(params[:project_id])
+		@adverse_events = AdverseEvent.where(:study_id => params[:study_id]).all
+		@adverse_event = AdverseEvent.new
+		@arms = Arm.find(:all, :conditions => ["study_id = ?", session[:study_id]], :order => "display_number ASC")
+		template_id = Study.get_template_id(@study.id)
+		@template_adverse_event_columns = AdverseEventColumn.where(:template_id => template_id).all
+		@adverse_event_result = AdverseEventResult.new
+  end
+  
+   def quality
+	@study = Study.find(params[:study_id])
+	session[:study_id] = @study.id
+	@project = Project.find(params[:project_id])
+	@quality_aspects = QualityAspect.where(:study_id => params[:study_id]).all	
+	@quality_aspect = QualityAspect.new
+	@exists = QualityRating.where(:study_id => session[:study_id]).first
+	@quality_rating = @exists.nil? ? QualityRating.new : @exists
+	@quality_dimension_field = QualityDimensionField.new
+	@quality_dimension_data_point = QualityDimensionDataPoint.new
+	@quality_dimension_custom_fields = QualityDimensionField.where(:study_id => params[:study_id]).all
+	@study_template = StudyTemplate.where(:study_id => @study.id).first
+	if !@study_template.nil?
+	@quality_dimension_template_fields = QualityDimensionField.where(:template_id => @study_template.template_id).all
+	end
+	render :layout => 'quality'
+	end
   
   # When the outcome type is changed in the outcome analysis or data page, we have to update the 
   # other subgroup and timepoint selections accordingly. 
@@ -312,6 +380,7 @@ end
   		}
   	end
   end
+
   def adverseevents
 		@study = Study.find(params[:study_id])
 		@project = Project.find(params[:project_id])
@@ -359,28 +428,6 @@ end
 			
 		@questions = @study.get_question_choices(session[:project_id])
 	    render :layout => 'studydesign'	
-  end
-
-  # GET /studies/1/edit
-  def edit
-    @study = Study.find(params[:id])
-		@project = Project.find(params[:project_id])	
-		makeActive(@study)
-		  
-    # get info on questions addressed
-    @questions = @study.get_question_choices(session[:project_id])
-    @checked_ids = @study.get_addressed_ids
-		
-    # get info on primary publication
-		@primary_publication = @study.get_primary_publication
-		@primary_publication = @primary_publication.nil? ? Publication.create() : @primary_publication
-	  
-		# get info on secondary publications
-		@secondary_publications = @study.get_secondary_publications
-	  
-		# create a new publication represented in the secondary publications form
-		@publication = Publication.new
-		render :layout => 'studydesign'	
   end
 
   # POST /studies

@@ -1,0 +1,28 @@
+<h3>Add Column to Data Table</h3><br/>
+
+<div id="adverse_event_column_validation_message"></div>
+<% @adverse_event_column = AdverseEventColumn.new %>
+
+<%= form_for @adverse_event_column, :action => :create,  :remote => true, :id => "new_adverse_event_column" do |f| %>
+	<div class="form_content">
+			<div class="field">
+		<%= f.hidden_field :template_id, :value => params[:custom_template_id].nil? ? params[:outcome_column][:template_id] : params[:custom_template_id] %>
+    <label>Custom Column Title: </label>
+	<%= f.text_field :name %> 
+	</div>
+		<div class="field">
+    <label class="inline-label">Header Title: </label><div class="field_description">(Optional. Columns with the same header will be grouped together.)</div><br/>
+	<%= f.text_field :header %> 
+	</div>
+<div class="field">
+	<label>Description: </label>
+	<%= f.text_field :description %> 
+	</div>
+	<div class="actions inline-actions">
+		<button type="submit" class="positive">
+			<%= image_tag "Add.png"%>Add Column to Template
+		</button>
+	</div>
+	</div>
+
+<% end %>

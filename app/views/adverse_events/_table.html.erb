@@ -1,96 +1,68 @@
-<%= form_tag 'adverse_events/savedata', :remote => true do -%>
-<% if !@arms.nil? %>
-<% for arm in @arms %>
-		<% @adverse_events = AdverseEvent.get_adverse_events_by_arm(arm.id) %>
-		<h3>Arm <%= arm.display_number %>: <%= arm.title %></h3>
+<%= form_tag @adverse_event_result, :remote => true do %>
 
-				<% hidden_field_tag "study_id", session[:study_id] %>
-				<table class="list_table">
-				<th>Event Title</th>
-				<th>Timeframe</th>
-				<th>Description</th>
-				<th>Number Affected</th>
-				<th>Number at Risk</th>
-				<th>Serious?</th>
-				<th>Definition Used</th>
-				<th>Notes</th>
-				<th>Actions</th>
-				<% if @adverse_events.length > 0 %>
-				<% for ae in @adverse_events %>
+<%= hidden_field_tag "study_id", params[:study_id] %>
 
-				<tr class="<%= cycle("even", "odd") %>" id=<%= 'adverse_event_' + ae.id.to_s %>>
-				<td><%= ae.title %></td>
-				<td><%= ae.timeframe %></td>
-				<td><%= ae.description %></td>
-				<td><%= text_field_tag "num_affected_" + ae.id.to_s, ae.num_affected, :size => 5 %></td>
-				<td><%= text_field_tag "num_at_risk_" + ae.id.to_s, ae.num_at_risk, :size => 5 %></td>
-				<td><% if ae.is_serious %>Yes
-						<% else %>
-						No
-						<% end %></td>
-				<td><%= ae.definition_used %></td>
-				<td><%= ae.notes %></td>
-				<td>
-						<%# if ae.display_number > 1 %>
-						<%# link_to "Move Up", {:controller => :adverse_events, :action => :moveup, :adverse_event_id => ae.id}, :remote=>true, :class => "edit_link" %>
-						<%# end %>
-				<%= link_to "Edit", edit_adverse_event_path(ae), :remote=>true, :class => "edit_link" %>
-				<%= link_to "Delete", adverse_event_path(ae), :remote=>true, :confirm => 'This will delete this adverse event from this arm only. Are you sure?', :method=>:delete, :class => "delete_link" %> </td>
-				</tr>
+<%# --------------- Header ----------------%>
+
+<table class="list_table">
+<tr>
+<% if !@template_adverse_event_columns.nil? && @template_adverse_event_columns.length > 0 %>
+	<% @template_adverse_event_columns.group_by(&:header).each do |header, cols| %>
+		<% if !cols[0].header.nil? && cols[0].header != "" %>
+			<th colspan="<%= cols.length %>"><%=cols[0].header %></th>
+		<% else %>
+			<% for col in cols %>
+			<th rowspan="2">
+				<%= col.name %> 
+			</th>
+			<% end %>
+			<% end%>
+		<% end %>
+	<% end %>
+</tr><tr>
+	<% @template_adverse_event_columns.group_by(&:header).each do |header, cols| %>
+		<% if !cols[0].header.nil? && cols[0].header != "" %>
+			<% for col in cols %>
+			<th>
+				<%= col.name %>
+			</th>
+			<% end %>
+		<% end %>
+	<% end %>
+</tr>
+
+<%# --------------- Table Meat ----------------%>
+
+<% for ae in @adverse_events %>
+	<tr id="ae_<%= ae.id.to_s %>">
+		<% if !@adverse_events.nil? && @adverse_events.length > 0 %>
+		<% @template_adverse_event_columns.group_by(&:header).each do |header, cols| %>
+			<% for col in cols %>
+					<%# get adverse event result val %>
+					<% val = AdverseEventResult.get_data_point(ae.id, col.id) %>
+					<td>
+						<%= text_field "ae" + ae.id.to_s, col.id, :size => 5, :value=>val %>
+					</td>
 				<% end %>
 				<% end %>
-
-				</table>
-				<br/><br/>
-
+		<% end %> <%# END Adv Events.LENGTH %>
+	</tr>
 <% end %>
-<% end %>
 
-	<% @adverse_events_total = AdverseEvent.get_adverse_events_total(session[:study_id]) %>
-	<% if !@adverse_events_total.nil? && @adverse_events_total.length > 0 %>
-		<h3>Total</h3>
-
-				<% hidden_field_tag "study_id", session[:study_id] %>
-				<table class="list_table">
-				<th>Event Title</th>
-				<th>Timeframe</th>
-				<th>Description</th>
-				<th>Number Affected</th>
-				<th>Number at Risk</th>
-				<th>Serious?</th>
-				<th>Definition Used</th>
-				<th>Notes</th>
-				<th>Actions</th>
-				<% if @adverse_events_total.length > 0 %>
-				<% for ae in @adverse_events_total %>
-
-				<tr class="<%= cycle("even", "odd") %>" id=<%= 'adverse_event_' + ae.id.to_s %>>
-				<td><%= ae.title %></td>
-				<td><%= ae.timeframe %></td>
-				<td><%= ae.description %></td>
-				<td><%= text_field_tag "num_affected_" + ae.id.to_s, ae.num_affected, :size => 5 %></td>
-				<td><%= text_field_tag "num_at_risk_" + ae.id.to_s, ae.num_at_risk, :size => 5 %></td>
-				<td><% if ae.is_serious %>Yes
-						<% else %>
-						No
-						<% end %></td>
-				<td><%= ae.definition_used %></td>
-				<td><%= ae.notes %></td>
-				<td>
-				<%= link_to "Edit", edit_adverse_event_path(ae), :remote=>true, :class => "edit_link" %>
-				<%= link_to "Delete", adverse_event_path(ae), :remote=>true, :confirm => 'This will delete this adverse event from this section only. Are you sure?', :method=>:delete, :class => "delete_link" %> </td>
-				</tr>
-				<% end %>
-
-				</table>
-				<% end %>
-				<% end %>
-				<br/><br/>
-
-
+</table>
+	<br/>
+			
+<div id="adverse_event_validation_message"></div>
 				<div class="actions">
 					<button type="submit" class="positive"><%= image_tag "Accept.png" %>Save Table Data</button>
 				</div>
-<% end -%>
-<div id="adverse_event_validation_message"></div>
-				<br/><br/>	
+<% end %>
+	<% @adverse_event_new = AdverseEvent.new %>
+	<%= form_tag @adverse_event_new, :remote => true do %>
+	<%= hidden_field_tag "study_id", params[:study_id] %>
+				<div class="actions">
+					<button type="submit" class="regular"><%= image_tag "Add-blue.png" %>Add New Row</button>
+				</div>
+		<% end %>
+
+				<br/>

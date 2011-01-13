@@ -42,7 +42,10 @@
 					<% if !@studies.nil? %>
 						<ul class="user_actions">
 							<% for stud in @studies %>
-								<li><%= link_to stud.title, project_study_path(@project.id, stud.id) %>
+									<%# get the study title, which is the same as the primary publication for the study%>
+									<% @study_title = PrimaryPublication.where(:study_id => stud.id).first %>
+									<% @study_title = @study_title.nil? ? "No Title Entered" : @study_title.title.to_s %>
+								<li><%= link_to @study_title, project_study_path(@project.id, stud.id) %>
 									<%= link_to "Edit", edit_project_study_path(@project.id, stud.id), :class => "edit_link small_edit_link" %>
 									<%= link_to "Delete", project_study_path(@project.id, stud.id, :from=>'home'), :method => "delete", :class => "delete_link small_edit_link" %>									
 								</li>
@@ -69,7 +72,10 @@
 					<% if !@studies.nil? %>
 						<ul class="user_actions">
 							<% for stud in @studies %>
-								<li><%= link_to stud.title, project_study_path(@project.id, stud.id) %>
+									<%# get the study title, which is the same as the primary publication for the study%>
+									<% @study_title = PrimaryPublication.where(:study_id => stud.id).first %>
+									<% @study_title = @study_title.nil? ? "No Title Entered" : @study_title.title.to_s %>
+								<li><%= link_to @study_title, project_study_path(@project.id, stud.id) %>
 									<%= link_to "Edit", edit_project_study_path(@project.id, stud.id), :class => "edit_link small_edit_link" %>								
 								</li>
 							<% end %>

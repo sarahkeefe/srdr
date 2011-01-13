@@ -74,6 +74,100 @@ border-bottom-left-radius: 4px;
 width: 500px;
 margin-left: 30px;
 }
+.small_title{
+display:inline;
+font-size: 10px;
+}
+
+.template_map_small{
+height: 50px;
+width: 100%;
+margin: 0px auto;
+text-align: center;
+}
+
+.map_list{
+list-style-type: none;
+}
+
+.map_list li{
+display:inline;
+}
+
+.template_map{
+width: 100%;
+min-height: 100px;
+margin: 0px auto;
+}
+
+.template_cell_small{
+width: 7%;
+overflow:hidden;
+border: 1px solid #ccc;
+font-size: 11px;
+text-align: left;
+padding: 3px;
+display: inline-table;
+height: 50px;
+background-color: #eee;
+}
+
+.template_cell{
+width: 120px;
+height:150px;
+display: inline-block;
+border: 1px solid #ccc;
+margin-left: 15px;
+padding: 3px;
+overflow: auto;
+margin-bottom: 15px;
+
+}
+
+.template_cell:hover, .template_cell_small:hover{
+	background-color: #ddd;
+}
+
+.template_cell.custom_template{
+	border: 1px solid #ff9999;
+}
+
+ .template_cell_small.custom_template{
+background-color: #fff;	
+}
+
+ .template_cell_small.custom_template:hover{
+background-color: #ddd;	
+}
+
+.template_cell_number{
+#display: inline;
+font-size: 18px;
+font-weight: bold;
+}
+
+.template_map_current_page{
+	border: 1px solid #aaa;
+	background-color: #ccc;
+
+}
+
+.template_creation_header
+{
+	width: 100%;
+	padding-top: 10px;
+	margin-bottom: 15px;
+	background-color: #F5DE7A;
+	margin-top: 0px;
+	margin-left: -25px;
+	margin-top: -25px;
+	padding-left: 25px;
+	padding-right: 25px;
+	-moz-border-radius-topright: 4px;
+border-top-right-radius: 4px;
+-moz-border-radius-topleft: 4px;
+border-top-left-radius: 4px;
+}
 
 .no_indent{
 margin-left: 0px;
@@ -160,28 +254,31 @@ margin-bottom: 5px;
 h1{
 font-size: 20px;
 font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+	margin: 0px;
+	padding: 3px;	
 padding-bottom: 10px;
-color: #3479BF;
+color: #333;
 }
 
 h2{
 font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
-margin: 10px;
+	margin: 0px;
+	padding: 3px;	
 font-size: 18px;
 }
 
 h3{
 font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
 	font-size: 16px;
-	padding: 3px;
 	margin: 0px;
+	padding: 3px;	
 }
 
 h4{
   font-family: Georgia, Serif;
 	font-size: 14px;
-	padding: 0px;
-	margin: 3px;
+	margin: 0px;
+	padding: 3px;	
 	display: inline;
 }
 
@@ -189,8 +286,8 @@ h5{
 font-weight: bold;
   font-family: Georgia, Serif;
 	font-size: 12px;
-	padding: 0px;
-	margin: 3px;
+	margin: 0px;
+	padding: 3px;	
 	display: inline;
 }
 
@@ -202,7 +299,7 @@ table
 
 .indent_block{
 	margin-left: 15px;
-	width: 80%;
+	#width: 80%;
 }
 
 .full{
@@ -655,8 +752,9 @@ display: inline;
     padding:5px 10px 6px 7px; /* Links */
 }
 
+
 ul.user_actions li{
-	padding: 5px;
+	margin-left: 15px;
 }
 
 a.edit_link, a.delete_link, a.add_nested_fields, a.remove_nested_fields, a.small_edit_link{

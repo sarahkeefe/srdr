@@ -1,5 +1,56 @@
+<div class="study_creation_header">
+<h1>Editing Study Section: Design and Enrollment Details</h1>
+</div>
+<%= render "map" %>
 
-<%= render 'form' %>
+<div id="population_characteristics_table">
+<%= render 'design_detail_data_points/table' %>
+</div>
+
+<h3>Add Design Detail</h3>
+<div id="population_characteristic_validation_message"></div>
+<div id="population_characteristic_entry">
+<%= render 'design_detail_fields/custom_field_form' %>
+</div>
+<br/>
+
+<%= form_for(@study, :remote => true) do |f| %>
+  <% if @study.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@study.errors.count, "error") %> prohibited this study from being saved:</h2>
+
+      <ul>
+      <% @study.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<% end %>
+
+<h3>Inclusion Criteria</h3>
+<div id="inc_criteria_table">
+<%= render 'inclusion_criteria_items/table' %>
+</div>
+<div id="inc_criteria_validation_message"></div>
+<div id="new_ic_entry">
+<%= render 'inclusion_criteria_items/form' %>
+</div>
+<br/>
+
+<h3>Exclusion Criteria</h3>
+<div id="exc_criteria_table">
+<%= render 'exclusion_criteria_items/table' %>
+</div>
+<div id="exc_criteria_validation_message"></div>
+<div id="new_ec_entry">
+<%= render 'exclusion_criteria_items/form' %>
+</div>
+<br/>
+
+
+
+
 <br/>
 <table id="bottom_nav"><tr><td align="left"><%= link_to "Back", "edit" %></td><td align="right">
 <%= link_to "Continue", "attributes" %>

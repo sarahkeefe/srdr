@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Subcategory title:</b>
+  <%= @design_detail_subcategory_field.subcategory_title %>
+</p>
+
+<p>
+  <b>Design detail field:</b>
+  <%= @design_detail_subcategory_field.design_detail_field_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_design_detail_subcategory_field_path(@design_detail_subcategory_field) %> |
+<%= link_to 'Back', design_detail_subcategory_fields_path %>

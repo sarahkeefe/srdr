@@ -1,0 +1,29 @@
+<div class="study_creation_header">
+<h1>Editing Study Section: Publication Information</h1>
+</div>
+
+<%= render "map" %>
+
+<br/>
+<div id="primary_pub_validation_message"></div>
+<h3>Primary Publication Information</h3>
+<%= render 'primary_publications/form' %>
+<br/>
+
+
+<h3>Associated Publications:</h3>
+<div id="secondary_publication_table">
+<%= render 'publications/table' %>
+</div>
+
+<br/>
+
+<div id="secondary_publication_entry">
+<%= render 'publications/form' %>
+</div>
+<br/>
+
+
+<table id="bottom_nav"><tr><td align="left"><%= link_to "Back", "keyquestions" %></td><td align="right">
+<%= link_to "Continue", "design" %>
+</td></tr></table>

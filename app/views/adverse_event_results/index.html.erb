@@ -1,0 +1,27 @@
+<h1>Listing adverse_event_results</h1>
+
+<table>
+  <tr>
+    <th>Column</th>
+    <th>Value</th>
+    <th>Notes</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @adverse_event_results.each do |adverse_event_result| %>
+  <tr>
+    <td><%= adverse_event_result.column_id %></td>
+    <td><%= adverse_event_result.value %></td>
+    <td><%= adverse_event_result.notes %></td>
+    <td><%= link_to 'Show', adverse_event_result %></td>
+    <td><%= link_to 'Edit', edit_adverse_event_result_path(adverse_event_result) %></td>
+    <td><%= link_to 'Destroy', adverse_event_result, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Adverse event result', new_adverse_event_result_path %>

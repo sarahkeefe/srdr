@@ -1,5 +1,25 @@
 Srdr::Application.routes.draw do
 
+  resources :default_adverse_event_columns
+
+  resources :adverse_event_results
+
+  resources :adverse_event_columns
+
+  resources :default_design_details
+
+  resources :design_detail_subcategory_data_points
+
+  resources :design_detail_subcategory_fields
+
+  resources :design_detail_data_points
+
+  resources :design_detail_fields
+
+  resources :primary_publication_numbers
+
+  resources :primary_publications
+
   resources :outcome_comparisons
 
   resources :default_outcome_comparison_columns
@@ -76,16 +96,15 @@ Srdr::Application.routes.draw do
   resource :account, :controller => "users"
 
   resources :studies do
-  resources :arms, :population_characteristics
-    resources :exclusion_criteria_items
-
-  resources :inclusion_criteria_items
+	  resources :arms, :population_characteristics
+	  resources :exclusion_criteria_items
+	  resources :inclusion_criteria_items
   end
   
   resources :projects do
 	resources :studies do
   	resources :arms
-	resources :population_characteristics, :publications
+	resources :population_characteristics, :publications, :primary_publications
 	end
 	resources :key_questions
 end
@@ -103,6 +122,8 @@ end
 	match 'projects/:project_id/studies/:study_id/clear_table' => 'outcome_results#clear_table'
 	match 'projects/:project_id/studies/:study_id/delete_column' => 'outcome_results#delete_column'
 	match 'projects/:project_id/moveup' => 'projects#moveup'
+	match 'projects/:project_id/studies/:study_id/keyquestions' => 'studies#keyquestions'
+	match 'projects/:project_id/studies/:study_id/publicationinfo' => 'studies#publicationinfo'
 	match 'projects/:project_id/studies/:study_id/design' => 'studies#design'
 	match 'projects/:project_id/studies/:study_id/attributes' => 'studies#attributes'
 	match 'projects/:project_id/studies/:study_id/enrollment' => 'studies#enrollment'
@@ -115,10 +136,18 @@ end
 	match 'projects/:project_id/studies/:study_id/adverse_events/savedata' => 'adverse_events#savedata'
 	match 'projects/:project_id/manage/saveinfo' => 'user_project_roles#saveinfo'
 	match 'projects/:project_id/manage/adduser' => 'user_project_roles#add_new_user'
+
+	match 'custom_templates/:custom_template_id/key_questions' => 'custom_templates#key_questions'	
+	match 'custom_templates/:custom_template_id/publication_info' => 'custom_templates#publication_info'	
+	match 'custom_templates/:custom_template_id/arms' => 'custom_templates#arms'	
+	match 'custom_templates/:custom_template_id/outcome_setup' => 'custom_templates#outcome_setup'	
+	match 'custom_templates/:custom_template_id/adverse_events' => 'custom_templates#adverse_events'	
+	match 'custom_templates/:custom_template_id/design_details' => 'custom_templates#design_details'
 	match 'custom_templates/:custom_template_id/baseline_characteristics' => 'custom_templates#baseline_characteristics'
 	match 'custom_templates/:custom_template_id/quality_dimensions' => 'custom_templates#quality_dimensions'
 	match 'custom_templates/:custom_template_id/outcome_datatable' => 'custom_templates#outcome_datatable'
 	match 'custom_templates/:custom_template_id/outcome_datatable/delete_column' => 'custom_templates#delete_column'
+	match 'custom_templates/:custom_template_id/outcome_datatable/delete_adverse_event_column' => 'custom_templates#delete_adverse_event_column'
 	match 'custom_templates/:custom_template_id/outcome_comparisons' => 'custom_templates#outcome_comparisons'
 	match 'custom_templates/:custom_template_id/outcome_comparisons/delete_comparison_column' => 'custom_templates#delete_comparison_column'
 	

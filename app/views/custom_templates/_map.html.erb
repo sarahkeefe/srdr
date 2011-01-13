@@ -1,0 +1,62 @@
+<% page_name = request.request_uri.split("/")[3] %>
+
+<div class="template_map_small">
+<ul class="map_list">
+<li>
+	<div class="template_cell_small <%= page_name == 'key_questions' ? "template_map_current_page" : "" %>" onclick="location.href='key_questions';" style="cursor:pointer;">
+		Key Questions
+	</div>
+</li>
+<li>
+	<div class="template_cell_small <%= page_name == 'publication_info' ? "template_map_current_page" : "" %>" onclick="location.href='publication_info';" style="cursor:pointer;">
+		Publications
+	</div>
+</li>
+<li>
+	<div class="template_cell_small <%= page_name == 'arms' ? "template_map_current_page" : "" %>" onclick="location.href='arms';" style="cursor:pointer;">
+		Arms
+	</div>	
+</li>
+<li>
+	<div class="template_cell_small custom_template <%= page_name == 'design_details' ? "template_map_current_page" : "" %>" onclick="location.href='design_details';" style="cursor:pointer;">
+		<%# image_tag "Pencil.png" %>
+		Design 
+	</div>
+</li>
+<li>
+	<div class="template_cell_small custom_template <%= page_name == 'baseline_characteristics' ? "template_map_current_page" : "" %>" onclick="location.href='baseline_characteristics';" style="cursor:pointer;">
+		<%# image_tag "Pencil.png" %>
+		Baseline Characteristics
+	</div>
+</li>
+<li>
+	<div class="template_cell_small <%= page_name == 'outcome_setup' ? "template_map_current_page" : "" %>" onclick="location.href='outcome_setup';" style="cursor:pointer;">
+		Outcome Setup
+	</div>
+</li>
+<li>
+	<div class="template_cell_small custom_template <%= page_name == 'outcome_datatable' ? "template_map_current_page" : "" %>" onclick="location.href='outcome_datatable';" style="cursor:pointer;">
+		<%# image_tag "Pencil.png" %>
+		Outcome Raw Data
+	</div>
+</li>
+<li>
+	<div class="template_cell_small custom_template <%= page_name == 'outcome_comparisons' ? "template_map_current_page" : "" %>" onclick="location.href='outcome_comparisons';" style="cursor:pointer;">
+		<%# image_tag "Pencil.png" %>
+		Outcome Comparisons
+	</div>	
+</li>
+<li>
+	<div class="template_cell_small custom_template <%= page_name == 'adverse_events' ? "template_map_current_page" : "" %>" onclick="location.href='adverse_events';" style="cursor:pointer;">
+		<%# image_tag "Pencil.png" %>
+		Adverse Events
+	</div>	
+</li>
+<li>
+	<div class="template_cell_small custom_template <%= page_name == 'quality_dimensions' ? "template_map_current_page" : "" %>" onclick="location.href='quality_dimensions';" style="cursor:pointer;">
+		<%# image_tag "Pencil.png" %>
+		Study Quality
+	</div>	
+</li></ul>
+</div>
+<br/><br/>

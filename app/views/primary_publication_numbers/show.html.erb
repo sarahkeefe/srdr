@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Primary publication:</b>
+  <%= @primary_publication_number.primary_publication_id %>
+</p>
+
+<p>
+  <b>Number:</b>
+  <%= @primary_publication_number.number %>
+</p>
+
+<p>
+  <b>Number type:</b>
+  <%= @primary_publication_number.number_type %>
+</p>
+
+
+<%= link_to 'Edit', edit_primary_publication_number_path(@primary_publication_number) %> |
+<%= link_to 'Back', primary_publication_numbers_path %>

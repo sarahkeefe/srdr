@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @design_detail_field.title %>
+</p>
+
+<p>
+  <b>Field notes:</b>
+  <%= @design_detail_field.field_notes %>
+</p>
+
+<p>
+  <b>Template:</b>
+  <%= @design_detail_field.template_id %>
+</p>
+
+<p>
+  <b>Study:</b>
+  <%= @design_detail_field.study_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_design_detail_field_path(@design_detail_field) %> |
+<%= link_to 'Back', design_detail_fields_path %>

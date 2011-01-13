@@ -1,0 +1,29 @@
+<%= form_for(@adverse_event_result) do |f| %>
+  <% if @adverse_event_result.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@adverse_event_result.errors.count, "error") %> prohibited this adverse_event_result from being saved:</h2>
+
+      <ul>
+      <% @adverse_event_result.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :column_id %><br />
+    <%= f.text_field :column_id %>
+  </div>
+  <div class="field">
+    <%= f.label :value %><br />
+    <%= f.text_field :value %>
+  </div>
+  <div class="field">
+    <%= f.label :notes %><br />
+    <%= f.text_field :notes %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,70 @@
+<% page_name = request.request_uri.split("/")[5] %>
+
+<div class="template_map_small">
+<ul class="map_list">
+<li>
+	<div class="template_cell_small <%= page_name == 'keyquestions' ? "template_map_current_page" : "" %>" onclick="location.href='keyquestions';" style="cursor:pointer;">
+		Key Questions
+	</div>
+</li>
+<li>
+	<div class="template_cell_small <%= page_name == 'publicationinfo' ? "template_map_current_page" : "" %>" onclick="location.href='publicationinfo';" style="cursor:pointer;">
+		Publications
+	</div>
+</li>
+<li>
+	<div class="template_cell_small <%= page_name == 'design' ? "template_map_current_page" : "" %>" onclick="location.href='design';" style="cursor:pointer;">
+		Arms
+	</div>	
+</li>
+<li>
+	<div class="template_cell_small <%= page_name == 'enrollment' ? "template_map_current_page" : "" %>" onclick="location.href='enrollment';" style="cursor:pointer;">
+		<%# image_tag "Pencil.png" %>
+		Design 
+	</div>
+</li>
+<li>
+	<div class="template_cell_small <%= page_name == 'attributes' ? "template_map_current_page" : "" %>" onclick="location.href='attributes';" style="cursor:pointer;">
+		<%# image_tag "Pencil.png" %>
+		Baseline Characteristics
+	</div>
+</li>
+<li>
+	<div class="template_cell_small <%= page_name == 'outcomesetup' ? "template_map_current_page" : "" %>" onclick="location.href='outcomesetup';" style="cursor:pointer;">
+		Outcome Setup
+	</div>
+</li>
+<li>
+	<div class="template_cell_small <%= page_name == 'outcomedata' ? "template_map_current_page" : "" %>" onclick="location.href='outcomedata';" style="cursor:pointer;">
+		<%# image_tag "Pencil.png" %>
+		Outcome Raw Data
+	</div>
+</li>
+<li>
+	<div class="template_cell_small <%= page_name == 'outcomeanalysis' ? "template_map_current_page" : "" %>" onclick="location.href='outcomeanalysis';" style="cursor:pointer;">
+		<%# image_tag "Pencil.png" %>
+		Outcome Comparisons
+	</div>	
+</li>
+<li>
+	<div class="template_cell_small <%= page_name == 'adverseevents' ? "template_map_current_page" : "" %>" onclick="location.href='adverseevents';" style="cursor:pointer;">
+		<%# image_tag "Pencil.png" %>
+		Adverse Events
+	</div>	
+</li>
+<li>
+	<div class="template_cell_small <%= page_name == 'quality' ? "template_map_current_page" : "" %>" onclick="location.href='quality';" style="cursor:pointer;">
+		<%# image_tag "Pencil.png" %>
+		Study Quality
+	</div>	
+</li>
+<li>
+	<div class="template_cell_small <%= page_name == 'show' ? "template_map_current_page" : "" %>" onclick="location.href='.';" style="cursor:pointer;">
+		<%# image_tag "Pencil.png" %>
+		Study Preview
+	</div>	
+</li>
+
+</ul>
+</div>
+<br/><br/>

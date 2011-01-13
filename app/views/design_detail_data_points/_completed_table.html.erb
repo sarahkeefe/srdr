@@ -1,0 +1,130 @@
+<table class="list_table">
+<table class="list_table">
+		
+		<%# CREATE TABLE HEADERS %>
+		<tr>
+		<th colspan="2">Category</th>
+		<th>Value</th>
+		<th>Notes</th>
+		<th>Actions</th>
+		</tr>
+		
+		
+		<%# ------------------------------------------------------------------------------------ %>
+		<%# GO THROUGH BASELINE CHARACTERISTICS ----- TEMPLATE FIELDS ----- %>
+		<%# ------------------------------------------------------------------------------------ %>
+		
+		
+		<% if @design_detail_template_fields.length > 0 %>
+
+		<% for popchar in @design_detail_template_fields %>
+
+				<tr class="<%= cycle("even", "odd") %>" id="pop_char_row_<%=popchar.id.to_s %>">
+				
+				<% pop_subcategories = DesignDetailSubcategoryField.where(:design_detail_field_id => popchar.id).all %>
+				<% if pop_subcategories.length > 0 %>
+						<% first = true %>
+						<td rowspan="<%=pop_subcategories.length%>"><%=popchar.category_title %>
+							<% if !popchar.units.nil? %>(<%= popchar.units %>)<br/><% end %>
+							<% if !popchar.measurement_type.nil? %>(<%= popchar.measurement_type %>)<% end %>
+						</td>
+					 <% for subcat in pop_subcategories %>
+							<td><%=subcat.subcategory_title%></td>	
+					
+						<%# GET AND DISPLAY INPUT BOXES / DATA VALUES FOR EACH ATTRIBUTE  %>
+						<% val = DesignDetailDataPoint.get_data_point(-1, popchar, subcat, true) %>
+						<td>
+								<%= val %>
+						</td>
+
+						<% if first %>
+							<td rowspan="<%=pop_subcategories.length%>"><%= popchar.field_notes %></td>
+							<td rowspan="<%=pop_subcategories.length%>"><%= image_tag "Lock.png", :alt => "This is a template field and cannot be removed." %>
+							</td>
+							<% first = false %>
+						<% end %>
+						</tr>
+					<% end %>
+					
+				<% else %>
+					<td colspan="2"><%=popchar.category_title %>
+					</td>
+					
+						<%# GET AND DISPLAY INPUT BOXES / DATA VALUES FOR EACH ATTRIBUTE %>
+						<% val = DesignDetailDataPoint.get_data_point(-1, popchar, nil, true) %>
+						<td>
+								<%= val %>
+						</td>
+						<td><%= popchar.field_notes %></td>
+						<td><%= image_tag "Lock.png", :alt => "This is a template field and cannot be removed." %></td>
+						</tr>
+				
+				<% end %>
+				
+			<%# END FOR %>
+			<% end %>
+		
+		<%# END IF - design_details_template_fields.length %>
+		<% end %>
+		
+		
+		<%# ------------------------------------------------------------------------------------ %>
+		<%# GO THROUGH BASELINE CHARACTERISTICS ----- CUSTOM FIELDS ------ %>
+		<%# ------------------------------------------------------------------------------------ %>
+
+		
+		<% if !@design_detail_custom_fields.nil? && @design_detail_custom_fields.length > 0 %>
+		<% for popchar in @design_detail_custom_fields %>
+
+				<tr class="<%= cycle("even", "odd") %>" id="pop_char_row_<%=popchar.id.to_s %>">
+				
+				<% pop_subcategories = DesignDetailSubcategoryField.where(:design_detail_field_id => popchar.id).all %>
+				<% if pop_subcategories.length > 0 %>
+						<% first = true %>
+						<td rowspan="<%=pop_subcategories.length%>"><%=popchar.category_title %>
+						</td>
+					 <% for subcat in pop_subcategories %>
+							<td><%=subcat.subcategory_title%></td>
+					
+						<%# GET AND DISPLAY INPUT BOXES / DATA VALUES FOR EACH ATTRIBUTE %>
+						<% val = DesignDetailDataPoint.get_data_point(-1, popchar, subcat, true) %>
+						<td>
+									<%= val %>
+						</td>
+
+						<% if first %>
+							<td rowspan="<%=pop_subcategories.length%>"><%= popchar.field_notes %></td>
+							<td rowspan="<%=pop_subcategories.length%>">
+							
+							
+							</td>
+							<% first = false %>
+						<% end %>
+						</tr>
+					<% end %>
+					
+				<% else %>
+					<td colspan="2"><%=popchar.category_title %>
+					</td>
+
+					
+						<%# GET AND DISPLAY INPUT BOXES / DATA VALUES FOR EACH ATTRIBUTE %>
+						<% val = DesignDetailDataPoint.get_data_point(-1, popchar, nil, true) %>
+						<td>
+									<%= val %>
+						</td>
+						<td><%= popchar.field_notes %></td>
+						<td>
+
+						</td>
+						</tr>
+				
+				<% end %>
+				
+			<%# END FOR %>
+			<% end %>
+		
+		<%# END IF - design_details_custom_fields.length %>
+		<% end %>
+		
+	</table>

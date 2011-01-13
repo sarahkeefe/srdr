@@ -1,4 +1,84 @@
-<h1>Editing template</h1>
+<div class="template_creation_header">
+<h1>Editing Template "<%= @template.title %>" <div class="small_title"><%= link_to "change template name" %></div></h1> 
+</div>
+<br/>
+<div class="indent_block">
+Template sections with a red border are customizable. All other sections are consistent across all templates and can be viewed but not altered.
+</div>
+<br/><br/>
 
-<%= render 'form' %>
 
+
+<div class="template_map">
+
+	<div class="template_cell" onclick="location.href='key_questions';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			1
+		</div>
+		Key Questions
+	</div>
+
+	<div class="template_cell" onclick="location.href='publication_info';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			2
+		</div>
+		Publications
+	</div>
+
+	<div class="template_cell" onclick="location.href='arms';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			3
+		</div>
+		Arms
+	</div>	
+
+	<div class="template_cell custom_template" onclick="location.href='design_details';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			4
+		</div>
+		Design Details and Enrollment Information
+	</div>
+	
+	<div class="template_cell custom_template" onclick="location.href='baseline_characteristics';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			5
+		</div>
+		Baseline Characteristics
+	</div>
+
+	<div class="template_cell" onclick="location.href='outcome_setup';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			6
+		</div>
+		Outcome Setup
+	</div>
+	
+	<div class="template_cell custom_template" onclick="location.href='outcome_datatable';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			7
+		</div>
+		Outcome Raw Data
+	</div>
+	
+	<div class="template_cell custom_template" onclick="location.href='outcome_comparisons';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			8
+		</div>
+		Outcome Comparison Data
+	</div>	
+	
+	<div class="template_cell custom_template" onclick="location.href='adverse_events';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			9
+		</div>
+		Adverse Events
+	</div>	
+	
+	<div class="template_cell custom_template" onclick="location.href='quality_dimensions';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			10
+		</div>
+		Study Quality
+	</div>	
+	
+</div>

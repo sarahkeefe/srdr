@@ -1,0 +1,2 @@
+module DesignDetailSubcategoryFieldsHelper
+end

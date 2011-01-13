@@ -1,0 +1,56 @@
+<%= nested_form_for(@design_detail_field, :remote => true, :update => "design_detail_fields_table", :html => {:id => "design_detail_field_form"}) do |f| %>
+<% if @design_detail_field.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@design_detail_field.errors.count, "error") %> 
+	  prohibited this baseline characteristic field from being saved:</h2>
+      <ul>
+      <% @design_detail_field.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+<% end %>
+  
+<br/>
+
+<div class="form_content">
+	<div class="field">
+		<% if !params[:custom_template_id].nil? %>
+		<% tmpl_id = params[:custom_template_id] %>
+		<% elsif !params[:template_id].nil? %>
+		<% tmpl_id = params[:template_id] %>
+		<% else %>
+		<% tmpl_id = params[:design_detail_field][:template_id] %>
+		<% end %>
+		<%= f.hidden_field :template_id, :value => tmpl_id %>
+		<label>Category Title:</label> <%= f.text_field :title %><br/>
+	</div>
+
+	<%= f.fields_for :design_detail_subcategory_fields do |t| %>
+		<div class="field">
+			<label class="inline-label">Subcategory Title:</label> 
+				<%= t.text_field :subcategory_title, :class => "inline-field" %><br/><br/>
+			<div class="admin_functions">
+				<%= t.link_to_remove "Remove This Subcategory" %>
+			</div>
+		</div>
+	<% end %>
+
+<br/>
+
+<%= f.link_to_add "Add a Subcategory", :design_detail_subcategory_fields %>
+
+<br/><br/>
+
+<div class="field">
+    <label>Notes on this template field:</label>
+    <%= f.text_area :field_notes, :rows => 4, :cols => 40 %>
+	</div>
+	<div class="actions">
+		<button type="submit" class="positive">
+			<%= image_tag "Add.png"%>Add
+		</button>
+	
+</div>
+</div>
+<% end %>

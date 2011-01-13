@@ -1,4 +1,10 @@
-<h1>Add Baseline Characteristic Template Fields</h1>
+<div class="template_creation_header">
+<h1>Editing Template Section: Baseline Characteristics</h1>
+</div>
+<%= render "map" %>
+
+<h2>Add Fields to Baseline Characteristics Table</h2>
+<br/>
 <div id="baseline_characteristic_fields_table"><%= render 'baseline_characteristic_fields/table' %></div>
 <div id="baseline_characteristic_fields_entry">
 <%= render 'baseline_characteristic_fields/form' %>
@@ -6,6 +12,6 @@
 
 
 
-<table id="bottom_nav"><tr><td align="left"><%= link_to "Back", "edit" %></td><td align="right">
-<%= link_to "Continue", "quality_dimensions" %>
+<table id="bottom_nav"><tr><td align="left"><%= link_to "Back", "design_details" %></td><td align="right">
+<%= link_to "Continue", "outcome_setup" %>
 </td></tr></table>
