@@ -17,8 +17,10 @@ class Project < ActiveRecord::Base
 		@user_roles = UserProjectRole.where(:project_id =>p_id, :role => "lead").all
 		@user_names = []
 		for u in @user_roles
-			@user = User.find(u.user_id)
-			@user_names << @user.fname + " " + @user.lname
+			@user = User.where(:id => u.user_id).first
+			if !@user.nil?
+				@user_names << @user.fname + " " + @user.lname
+			end
 		end
 		return @user_names.to_sentence
 	end
