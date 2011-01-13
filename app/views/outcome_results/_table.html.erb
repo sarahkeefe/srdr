@@ -61,7 +61,7 @@
 					
 	
 										<% for timepoint in @outcome_timepoints_list %>
-											<td width="50"><%= timepoint.number.to_s + " " + timepoint.time_unit %></td>
+											<td width="50"><%= timepoint.time_unit == "baseline" ? timepoint.time_unit : timepoint.number.to_s + " " + timepoint.time_unit %></td>
 											
 											<% for col in @template_categorical_columns %>
 											  <% print "\n\n\n\noutcome_id: #{outcome.id.to_s}\narm id: #{intervention.id.to_s}\ntimepoint id: #{timepoint.id.to_s}\ncol id: #{col.id.to_s}\n\n\n\n" %>
@@ -98,7 +98,7 @@
 													  }
 													  },
 												   style: { 
-														name: 'dark',
+														name: 'blue',
 													tip: {
 														corner: 'bottomLeft',
 														 size: {
@@ -202,8 +202,12 @@
 <%# --------------- Table Meat ----------------%>
 <% j = 0 %>
 <% for outcome in @continuous_outcomes %>
+<<<<<<< HEAD
   <% @outcome_timepoints_list = @continuous_timepoints[j] %>
   <% j += 1 %>    
+=======
+<% @outcome_timepoints_list = OutcomeTimepoint.find(:all, :conditions => {:outcome_id => outcome.id}, :order => "time_unit asc") %>
+>>>>>>> 76db2be6244746875b7601b8dc432c6d4a0e9a78
 		<tr>
 			<td rowspan="<%= @outcome_timepoints_list.length > 1 ? @study_arms.length*@outcome_timepoints_list.length : @study_arms.length %>">
 				<%= outcome.title %>
@@ -212,7 +216,7 @@
 			<td rowspan="<%= @outcome_timepoints_list.length %>"><%= intervention.title %></td>			
 							
 										<% for timepoint in @outcome_timepoints_list %>
-											<td width="50"><%= timepoint.number.to_s + " " + timepoint.time_unit %></td>
+											<td width="50"><%= timepoint.time_unit == "baseline" ? timepoint.time_unit : timepoint.number.to_s + " " + timepoint.time_unit %></td>
 											
 											<% for col in @template_continuous_columns %>
 											  <% val = OutcomeResult.get_data_point(outcome.id, intervention.id, timepoint.id, col.id) %>
@@ -246,7 +250,7 @@
 													  }
 													  },
 												   style: { 
-														name: 'dark',
+														name: 'blue',
 													tip: {
 														corner: 'bottomLeft',
 														 size: {

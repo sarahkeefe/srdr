@@ -43,7 +43,8 @@ before_filter :require_user
       if @publication.save
 			format.js {
 				render :update do |page|
-					page.replace_html 'secondary_publication_table', :partial=>'publications/table'	
+					page.replace_html 'secondary_publication_table', :partial=>'publications/table'
+					page['secondary_pub_form'].reset
 				end
 			}
 	  

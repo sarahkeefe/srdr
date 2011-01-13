@@ -4,7 +4,7 @@
 
 	<% if current_user.user_type == "admin" %>
 	<div class="indent_block full">
-		<ul>
+		<ul class="user_actions">
 		<li><%= link_to "View All Systematic Reviews",  projects_path, :class => "edit_link small_edit_link"  %></li>
 		<li><%= link_to "Create New Systematic Review",  new_project_path, :class => "edit_link small_edit_link"  %></li>
 		<li><%= link_to "View All Study Templates",  custom_templates_path, :class => "edit_link small_edit_link"  %></li>		
@@ -19,7 +19,7 @@
 		
 		
 	<h4>User Actions</h4><br/>	
-			<ul>
+			<ul class="user_actions">
 			<li><%= link_to "View All Systematic Reviews",  projects_path, :class => "edit_link small_edit_link"  %></li>
 			<li><%= link_to "Create New Systematic Review",  new_project_path, :class => "edit_link small_edit_link"  %></li>
 			<li><%= link_to "View All Study Templates",  custom_templates_path, :class => "edit_link small_edit_link"  %></li>	
@@ -29,62 +29,57 @@
 		<br/>
 		<% @lead_roles = User.get_user_lead_roles(current_user) %>
 		<% if !@lead_roles.nil? && @lead_roles.length > 0 %>
-		<h4>Project Lead for: </h4><br/>
-			<ul class="user_actions">
+		<h4>Projects you lead </h4><br/>
 			<% for role in @lead_roles %>
 				<% @project = Project.find(role.project_id) %>
-				<li>
+				<div class="user_project">
 					<h5><%= link_to @project.title.nil? ? "Untitled Project " + @project.id.to_s : @project.title, project_path(@project.id) %></h5>
 					<%= link_to "Edit", edit_project_path(@project.id), :class => "edit_link small_edit_link" %>
 					<%= link_to "Manage", "projects/" + @project.id.to_s + "/manage", :class => "edit_link small_edit_link" %>
 					<%= link_to "Add New Study", new_project_study_path(@project, :from=>'home'), :class => "edit_link small_edit_link" %>
+				</div>
+
 					<% @studies = Project.get_studies(@project.id) %>
 					<% if !@studies.nil? %>
-						<ul class="user_actions">
+						
 							<% for stud in @studies %>
 									<%# get the study title, which is the same as the primary publication for the study%>
 									<% @study_title = PrimaryPublication.where(:study_id => stud.id).first %>
 									<% @study_title = @study_title.nil? ? "No Title Entered" : @study_title.title.to_s %>
-								<li><%= link_to @study_title, project_study_path(@project.id, stud.id) %>
+								<div class="user_project_study">
+								<%= link_to @study_title, project_study_path(@project.id, stud.id) %>
 									<%= link_to "Edit", edit_project_study_path(@project.id, stud.id), :class => "edit_link small_edit_link" %>
 									<%= link_to "Delete", project_study_path(@project.id, stud.id, :from=>'home'), :method => "delete", :class => "delete_link small_edit_link" %>									
-								</li>
+								</div>
 							<% end %>
-						</ul>
 					<% end %>
-				</li>
 			<% end %>
-			</ul>
-		<% end %>
+	<% end %>
 
 		<% @editor_roles = User.get_user_editor_roles (current_user) %>
 		<% if !@editor_roles.nil? && @editor_roles.length > 0 %>
 		<br/>
-		<h4>Project Editor for: </h4><br/>	
-			<ul class="user_actions">
+		<h4>Projects you can edit </h4><br/>	
 			<% for role in @editor_roles %>
 				<% @project = Project.find(role.project_id) %>
-				<li>
+				<div class="user_project">
 					<h5><%= link_to @project.title.nil? ? "Untitled Project " + @project.id.to_s : @project.title, project_path(@project.id) %></h5>
 						<%= link_to "Add New Study", new_project_study_path(@project.id), :class => "edit_link small_edit_link" %>					
-					
+					</div>
 					<% @studies = Project.get_studies(@project.id) %>
 					<% if !@studies.nil? %>
-						<ul class="user_actions">
+
 							<% for stud in @studies %>
 									<%# get the study title, which is the same as the primary publication for the study%>
 									<% @study_title = PrimaryPublication.where(:study_id => stud.id).first %>
 									<% @study_title = @study_title.nil? ? "No Title Entered" : @study_title.title.to_s %>
-								<li><%= link_to @study_title, project_study_path(@project.id, stud.id) %>
+								<div class="user_project_study">
+								<%= link_to @study_title, project_study_path(@project.id, stud.id) %>
 									<%= link_to "Edit", edit_project_study_path(@project.id, stud.id), :class => "edit_link small_edit_link" %>								
-								</li>
+								</div>
 							<% end %>
-						</ul>
 					<% end %>					
-					
-				</li>
 			<% end %>
-			</ul>
 		<% end %>
 	<% end %>
 	<br/>
@@ -98,12 +93,7 @@
 			</ul>
 		</div>	
 	<% end %>
-<%# else %>
 
-
-	<%# <ul> %>
-	<%# <li><%# link_to "View All Systematic Reviews",  projects_path, :class => "edit_link small_edit_link"  %></li>
-	<%#</ul>	 %>
 
 <% end %>
 
