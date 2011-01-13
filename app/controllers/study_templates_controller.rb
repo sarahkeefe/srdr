@@ -41,20 +41,18 @@ class StudyTemplatesController < ApplicationController
   # POST /study_templates.xml
   def create
     @study_template = StudyTemplate.new(params[:study_template])
-
+	study_id = @study_template.study_id
+	@study_primary_pub = PrimaryPublication.new
+	@study_primary_pub.study_id = study_id
+	@study_primary_pub.title = "Untitled"
+	@study_primary_pub.save
     respond_to do |format|
       if @study_template.save
-        format.js { 
-			render :update do |page|
-				page.replace_html 'template_save_validation_message', "Template assigned successfully."
-			end
-		}
+		format.html { redirect_to(edit_project_study_path(params[:project_id], study_id), :notice => 'Template was successfully assigned.') }
+        #format.xml  { render :xml => @study_template, :status => :created, :location => @study_template }
       else
-        format.js { 
-			render :update do |page|
-				page.replace_html 'template_save_validation_message', "There was a problem assigning the template."
-			end
-		}
+        format.html { render :controller => "studies", :action => "new" }
+        format.xml  { render :xml => @study_template.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -63,14 +61,14 @@ class StudyTemplatesController < ApplicationController
   # PUT /study_templates/1.xml
   def update
     @study_template = StudyTemplate.find(params[:id])
-
+	study_id = @study_template.study_id
     respond_to do |format|
-      if @study_template.update_attributes(params[:study_template])
-        #format.html { redirect_to(@study_template, :notice => 'Study template was successfully updated.') }
-        #format.xml  { head :ok }
+      if @study_template.update_attributes(params[:template])
+		format.html { redirect_to(edit_project_study_path(params[:project_id], study_id), :notice => 'Template was successfully assigned.') }
+        format.xml  { head :ok }
       else
-        #format.html { render :action => "edit" }
-        #format.xml  { render :xml => @study_template.errors, :status => :unprocessable_entity }
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @study_template.errors, :status => :unprocessable_entity }
       end
     end
   end

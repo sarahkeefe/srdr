@@ -1,5 +1,10 @@
+<div class="study_creation_header">
+<h1>Editing Study Section: Key Questions</h1>
+</div>
+<%= render "map" %>
 
- <h2>Study Key Questions</h2><br/>
+ 
+ <br/>
   <% unless @questions.empty? %>
 
   <%= form_for(@study, :remote => true) do |f| %>

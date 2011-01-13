@@ -3,7 +3,31 @@
 </div>
 <%= render "map" %>
 
-Placeholder Page for Now
+This is an example of what users will see on the Arm Entry page. They will be able to use this form to add multiple arms to their study.
+<br/>
+
+<div class="form_content">
+  <div class="field">
+    <label>Arm Title:</label>
+    <%= text_field_tag :title %>
+  </div>
+  <div class="field">
+    <label>Arm Description:</label>
+    <%= text_area_tag :description %>
+  </div>
+  <div class="field">
+    <label>Number of Participants:</label>
+    <%= text_field_tag :num_participants %>
+  </div>
+  <div class="actions">
+		<button type="submit" class="positive">
+			<%= image_tag "Add.png"%>Save
+		</button>
+  </div>
+  </div>
+
+
+
 
 
 <table id="bottom_nav"><tr><td align="left"><%= link_to "Back", "publication_info" %></td><td align="right">

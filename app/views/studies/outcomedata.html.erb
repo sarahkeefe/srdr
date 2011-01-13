@@ -1,4 +1,10 @@
-<h2>Study Outcome Raw Data</h2>
+<div class="study_creation_header">
+<h1>Editing Study Section: Outcome Raw Data</h1>
+</div>
+
+<%= render "map" %>
+
+
 <br/>
 <% unless (@categorical_outcomes.empty? && @continuous_outcomes.empty?) || @study_arms.empty? %>
 	<% if (!@categorical_outcomes.nil? && @categorical_outcomes.length > 0) || (!@continuous_outcomes.nil? && @continuous_outcomes.length > 0) %>

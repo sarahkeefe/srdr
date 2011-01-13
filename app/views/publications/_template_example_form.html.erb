@@ -1,0 +1,45 @@
+<h3>Secondary Publication Information</h3>
+
+<div class="form_content">
+		
+			<div class="field">
+		    <label>
+					Publication Title:
+				</label>
+    		<%= text_field_tag "item" %>
+  		</div>
+  		
+  		<div class="field">
+    		<label>Author:</label>
+    		<%= text_field_tag "item"  %>
+			</div>
+			
+			<div class="field">
+       <label>Country:</label>
+    		<%= text_field_tag "item" %>
+			</div>
+			
+			<div class="field">
+        <label>Year:</label>
+    		<%= text_field_tag "item" %>
+  		</div>
+ 		  
+  		<div class="field">   
+  			<label>Association Type:</label>
+  			<% association_options = [['Contributed to Analysis', 'Contributed to Analysis'], ['Used for Reference', 'Used for Reference'], ['Methods Description', 'Methods Description'], ['Other', 'Other']] %>
+
+		  	<%= select "publication", :association, association_options %>
+  		</div>
+			
+	  <div class="actions">
+
+				<%= link_to "Add an Identifier" %>
+<br/><br/>
+
+
+  	<button type="submit" class="positive">
+			<%= image_tag "Add.png"%>Save
+		</button><br/>
+  </div>
+
+</div>

@@ -1,17 +1,31 @@
 
 <div class="template_creation_header">
-<h1>Viewing Template Data</h1>
+<h1>Viewing Template Preview for Template: "<%= @template.title %>"</h1>
   </div>
-  
-  <p id="notice"><%= notice %></p>
-  <!-- SUMMARY HEADING DIV SECTION -->
-	<div class="summary_heading">
-  	&nbsp;Title
-  </div>
-  <div id="summary_text" style="display:inline;">
-	  <h2><%= @template.title %></h2>
-	</div><br/>
 
+  <div class="summary_heading">
+	&nbsp;Key Questions
+  </div>
+  <br/>
+    <div class="summary_heading">
+	&nbsp;Publications
+  </div>
+  <br/>
+    <div class="summary_heading">
+	&nbsp;Arms
+  </div>
+  <br/>
+  	<!-- DESIGN DETAILS DIV SECTION -->
+	<div class="summary_heading" onclick="toggle_display('design_detail_text','design_detail_link');">
+		<span id='design_detail_link' class='toggle_display_link'>+</span>
+	  &nbsp;Design Details and Enrollment
+	</div>
+	<div id="design_detail_text" style="display:none;"><br/>
+	<%= render 'design_detail_fields/completed_table' %>
+	</div>
+	<br/>
+  
+  
 	<!-- BASELINE CHARACTERISTICS DIV SECTION -->
 	<div class="summary_heading" onclick="toggle_display('pop_char_text','pop_char_link');">
 		<span id='pop_char_link' class='toggle_display_link'>+</span>
@@ -22,18 +36,11 @@
 	<br/>
 	</div>
 	<br/>
-
-	<!-- QUALITY ASSESSMENT SECTION -->
-	<div class="summary_heading" onclick="toggle_display('qa_text','qa_link');">
-		<span id="qa_link" class='toggle_display_link'>+</span>
-		&nbsp;Quality Dimension Fields
-	</div>
-	<div id="qa_text" style="display:none;">
-	<br/>
-		<%= render 'quality_dimension_fields/completed_table' %>	
-
-	</div>
-<br/>
+	
+    <div class="summary_heading">
+	&nbsp;Outcome Setup
+  </div>
+  <br/>
 
 	<!-- OUTCOME DATA SECTION -->
 	<div class="summary_heading" onclick="toggle_display('datafields_text','datafields_link');">
@@ -46,6 +53,39 @@
 
 	</div>
 <br/>
+
+  	<!-- OUTCOME COMPARISONS DIV SECTION -->
+	<div class="summary_heading" onclick="toggle_display('outcome_comparisons_text','outcome_comparisons_link');">
+		<span id='outcome_comparisons_link' class='toggle_display_link'>+</span>
+	  &nbsp;Outcome Comparisons
+	</div>
+	<div id="outcome_comparisons_text" style="display:none;"><br/>
+	<%= render 'outcome_comparison_columns/completed_table' %>
+	</div>
+	<br/>	
+	
+	  	<!-- ADVERSE EVENTS DIV SECTION -->
+	<div class="summary_heading" onclick="toggle_display('adverse_events_text','adverse_events_link');">
+		<span id='adverse_events_link' class='toggle_display_link'>+</span>
+	  &nbsp;Adverse Events
+	</div>
+	<div id="adverse_events_text" style="display:none;"><br/>
+	<%= render 'adverse_event_columns/completed_table' %>
+	</div>
+	<br/>	
+
+	<!-- QUALITY ASSESSMENT SECTION -->
+	<div class="summary_heading" onclick="toggle_display('qa_text','qa_link');">
+		<span id="qa_link" class='toggle_display_link'>+</span>
+		&nbsp;Quality Dimension Fields
+	</div>
+	<div id="qa_text" style="display:none;"><br/>
+		<%= render 'quality_dimension_fields/completed_table' %>	
+
+	</div>
+<br/>
+
+
 
 <table id="bottom_nav"><tr><td align="left"></td><td align="right">
 <% has_privilege = User.current_user_has_template_edit_privilege(@template, current_user) %>

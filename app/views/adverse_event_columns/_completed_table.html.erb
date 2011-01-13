@@ -1,0 +1,28 @@
+<h3>Preview of Adverse Events Table Heading</h3>
+<table class="list_table">
+<tr>
+<% if !@template_adverse_event_columns.nil? && @template_adverse_event_columns.length > 0 %>
+	<% @template_adverse_event_columns.group_by(&:header).each do |header, cols| %>
+		<% if !cols[0].header.nil? && cols[0].header != "" %>
+			<th colspan="<%= cols.length %>"><%=cols[0].header %></th>
+		<% else %>
+			<% for col in cols %>
+			<th rowspan="2">
+				<%= col.name %> 
+			</th>
+			<% end %>
+		<% end %>
+	<% end %>
+</tr><tr>
+	<% @template_adverse_event_columns.group_by(&:header).each do |header, cols| %>
+		<% if !cols[0].header.nil? && cols[0].header != "" %>
+			<% for col in cols %>
+			<th>
+				<%= col.name %>
+			</th>
+			<% end %>
+		<% end %>
+	<% end %>
+	<% end %>
+</tr>
+</table>

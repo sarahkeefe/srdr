@@ -60,6 +60,8 @@ before_filter :require_user, :except => :show
 	@study_template = StudyTemplate.new
 	# if there is a template variable set in the new call
 	Study.set_template_id_if_exists(params, @study)
+	@primary_publication = @study.get_primary_publication
+	@primary_publication = @primary_publication.nil? ? PrimaryPublication.create() : @primary_publication
 	render :layout => 'studydesign'	
   end
 
@@ -70,7 +72,10 @@ before_filter :require_user, :except => :show
 	makeActive(@study)
 	@study_template = StudyTemplate.where(:study_id => @study.id).first
 	@study_template = @study_template.nil? ? StudyTemplate.new : @study_template
-	render :layout => 'studydesign'	
+	# get the study title, which is the same as the primary publication for the study
+	@study_title = PrimaryPublication.where(:study_id => @study.id).first
+	@study_title = @study_title.nil? ? "" : @study_title.title.to_s
+	render :layout => 'studydesign'
   end
  
  def keyquestions

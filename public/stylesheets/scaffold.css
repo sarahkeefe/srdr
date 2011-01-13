@@ -101,7 +101,7 @@ margin: 0px auto;
 }
 
 .template_cell_small{
-width: 8%;
+width: 7%;
 overflow:hidden;
 border: 1px solid #ccc;
 font-size: 11px;
@@ -752,8 +752,9 @@ display: inline;
     padding:5px 10px 6px 7px; /* Links */
 }
 
+
 ul.user_actions li{
-	padding: 5px;
+	margin-left: 15px;
 }
 
 a.edit_link, a.delete_link, a.add_nested_fields, a.remove_nested_fields, a.small_edit_link{

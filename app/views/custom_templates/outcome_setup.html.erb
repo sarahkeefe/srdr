@@ -4,7 +4,59 @@
 
 <%= render "map" %>
 
-Placeholder Page for Now
+This is an example of what users will see on the Outcome Setup page. They will be able to use the form to add multiple outcomes to their study.
+<br/>
+<div class="form_content">
+
+	<div class="field">
+    <label>Outcome Title:</label>
+    <%= text_field_tag :title %>
+  </div>
+  <div class="field">
+    Is this a Primary Outcome?
+  <select><option>Yes</option><option>No</option></select>
+  </div>
+  <div class="field">
+    <label class="inline-label">Is this outcome Categorical or Continuous?</label>
+  <select><option>Categorical</option><option>Continuous</option></select>
+  </div>  
+  <div class="field">
+    <label>Units:</label>
+    <%= text_field_tag :units %>
+  </div>
+ 
+<br/>
+
+
+   <h4>Add Outcome Time Points </h4>
+<br/><br/>
+    <div class="actions">
+<%= link_to "Add a Timepoint", :outcome_timepoints %>
+</div>
+<br/>
+   <h4>Add Outcome Subgroups </h4>
+<br/><br/>
+    <div class="actions">
+<%= link_to "Add a Subgroup", :outcome_subgroups %>
+</div>
+
+  <br/>
+  <div class="field">
+    <label>Outcome Description:</label>
+    <%= text_area_tag :description %>
+  </div>
+  <div class="field">
+    <label>General notes about this outcome
+	(Specific notes about timepoints, subgroups, and data can be entered on the Results page):</label>
+    <%= text_area_tag :notes %>
+  </div>
+  <div class="actions">
+  		<button type="submit" class="positive">
+				<%= image_tag "Add.png"%>Save
+			</button>
+  </div>
+  </div>
+
 
 
 <table id="bottom_nav"><tr><td align="left"><%= link_to "Back", "baseline_characteristics" %></td><td align="right">

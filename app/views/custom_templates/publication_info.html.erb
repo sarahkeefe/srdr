@@ -1,10 +1,12 @@
 <div class="template_creation_header">
 <h1>Editing Template Section: Publication Information</h1>
 </div>
-<%= render "map" %>
+<%= render "map" %><br/>
+This is an example of what users will see on the Publication Entry page.  They will be able to use this form to add a single Primary Publication and multiple Secondary Publications to their study.<br/><br/>
 
-Placeholder Page for Now
-
+<%= render "primary_publications/template_example_form" %>
+<br/>
+<%= render "publications/template_example_form" %>
 
 <table id="bottom_nav"><tr><td align="left"><%= link_to "Back", "key_questions" %></td><td align="right">
 <%= link_to "Continue", "arms" %>

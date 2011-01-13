@@ -1,30 +1,88 @@
-<h2>Create New Study</h2>
-  <h3>Study Template</h3><br/>
- 
-	<%= form_for(@study_template, :remote => true) do |f| %>
-  	<div id="template_save_validation_message"></div>
-		<div class="form_content">
-	
-		<div class="field">
-			Choose a template for this study:<br/>
-		  <%= f.hidden_field :study_id, :value => @study.id %>
-			<% @template_list_array = Study.get_template_list_array(params[:project_id]) %>
-		    <% unless @template_list_array.empty? %>
-		    	<%= f.select :template_id, options_for_select(@template_list_array), :class => "inline_field" %><br/>
+<div class="study_creation_header">
+<h2>Editing Study "<%=@study_title %>"</h2>
+ </div>
+ <br/>
+ <div class="indent_block">
+Choose a section to enter study information.
+</div>
+<br/>
+<div class="template_map">
 
-				<% else %>
-				  There are no templates defined for this project. <strong>Please contact the project administrator before proceeding.</strong>
-				<% end %>
+	<div class="template_cell" onclick="location.href='keyquestions';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			1
 		</div>
-		  
-		 <div class="actions">
-				<button type="submit" class="positive">
-					<%= image_tag "Accept.png"%>Assign Template to Study
-				</button>
-		</div></div>
-	<% end %>
- 
+		Key Questions
+	</div>
 
-<table id="bottom_nav"><tr><td align="left"><%= link_to "Back", "../studies" %></td><td align="right">
-<%= link_to "Continue", "keyquestions" %>
-</td></tr></table>
+	<div class="template_cell" onclick="location.href='publicationinfo';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			2
+		</div>
+		Publications
+	</div>
+
+	<div class="template_cell" onclick="location.href='design';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			3
+		</div>
+		Arms
+	</div>	
+
+	<div class="template_cell" onclick="location.href='enrollment';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			4
+		</div>
+		Design Details and Enrollment Information
+	</div>
+	
+	<div class="template_cell" onclick="location.href='attributes';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			5
+		</div>
+		Baseline Characteristics
+	</div>
+
+	<div class="template_cell" onclick="location.href='outcomesetup';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			6
+		</div>
+		Outcome Setup
+	</div>
+	
+	<div class="template_cell" onclick="location.href='outcomedata';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			7
+		</div>
+		Outcome Raw Data
+	</div>
+	
+	<div class="template_cell" onclick="location.href='outcomeanalysis';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			8
+		</div>
+		Outcome Comparison Data
+	</div>	
+	
+	<div class="template_cell" onclick="location.href='adverseevents';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			9
+		</div>
+		Adverse Events
+	</div>	
+	
+	<div class="template_cell" onclick="location.href='quality';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			10
+		</div>
+		Study Quality
+	</div>	
+	
+		<div class="template_cell" onclick="location.href='.';" style="cursor:pointer;">
+		<div class="template_cell_number">
+			11
+		</div>
+		Study Preview
+	</div>	
+	
+	
