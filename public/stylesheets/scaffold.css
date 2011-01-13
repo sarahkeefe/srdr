@@ -169,6 +169,23 @@ border-top-right-radius: 4px;
 border-top-left-radius: 4px;
 }
 
+#study_creation_header
+{
+	width: 100%;
+	padding-top: 10px;
+	margin-bottom: 15px;
+	background-color: #B4C5E0;
+	margin-top: 0px;
+	margin-left: -25px;
+	margin-top: -25px;
+	padding-left: 25px;
+	padding-right: 25px;
+	-moz-border-radius-topright: 4px;
+border-top-right-radius: 4px;
+-moz-border-radius-topleft: 4px;
+border-top-left-radius: 4px;
+}
+
 .no_indent{
 margin-left: 0px;
 }
@@ -752,9 +769,25 @@ display: inline;
     padding:5px 10px 6px 7px; /* Links */
 }
 
-
-ul.user_actions li{
+ul.user_actions{
+	list-style-type:none;
 	margin-left: 15px;
+}
+
+.user_project{
+	width: 80%;
+	height: 20px;
+	padding: 4px;
+	#margin-bottom: 5px;
+	margin-left: 10px;
+}
+
+.user_project_study{
+	width: 80%;
+	#height: 30px;
+	margin-left: 30px;
+	margin-bottom: 5px;
+		padding: 4px;
 }
 
 a.edit_link, a.delete_link, a.add_nested_fields, a.remove_nested_fields, a.small_edit_link{

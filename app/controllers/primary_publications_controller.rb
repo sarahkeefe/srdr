@@ -23,20 +23,14 @@ respond_to :js, :html
     @primary_publication = PrimaryPublication.new(params[:primary_publication])
 	@primary_publication.study_id = params[:study_id]
     respond_to do |format|
-	#format.html { render :action => "new" }
-    #   format.xml  { render :xml => @primary_publication.errors, :status => :unprocessable_entity }
       if @primary_publication.save
 		format.js{
 			render :update do |page|
-				saved_html = "<div class='success_message' id='secondary_success_div' style='display:none;'>Saved Successfully!</div><br/>"
+				saved_html = "<div class='success_message'>Saved Successfully!</div><br/>"
 				page.replace_html 'primary_pub_save_message', saved_html
 			end
 		}
 		else
-
-        #format.html { redirect_to(@primary_publication, :notice => 'Primary publication was successfully created.') }
-        #format.xml  { render :xml => @primary_publication, :status => :created, :location => @primary_publication }
-
         format.html { render :action => "new" }
         format.xml  { render :xml => @primary_publication.errors, :status => :unprocessable_entity }
       end
@@ -48,12 +42,16 @@ respond_to :js, :html
   def update
     @primary_publication = PrimaryPublication.find(params[:id])
 
-    respond_to do |format|
-      if @primary_publication.update_attributes(params[:primary_publication])
-        format.html { redirect_to(@primary_publication, :notice => 'Primary publication was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
+ respond_to do |format|
+      if @primary_publication.save
+		format.js{
+			render :update do |page|
+				saved_html = "<div class='success_message'>Saved Successfully!</div><br/>"
+				page.replace_html 'primary_pub_save_message', saved_html
+			end
+		}
+		else
+        format.html { render :action => "new" }
         format.xml  { render :xml => @primary_publication.errors, :status => :unprocessable_entity }
       end
     end
