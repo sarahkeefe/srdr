@@ -202,12 +202,8 @@
 <%# --------------- Table Meat ----------------%>
 <% j = 0 %>
 <% for outcome in @continuous_outcomes %>
-<<<<<<< HEAD
   <% @outcome_timepoints_list = @continuous_timepoints[j] %>
   <% j += 1 %>    
-=======
-<% @outcome_timepoints_list = OutcomeTimepoint.find(:all, :conditions => {:outcome_id => outcome.id}, :order => "time_unit asc") %>
->>>>>>> 76db2be6244746875b7601b8dc432c6d4a0e9a78
 		<tr>
 			<td rowspan="<%= @outcome_timepoints_list.length > 1 ? @study_arms.length*@outcome_timepoints_list.length : @study_arms.length %>">
 				<%= outcome.title %>
